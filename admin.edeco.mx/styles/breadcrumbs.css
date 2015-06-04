@@ -1,0 +1,72 @@
+@charset "utf-8";
+
+/**
+ * @author     LMV <luis.montealegre@mandragora-web-systems.com>
+ * @version    SVN $Id$
+ * @copyright  Mandrágora Web-Based Systems 2010
+ */
+/* --------------------------------------------------------- *
+ * Breadcrumbs
+ * --------------------------------------------------------- */
+.admin-nav {
+    display: block;
+    float: none;
+    clear: both;
+    width: 90%;
+    margin: 0 auto 1em auto;
+    background-color: #fff;
+}
+
+.session {
+    background-repeat: no-repeat;   
+    display: inline;
+    border-style: none;  
+    float: right;
+    height: 32px;
+    width: 115px;
+    line-height: 32px;
+    text-indent: 1.5em;
+}
+
+.session:hover {
+    border-style: none;
+    color: #2916ef;    
+}
+
+.breadcrumbs-container {
+    margin-left: 100px;
+    padding-left: 0;
+    text-align: left;
+    display: block;
+    float: none;
+    width: 500px;
+}
+
+.breadcrumb-message {
+	width: 150px;
+	padding-top: 2em;
+	margin-left: 0;
+	margin-top: 0;
+}
+
+.breadcrumb-item {
+	width: 100px;
+    height: 27px;
+    line-height: 27px;
+    background-repeat: no-repeat;
+    float: left;
+    display: block;
+    text-indent: 2em;
+    margin-left: 0;
+}
+
+.breadcrumb-active{
+    width: 160px;
+    height: 27px;
+    line-height: 27px;
+    float: left;
+    display: block;
+    text-indent: 1.5em;
+    background-repeat: no-repeat;
+    margin-left: 0;
+}

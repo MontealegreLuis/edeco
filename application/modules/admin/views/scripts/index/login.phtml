@@ -1,0 +1,26 @@
+<?php
+/**
+ * Login page
+ *
+ * @author    LMV <luis.montealegre@mandragora-web-systems.com>
+ * @copyright Mandrágora Web-Based Systems
+ * @version   SVN: $Id$
+ */
+?>
+<?php
+$this->headTitle('Ingresar');
+$this->bundleLink()
+     ->appendStylesheet($this->baseUrl('/styles/breadcrumbs.css'), 'screen, projection', false, array('charset' => 'utf-8'))
+     ->appendStylesheet($this->baseUrl('/styles/forms.css'), 'screen, projection', false, array('charset' => 'utf-8'))
+     ->appendStylesheet($this->baseUrl('/styles/skins/forms.css'), 'screen, projection', false, array('charset' => 'utf-8'));
+$this->jQuery()
+     ->addJavascriptFile($this->baseUrl('/scripts/jquery/plugins/jquery.validate.js'))
+     ->addJavascriptFile($this->baseUrl('/scripts/edeco/pages/index/class.login.js'));
+$this->jQuery()->addOnLoad(
+    'var page = new Edeco.Pages.User.Login();
+    page.init();'
+);
+?>
+<h1 class="h1">Bienvenido</h1>
+<?php echo $this->render('partials/flash-messages.phtml') ?>
+<?php echo $this->loginForm ?>

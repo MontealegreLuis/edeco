@@ -1,0 +1,67 @@
+<?php
+/**
+ * Paginator partial script
+ *
+ * @author    LMV <luis.montealegre@mandragora-web-systems.com>
+ * @copyright Mandrágora Web-Based Systems
+ * @version   SVN: $Id$
+ */
+?>
+<?php if ($this->pageCount > 1) : ?>
+    <div class="pagination">
+        <p class="pages-container">
+        <span class="pagination-summary">
+            Mostrando
+            <?php echo $this->firstItemNumber; ?> - <?php echo $this->lastItemNumber; ?>
+            de <?php echo $this->totalItemCount; ?>
+        </span>
+        <?php $pageParam = 'page' ?>
+        <!-- First page link -->
+        <?php if (isset($this->previous)): ?>
+            <a href="<?php echo $this->url(array($pageParam => $this->first)); ?>" title="<?php echo $this->translate('item.first') ?>" class="page">
+                &#x00ab;
+            </a>
+        <?php else: ?>
+          <span class="disabled">&#x00ab;</span>
+        <?php endif ?>
+        <!-- Previous page link -->
+        <?php if (isset($this->previous)) : ?>
+            <a href="<?php echo $this->url(array($pageParam => $this->previous)); ?>" title="<?php echo $this->translate('item.prev') ?>" class="page">
+                &#x2039;
+            </a>
+        <?php else : ?>
+            <span class="disabled" title="<?php echo $this->translate('item.prev') ?>">
+                &#x2039;
+            </span>
+        <?php endif ?>
+        <!-- Pages in range -->
+        <?php foreach ($this->pagesInRange as $page) : ?>
+            <?php if ($page != $this->current) : ?>
+                <a href="<?php echo $this->url(array($pageParam => $page)); ?>" class="page">
+                    <?php echo $page; ?>
+                </a>
+            <?php else : ?>
+                <span class="disabled"><?php echo $page; ?></span>
+            <?php endif ?>
+        <?php endforeach ?>
+        <!-- Next page link -->
+        <?php if (isset($this->next)) : ?>
+            <a href="<?php echo $this->url(array($pageParam => $this->next)); ?>" title="<?php echo $this->translate('item.next') ?>" class="page">
+                &#x203a;
+            </a>
+        <?php else : ?>
+            <span class="disabled" title="<?php echo $this->translate('item.next') ?>">
+                &#x203a;
+            </span>
+        <?php endif ?>
+        <!-- Last page link -->
+        <?php if (isset($this->next)): ?>
+            <a href="<?php echo $this->url(array($pageParam => $this->last)); ?>" title="<?php echo $this->translate('item.last') ?>" class="page">
+                &#x00bb;
+            </a>
+        <?php else: ?>
+          <span class="disabled">&#x00bb;</span>
+        <?php endif ?>
+        </p>
+    </div>
+<?php endif ?>

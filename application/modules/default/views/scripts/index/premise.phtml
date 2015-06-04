@@ -1,0 +1,44 @@
+<?php
+/**
+ * Shows contact form for premises
+ *
+ * @author    LMV <luis.montealegre@mandragora-web-systems.com>
+ * @author    MMA <misraim.mendoza@mandragora-web-systems.com>
+ * @copyright Mandrágora Web-Based Systems
+ * @version   SVN: $Id$
+ */
+?>
+<?php
+$this->headTitle('¿Buscas un local?');
+$this->headMeta()->appendName(
+    'keywords',
+    'buscas local, informes venta-renta local'
+);
+$this->headMeta()->appendName(
+    'description',
+    'Si necesitas ayuda para buscar un local en específico envíanos un correo'
+    . ', nosotros encontramos el local por tí'
+);
+$this->bundleLink()
+     ->appendStylesheet($this->baseUrl('/styles/forms.css'), 'screen, projection', false, array('charset' => 'utf-8'))
+     ->appendStylesheet($this->baseUrl('/styles/skins/forms.css'), 'screen, projection', false, array('charset' => 'utf-8'));
+$this->jQuery()->enable();
+$this->jQuery()
+     ->addJavascriptFile($this->baseUrl('/scripts/jquery/plugins/jquery.validate.js'))
+     ->addJavascriptFile($this->baseUrl('/scripts/jquery/plugins/jquery.maskedinput-1.2.2.min.js'))
+     ->addJavascriptFile($this->baseUrl('/scripts/edeco/pages/class.premise-information.js'));
+$this->jQuery()->addOnLoad(
+    'var page = new Edeco.Pages.PremiseInformation();
+    page.init();'
+);
+?>
+<?php echo $this->render('default/_side-content.phtml') ?>
+<div class="span-18 last">
+    <h1>¿Buscas un local?</h1>
+    <p>
+        Si necesita información específica sobre un local
+        escríbanos directamente a nuestro buzón de atencíón al cliente y reciba
+        una respuesta en menos de 12 horas. Estamos para servirle.
+    </p>
+    <?php echo $this->premiseForm ?>
+</div>

@@ -1,0 +1,51 @@
+<?php
+/**
+ * Shows the picture's edit page
+ *
+ * @author     LMV <luis.montealegre@mandragora-web-systems.com>
+ * @copyright  Mandrágora Web-Based Systems 2010
+ * @version    SVN: $Id$
+ */
+?>
+<?php
+$title = $this->translate('picture.action.edit');
+$this->headTitle($title);
+$this->bundleLink()
+     ->appendStylesheet($this->baseUrl('/styles/breadcrumbs.css'), 'screen, projection', false, array('charset' => 'utf-8'))
+     ->appendStylesheet($this->baseUrl('/styles/skins/breadcrumbs.css'), 'screen, projection', false, array('charset' => 'utf-8'))
+     ->appendStylesheet($this->baseUrl('/styles/forms.css'), 'screen, projection', false, array('charset' => 'utf-8'))
+     ->appendStylesheet($this->baseUrl('/styles/skins/forms.css'), 'screen, projection', false, array('charset' => 'utf-8'))
+     ->appendStylesheet($this->baseUrl('/styles/jquery/plugins/file.css'), 'screen, projection', false, array('charset' => 'utf-8'));
+$this->jQuery()
+     ->addJavascriptFile($this->baseUrl('/scripts/jquery/plugins/jquery.file.js'))
+     ->addJavascriptFile($this->baseUrl('/scripts/jquery/plugins/jquery.validate.js'))
+     ->addJavascriptFile($this->baseUrl('/scripts/edeco/pages/picture/class.detail.js'));
+$onLoad = sprintf(
+    'var page = new Edeco.Pages.Picture.Detail();
+    page.init("%s", "%s");',
+    $this->baseUrl('/styles/jquery/plugins/rte.css'),
+    $this->baseurl('/images/jquery/plugins/rte/')
+);
+$this->jQuery()->addOnLoad($onLoad);
+?>
+<h1><?php echo $title ?></h1>
+<div class="span-6">
+    <div class="actions">
+        <ul class="actions-container">
+            <?php
+            $actions = array(
+                'picture.action.create' => array($this->translate('propertyId') => $this->propertyId,),
+                'picture.action.edit' => array($this->translate('propertyId') => $this->propertyId, 'id' => $this->picture->id,),
+                'picture.action.show' => array($this->translate('propertyId') => $this->propertyId, 'id' => $this->picture->id,),
+                'picture.action.list' => array($this->translate('propertyId') => $this->propertyId, $this->translate('page') => 1),
+                'property.action.show' => array('id' => $this->propertyId),
+                'property.action.list' => array($this->translate('page') => 1),
+            );
+            echo $this->partial('navigation/_actions.phtml', array('pages' => $this->actions, 'actions' => $actions, 'decorator' => 'li'))
+            ?>
+        </ul>
+    </div>
+</div>
+<div class="span-18 last">
+    <?php echo $this->pictureForm ?>
+</div>

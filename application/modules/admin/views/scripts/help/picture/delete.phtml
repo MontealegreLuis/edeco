@@ -1,0 +1,51 @@
+<?php
+$this->headTitle('Ayuda');
+$this->headTitle('¿Cómo eliminar una fotografía?');
+$this->bundleLink()
+     ->appendStylesheet($this->baseUrl('/styles/breadcrumbs.css'), 'screen, projection', false, array('charset' => 'utf-8'))
+     ->appendStylesheet($this->baseUrl('/styles/skins/breadcrumbs.css'), 'screen, projection', false, array('charset' => 'utf-8'))
+     ->appendStylesheet($this->baseUrl('/styles/forms.css'), 'screen, projection', false, array('charset' => 'utf-8'))
+     ->appendStylesheet($this->baseUrl('/styles/skins/forms.css'), 'screen, projection', false, array('charset' => 'utf-8'));
+?>
+<div class="span-18 prepend-3 clearfix">
+<h1>¿Cómo eliminar una fotografía?</h1>
+<p>Para eliminar una fotografía debe seguir los siguientes pasos</p>
+<ol>
+    <li>
+        <p>
+            Haga clic en la liga que dice <strong>Inmuebles</strong> en el menú de
+            navegación principal como se muestra en la imagen a continuación
+        </p>
+        <p><img src="<?php echo $this->baseUrl('/images/help/picture/create-1.gif') ?>" alt="" /></p>
+    </li>
+    <li>
+        <p>
+            Una vez que de clic en inmueble podra ver la lista de los inmuebles, una vez que
+            que decida cual sera el inmueble en el que eliminara la o las fotografias debe de dar clic
+            en el boton <strong>Mostrar inmueble</strong>.
+        </p>
+        <p><img src="<?php echo $this->baseUrl('/images/help/picture/create-2.gif') ?>" alt="" /></p>
+    </li>
+    <li>
+        <p>
+            Después de hacer clic en mostrar inmueble, podra observar el inmueble, la dirección y
+            se visualizaran la tabla que contiene las fotografías ya existentes, debe buscar la fotografía
+            que desea elminar, una vez que la encuentre tiene que dar clic en <strong>Eliminar fotografía</strong>
+            como se muestra en la siguiente imagen.
+        </p>
+        <p><img src="<?php echo $this->baseUrl('/images/help/picture/delete-1.gif') ?>" alt="" /></p>
+     </li>
+     <li>
+        <p>
+            Después de hacer clic se mostrara un recuadro pidiendo que confirme la eliminación
+            de la fotografía, solo tendrá que confirmar dando clic en el botón de <strong>Si</strong>.
+        	y la fotografía quedara eliminada. Si cambia de opinión con respecto a eliminar
+        	la fotografía de clic en <strong>No</strong>.
+        </p>
+        <p><img src="<?php echo $this->baseUrl('/images/help/picture/delete-2.gif') ?>" alt="" /></p>
+     </li>
+
+</ol>
+</div>
+
+

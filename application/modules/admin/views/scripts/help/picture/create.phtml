@@ -1,0 +1,81 @@
+<?php
+$this->headTitle('Ayuda');
+$this->headTitle('¿Cómo agregar una fotografía?');
+$this->bundleLink()
+     ->appendStylesheet($this->baseUrl('/styles/breadcrumbs.css'), 'screen, projection', false, array('charset' => 'utf-8'))
+     ->appendStylesheet($this->baseUrl('/styles/skins/breadcrumbs.css'), 'screen, projection', false, array('charset' => 'utf-8'))
+     ->appendStylesheet($this->baseUrl('/styles/forms.css'), 'screen, projection', false, array('charset' => 'utf-8'))
+     ->appendStylesheet($this->baseUrl('/styles/skins/forms.css'), 'screen, projection', false, array('charset' => 'utf-8'));
+?>
+<div class="span-18 prepend-3 clearfix">
+<h1>¿Cómo agregar una fotografía?</h1>
+<p>Para agregar una fotografía debe seguir los siguientes pasos</p>
+<ol>
+    <li>
+        <p>
+            Haga clic en la liga que dice <strong>Inmuebles</strong> en el menú de
+            navegación principal como se muestra en la imagen a continuación
+        </p>
+        <p><img src="<?php echo $this->baseUrl('/images/help/picture/create-1.gif') ?>" alt="" /></p>
+    </li>
+    <li>
+        <p>
+            Una vez que de clic en inmueble podra ver la lista de los inmuebles, una vez que
+            que decidio cual sera el inmueble al que agregara la fotografia debe de dar clic
+            en el boton <strong>Mostrar inmueble</strong>.
+        </p>
+        <p><img src="<?php echo $this->baseUrl('/images/help/picture/create-2.gif') ?>" alt="" /></p>
+    </li>
+    <li>
+        <p>
+            Después de hacer clic en mostrar inmueble, podra observar el inmueble, su dirección y
+            se visualizaran la tabla que contiene las fotografías ya existentes o un recuadro en
+            blanco donde podrá agregar las fotografías deseadas, solo necesita hacer
+            clic en el botón <strong>Crear fotografía</strong> situado en la parte izquierda del recuadro
+            como se muestra en la siguiente imagen.
+        </p>
+        <p><img src="<?php echo $this->baseUrl('/images/help/picture/create-3.gif') ?>" alt="" /></p>
+    </li>
+    <li>
+        <p>
+            Después de hacer clic en Crear fotografía aparecerá el formulario que tendrá que llenar
+            con los datos de la fotografía. Explicaremos a continuación el significado y
+            uso de los campos.
+        </p>
+         <ul>
+            <li>
+                El primer campo <strong>Descripción de la fotografía</strong> es el
+                nombre o una descripción que hace referencia a la fotografía relacionada
+                con el inmueble a la que se esta agregando la fotografía y el cual
+                se visualizara en el sitio Web.
+            </li>
+            <li>
+                El segundo campo <strong>Seleccione una imagen para el inmueble</strong>
+                nos permite agregar la fotografía, de la forma siguiente.
+            </li>
+            <li>
+                Posicione el puntero sobre el recuadro, o bien de clic en el botón
+                <strong>Seleccionar</strong> ubicado el la parte derecha del cuadro.
+            <p><img src="<?php echo $this->baseUrl('/images/help/picture/create-4.gif') ?>" alt="" /></p>
+            </li>
+            <li>
+                Después de hacer clic se mostrara una pantalla donde deberá buscar y
+                seleccionar la imagen deseada, como se muestra en la siguiente imagen.
+            <p><img src="<?php echo $this->baseUrl('/images/help/picture/create-5.gif') ?>" alt="" /></p>
+            </li>
+       		<li>
+                Después de seleccionar la fotografía damos clic en el botón de <strong>Abrir</strong>,
+                y automáticamente regresará a la pantalla del formulario de agregar
+                fotografía.
+            <p><img src="<?php echo $this->baseUrl('/images/help/picture/create-6.gif') ?>" alt="" /></p>
+            </li>
+            <li>
+                Por último hacemos clic en el botón de <strong>Guardar</strong> situado en la parte inferior
+                izquierda del formulario, y automáticamente nos llevara a la pantalla de fotografías.
+            <p><img src="<?php echo $this->baseUrl('/images/help/picture/create-7.gif') ?>" alt="" /></p>
+            </li>
+        </ul>
+    </li>
+
+</ol>
+</div>

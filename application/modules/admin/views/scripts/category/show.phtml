@@ -1,0 +1,49 @@
+<?php
+/**
+ * Show property information
+ *
+ * @author     LMV <luis.montealegre@mandragora-web-systems.com>
+ * @copyright  Mandrágora Web-Based Systems 2010
+ * @version    SVN: $Id$
+ */
+?>
+<?php
+$title = $this->translate('category.action.show');
+$this->headTitle($title);
+$this->bundleLink()
+     ->appendStylesheet($this->baseUrl('/styles/breadcrumbs.css'), 'screen, projection', false, array('charset' => 'utf-8'))
+     ->appendStylesheet($this->baseUrl('/styles/skins/breadcrumbs.css'), 'screen, projection', false, array('charset' => 'utf-8'))
+     ->appendStylesheet($this->baseUrl('/styles/tables.css'), 'screen, projection', false, array('charset' => 'utf-8'))
+     ->appendStylesheet($this->baseUrl('/styles/skins/tables.css'), 'screen, projection', false, array('charset' => 'utf-8'));
+?>
+<h1><?php echo $this->translate('category.action.show') ?></h1>
+<div class="clearfix">
+    <div class="span-6">
+        <div class="actions">
+            <ul class="actions-container" id="actions-property">
+                <?php
+                $params = array('id' => $this->category->id);
+                $actions = array(
+                    'category.action.list' => array($this->translate('page') => 1),
+                    'category.action.create' => array(),
+                    'category.action.edit' => $params,
+                    'category.action.show' => $params,
+                    'category.action.delete' => $params,
+                );
+                echo $this->partial(
+                    'navigation/_actions.phtml',
+                    array(
+                        'pages' => $this->actions,
+                        'actions' => $actions,
+                        'decorator' => 'li'
+                    )
+                );
+                ?>
+            </ul>
+        </div>
+    </div>
+    <div class="span-18 last">
+        <?php echo $this->partial('partials/flash-messages.phtml', array('messages' => $this->messages)) ?>
+        <?php echo $this->partial('partials/model.phtml', array('model' => $this->category->toArray(), 'prefix' => 'category.field.')) ?>
+    </div>
+</div>

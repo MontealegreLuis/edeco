@@ -1,0 +1,99 @@
+<?php
+/**
+ * page of looking for a local
+ * 
+ * @author     LNJ <lemuel.nonoal@mandragora-web.systems>
+ * @author     MMS<meri.michimani@mandragora-web.systems>
+ * @copyright  Mandrágora Web-Based Systems
+ * @version    SVN: $Id$
+ * @package    Edeco
+ * @subpackage Pages
+ */
+?>
+<html>
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+        <title>Servicio de atención al cliente</title>
+        <style>
+        * {
+            padding: 0;
+            margin: 0;
+            font-family: Arial, sans-serif;
+        }
+        #content a:hover {
+            color: #fff;
+            font-weight: bold;
+        }
+        </style>
+    </head>
+    <body style="width: 600px; background-image: url(<?php echo $this->baseUrl . $this->baseUrl('/images/background-body.gif') ?>)">
+        <table style="border-style:none; width:600px">
+            <tr style="background-color: #7766b7">
+                <td style="height: 185px; background-color: #fff; text-align: left; width: 155px">
+                    <a href="<?php echo $this->baseUrl . '/' ?>"
+                      title="Edificaciones y Desarrollos Comerciales de México">
+                        <img alt="Logo EDECO"
+                    src="<?php echo $this->baseUrl . $this->baseUrl('/images/logo-edeco.gif') ?>"
+                        style="margin: 15px 0 15px 15px; border-style: none;" />
+                    </a>
+                </td>
+                <td
+           style="width: 400px; margin: 90px 0 0 15px; padding: 10px 0 10px 0;">
+                    <p style="border-style: none; margin: 8px 0 8px 15px; font-family: Arial, sans-serif; font-weight: bold; font-size: 1.8em; color: #fff; padding: 20px 0 20px 10px; ">
+                        Servicio de Atención al Cliente
+                    </p>
+                </td>
+            </tr>
+            <tr>
+                <td colspan="2" id="content" style="color: #666; background-color: #fff; border-style: solid none solid none; border-width: 5px; border-color: #29166F; text-align:center; padding: 25px 0; width: 600px">
+                    <h1 style="padding: 0 0 20px 0; margin: 20px 40px 2em 40px; color: #666; font-family: Arial, sans-serif; text-align:left;  font-size:1.5em;">
+                        Ha recibido un correo de <?php echo $this->name ?>
+                    </h1>
+                    <p style="text-align: justify; margin: 2em 40px 2em 40px;">
+                        Solicitando la siguiente información:
+                    </p>
+                    <ul style="padding: 0; margin: 2em 40px 2em 40px; text-align:left;">
+                        <li style="padding: 0; margin: 30px;  text-align:justify;">
+                          Zona en que desea el inmueble: <?php echo $this->zone ?>
+                        </li>
+                      <?php if (is_numeric($this->minPrice)){?>
+                        <li style="padding: 0; margin: 30px;  text-align:justify;">
+                          Precio Mínimo: <?php echo $this->currency($this->minPrice) ?>
+                          </li>
+                      <?php }?>
+                        <li style="padding: 0; margin: 30px;  text-align:justify;">
+                          Precio Máximo: <?php echo $this->currency($this->maxPrice) ?>
+                          </li>
+                      <?php if (is_numeric($this->surface)){?>
+                        <li style="padding: 0; margin: 30px;  text-align:justify;">
+                          Superficie: <?php echo $this->surface ?>m<sup>2</sup>
+                          </li>
+                      <?php } ?>
+                        <li style="padding: 0; margin: 30px;  text-align:justify;">
+                          Caracteristicas: <?php echo $this->characteristics ?>
+                        </li>
+                    </ul>
+                    <p style="text-align: justify; margin: 2em 40px 2em 40px;">
+                        <?php echo $this->name ?> desea recibir una respuesta en
+                        <br />
+                        <a href="mailto:<?php echo $this->emailAddress ?>"
+                           style="color: #666;">
+                            <strong><?php echo $this->emailAddress ?></strong>
+                        </a>
+                    </p>
+                    <p style="text-align: justify; margin: 2em 40px 2em 40px;">
+                        o en el numero de teléfono
+                        <br />
+                        <strong><?php echo $this->telephone($this->telephone) ?></strong>
+                    </p>
+                    <p style="text-align: justify; margin: 2em 40px 2em 40px;">
+                        Mensaje enviado el día <?php echo $this->date ?>
+                    </p>
+                </td>
+            </tr>
+            <tr style="background-color: #7766b7">
+                <td colspan="2">&nbsp;</td>
+            </tr>
+        </table>
+    </body>
+</html>

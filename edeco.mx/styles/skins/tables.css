@@ -1,0 +1,69 @@
+@charset "utf-8";
+
+/**
+ * @author     LMV <luis.montealegre@mandragora-web-systems.com>
+ * @version    SVN $Id$
+ * @copyright  Mandrágora Web-Based Systems 2010
+ */
+/* ---------------------------------------------------------------------------
+ * Elements
+ * ---------------------------------------------------------------------------*/
+th,
+td{
+	border-color: #29166f;
+}
+
+th {
+	background-color: #466bb5;
+	color: #fff;
+}
+
+.table tr.menu td a {
+    color: #fff;
+    background-image: url('../../images/add-button.gif');
+}
+
+.empty-list {
+	background-image: url('../../images/no-results.gif');
+    background-color: #fff;
+}
+
+.page,
+.page:hover {
+    border: solid 1px #29166f;
+}
+
+/* --------------------------------------------------------- *
+ * Here is the css for the tabs in properties action
+ * --------------------------------------------------------- */ 
+.tab-container {
+    border-bottom-color: #aaa;
+}
+
+.tab-link {
+    background-image: url(../../images/tab.gif);
+    background-position: 0px 0px;
+    background-repeat: no-repeat;
+    border-style: none;
+    color: #fff;
+}
+
+.tab-link:hover {
+	background-position: -83px 0px;
+    border-style: none;
+    color: #fff;
+}
+
+.tab-link-active {
+    background-image: url(../../images/tab-active.gif);
+    background-position: 0px 0px;
+    background-repeat: no-repeat;
+    border-style: none;
+    color: #fff;
+}
+
+.tab-link-active:hover {
+    background-position: -83px 0px;
+    border-style: none;
+    color: #fff;
+}

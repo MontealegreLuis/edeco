@@ -1,0 +1,4 @@
+DROP DATABASE IF EXISTS edeco_test;
+CREATE DATABASE edeco_test 
+DEFAULT CHARACTER SET = utf8
+COLLATE = utf8_general_ci;

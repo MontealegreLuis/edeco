@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configdata>
+    <nav>
+        <create>
+            <label>¿Cómo crear un proyecto?</label>
+            <module>admin</module>
+            <controller>help</controller>
+            <action>show</action>
+            <params>
+                <topic>project</topic>
+                <operation>create</operation>
+            </params>
+            <route>help</route>
+        </create>
+        <update>
+            <label>¿Cómo editar un proyecto?</label>
+            <module>admin</module>
+            <controller>help</controller>
+            <action>show</action>
+            <params>
+                <topic>project</topic>
+                <operation>edit</operation>
+            </params>
+            <route>help</route>
+        </update>
+        <delete>
+            <label>¿Cómo eliminar un proyecto?</label>
+            <module>admin</module>
+            <controller>help</controller>
+            <action>show</action>
+            <params>
+                <topic>project</topic>
+                <operation>delete</operation>
+            </params>
+            <route>help</route>
+        </delete>
+        <download>
+            <label>¿Cómo descargar un proyecto?</label>
+            <module>admin</module>
+            <controller>help</controller>
+            <action>show</action>
+            <params>
+                <topic>project</topic>
+                <operation>download</operation>
+            </params>
+            <route>controllers</route>
+        </download>
+    </nav>
+</configdata>

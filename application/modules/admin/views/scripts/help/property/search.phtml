@@ -1,0 +1,49 @@
+<?php
+$this->headTitle('Ayuda');
+$this->headTitle('¿Cómo buscar un inmueble?');
+$this->bundleLink()
+     ->appendStylesheet($this->baseUrl('/styles/breadcrumbs.css'), 'screen, projection', false, array('charset' => 'utf-8'))
+     ->appendStylesheet($this->baseUrl('/styles/skins/breadcrumbs.css'), 'screen, projection', false, array('charset' => 'utf-8'))
+     ->appendStylesheet($this->baseUrl('/styles/forms.css'), 'screen, projection', false, array('charset' => 'utf-8'))
+     ->appendStylesheet($this->baseUrl('/styles/skins/forms.css'), 'screen, projection', false, array('charset' => 'utf-8'));
+?>
+<div class="span-18 prepend-3 clearfix">
+    <h1>¿Cómo buscar un inmueble?</h1>
+    <p>
+        Para buscar un inmueble desde la lista de inmuebles debe seguir los
+        siguientes pasos.
+    </p>
+    <ol>
+        <li>
+            <p>
+                Ingrese alguna palabra del nombre del inmueble que busca.
+                Por ejemplo <strong>Dorada</strong> y de clic en el botón
+                <strong>Buscar</strong>
+            </p>
+            <p><img src="<?php echo $this->baseUrl('/images/help/property/search-1.gif') ?>" alt="" /></p>
+        </li>
+        <li>
+            <p>
+                Al dar clic en el botón verá la pantalla de resultado de la
+                búsqueda, dicha pantalla contiene los resultados que devolvió la
+                búsqueda que hizo.
+            </p>
+            <p><img src="<?php echo $this->baseUrl('/images/help/property/search-2.gif') ?>" alt="" /></p>
+        </li>
+        <li>
+            <p>
+                Desde la lista de resultados puede
+                <a href="<?php echo $this->url(array('module' => 'help', 'controller' => 'property', 'action' => 'create'), 'controllers', true) ?>">
+                    crear
+                </a>,
+                <a href="<?php echo $this->url(array('module' => 'help', 'controller' => 'property', 'action' => 'edit'), 'controllers', true) ?>">
+                    editar
+                </a> o
+                <a href="<?php echo $this->url(array('module' => 'help', 'controller' => 'property', 'action' => 'delete'), 'controllers', true) ?>">
+                    eliminar
+                </a>
+                alguno de los inmuebles que aparecen.
+            </p>
+        </li>
+    </ol>
+</div>

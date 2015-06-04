@@ -1,0 +1,45 @@
+
+.map {
+    padding: 0;
+    margin-top: 2em;
+    background: transparent url(/images/mapa-mexico.gif) top left no-repeat;
+    height: 500px;
+    width: 500px;
+    position: relative;
+}
+
+.map dt{ margin: 0; padding: 0; position: absolute; font-size: 85%; display: none; }
+.map dd{ margin: 0; padding: 0; position: absolute;  font-size: 85%; }
+.map dd a{ outline: none; }
+.map dd a:active{ outline: none; -moz-outline: none; }
+
+
+.tooltip-container { 
+    position: absolute; 
+    width: 5px; 
+    height: 5px; 
+    text-decoration: none; 
+    border: 1px solid #000; 
+    background: #f00; 
+}
+.tooltip { 
+    display: none; 
+}
+.tooltip-link:hover { 
+    background: transparent; 
+    border: 1px solid #BCBCBC; 
+}
+.tooltip-link:hover .tooltip, 
+.tooltip-link:focus .tooltip {
+    display: block;
+    text-indent: 0;
+    vertical-align: top;
+    color: #000;
+    background-color: #F4F4F4;
+    font-weight: bold;
+    position: absolute;
+    border: 1px solid;
+    bottom: 100%;
+    margin: 0;
+    padding: 5px; 
+}

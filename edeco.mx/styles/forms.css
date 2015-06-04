@@ -1,0 +1,133 @@
+@charset "utf-8";
+
+/**
+ * @author     LMV <luis.montealegre@mandragora-web-systems.com>
+ * @author     MMS <meri.michimani@mandragora-web-systems.com>
+ * @version    SVN $Id$
+ * @copyright  Mandrágora Web-Based Systems 2010
+ */
+/* ---------------------------------------------------------------------------
+ * Elements
+ * ---------------------------------------------------------------------------*/
+form {
+    margin: 2em 40px 2em 40px;
+    display: block;
+}
+
+fieldset {
+    border-style: solid none none none;
+    text-align: left;
+    margin-right: 40px;
+    display: block;
+}
+
+label {
+    color: #29166f;
+    display: block;
+}
+
+dd {
+    margin: 0; 
+}
+
+dt {
+    margin-top: 1em;
+}
+
+input:focus,
+textarea:focus,
+select:focus {
+    border-width: 2px;
+    border-style: solid;
+}
+
+textarea {
+    font-family:"Helvetica Neue", Arial, Helvetica, sans-serif;
+    font-size: 1em;
+}
+
+input[type=submit] {
+    background-position: left bottom;
+    background-repeat: no-repeat;
+    background-color: transparent;
+    border-style: none;
+    width: 115px;
+    height: 32px;
+    line-height: 32px;
+    text-align: center;
+}
+
+fieldset ul {
+    padding-left: 1em;
+    margin: 5px 0;
+}
+
+textarea.error, 
+input.error, 
+select.error {
+    border-style: solid;
+    border-width: 1px;
+    padding: 2px;
+}
+
+/* ---------------------------------------------------------------------------
+ * Module Form
+ * ---------------------------------------------------------------------------*/
+.form-admin {
+    width: 67%;
+    margin: 0 auto;
+    display: block;
+}
+
+.ajax {
+	background-position: left center;
+    background-repeat: no-repeat;
+    background-color: transparent;
+}
+
+.legend {
+    display: block;
+    height: 32px;
+    line-height: 32px;
+    margin-right: 10px;
+    margin-left: 10px;
+    background-color: transparent;
+    background-position: left center;
+    background-repeat: no-repeat;
+    text-indent: 25px;
+}
+
+.element-inline {
+    display: block;
+}
+
+.submit-inline {
+    margin-top: 1.5em;
+}
+
+.error {
+    padding-bottom: 5px;
+}
+
+.error li {
+    margin-left: 0;
+    list-style-image: none;
+}
+
+.required {
+   margin: 0 5px;
+   font-size: 1.1em;
+}
+
+.hint {
+	padding: 0.8em;
+	margin-bottom: 1em;
+	border-width: 2px;
+	border-style: solid;
+}
+
+.centered {
+    width: 65%;
+    margin: 0 auto;
+    display: block
+}

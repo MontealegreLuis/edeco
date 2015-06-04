@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configdata>
+    <nav>
+        <help>
+            <label>Ayuda</label>
+            <controller>help</controller>
+            <action>show</action>
+            <module>admin</module>
+            <params>
+                <topic>index</topic>
+                <operation>index</operation>
+            </params>
+            <route>help</route>
+            <pages>
+                <picture>
+                    <label>Fotografías</label>
+		            <module>admin</module>
+		            <controller>help</controller>
+		            <action>show</action>
+		            <params>
+                        <topic>picture</topic>
+                        <operation>index</operation>
+                    </params>
+		            <route>help</route>
+		            <pages>
+			            <create>
+				            <label>Agregar Fotografía</label>
+				            <module>admin</module>
+				            <controller>help</controller>
+				            <action>show</action>
+				            <params>
+		                        <topic>picture</topic>
+		                        <operation>create</operation>
+		                    </params>
+				            <route>help</route>
+				        </create>
+				        <update>
+				            <label>Modificar Fotografía</label>
+				            <module>admin</module>
+				            <controller>help</controller>
+				            <action>show</action>
+				            <params>
+                                <topic>picture</topic>
+                                <operation>edit</operation>
+                            </params>
+				            <route>help</route>
+				        </update>
+				        <delete>
+				            <label>Eliminar Fotografía</label>
+				            <module>admin</module>
+                            <controller>help</controller>
+                            <action>show</action>
+                            <params>
+                                <topic>picture</topic>
+                                <operation>delete</operation>
+                            </params>
+				            <route>help</route>
+				        </delete>
+	                </pages>
+                </picture>
+            </pages>
+        </help>
+    </nav>
+</configdata>

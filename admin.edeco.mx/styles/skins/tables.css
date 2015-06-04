@@ -1,0 +1,35 @@
+@charset "utf-8";
+
+/**
+ * @author     LMV <luis.montealegre@mandragora-web-systems.com>
+ * @version    SVN $Id$
+ * @copyright  Mandrágora Web-Based Systems 2010
+ */
+/* ---------------------------------------------------------------------------
+ * Elements
+ * ---------------------------------------------------------------------------*/
+th,
+td {
+    border: solid 1px #777;
+}
+
+th,
+.page:hover {
+	background-color: #466bb5;
+	color: #fff;
+}
+
+.disabled {
+	background-color: fff;
+	color: #777;
+}
+
+.page,
+.page:hover {
+    border: solid 1px #29166f;
+}
+
+.empty-list {
+	background-image: url('../../images/no-results.gif');
+    background-color: #fff;
+}

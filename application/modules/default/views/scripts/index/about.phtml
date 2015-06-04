@@ -1,0 +1,82 @@
+<?php
+/**
+ * Shows about page
+ *
+ * @author    MMS <meri.michimani@mandragora-web-systems.com>
+ * @author    LMV <luis.montealegre@mandragora-web-systems.com>
+ * @copyright Mandrágora Web-Based Systems
+ * @version   SVN: $Id$
+ * ç
+ *
+ */
+?>
+<?php
+$this->headMeta()->appendName(
+    'keywords',
+    'consultoría inmobiliaria, desarrollos comerciales'
+);
+$this->headMeta()->appendName(
+    'description',
+    'Misión y visión de Edificaciones y Desarrollos Comerciales de México (EDECO), empresa de consultoría profesional inmobiliaria'
+);
+$this->bundleLink()
+     ->appendStylesheet($this->baseUrl('/styles/jquery/plugins/slideshow.css'), 'screen, projection', false, array('charset' => 'utf-8'));
+$this->jQuery()->enable()
+	 ->addJavascriptFile($this->baseUrl('/scripts/jquery/plugins/jquery.slideshow.js'))
+	 ->addJavascriptFile($this->baseUrl('/scripts/edeco/pages/index/class.about.js'));
+$this->jQuery()->addOnLoad(
+    'var page = new Edeco.Pages.Index.About();
+    page.init();'
+);
+?>
+<?php $this->headTitle('¿Quienes somos?') ?>
+<?php echo $this->render('default/_side-content.phtml') ?>
+<div class="span-18 last">
+    <h1 class="two-column">¿Quienes somos?</h1>
+    <p class="two-column">
+        Nos es grato someter a su consideración el ofrecimiento de nuestros
+        servicios de Consultoría Profesional Inmobiliaria. Con el propósito de
+        darles a conocer nuestra identidad, a continuación les informamos lo
+        siguiente.
+    </p>
+    <p class="two-column"> 
+        Como antecedente, el que suscribe como Director General de Edificaciones
+        y Desarrollos Comerciales de México, S. A. de C. V., inició labores en
+        el mercado en el año 1994, dando asesoría para la Venta y Arrendamiento
+        de propiedades a personas físicas. 
+    </p>
+    <p class="two-column">
+        Para el año 1997 incursionamos en el área Comercial, apoyando la
+        expansión de varias empresas en la zona centro y sur de la República
+        Mexicana. Con la experiencia lograda, EDECO se constituye como Persona
+        Moral en el año de 2005 apoyándose en la mejor tecnología, herramientas
+        de mercado, y con personal profesional bien capacitado para atender las
+        necesidades de sus clientes. Definiendo claramente:
+    </p>
+</div>
+
+<div class="span-8">
+    <h2>Nuestra Misión</h2>
+    <p>
+        Brindar Servicios de Asesoría Inmobiliaria a Empresas,
+        comprometiéndonos a mantener las normas mas elevadas de Calidad
+        y Profesionalismo.
+    </p>
+
+    <h2>Nuestra  Visión</h2>
+    <p>
+        Insistir constantemente en la excelencia y mejora continua, tanto
+        de sus colaboradores como del servicio que ofrece a sus clientes.
+    </p>
+</div>
+<div class="span-9 last">
+    <div class="slideShow">
+        <ul class="slides slides-vertical">
+            <?php for($i = 1; $i <= 6; $i++) : ?>
+                <li class="slide">
+                    <img src="<?php echo $this->baseUrl("/images/edeco-about-$i.jpg") ?>" alt="" />
+                </li>
+            <?php endfor ?>
+        </ul>
+    </div>
+</div>

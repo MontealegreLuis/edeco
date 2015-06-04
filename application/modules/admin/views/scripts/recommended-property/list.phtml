@@ -1,0 +1,93 @@
+<?php
+/**
+ * Show the collection of RecommendedProperty objects
+ *
+ * @author     LMV <luis.montealegre@mandragora-web-systems.com>
+ * @copyright  Mandrágora Web-Based Systems 2011
+ * @version    SVN: $Id$
+ */
+?>
+<?php
+$title = $this->translate('recommendedProperty.action.list');
+$this->headTitle($title);
+$this->bundleLink()
+     ->appendStylesheet($this->baseUrl('/styles/breadcrumbs.css'), 'screen, projection')
+     ->appendStylesheet($this->baseUrl('/styles/skins/breadcrumbs.css'), 'screen, projection')
+     ->appendStylesheet($this->baseUrl('/styles/tables.css'), 'screen, projection')
+     ->appendStylesheet($this->baseUrl('/styles/skins/tables.css'), 'screen, projection');
+$this->jQuery()
+     ->addJavascriptFile($this->baseUrl('/scripts/jquery/plugins/jquery.confirm.js'))
+     ->addJavascriptFile($this->baseUrl('/scripts/edeco/pages/recommended-property/class.list.js'));
+$this->jQuery()->addOnLoad(
+    'var page = new Edeco.Pages.RecommendedProperty.List();
+    page.init();'
+);
+?>
+<h1><?php echo $title ?></h1>
+<div class="span-6">
+    <div class="actions">
+        <ul class="actions-container">
+            <?php
+            $params = array($this->translate('propertyId') => $this->propertyId, $this->translate('stateId') => $this->stateId,);
+            $propertyParams = array('id' => $this->propertyId);
+            $listParams = array($this->translate('page') => 1);
+            $actions = array(
+                'recommendedProperty.action.list' => $params + $listParams,
+                'recommendedProperty.action.create' => $params,
+            	'property.action.show' => $propertyParams,
+            	'property.action.list' => $listParams,
+            );
+            echo $this->partial(
+                'navigation/_actions.phtml',
+                array(
+                    'pages' => $this->actions,
+                    'actions' => $actions,
+                    'decorator' => 'li'
+                )
+            );
+            ?>
+        </ul>
+    </div>
+</div>
+<div class="span-18 last">
+    <?php echo $this->render('partials/flash-messages.phtml') ?>
+    <?php echo $this->paginationControl($this->paginator, 'Sliding', 'partials/paginator.phtml') ?>
+    <?php if ($this->collection->count() == 0) : ?>
+        <p class="empty-list">
+           <?php echo $this->translate('recommendedProperty.emptyList') ?>
+        </p>
+    <?php else : ?>
+    	<table>
+            <colgroup>
+                <col width="60" />
+                <col width="580" />
+            </colgroup>
+            <tr>
+                <th>Acciones</th>
+                <th>Descripción</th>
+            </tr>
+            <?php foreach ($this->collection as $recommendedProperty) : ?>
+                <tr class="<?php echo $this->cycle(array('even', 'odd'))->next() ?>">
+                    <?php
+                    $params = array(
+                    	'id' => $recommendedProperty->propertyId,
+                    	$this->translate('propertyId') => $recommendedProperty->recommendedPropertyId,
+                        $this->translate('stateId') => $this->stateId,
+                    );
+                    $actions = array('recommendedProperty.action.delete' => $params,);
+                    echo $this->partial(
+                        'navigation/_actions.phtml',
+                        array(
+                            'pages' => $this->actions,
+                            'actions' => $actions,
+                            'decorator' => 'td',
+                        )
+                    )
+                    ?>
+                    <td><p><?php echo $recommendedProperty ?></p></td>
+                </tr>
+            <?php endforeach ?>
+        </table>
+    <?php endif ?>
+    <?php echo $this->paginationControl($this->paginator, 'Sliding', 'partials/paginator.phtml') ?>
+</div>

@@ -1,0 +1,31 @@
+<?php
+$this->headTitle('Ayuda');
+$this->headTitle('¿Cómo descargar un archivo de Excel?');
+$this->bundleLink()
+     ->appendStylesheet($this->baseUrl('/styles/breadcrumbs.css'), 'screen, projection', false, array('charset' => 'utf-8'))
+     ->appendStylesheet($this->baseUrl('/styles/skins/breadcrumbs.css'), 'screen, projection', false, array('charset' => 'utf-8'))
+     ->appendStylesheet($this->baseUrl('/styles/forms.css'), 'screen, projection', false, array('charset' => 'utf-8'))
+     ->appendStylesheet($this->baseUrl('/styles/skins/forms.css'), 'screen, projection', false, array('charset' => 'utf-8'));
+?>
+<div class="span-18 prepend-3 clearfix">
+<h1>¿Cómo descargar un archivo de Excel?</h1>
+<p>Para descargar un archivo de Excel debe seguir los siguientes pasos</p>
+<ol>
+    <li>
+        <p>
+            Desde la lista de archivos de Excel debe dar clic sobre el botón
+            <strong>Descrgar archivo Excel</strong>, como se muestra a
+            continuación
+        </p>
+        <p><img src="<?php echo $this->baseUrl('/images/help/excel/download-1.gif') ?>" alt="" /></p>
+    </li>
+    <li>
+        <p>
+            Después de dar clic, verá un cuadro de diálogo en el que puede elegir la
+            opción de <strong>Abrir el archivo</strong> o si desea
+            <strong>Guardar el archivo</strong>. Elija la opción que más le convenga.
+        </p>
+        <p><img src="<?php echo $this->baseUrl('/images/help/excel/download-2.gif') ?>" alt="" /></p>
+    </li>
+</ol>
+</div>

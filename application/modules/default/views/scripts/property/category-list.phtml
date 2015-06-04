@@ -1,0 +1,40 @@
+<?php echo $this->render('default/_side-content.phtml');
+$this->bundleLink()
+    ->appendStylesheet($this->baseUrl('/styles/breadcrumbs.css'), 'screen, projection', false, array('charset' => 'utf-8'))
+    ->appendStylesheet($this->baseUrl('/styles/skins/breadcrumbs.css'), 'screen, projection', false, array('charset' => 'utf-8'));
+?>
+<div class="span-18 last">
+<p class="breadcrumb-message">&nbsp;</p>
+                <?php if ($this->breadcrumbs != null) : ?>
+                    <?php
+                        echo $this->navigation()
+                                  ->breadcrumbs($this->breadcrumbs)
+                                  ->setMinDepth(0)
+                                  ->setLinkLast(false)
+                                  ->setSeparator(' ')
+                                  ->setPartial('navigation/_breadcrumbs.phtml');
+                    ?>
+                <?php endif ?>
+    <h1>Lista de inmuebles</h1>
+    <p>
+        Para su comodidad hemos creado la siguiente
+        <strong>lista de categorías</strong>. De clic en la liga
+        correspondiente para empezar a buscar los inmuebles de su interés.
+        <br /> <br />
+    </p>
+    <ul>
+    <?php foreach ($this->categories as $category) : ?>
+        <?php
+        $params = array(
+            'controller' => 'property', 'action' => 'list',
+            'module' => 'default', 'category' => $category->url,
+        )
+        ?>
+        <li>
+            <a href="<?php echo $this->url($params, 'property') ?>" title="<?php echo $category->name ?>">
+                <?php echo $category->name ?>
+            </a>
+        </li>
+    <?php endforeach ?>
+    </ul>
+</div>

@@ -1,0 +1,45 @@
+<?php
+$this->headTitle('Ayuda');
+$this->headTitle('¿Cómo eliminar un inmueble?');
+$this->bundleLink()
+     ->appendStylesheet($this->baseUrl('/styles/breadcrumbs.css'), 'screen, projection', false, array('charset' => 'utf-8'))
+     ->appendStylesheet($this->baseUrl('/styles/skins/breadcrumbs.css'), 'screen, projection', false, array('charset' => 'utf-8'))
+     ->appendStylesheet($this->baseUrl('/styles/forms.css'), 'screen, projection', false, array('charset' => 'utf-8'))
+     ->appendStylesheet($this->baseUrl('/styles/skins/forms.css'), 'screen, projection', false, array('charset' => 'utf-8'));
+?>
+<div class="span-18 prepend-3 clearfix">
+    <h1>¿Cómo eliminar un inmueble?</h1>
+    <p>Para eliminar los datos de un inmueble debe seguir los siguientes pasos</p>
+    <ol>
+        <li>
+            <p>
+                Desde la lista de inmuebles debe dar clic en la imagen de color rojo
+                de la primera columna (el título de la columna es
+                <strong>Eliminar</strong>).
+            </p>
+            <p><img src="<?php echo $this->baseUrl('/images/help/property/delete-1.gif') ?>" alt="" /></p>
+        </li>
+        <li>
+            <p>
+                Al dar clic en la imagen verá un cuadro de dialogo que solicitará la
+                confirmación o cancelación de la acción de eliminar.
+            </p>
+            <p><img src="<?php echo $this->baseUrl('/images/help/property/delete-2.gif') ?>" alt="" /></p>
+        </li>
+        <li>
+            <p>
+                Si da clic en el botón de <strong>No</strong> la aplicación no
+                realizará ninguna eliminación y volverá a ver la lista de inmuebles
+                como al principio.
+            </p>
+            <p>
+                Si por el contrario, da clic en la opción <strong>Sí</strong>, la
+                aplicación eliminará los datos de la propiedad, y no podrá verlos ni
+                en los archivos de Excel ni en el sitio Web, a partir de ese momento
+                en adelante.
+                Usted verá la lista sin la entrada que eliminó después de dar clic en
+                la opción <strong>Sí</strong>.
+            </p>
+        </li>
+    </ol>
+</div>

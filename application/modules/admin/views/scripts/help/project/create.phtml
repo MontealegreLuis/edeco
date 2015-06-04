@@ -1,0 +1,56 @@
+<?php
+$this->headTitle('Ayuda');
+$this->headTitle('¿Cómo crear un proyecto?');
+$this->bundleLink()
+     ->appendStylesheet($this->baseUrl('/styles/breadcrumbs.css'), 'screen, projection', false, array('charset' => 'utf-8'))
+     ->appendStylesheet($this->baseUrl('/styles/skins/breadcrumbs.css'), 'screen, projection', false, array('charset' => 'utf-8'))
+     ->appendStylesheet($this->baseUrl('/styles/forms.css'), 'screen, projection', false, array('charset' => 'utf-8'))
+     ->appendStylesheet($this->baseUrl('/styles/skins/forms.css'), 'screen, projection', false, array('charset' => 'utf-8'));
+?>
+<div class="span-18 prepend-3 clearfix">
+<h1>¿Cómo crear un Proyecto?</h1>
+<p>Para crear un proyecto de inversión debe seguir los siguientes pasos</p>
+<ol>
+    <li>
+        <p>
+            Haga clic en la liga que dice <strong>Proyectos</strong> en el menú de
+            navegación principal como se muestra a continuación
+        </p>
+        <p><img src="<?php echo $this->baseUrl('/images/help/project/create1.gif') ?>" alt="" /></p>
+    </li>
+    <li>
+        <p>
+            Una vez que entro a Proyectos haga clic en la liga que dice
+            <strong>Crear proyecto</strong> como se muestra en la siguiente imagen.
+        </p>
+        <p><img src="<?php echo $this->baseUrl('/images/help/project/create-2.gif') ?>" alt="" /></p>
+    </li>
+    <li>
+        <p>
+            Después de hacer clic en <strong>Crear proyecto</strong> aparecerá el
+            formulario que contiene los campos que necesita llenar para Crear el
+            proyecto, como se muestra a continuación
+        </p>
+        <p><img src="<?php echo $this->baseUrl('/images/help/project/create-3.gif') ?>" alt="" /></p>
+        <ul>
+            <li>
+                El primer campo <strong>Nombre</strong> es el nombre que se mostrará
+                en la tabla de proyectos.
+            </li>
+            <li>
+                El segundo campo <strong>Archivo Adjunto</strong> sirve para que
+                pueda elegir una presentación de PowerPoint extensión .ppsx y/o .
+            </li>
+        </ul>
+    </li>
+    <li>
+        Por último hacemos clic en el botón de <strong>Guardar</strong>
+        situado en la parte inferior del formulario.
+    <p><img src="<?php echo $this->baseUrl('/images/help/project/create-4.gif') ?>" alt="" /></p>
+    </li>
+    <li>
+        Usted podrá visualizar el nuevo proyecto que se ha generado
+    <p><img src="<?php echo $this->baseUrl('/images/help/project/create-5.gif') ?>" alt="" /></p>
+    </li>
+</ol>
+</div>

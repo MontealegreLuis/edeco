@@ -1,0 +1,104 @@
+<?php
+/**
+ * List of available pictures of a given property
+ *
+ * @author     LMV <luis.montealegre@mandragora-web-systems.com>
+ * @copyright  Mandrágora Web-Based Systems 2010
+ * @version    SVN: $Id$
+ */
+?>
+<?php
+$title = $this->translate('picture.action.list');
+$this->headTitle($title);
+$this->bundleLink()
+     ->appendStylesheet($this->baseUrl('/styles/breadcrumbs.css'), 'screen, projection', false, array('charset' => 'utf-8'))
+     ->appendStylesheet($this->baseUrl('/styles/skins/breadcrumbs.css'), 'screen, projection', false, array('charset' => 'utf-8'))
+     ->appendStylesheet($this->baseUrl('/styles/tables.css'), 'screen, projection', false, array('charset' => 'utf-8'))
+     ->appendStylesheet($this->baseUrl('/styles/skins/tables.css'), 'screen, projection', false, array('charset' => 'utf-8'));
+$this->jQuery()
+     ->addJavascriptFile($this->baseUrl('/scripts/jquery/plugins/jquery.confirm.js'))
+     ->addJavascriptFile($this->baseUrl('/scripts/edeco/pages/picture/class.list.js'));
+$this->jQuery()->addOnLoad(
+    'var page = new Edeco.Pages.Picture.List();
+    page.init();'
+);
+?>
+<h1><?php echo $title ?></h1>
+<div class="span-6">
+    <div class="actions">
+        <ul class="actions-container">
+            <?php
+            $actions = array(
+                'picture.action.create' => array($this->translate('propertyId') => $this->propertyId,),
+                'property.action.show' => array('id' => $this->propertyId,),
+                'property.action.list' => array($this->translate('page') => 1,),
+            );
+            echo $this->partial(
+                'navigation/_actions.phtml',
+                array(
+                    'pages' => $this->actions,
+                    'actions' => $actions,
+                    'decorator' => 'li'
+                )
+            );
+            ?>
+        </ul>
+    </div>
+</div>
+<div class="span-18 last">
+    <?php echo $this->render('partials/flash-messages.phtml') ?>
+    <?php echo $this->paginationControl($this->paginator, 'Sliding', 'partials/paginator.phtml') ?>
+    <table id="picture-list">
+        <colgroup>
+            <col width="60" />
+            <col width="60" />
+            <col width="60" />
+            <col width="460" />
+        </colgroup>
+    <?php if ($this->pictures->count() == 0) : ?>
+        <tr>
+            <td colspan="4" class="empty-list">
+                <p>Aún no existe ninguna fotografía de este inmueble</p>
+            </td>
+        </tr>
+    </table>
+    <?php else : ?>
+        <tr>
+            <th colspan="3">Acciones</th>
+            <th>Descripción</th>
+        </tr>
+        <?php $i = 0; ?>
+        <?php foreach ($this->pictures as $picture) : ?>
+            <tr class="<?php echo $this->cycle(array('even', 'odd'))->next() ?>">
+                <?php
+                $params = array(
+                    $this->translate('propertyId') => $this->propertyId,
+                    'id' => $picture->id
+                );
+                $actions = array(
+                    'picture.action.delete' => $params,
+                    'picture.action.edit' => $params,
+                    'picture.action.show' => $params,
+                );
+                echo $this->partial(
+                    'navigation/_actions.phtml',
+                    array(
+                        'pages' => $this->actions,
+                        'actions' => $actions,
+                        'decorator' => 'td'
+                    )
+                );
+                ?>
+                <td>
+                    <img alt="<?php echo $picture->shortDescription ?>" title="<?php echo $picture->shortDescription ?>"
+                         src="<?php echo $this->url(array('controller' => 'image', 'action' => 'show', $this->translate('imageName') => $picture->filename), 'controllers', true) ?>" />
+                    <br />
+                    <?php echo $picture->shortDescription ?>
+                </td>
+            </tr>
+            <?php $i++ ?>
+        <?php endforeach ?>
+        </table>
+    <?php endif ?>
+    <?php echo $this->paginationControl($this->paginator, 'Sliding', 'partials/paginator.phtml') ?>
+</div>

@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configdata>
+    <nav>
+        <create>
+            <label>¿Cómo crear un inmueble?</label>
+            <module>admin</module>
+            <controller>help</controller>
+            <action>show</action>
+            <params>
+                <topic>property</topic>
+                <operation>create</operation>
+            </params>
+            <route>help</route>
+        </create>
+        <update>
+            <label>¿Cómo editar los datos de un inmueble?</label>
+            <module>admin</module>
+            <controller>help</controller>
+            <action>show</action>
+            <params>
+                <topic>property</topic>
+                <operation>edit</operation>
+            </params>
+            <route>help</route>
+        </update>
+        <delete>
+            <label>¿Cómo eliminar un inmueble?</label>
+            <module>admin</module>
+            <controller>help</controller>
+            <action>show</action>
+            <params>
+                <topic>property</topic>
+                <operation>delete</operation>
+            </params>
+            <route>help</route>
+        </delete>
+        <search>
+            <label>¿Cómo buscar un inmueble?</label>
+            <module>admin</module>
+            <controller>help</controller>
+            <action>show</action>
+            <params>
+                <topic>property</topic>
+                <operation>search</operation>
+            </params>
+            <route>help</route>
+        </search>
+    </nav>
+</configdata>

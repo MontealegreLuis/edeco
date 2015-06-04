@@ -1,0 +1,28 @@
+@charset "utf-8";
+
+/**
+ * @author     LMV <luis.montealegre@mandragora-web-systems.com>
+ * @version    SVN $Id$
+ * @copyright  Mandrágora Web-Based Systems 2010
+ */
+/* --------------------------------------------------------- *
+ * Breadcrumbs
+ * --------------------------------------------------------- */
+.breadcrumb-active {
+    color: #29166f;
+    background-image: url('../../images/breadcrumb.gif');   
+    /*background-image: url('../../images/breadcrumb-active.gif');*/
+}
+
+.breadcrumb-item {
+    background-image: url('../../images/breadcrumb.gif');    
+}
+
+.session {
+	color: #fff;
+    background-image: url('../../images/close.gif');
+}
+
+.session:hover {
+    color: #d0bd68;
+}

@@ -1,0 +1,50 @@
+<?php
+/**
+ * Shows form for creating excel files and the list of available existing files
+ *
+ * @author     LMV <luis.montealegre@mandragora-web-systems.com>
+ * @copyright  Mandrágora Web-Based Systems 2010
+ * @version    SVN: $Id$
+ */
+?>
+<?php
+$title = $this->translate('excel.action.create');
+$this->headTitle($title);
+$this->bundleLink()
+     ->appendStylesheet($this->baseUrl('/styles/breadcrumbs.css'), 'screen, projection', false, array('charset' => 'utf-8'))
+     ->appendStylesheet($this->baseUrl('/styles/skins/breadcrumbs.css'), 'screen, projection', false, array('charset' => 'utf-8'))
+     ->appendStylesheet($this->baseUrl('/styles/forms.css'), 'screen, projection', false, array('charset' => 'utf-8'))
+     ->appendStylesheet($this->baseUrl('/styles/skins/forms.css'), 'screen, projection', false, array('charset' => 'utf-8'));
+$this->jQuery()
+     ->addJavascriptFile($this->baseUrl('/scripts/jquery/plugins/jquery.validate.js'))
+     ->addJavascriptFile($this->baseUrl('/scripts/jquery/plugins/validate/method.date-range.js'))
+     ->addJavascriptFile($this->baseUrl('/scripts/edeco/pages/excel/class.detail.js'));
+$this->jQuery()->addOnLoad(
+    'var page = new Edeco.Pages.Excel.Detail();
+    page.init();'
+);
+?>
+<h1 class="h1"><?php echo $title ?></h1>
+<div class="span-6">
+    <div class="actions">
+        <ul class="actions-container">
+            <?php
+            $actions = array(
+                'excel.action.create' => array(),
+                'excel.action.list' => array($this->translate('page') => 1)
+            );
+            echo $this->partial(
+                'navigation/_actions.phtml',
+                array(
+                    'pages' => $this->actions,
+                    'actions' => $actions,
+                    'decorator' => 'li'
+                )
+            );
+            ?>
+        </ul>
+    </div>
+</div>
+<div class="span-18 last">
+    <?php echo $this->excelForm ?>
+</div>

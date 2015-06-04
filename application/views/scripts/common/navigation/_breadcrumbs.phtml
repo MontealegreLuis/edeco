@@ -1,0 +1,20 @@
+<?php
+/**
+ * Partial for breadcrumbs
+ *
+ * @author     LMV <luis.montealegre@mandragora-web-systems.com>
+ * @copyright  Mandrágora Web-Based Systems 2010
+ * @version    SVN: $Id$
+ */
+?>
+<?php if (count($this->pages) > 0) : ?>
+    <ul class="breadcrumbs-container">
+    <?php foreach ($this->pages as $page) : ?>
+        <?php if (!$page->isActive()) : ?>
+            <li class="breadcrumb-item"><?php echo $this->menu()->htmlify($page) ?></li>
+        <?php else : ?>
+            <li class="breadcrumb-active"><?php echo $page->getLabel() ?></li>
+        <?php endif ?>
+    <?php endforeach ?>
+    </ul>
+<?php endif ?>

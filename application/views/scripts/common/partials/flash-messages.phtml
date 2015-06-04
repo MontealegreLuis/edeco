@@ -1,0 +1,28 @@
+<?php
+/**
+ * Partial for flash messenger helper messages
+ *
+ * @author    LMV <luis.montealegre@mandragora-web-systems.com>
+ * @copyright Mandrágora Web-Based Systems
+ * @version   SVN: $Id$
+ */
+?>
+<?php $flashMessenger = Zend_Controller_Action_HelperBroker::getStaticHelper('FlashMessenger'); ?>
+<?php if ($flashMessenger->setNamespace('success')->hasMessages()) : ?>
+    <div class="messages">
+        <ul class="messages-container">
+            <?php foreach ($flashMessenger->getMessages() as $message) : ?>
+                <li class="message success"><?php echo $this->translate($message) ?></li>
+            <?php endforeach; ?>
+        </ul>
+    </div>
+<?php endif ?>
+<?php if ($flashMessenger->setNamespace('error')->hasMessages()) : ?>
+    <div class="messages">
+        <ul class="messages-container">
+            <?php foreach ($flashMessenger->getMessages() as $message) : ?>
+                <li class="message error"><?php echo $this->translate($message) ?></li>
+            <?php endforeach; ?>
+        </ul>
+    </div>
+<?php endif ?>

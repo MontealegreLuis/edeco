@@ -1,0 +1,54 @@
+<?php
+/**
+ * Shows properties list
+ *
+ * @author    LMV <luis.montealegre@mandragora-web-systems.com>
+ * @copyright Mandrágora Web-Based Systems
+ * @version   SVN: $Id$
+ */
+?>
+<?php
+$category = $this->translate($this->category);
+$this->headTitle($category);
+$this->bundleLink()
+     ->appendStylesheet($this->baseUrl('/styles/breadcrumbs.css'), 'screen, projection', false, array('charset' => 'utf-8'))
+     ->appendStylesheet($this->baseUrl('/styles/skins/breadcrumbs.css'), 'screen, projection', false, array('charset' => 'utf-8'))
+     ->appendStylesheet($this->baseUrl('/styles/gallery.css'), 'screen, projection')
+     ->appendStylesheet($this->baseUrl('/styles/skins/gallery.css'), 'screen, projection')
+     ->appendStylesheet($this->baseUrl('/styles/tables.css'), 'screen, projection')
+     ->appendStylesheet($this->baseUrl('/styles/skins/tables.css'), 'screen, projection')
+     ->appendStylesheet($this->baseUrl('/styles/map.css'), 'screen, projection')
+     ->appendStylesheet($this->baseUrl('/styles/states.css'), 'screen, projection');
+?>
+<?php echo $this->render('default/_side-content.phtml') ?>
+<div class="span-18 last">
+<p class="breadcrumb-message">&nbsp;</p>
+                <?php if ($this->breadcrumbs != null) : ?>
+                    <?php
+                        echo $this->navigation()
+                                  ->breadcrumbs($this->breadcrumbs)
+                                  ->setMinDepth(0)
+                                  ->setLinkLast(false)
+                                  ->setSeparator(' ')
+                                  ->setPartial('navigation/_breadcrumbs.phtml');
+                    ?>
+                <?php endif ?>
+    <h1><?php echo $this->category ?></h1>
+    <p>
+    	<strong>De click sobre la imagen del estado</strong> para ver la lista
+    	completa de <?php echo $this->category ?> en esa ubicación.
+	</p>
+    <dl class="map">
+    	<?php foreach ($this->properties as $property) : ?>
+    		<?php $name = $property['Address']['City']['State']['name'] ?>
+            <?php $url = $property['Address']['City']['State']['url'] ?>
+    		<?php $count = $this->category . ' (' . $property['propertyCount'] . ')'?>
+            <dt><?php echo $name ?></dt>
+            <dd id="<?php echo $url ?>">
+            <a class="tooltip-container tooltip-link" href="<?php echo $this->url(array('action' => 'list-by-state', 'category' => $this->category->url, 'state' => $url, 'availability' => $this->translate('rent'), 'page' => 1), 'state') ?>" title="<?php echo $count ?>">
+                <span class="tooltip" id="legend-<?php echo $url ?>"><?php echo $name?></span>
+            </a>
+            </dd>
+		<?php endforeach ?>
+    </dl>
+</div>

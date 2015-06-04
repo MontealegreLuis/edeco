@@ -1,0 +1,59 @@
+@charset "utf-8";
+
+/**
+ * @author     LMV <luis.montealegre@mandragora-web-systems.com>
+ * @version    SVN $Id$
+ * @copyright  Mandrágora Web-Based Systems 2010
+ */
+/* ---------------------------------------------------------------------------
+ * Elements
+ * ---------------------------------------------------------------------------*/
+input[type=submit] { 
+    background-image: url(../../images/background-submit.gif);
+    color: #fff;
+}
+
+input[type=text]:focus,
+input[type=password]:focus,
+textarea:focus,
+select:focus {
+    border-color: #b6a6ee;
+}
+
+/* ---------------------------------------------------------------------------
+ * Classes
+ * ---------------------------------------------------------------------------*/
+textarea.error, 
+input.error, 
+select.error {
+    border-color: #fbc2c4;
+    color: #666;
+    background-color: #fff;
+}
+
+.required {
+	color: #f00;
+}
+
+.ajax {
+    background-image: url(../../images/ajax.gif);
+}
+
+.legend {
+	background-image: url(../../images/background-h2.gif);
+	color: #29166F;
+}
+
+input[type=text].readonly {
+	border-color: #777;
+	background-color: #eee;
+}
+
+.hint {
+	background-color: #E5ECF9;
+	border-color: #466BB5;
+}
+
+.centered {
+	color: #777;
+}

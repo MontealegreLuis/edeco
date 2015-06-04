@@ -1,0 +1,29 @@
+<?php
+/**
+ * HTML head section
+ *
+ * @author     LMV <luis.montealegre@mandragora-web-systems.com>
+ * @copyright  Mandrágora Web-Based Systems 2010
+ * @version    SVN: $Id$
+ */
+$this->headTitle('Edificaciones y Desarrollos Comerciales de México');
+$this->headTitle()->setSeparator(' - ');
+echo $this->headTitle();
+$this->headMeta()->appendHttpEquiv('Content-Type', 'text/html; charset=utf-8');
+$this->headMeta()->appendName('author', 'Mandrágora Web-Based Systems');
+$this->headMeta()->appendName('copyright', 'Mandrágora Web-Based Systems');
+$this->headMeta()->appendName('language', 'es-mx');
+echo $this->headMeta();
+$this->bundleLink()
+     ->prependStylesheet($this->baseUrl('/styles/jquery/jquery-ui-1.8.2.custom.css'), 'screen, projection')
+     ->prependStylesheet($this->baseUrl('/styles/ie.css'), 'screen, projection', 'IE')
+     ->prependStylesheet($this->baseUrl('/styles/print.css'), 'print')
+     ->prependStylesheet($this->baseUrl('/styles/skins/global.css'), 'screen, projection')
+     ->prependStylesheet($this->baseUrl('/styles/global.css'), 'screen, projection')
+     ->prependStylesheet($this->baseUrl('/styles/blueprint/ie.css'), 'screen, projection', 'IE')
+     ->prependStylesheet($this->baseUrl('/styles/blueprint/print.css'), 'print')
+     ->prependStylesheet($this->baseUrl('/styles/blueprint/screen.css'), 'screen, projection');
+echo $this->bundleLink();
+?>
+<link href="<?php echo $this->baseUrl('/images/favicon.ico') ?>" rel="shortcut icon" type="image/x-icon" />
+<link href="<?php echo $this->baseUrl('/images/favicon.ico') ?>" rel="icon" type="image/x-icon" />

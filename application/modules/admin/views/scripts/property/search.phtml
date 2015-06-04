@@ -1,0 +1,66 @@
+<?php
+/**
+ * Search result list
+ *
+ * @author     LMV <luis.montealegre@mandragora-web-systems.com>
+ * @copyright  Mandrágora Web-Based Systems 2010
+ * @version    SVN: $Id$
+ */
+?>
+<?php
+$title = $this->translate('action.property.searchResults');
+$this->headTitle($title);
+$this->bundleLink()
+     ->appendStylesheet($this->baseUrl('/styles/breadcrumbs.css'), 'screen, projection', false, array('charset' => 'utf-8'))
+     ->appendStylesheet($this->baseUrl('/styles/skins/breadcrumbs.css'), 'screen, projection', false, array('charset' => 'utf-8'))
+     ->appendStylesheet($this->baseUrl('/styles/tables.css'), 'screen, projection', false, array('charset' => 'utf-8'))
+     ->appendStylesheet($this->baseUrl('/styles/skins/tables.css'), 'screen, projection', false, array('charset' => 'utf-8'));
+$this->jQuery()
+     ->addJavascriptFile($this->baseUrl('/scripts/jquery/plugins/jquery.confirm.js'))
+     ->addJavascriptFile($this->baseUrl('/scripts/edeco/pages/property/class.list.js'));
+$this->jQuery()->addOnLoad(
+    'var page = new Edeco.Pages.Property.List();
+    page.init();'
+);
+?>
+<h1><?php echo $title ?></h1>
+<div class="span-6">
+    <div class="actions">
+        <ul class="actions-container">
+            <?php $params = array($this->translate('page') => 1) ?>
+            <?php $actions = array('property.action.list' => $params, 'property.action.create' => array()) ?>
+            <?php echo $this->partial('navigation/_actions.phtml', array('pages' => $this->actions, 'actions' => $actions, 'decorator' => 'li')) ?>
+        </ul>
+    </div>
+</div>
+<div class="span-18 last">
+    <table>
+        <colgroup>
+            <col width="60" />
+            <col width="60" />
+            <col width="60" />
+            <col width="460" />
+        </colgroup>
+    <?php if ($this->properties->count() == 0) : ?>
+        <tr>
+            <td colspan="4" class="empty-list">
+                <p>No se encontró ningun resultado</p>
+            </td>
+        </tr>
+    </table>
+    <?php else : ?>
+        <tr>
+            <th colspan="3">Acciones</th>
+            <th>Descripción</th>
+        </tr>
+        <?php foreach ($this->properties as $property) : ?>
+            <tr class="<?php echo $this->cycle(array('even', 'odd'))->next() ?>">
+                <?php $params = array('id' => $property->id) ?>
+                <?php $actions = array('property.action.delete' => $params, 'property.action.edit' => $params, 'property.action.show' => $params) ?>
+                <?php echo $this->partial('navigation/_actions.phtml', array('pages' => $this->actions, 'actions' => $actions, 'decorator' => 'td',)) ?>
+                <td><p><?php echo $property ?></p></td>
+            </tr>
+        <?php endforeach ?>
+        </table>
+    <?php endif ?>
+</div>

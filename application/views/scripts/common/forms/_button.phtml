@@ -1,0 +1,24 @@
+<?php
+/**
+ * Helper for submit buttons.
+ *
+ * This helper is used with Mandragora_Form_Abstract class
+ *
+ * @author    LMV <luis.montealegre@mandragora-web-systems.com>
+ * @copyright Mandrágora Web-Based Systems
+ * @version   SVN: $Id$
+ */
+?>
+<dt></dt>
+<dd>
+<?php
+$attribs = $this->element->getAttribs();
+unset($attribs['helper']);
+$helper = $this->element->helper;
+echo $this->element->getView()->$helper(
+    $this->element->getName(),
+    $this->element->getLabel(),
+    $attribs
+);
+?>
+</dd>

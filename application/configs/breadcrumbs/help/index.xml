@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configdata>
+    <nav>
+        <help>
+            <label>Ayuda</label>
+            <controller>help</controller>
+            <action>show</action>
+            <module>admin</module>
+            <params>
+                <topic>index</topic>
+                <operation>index</operation>
+            </params>
+            <route>help</route>
+        </help>
+    </nav>
+</configdata>

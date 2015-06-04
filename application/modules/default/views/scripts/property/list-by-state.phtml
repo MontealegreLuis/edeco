@@ -1,0 +1,124 @@
+<?php
+/**
+ * Shows properties list
+ *
+ * @author    LMV <luis.montealegre@mandragora-web-systems.com>
+ * @copyright Mandrágora Web-Based Systems
+ * @version   SVN: $Id$
+ */
+?>
+<?php
+$title = $this->category . ' en ' . $this->translate($this->availability) . ' en ' . $this->state['name'];
+$this->headTitle($title);
+$this->bundleLink()
+     ->appendStylesheet($this->baseUrl('/styles/breadcrumbs.css'), 'screen, projection', false, array('charset' => 'utf-8'))
+     ->appendStylesheet($this->baseUrl('/styles/skins/breadcrumbs.css'), 'screen, projection', false, array('charset' => 'utf-8'))
+     ->appendStylesheet($this->baseUrl('/styles/gallery.css'), 'screen, projection')
+     ->appendStylesheet($this->baseUrl('/styles/skins/gallery.css'), 'screen, projection')
+     ->appendStylesheet($this->baseUrl('/styles/tables.css'), 'screen, projection')
+     ->appendStylesheet($this->baseUrl('/styles/skins/tables.css'), 'screen, projection');
+?>
+<?php echo $this->render('default/_side-content.phtml') ?>
+<div class="span-18 last">
+<p class="breadcrumb-message">&nbsp;</p>
+                <?php if ($this->breadcrumbs != null) : ?>
+                    <?php
+                        echo $this->navigation()
+                                  ->breadcrumbs($this->breadcrumbs)
+                                  ->setMinDepth(0)
+                                  ->setLinkLast(false)
+                                  ->setSeparator(' ')
+                                  ->setPartial('navigation/_breadcrumbs.phtml');
+                    ?>
+                <?php endif ?>
+    <h1><?php echo $title ?></h1>
+    <?php $params = array('action' => 'list-by-state', 'category' => $this->categoryUrl, 'state' => $this->state['url'], 'page' => 1) ?>
+    <div class="tab-container">
+        <ul class="tab">
+        	<?php $class =  $this->availability == 'rent' ? 'tab-link-active' : 'tab-link' ?>
+            <li class="tab-item">
+            	<a class="<?php echo $class ?>" title="Renta" href="<?php echo $this->url($params + array('availability' => 'renta')) ?>">
+            		Renta
+        		</a>
+        	</li>
+        	<?php $class =  $this->availability == 'sale' ? 'tab-link-active' : 'tab-link' ?>
+            <li class="tab-item">
+            	<a class="<?php echo $class ?>" title="Venta" href="<?php echo $this->url($params + array('availability' => 'venta')) ?>">
+            		Venta
+        		</a>
+        	</li>
+        </ul>
+    </div>
+    <?php echo $this->paginationControl($this->paginator, 'Sliding', 'partials/_paginator.phtml') ?>
+    <?php if ($this->properties->count() == 0) : ?>
+        <table class="table">
+            <colgroup>
+                <col width="395" />
+                <col width="245" />
+            </colgroup>
+            <tr class="even">
+                <td>
+                    <p>
+                        <img class="icon" alt="" src="<?php echo $this->baseUrl('/images/information.gif') ?>" />
+                        Aún no existen <?php echo $this->category ?> en <?php echo $this->translate($this->availability) ?> en <?php echo $this->state['name'] ?>
+                    </p>
+                </td>
+                <td>
+                    <img alt="" src="<?php echo $this->baseUrl('/images/default-no-results.jpg') ?>" />
+                </td>
+            </tr>
+        </table>
+    <?php else : ?>
+        <table class="table">
+            <colgroup>
+                <col width="320" />
+                <col width="320" />
+            </colgroup>
+            <tr>
+                <th>Descripción</th>
+                <th>Imagen</th>
+            </tr>
+        <?php $i = 0 ?>
+        <?php $availabilities = App_Enum_PropertyAvailability::values() ?>
+        <?php foreach ($this->properties as $property) : ?>
+            <tr class="<?php echo $this->cycle(array('even', 'odd'))->next() ?>">
+                <td>
+                    <h3><?php echo $property->name ?></h3>
+                    <p>
+                        Tipo:
+                        <strong><?php echo $property->Category->name ?>  en <?php echo $availabilities[$property->availabilityFor] ?></strong>
+                    </p>
+                    <?php if ($property->Address) : ?>
+                        <p>
+                            Ubicación:
+                            <strong><?php echo $property->Address->City->name ?>, <?php echo $property->Address->City->State->name ?></strong>
+                        </p>
+                    <?php endif ?>
+                    <?php echo $property->description ?>
+                    <p>
+                        <a class="more more-info" title="<?php echo $property->name ?>"
+                           href="<?php echo $this->url(array('propertyUrl' => $property->url->render(), 'category' => $property->Category->url, 'state' => $property->Address->City->State->url, 'availability' => $this->translate($this->availability)), 'newdetail') ?>">
+                            Leer más
+                        </a>
+                    </p>
+                </td>
+                <?php if ($property->Picture->count() > 0) : ?>
+                    <td>
+                        <a href="<?php echo $this->url(array('propertyUrl' => $property->url->render(), 'category' => $property->Category->url,'state' => $property->Address->City->State->url, 'availability' => $this->translate($this->availability)), 'newdetail') ?>">
+                            <img alt="<?php echo $property->Picture[0]->shortDescription ?>"
+                                 title="<?php echo $property->Picture[0]->shortDescription ?>"
+                                 src="<?php echo $this->baseUrl($property->Picture[0]->galleryToString()) ?>" />
+                        </a>
+                <?php else : ?>
+                    <td class="empty-list">
+                        <p>
+                            No existen imágenes para esta propiedad.
+                        </p>
+                <?php endif ?>
+                </td>
+            </tr>
+        <?php endforeach ?>
+        </table>
+    <?php endif ?>
+    <?php echo $this->paginationControl($this->paginator, 'Sliding', 'partials/_paginator.phtml') ?>
+</div>

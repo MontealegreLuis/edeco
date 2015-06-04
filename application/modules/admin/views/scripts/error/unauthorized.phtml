@@ -1,0 +1,20 @@
+<?php
+/**
+ * Shows unauthorized access page
+ *
+ * @author    LMV <luis.montealegre@mandragora-web-systems.com>
+ * @copyright Mandrágora Web-Based Systems
+ * @version   SVN: $Id$
+ */
+?>
+<?php
+$this->headTitle('Acceso restringido');
+$this->bundleLink()
+     ->appendStylesheet($this->baseUrl('/styles/breadcrumbs.css'), 'screen, projection', false, array('charset' => 'utf-8'))
+     ->appendStylesheet($this->baseUrl('/styles/skins/breadcrumbs.css'), 'screen, projection', false, array('charset' => 'utf-8'));
+?>
+<?php echo $this->render('default/_side-content.phtml') ?>
+<div class="span-18 last">
+    <h1>Acceso restringido</h1>
+    <p>Usted no está autorizado a acceder a esta parte del sitio.</p>
+</div>

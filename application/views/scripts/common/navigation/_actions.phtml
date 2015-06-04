@@ -1,0 +1,32 @@
+<?php
+/**
+ * Partial for breadcrumbs
+ *
+ * @author     LMV <luis.montealegre@mandragora-web-systems.com>
+ * @copyright  Mandrágora Web-Based Systems 2010
+ * @version    SVN: $Id$
+ */
+?>
+<?php foreach ($this->pages as $page) : ?>
+    <?php if (isset($this->actions[$page->getLabel()])) : ?>
+        <?php
+        $page->setParams($this->actions[$page->getLabel()]);
+        $label = $this->translate($page->getLabel());
+        $action = $page->getAction();
+        ?>
+        <?php if (!$page->isActive()) : ?>
+        	<?php $class = $page->getClass(); ?>
+            <<?php echo $this->decorator ?> class="action-item <?php echo $class ?>">
+                <a href="<?php echo $page->getHref()?>" title="<?php echo $label ?>" class="action-link <?php echo $action ?>">
+                    <img src="/images/action-buttons/<?php echo $action ?>.gif" alt="<?php echo $label ?>" />
+                    <?php echo $label ?>
+                </a>
+            </<?php echo $this->decorator ?>>
+        <?php else : ?>
+            <<?php echo $this->decorator ?> class="action-item action-active">
+                <img src="/images/action-buttons/<?php echo $page->getAction() ?>.gif" alt="<?php echo $label ?>" />
+                <?php echo $label ?>
+            </<?php echo $this->decorator ?>>
+        <?php endif ?>
+    <?php endif ?>
+<?php endforeach ?>

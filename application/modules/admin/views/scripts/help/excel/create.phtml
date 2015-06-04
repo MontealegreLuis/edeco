@@ -1,0 +1,66 @@
+<?php
+$this->headTitle('Ayuda');
+$this->headTitle('¿Cómo agregar una fotografía?');
+$this->bundleLink()
+     ->appendStylesheet($this->baseUrl('/styles/breadcrumbs.css'), 'screen, projection', false, array('charset' => 'utf-8'))
+     ->appendStylesheet($this->baseUrl('/styles/skins/breadcrumbs.css'), 'screen, projection', false, array('charset' => 'utf-8'))
+     ->appendStylesheet($this->baseUrl('/styles/forms.css'), 'screen, projection', false, array('charset' => 'utf-8'))
+     ->appendStylesheet($this->baseUrl('/styles/skins/forms.css'), 'screen, projection', false, array('charset' => 'utf-8'));
+?>
+<div class="span-18 prepend-3 clearfix">
+<h1>¿Cómo agregar un archivo de Excel?</h1>
+<p>Para agregar un archivo de Excel debe seguir los siguientes pasos</p>
+<ol>
+    <li>
+        <p>
+            Haga clic en la liga que dice <strong>Archivos Excel</strong> en el
+            menú de navegación principal como se muestra en la imagen a continuación
+        </p>
+        <p><img src="<?php echo $this->baseUrl('/images/help/excel/create-1.gif') ?>" alt="" /></p>
+    </li>
+    <li>
+        <p>
+            Una vez que entro a Archivos Excel haga clic en la liga que dice
+            <strong>Crear archivo Excel</strong> como se muestra en la siguiente imagen.
+        </p>
+        <p><img src="<?php echo $this->baseUrl('/images/help/excel/create-2.gif') ?>" alt="" /></p>
+    </li>
+    <li>
+        <p>
+            Después de hacer clic en <strong>Crear archivo Excel</strong> se
+            visualizará en pantalla el formulario que contiene los campos que necesita
+            llenar para Crear el archivo Excel, como se muestra a continuación
+       </p>
+        <p><img src="<?php echo $this->baseUrl('/images/help/excel/create-3.gif') ?>" alt="" /></p>
+    </li>
+    <li>
+        <p>
+            Tendrá que llenar el formulario con los datos necesarios para generar
+            el excel. Explicaremos a continuación el significado y uso de los campos.
+        </p>
+         <ul>
+            <li>
+                El primer campo <strong>Desde</strong> es la fecha desde la cual
+                requiere que se genere el reporte.
+            </li>
+            <li>
+                El segundo campo <strong>Hasta</strong> es la fechas hasta la cual
+                desea que se genere el reporte.
+            </li>
+
+            <li>
+                Por último hacemos clic en el botón de <strong>Generar</strong>
+                situado en la parte inferior del formulario.
+            <p><img src="<?php echo $this->baseUrl('/images/help/excel/create-4.gif') ?>" alt="" /></p>
+            </li>
+            <li>
+                Usted podrá visualizar el nuevo documento de excel que se ha generado,
+                junto con la leyenda el archivo se creó correctamente
+            <p><img src="<?php echo $this->baseUrl('/images/help/excel/create-5.gif') ?>" alt="" /></p>
+            </li>
+        </ul>
+    </li>
+
+</ol>
+</div>
+

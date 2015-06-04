@@ -1,0 +1,42 @@
+<?php
+$this->headTitle('Ayuda');
+$this->headTitle('¿Cómo eliminar un archivo de exel?');
+$this->bundleLink()
+     ->appendStylesheet($this->baseUrl('/styles/breadcrumbs.css'), 'screen, projection', false, array('charset' => 'utf-8'))
+     ->appendStylesheet($this->baseUrl('/styles/skins/breadcrumbs.css'), 'screen, projection', false, array('charset' => 'utf-8'))
+     ->appendStylesheet($this->baseUrl('/styles/forms.css'), 'screen, projection', false, array('charset' => 'utf-8'))
+     ->appendStylesheet($this->baseUrl('/styles/skins/forms.css'), 'screen, projection', false, array('charset' => 'utf-8'));
+?>
+<div class="span-18 prepend-3 clearfix">
+<h1>¿Cómo eliminar un archivo de Excel?</h1>
+<p>Para eliminar un archivo de Excel debe seguir los siguientes pasos</p>
+<ol>
+    <li>
+        <p>
+            Para eliminar el archivo de clic sobre el botón rojo en la primer
+            columna del lado izquierdo <strong>Eliminar archivo Excel</strong>,
+            como se muestra a continuación
+        </p>
+        <p><img src="<?php echo $this->baseUrl('/images/help/excel/delete-1.gif') ?>" alt="" /></p>
+    </li>
+    <li>
+        <p>
+            A continuación aparece un recuadro de diálogo que le pregunta si desea
+            eliminar el archivo, como se muestra a continuación.
+        </p>
+        <p><img src="<?php echo $this->baseUrl('/images/help/excel/delete-2.gif') ?>" alt="" /></p>
+    </li>
+    <li>
+        <p>
+            Por último le pide que confirme la eliminación del archivo, seleccione
+            <strong>Si</strong> para eliminar y <strong>No</strong> para cancelar
+            la eliminación, como se muestra a continuación.
+        </p>
+        <p><img src="<?php echo $this->baseUrl('/images/help/excel/delete-3.gif') ?>" alt="" /></p>
+    </li>
+    <li>
+        Usted podrá visualizar una leyenda donde dice que el archivo se eliminó correctamente
+    <p><img src="<?php echo $this->baseUrl('/images/help/excel/delete-4.gif') ?>" alt="" /></p>
+    </li>
+    </ol>
+</div>

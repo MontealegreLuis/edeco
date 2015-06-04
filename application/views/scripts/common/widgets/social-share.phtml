@@ -1,0 +1,9 @@
+<p class="two-column social-share">
+	Comparta esta información ahora &nbsp;&nbsp;&nbsp;&nbsp;
+	<?php foreach ($this->socialWidgetLinks as $network => $link) : ?>
+	    <a href="<?php echo $link ?>" class="social-link link-img" title="Compartir en <?php echo $network ?>">
+	    	<?php $image = sprintf('%s-icon.png', strtolower($network)) ?>
+	    	<img src="<?php echo $this->baseUrl('/images/' . $image)?>" title="Compartir en <?php echo $network ?>" />
+	    </a>
+	<?php endforeach ?>
+</p>

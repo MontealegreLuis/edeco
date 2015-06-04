@@ -1,0 +1,53 @@
+### Module
+help;ayuda
+
+### Controllers
+property;inmuebles
+address;direcciones
+picture;fotografias
+excel;archivos-excel
+user;usuarios
+project;proyectos-de-inversion
+city;ciudades
+google-map;mapas-de-google
+image;imagenes
+category;categoria
+recommended-property;inmuebles-recomendados
+
+### Actions
+create;crear
+save;guardar
+edit;editar
+update;actualizar
+delete;eliminar
+show;mostrar
+edit-map;editar-google-map
+search;buscar
+download;descargar
+list;listar
+login;ingresar
+authenticate;verificar
+unauthorized;accesso-restringido
+logout;salir
+confirm;confirmar
+detail;detalles
+
+about;quienes-somos
+objectives;objetivos-estrategicos
+contact;contacto
+form;correo
+mail-confirmation;confirmacion-correo
+premise;buscas-un-local
+premise-confirmation;confirmacion-buscas-un-local
+accessibility;declaracion-de-accesibilidad
+legal;aviso-legal
+sitemap;mapa-del-sitio
+construction;constructora
+
+premises;locales-comerciales
+lands;terrenos
+warehouses;bodegas
+
+### params
+index;indice
+page;pagina

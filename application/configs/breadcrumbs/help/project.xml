@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configdata>
+    <nav>
+        <help>
+            <label>Ayuda</label>
+            <controller>help</controller>
+            <action>show</action>
+            <module>admin</module>
+            <params>
+                <topic>index</topic>
+                <operation>index</operation>
+            </params>
+            <route>help</route>
+            <pages>
+                <project>
+                    <label>Proyectos</label>
+                    <controller>help</controller>
+		            <action>show</action>
+		            <module>admin</module>
+		            <params>
+		                <topic>project</topic>
+		                <operation>index</operation>
+		            </params>
+                    <route>help</route>
+                    <pages>
+                        <create>
+                            <label>Crear Proyecto</label>
+                            <controller>help</controller>
+		                    <action>show</action>
+		                    <module>admin</module>
+		                    <params>
+		                        <topic>project</topic>
+		                        <operation>create</operation>
+		                    </params>
+                            <route>help</route>
+                        </create>
+                        <update>
+                            <label>Editar Proyecto</label>
+                            <controller>help</controller>
+                            <action>show</action>
+                            <module>admin</module>
+                            <params>
+                                <topic>project</topic>
+                                <operation>edit</operation>
+                            </params>
+                            <route>help</route>
+                        </update>
+                        <delete>
+                            <label>Eliminar Proyecto</label>
+                            <controller>help</controller>
+                            <action>show</action>
+                            <module>admin</module>
+                            <params>
+                                <topic>project</topic>
+                                <operation>delete</operation>
+                            </params>
+                            <route>help</route>
+                        </delete>
+                        <download>
+                            <label>Descargar Proyecto</label>
+                            <controller>help</controller>
+                            <action>show</action>
+                            <module>admin</module>
+                            <params>
+                                <topic>project</topic>
+                                <operation>download</operation>
+                            </params>
+                            <route>help</route>
+                        </download>
+                    </pages>
+                </project>
+            </pages>
+        </help>
+    </nav>
+</configdata>

@@ -1,0 +1,93 @@
+<?php
+/**
+ * Shows list of all active properties
+ *
+ * @author     LMV <luis.montealegre@mandragora-web-systems.com>
+ * @copyright  Mandrágora Web-Based Systems 2010
+ * @version    SVN: $Id$
+ */
+?>
+<?php
+$title = $this->translate('user.action.list');
+$this->headTitle($title);
+$this->bundleLink()
+     ->appendStylesheet($this->baseUrl('/styles/forms.css'), 'screen, projection', false, array('charset' => 'utf-8'))
+     ->appendStylesheet($this->baseUrl('/styles/skins/forms.css'), 'screen, projection', false, array('charset' => 'utf-8'))
+     ->appendStylesheet($this->baseUrl('/styles/inline-forms.css'), 'screen, projection', false, array('charset' => 'utf-8'))
+     ->appendStylesheet($this->baseUrl('/styles/breadcrumbs.css'), 'screen, projection', false, array('charset' => 'utf-8'))
+     ->appendStylesheet($this->baseUrl('/styles/skins/breadcrumbs.css'), 'screen, projection', false, array('charset' => 'utf-8'))
+     ->appendStylesheet($this->baseUrl('/styles/tables.css'), 'screen, projection', false, array('charset' => 'utf-8'))
+     ->appendStylesheet($this->baseUrl('/styles/skins/tables.css'), 'screen, projection', false, array('charset' => 'utf-8'));
+$this->jQuery()
+     ->addJavascriptFile($this->baseUrl('/scripts/jquery/plugins/jquery.confirm.js'))
+     ->addJavascriptFile($this->baseUrl('/scripts/edeco/pages/user/class.list.js'));
+$this->jQuery()->addOnLoad(
+    'var page = new Edeco.Pages.User.List();
+    page.init();'
+);
+?>
+<h1><?php echo $title ?></h1>
+<div class="span-6">
+    <div class="actions">
+        <ul class="actions-container">
+            <?php
+            $params = array($this->translate('page') => 1);
+            $actions = array('user.action.list' => $params, 'user.action.create' => array());
+            echo $this->partial(
+                'navigation/_actions.phtml',
+                array(
+                    'pages' => $this->actions,
+                    'actions' => $actions,
+                    'decorator' => 'li'
+                )
+            )
+            ?>
+        </ul>
+    </div>
+</div>
+<div class="span-18 last">
+    <?php echo $this->partial('partials/flash-messages.phtml', array('messages' => $this->messages)) ?>
+    <?php echo $this->paginationControl($this->paginator, 'Sliding', 'partials/paginator.phtml') ?>
+    <table>
+        <colgroup>
+            <col width="60" />
+            <col width="60" />
+            <col width="60" />
+            <col width="460" />
+        </colgroup>
+    <?php if ($this->users->count() == 0) : ?>
+        <tr>
+            <td colspan="4" class="empty-list">
+                <p>Aún no existe ningun usuario</p>
+            </td>
+        </tr>
+    </table>
+    <?php else : ?>
+        <tr>
+            <th colspan="3">Acciones</th>
+            <th>Usuario</th>
+        </tr>
+        <?php foreach ($this->users as $user) : ?>
+            <tr class="<?php echo $this->cycle(array('even', 'odd'))->next() ?>">
+                <?php
+                $params = array($this->translate('username') => $user->username);
+                $actions = array(
+                    'user.action.delete' => $params,
+                    'user.action.edit' => $params,
+                    'user.action.show' => $params);
+                echo $this->partial(
+                    'navigation/_actions.phtml',
+                    array(
+                        'pages' => $this->actions,
+                        'actions' => $actions,
+                        'decorator' => 'td',
+                    )
+                )
+                ?>
+                <td><p><?php echo $user ?></p></td>
+            </tr>
+        <?php endforeach ?>
+        </table>
+    <?php endif ?>
+    <?php echo $this->paginationControl($this->paginator, 'Sliding', 'partials/paginator.phtml') ?>
+</div>

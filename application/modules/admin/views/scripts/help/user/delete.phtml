@@ -1,0 +1,43 @@
+<?php
+$this->headTitle('Ayuda');
+$this->headTitle('¿Cómo eliminar un usuario?');
+$this->bundleLink()
+     ->appendStylesheet($this->baseUrl('/styles/breadcrumbs.css'), 'screen, projection', false, array('charset' => 'utf-8'))
+     ->appendStylesheet($this->baseUrl('/styles/skins/breadcrumbs.css'), 'screen, projection', false, array('charset' => 'utf-8'))
+     ->appendStylesheet($this->baseUrl('/styles/forms.css'), 'screen, projection', false, array('charset' => 'utf-8'))
+     ->appendStylesheet($this->baseUrl('/styles/skins/forms.css'), 'screen, projection', false, array('charset' => 'utf-8'));
+?>
+<div class="span-18 prepend-3 clearfix">
+    <h1>¿Cómo eliminar un usuario?</h1>
+    <p>Para eliminar un usuario debe seguir los siguientes pasos</p>
+    <ol>
+        <li>
+            <p>
+                Desde la lista de usuarios debe dar clic en el boton que dice <strong>Eliminar</strong>
+                (columna con el título Acciones).
+            </p>
+            <p><img src="<?php echo $this->baseUrl('/images/help/user/delete-1.gif') ?>" alt="" /></p>
+        </li>
+        <li>
+            <p>
+                Al dar clic en Eliminar verá un cuadro de dialogo que solicitará la
+                confirmación o cancelación de la acción de eliminar.
+            </p>
+            <p><img src="<?php echo $this->baseUrl('/images/help/user/delete-2.gif') ?>" alt="" /></p>
+        </li>
+        <li>
+            <p>
+                Si da clic en el botón de <strong>No</strong> la aplicación no
+                realizará ninguna eliminación y volverá a ver la lista de usuarios
+                como al principio.
+            </p>
+            <p>
+                Pero si da clic en la opción <strong>Sí</strong>, la
+                aplicación eliminará los datos del usuario, y no podrá verlo en el
+                sitio Web, a partir de ese momento.
+                Usted verá la lista sin la entrada que eliminó después de dar clic en
+                la opción <strong>Sí</strong>.
+            </p>
+        </li>
+    </ol>
+</div>

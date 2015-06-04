@@ -1,0 +1,81 @@
+<div class="link-list span-8">
+    <h4>Validadores</h4>
+    <ul class="additional-links-ul">
+        <li>
+            <a href="http://validator.w3.org/check?uri=referer"
+               class="link-list-a"
+               title="Vea los resultados del validador HTML del W3C">
+                XHTML V&aacute;lido
+                <img src="<?php echo $this->baseUrl('/images/external-link.gif') ?>" alt="" />
+            </a>
+        </li>
+        <li>
+            <a href="http://jigsaw.w3.org/css-validator/check/referer"
+               title="Vea los resultados del validador CSS del W3C"
+               class="link-list-a">
+                CSS V&aacute;lido
+                <img src="<?php echo $this->baseUrl('/images/external-link.gif') ?>" alt="" />
+            </a>
+        </li>
+        <li>
+            <a class="link-list-a" title="Vea los resultados del validador accesibilidad"
+               href="http://www.cynthiasays.com/mynewtester/cynthia.exe?rptmode=2&amp;warnp2n3=1&amp;url1=http://www.edeco.mx<?php echo $this->wcag ?>">
+                <acronym title="Web Content Accessibility Guidelines"
+                         lang="en">
+                     WCAG
+                </acronym> 1.0 Prioridades 1, 2, y 3
+                <img src="<?php echo $this->baseUrl('/images/external-link.gif') ?>" alt="" />
+            </a>
+        </li>
+    </ul>
+</div>
+<div class="link-list span-8">
+    <h4>Otros enlaces</h4>
+    <ul class="additional-links-ul">
+        <li>
+            <a href="<?php echo $this->url(array('action' => 'accessibility', 'page' => $this->translate('accessibility')), 'index') ?>"
+               title="Declaración de accesibilidad" class="link-list-a">
+               Declaración de accesibilidad
+            </a>
+        </li>
+        <li>
+            <a href="<?php echo $this->url(array('action' => 'legal', 'page' => $this->translate('legal')), 'index') ?>"
+               title="Aviso Legal" class="link-list-a">
+               Aviso Legal
+            </a>
+        </li>
+        <li>
+            <a href="<?php echo $this->url(array('action' => 'sitemap', 'page' => $this->translate('sitemap')), 'index') ?>"
+               title="Mapa del sitio" class="link-list-a">
+               Mapa del sitio
+            </a>
+        </li>
+    </ul>
+</div>
+<div class="link-list span-7 last">
+    <h4>¡Síganos!</h4>
+    <ul class="additional-links-ul">
+        <li>
+            <a class="link-list-a link-img"
+               href="http://www.facebook.com/pages/EDECO-Edificaciones-y-Desarrollos-Comerciales/130964673596492">
+                <img alt="Facebook"
+                     src="<?php echo $this->baseUrl('/images/facebook-background.gif') ?>" />
+            </a>
+            <a class="link-list-a"
+               href="http://www.facebook.com/pages/EDECO-Edificaciones-y-Desarrollos-Comerciales/130964673596492">
+                Facebook
+                <img src="<?php echo $this->baseUrl('/images/external-link.gif') ?>" alt="" />
+            </a>
+        </li>
+        <li>
+            <a href="http://twitter.com/EDECO_PUEBLA" class="link-list-a link-img">
+                <img alt="Twitter"
+                     src="<?php echo $this->baseUrl('/images/twitter-background.gif') ?>"  />
+            </a>
+            <a  href="http://twitter.com/EDECO_PUEBLA" class="link-list-a">
+                Twitter
+                <img src="<?php echo $this->baseUrl('/images/external-link.gif') ?>" alt="" />
+            </a>
+        </li>
+    </ul>
+</div>

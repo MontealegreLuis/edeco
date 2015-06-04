@@ -1,0 +1,44 @@
+<?php
+/**
+ * Shows form contact page
+ *
+ * @author    MMS <meri.michimani@mandragora-web-systems.com>
+ * @author    LMV <luis.montealegre@mandragora-web-systems.com>
+ * @copyright Mandrágora Web-Based Systems
+ * @version   SVN: $Id$
+ */
+?>
+<?php
+$this->headTitle('Correo');
+$this->headMeta()->appendName(
+    'keywords',
+    'información adicional inmuebles, asesoría venta-renta inmuebles'
+);
+$this->headMeta()->appendName(
+    'description',
+    'Envíenos un correo si requiere de información específica de algún inmueble'
+    . ' o si requiere de asesoría en la venta o renta de sus inmuebles.'
+);
+$this->bundleLink()
+     ->appendStylesheet($this->baseUrl('/styles/forms.css'), 'screen, projection', false, array('charset' => 'utf-8'))
+     ->appendStylesheet($this->baseUrl('/styles/skins/forms.css'), 'screen, projection', false, array('charset' => 'utf-8'));
+$this->jQuery()->enable();
+$this->jQuery()
+     ->addJavascriptFile($this->baseUrl('/scripts/jquery/plugins/jquery.validate.js'))
+     ->addJavascriptFile($this->baseUrl('/scripts/edeco/pages/class.contact.js'));
+$this->jQuery()->addOnLoad(
+    'var page = new Edeco.Pages.Contact();
+    page.init();'
+);
+?>
+<?php echo $this->render('default/_side-content.phtml') ?>
+<div class="span-18 last">
+    <h1>Correo</h1>
+    <p>
+        Si necesita más información sobre los inmuebles que aparecen en el sitio
+        o si desea que le asesoremos para rentar o vender sus inmuebles
+        escríbanos directamente a nuestro buzón de atencíón al cliente y reciba
+        una respuesta en menos de 12 horas. Estamos para servirle.
+    </p>
+    <?php echo $this->contactForm ?>
+</div>

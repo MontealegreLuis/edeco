@@ -1,0 +1,30 @@
+<?php
+/**
+ * Helper for submit buttons.
+ *
+ * This helper is used with Mandragora_Form_Abstract class
+ *
+ * @author    LMV <luis.montealegre@mandragora-web-systems.com>
+ * @copyright Mandrágora Web-Based Systems
+ * @version   SVN: $Id$
+ */
+?>
+<dt></dt>
+<dd>
+<?php
+$attribs = $this->element->getAttribs();
+unset($attribs['helper']);
+$helper = $this->element->helper;
+$this->element->initCsrfToken();
+echo $this->element->getView()->$helper(
+    $this->element->getName(), $this->element->getValue(), $attribs
+);
+?>
+</dd>
+<?php if (count($this->element->getMessages()) > 0) : ?>
+    <div class="error">
+        <ul>
+            <li><?php echo $this->translate('form.csrfBadToken') ?></li>
+        </ul>
+    </div>
+<?php endif ?>

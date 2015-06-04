@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configdata>
+    <nav>
+        <about>
+            <label>¿Quienes somos?</label>
+            <title>¿Quienes somos?</title>
+            <controller>index</controller>
+            <action>about</action>
+            <module>default</module>
+            <route>index</route>
+            <pages>
+                <objectives>
+                    <label>Objetivos estratégicos</label>
+                    <title>Objetivos estratégicos</title>
+                    <controller>index</controller>
+                    <action>objectives</action>
+                    <module>default</module>
+                    <route>index</route>
+                </objectives>
+            </pages>
+        </about>
+        <contacts>
+            <label>Contacto</label>
+            <title>Contacto</title>
+            <controller>index</controller>
+            <action>contact</action>
+            <module>default</module>
+            <route>index</route>
+            <pages>
+                <form>
+                    <label>Correo</label>
+                    <title>Correo</title>
+                    <controller>index</controller>
+                    <action>form</action>
+                    <module>default</module>
+                    <route>index</route>
+                </form>
+            </pages>
+        </contacts>
+        <premise>
+            <label>¿Buscas un local?</label>
+            <title>¿Buscas un local?</title>
+            <controller>index</controller>
+            <action>premise</action>
+            <module>default</module>
+            <route>index</route>
+            <pages>
+                <form>
+                    <label>Constructora</label>
+                    <title>Constructora</title>
+                    <controller>index</controller>
+                    <action>construction</action>
+                    <module>default</module>
+                    <route>index</route>
+                </form>
+            </pages>
+        </premise>
+        <propertyList>
+            <label>Lista de inmuebles</label>
+            <title>Lista de inmuebles</title>
+            <controller>property</controller>
+            <action>category-list</action>
+            <module>default</module>
+            <route>list</route>
+        </propertyList>
+    </nav>
+</configdata>

@@ -1,0 +1,45 @@
+<?php
+/**
+ * Helper for Zend forms.
+ *
+ * This helper is used with Mandragora_Form_Abstract class
+ *
+ * @author  LMV <luis.montealegre@mandragora-web-systems.com>
+ * @copyright  Mandrágora Web-Based Systems 2010
+ * @version    SVN: $Id$
+ */
+?>
+<form
+<?php foreach ($this->element->getAttribs() as $attribute => $value) : ?>
+    <?php echo $attribute . '="' . $value . '" ' ?>
+<?php endforeach; ?>
+      enctype="<?php echo $this->element->getEnctype() ?>">
+<?php if (count($this->element->getDisplayGroups()) < 1) : ?>
+    <?php
+    foreach ($this->element->getElements() as $element) {
+        $elementDecorator = $element->getDecorator('ViewScript');
+        $elementDecorator->setElement($element);
+        echo $elementDecorator->setOption('placement', false)->render('');
+    }
+    ?>
+<?php else : ?>
+    <?php foreach ($this->element->getDisplayGroups() as $name => $group) : ?>
+        <fieldset>
+            <legend>
+                <span class="legend">
+                <?php echo $this->element->getDisplayGroup($name)->getLegend()?>
+                </span>
+            </legend>
+            <?php
+            $elements = $this->element->getDisplayGroup($name)->getElements();
+            foreach ($elements as $element) {
+                $elementDecorator = $element->getDecorator('ViewScript');
+                $elementDecorator->setElement($element);
+                echo $elementDecorator->setOption('placement', false)
+                                      ->render('');
+            }
+            ?>
+        </fieldset>
+    <?php endforeach ?>
+<?php endif ?>
+</form>

@@ -1,0 +1,9 @@
+<?php foreach ($this->maps as $map) : ?>
+#<?php echo $map['url'] ?> {
+    top: <?php echo $map['Map']['top'] ?>px;
+    left: <?php echo $map['Map']['left'] ?>px;
+}
+#legend-<?php echo $map['url'] ?> {
+    width: <?php echo $map['Map']['width'] ?>em;
+}
+<?php endforeach ?>

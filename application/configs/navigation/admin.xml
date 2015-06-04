@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configdata>
+    <nav>
+        <properties>
+            <label>Categorías</label>
+            <controller>category</controller>
+            <action>list</action>
+            <module>admin</module>
+            <route>controllers</route>
+            <pages>
+                <properties>
+                    <label>Inmuebles</label>
+		            <controller>property</controller>
+		            <action>list</action>
+		            <module>admin</module>
+		            <route>controllers</route>
+                </properties>
+                <excel>
+	                <label>Archivos Excel</label>
+		            <controller>excel</controller>
+		            <action>list</action>
+		            <module>admin</module>
+		            <route>controllers</route>
+	            </excel>
+            </pages>
+        </properties>
+        <users>
+            <label>Usuarios</label>
+            <controller>user</controller>
+            <action>list</action>
+            <module>admin</module>
+            <route>controllers</route>
+        </users>
+        <projects>
+            <label>Proyectos</label>
+            <controller>project</controller>
+            <action>list</action>
+            <module>admin</module>
+            <route>controllers</route>
+        </projects>
+        <help>
+            <label>Ayuda</label>
+            <controller>help</controller>
+            <action>show</action>
+            <module>admin</module>
+            <params>
+                <topic>index</topic>
+                <operation>index</operation>
+            </params>
+            <route>help</route>
+        </help>
+    </nav>
+</configdata>

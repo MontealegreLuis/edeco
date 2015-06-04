@@ -1,0 +1,101 @@
+@charset "utf-8";
+
+/*Classes specific to Edeco */
+.slides-index {
+	display: block;
+	padding-top: 3em;
+	padding-bottom: 3em;
+}
+
+/* Rules for all slides show */
+.slideShow ul,.slideShow li {
+	list-style-image: none;
+	list-style-type: none;
+	margin: 0 auto;
+	padding: 0px;
+	text-align: center;
+}
+
+.slideShow {
+	display: block;
+	clear: both;
+	margin: 0 auto;
+	text-align: center;
+	background-repeat: repeat;
+}
+
+.slides {
+    margin: 0 auto;
+    text-align: center;
+    height: 300px;
+    overflow: hidden;
+    background-image: url(../../../images/background-body.gif);
+}
+
+.slides-vertical {
+    height: 445px;
+}
+
+.slideShow .navigation {
+	margin-top: 10px;
+	clear: left;
+	display: block;
+}
+
+.slideShow .navigation li {
+	display: inline;
+}
+
+.slideShow .navigation a {
+	background-color: #B3B3B3;
+	margin: 0;
+	color: #232323;
+	display: inline-block;
+	text-decoration: none;
+	font-size: 0.8em;
+}
+
+.slideShow ul.topNavigation {
+	margin: 0px 0px 40px 0px;
+}
+
+.slideShow .navigation a:hover,.slideShow .navigation a.selected {
+	background-color: #929292;
+	color: #000000;
+}
+
+/** slides with text over images **/
+.slide p {
+	margin: 0;
+	padding: 5px 1em;
+	width: 100%;
+	text-align: left;
+	position: absolute;
+	left: 0;
+	background-color: #29166f;
+	color: #fff;
+	z-index: 1000;
+	font-weight: bold;
+}
+
+.slide p a {
+	color: #fff;
+}
+
+.slide-detail {
+    height: 190px;
+}
+
+/** slideshow with images in navigation **/
+.navigation.white a,.navigation.white li {
+	background-color: #ffffff;
+}
+
+.navigation.white a {
+	padding: 0px;
+	line-height: 0.8em;
+}
+
+.navigation.white a:hover,.navigation.white a.selected {
+	background-color: #ffffff;
+}

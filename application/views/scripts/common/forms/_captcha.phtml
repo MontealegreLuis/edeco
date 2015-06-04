@@ -1,0 +1,52 @@
+<?php
+/**
+ * Helper for captcha elements
+ *
+ * This helper is used with Mandragora_Form_Abstract class
+ *
+ * @author    LMV <luis.montealegre@mandragora-web-systems.com>
+ * @version   SVN $Id$
+ * @copyright Mandrágora Web-Based Systems 2010
+ */
+?>
+<dt>
+<?php
+$label = $this->element->getLabel();
+if ($label != '') {
+    if ($this->element->isRequired()) {
+        $acronym = sprintf(
+            '<acronym class="required" title="%s">*</acronym>',
+            $this->translate('form.required')
+        );
+        $label = $this->escape($label) . ' ' . $acronym;
+    }
+    echo $this->formLabel(
+        $this->element->getName(), $label, array('escape' => false)
+    );
+}
+$id = $this->element->getCaptcha()->generate();
+?>
+</dt>
+<dd>
+    <img src="<?php echo $this->element->getCaptcha()->getImgUrl() . $this->element->getCaptcha()->getId() . $this->element->getCaptcha()->getSuffix() ?>"
+         alt="<?php echo $this->translate($this->element->getCaptcha()->getImgAlt()) ?>"
+         title="<?php echo $this->translate($this->element->getCaptcha()->getImgAlt()) ?>" />
+    <br />
+    <input id="<?php echo $this->element->getId() ?>-id" name="<?php echo $this->element->getName() ?>[id]" type="hidden" value="<?php echo $id ?>" />
+    <input id="<?php echo $this->element->getId() ?>-input" name="<?php echo $this->element->getName() ?>[input]" type="text" />
+</dd>
+<?php if (count($this->element->getMessages()) > 0) : ?>
+    <div class="error">
+        <ul>
+        <?php $errorMessages = $this->element->getMessages(); ?>
+        <?php foreach ($errorMessages as $error) : ?>
+            <li><?php echo $this->translate($this->escape($error)) ?></li>
+        <?php endforeach ?>
+        </ul>
+    </div>
+<?php endif ?>
+<?php if ($this->element->getDescription()) : ?>
+    <div class="hint">
+        <?php echo $this->element->getDescription() ?>
+    </div>
+<?php endif ?>

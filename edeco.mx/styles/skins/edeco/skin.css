@@ -1,0 +1,82 @@
+.jcarousel-skin-edeco .jcarousel-container {
+    background: #fff;
+    width: 365px;
+}
+
+.jcarousel-skin-edeco .jcarousel-container-horizontal {
+    width: 365px;
+    padding: 5px 20px;
+}
+
+.jcarousel-skin-edeco .jcarousel-clip-horizontal {
+    width:  365px;
+    height: 70px;
+}
+
+.jcarousel-skin-edeco .jcarousel-item {
+    width: 80px;
+    height: 70px;
+    line-height: 80px;
+}
+
+.jcarousel-skin-edeco .jcarousel-item-horizontal {
+	margin: 9px 5px 0 5px;
+}
+
+.jcarousel-skin-edeco .jcarousel-item-placeholder {
+    background-color: transparent;
+    color: #000;
+}
+
+/**
+ *  Horizontal Buttons
+ */
+.jcarousel-skin-edeco .jcarousel-next-horizontal {
+    position: absolute;
+    top: 5px;
+    right: 10px;
+    width: 16px;
+    height: 70px;
+    cursor: pointer;
+    background: transparent url(../../images/next-horizontal.gif) no-repeat 0 0;
+}
+
+.jcarousel-skin-edeco .jcarousel-next-horizontal:hover {
+    background-position: -16px 0;
+}
+
+.jcarousel-skin-edeco .jcarousel-next-horizontal:active {
+    background-position: -32px 0;
+}
+
+.jcarousel-skin-edeco .jcarousel-next-disabled-horizontal,
+.jcarousel-skin-edeco .jcarousel-next-disabled-horizontal:hover,
+.jcarousel-skin-edeco .jcarousel-next-disabled-horizontal:active {
+    cursor: default;
+    background-position: -48px 0;
+}
+
+.jcarousel-skin-edeco .jcarousel-prev-horizontal {
+    position: absolute;
+    top: 5px;
+    left: 5px;
+    width: 16px;
+    height: 70px;
+    cursor: pointer;
+    background: transparent url(../../images/prev-horizontal.gif) no-repeat 0 0;
+}
+
+.jcarousel-skin-edeco .jcarousel-prev-horizontal:hover {
+    background-position: -16px 0;
+}
+
+.jcarousel-skin-edeco .jcarousel-prev-horizontal:active {
+    background-position: -32px 0;
+}
+
+.jcarousel-skin-edeco .jcarousel-prev-disabled-horizontal,
+.jcarousel-skin-edeco .jcarousel-prev-disabled-horizontal:hover,
+.jcarousel-skin-edeco .jcarousel-prev-disabled-horizontal:active {
+    cursor: default;
+    background-position: -48px 0;
+}

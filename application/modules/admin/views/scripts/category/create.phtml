@@ -1,0 +1,42 @@
+<?php
+/**
+ * Create create page
+ *
+ * @author    MMS <meri.michimani@mandragora-web-systems.com>
+ * @copyright Mandrágora Web-Based Systems 2011
+ * @version   SVN: $Id$
+ */
+?>
+<?php
+$title = $this->translate('category.action.create');
+$this->headTitle($title);
+$this->bundleLink()
+     ->appendStylesheet($this->baseUrl('/styles/breadcrumbs.css'), 'screen, projection')
+     ->appendStylesheet($this->baseUrl('/styles/skins/breadcrumbs.css'), 'screen, projection')
+     ->appendStylesheet($this->baseUrl('/styles/forms.css'), 'screen, projection')
+     ->appendStylesheet($this->baseUrl('/styles/skins/forms.css'), 'screen, projection');
+?>
+<h1><?php echo $title ?></h1>
+<div class="span-6">
+    <div class="actions">
+        <ul class="actions-container">
+            <?php
+            $actions = array(
+                'category.action.create' => array(),
+                'category.action.list' => array($this->translate('page') => 1)
+            );
+            echo $this->partial(
+                'navigation/_actions.phtml',
+                array(
+                    'pages' => $this->actions,
+                    'actions' => $actions,
+                    'decorator' => 'li'
+                )
+            );
+            ?>
+        </ul>
+    </div>
+</div>
+<div class="span-18 last">
+    <?php echo $this->categoryForm ?>
+</div>

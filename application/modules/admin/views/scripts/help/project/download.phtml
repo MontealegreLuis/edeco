@@ -1,0 +1,38 @@
+<?php
+$this->headTitle('Ayuda');
+$this->headTitle('¿Cómo descargar un proyecto?');
+$this->bundleLink()
+     ->appendStylesheet($this->baseUrl('/styles/breadcrumbs.css'), 'screen, projection', false, array('charset' => 'utf-8'))
+     ->appendStylesheet($this->baseUrl('/styles/skins/breadcrumbs.css'), 'screen, projection', false, array('charset' => 'utf-8'))
+     ->appendStylesheet($this->baseUrl('/styles/forms.css'), 'screen, projection', false, array('charset' => 'utf-8'))
+     ->appendStylesheet($this->baseUrl('/styles/skins/forms.css'), 'screen, projection', false, array('charset' => 'utf-8'));
+?>
+<div class="span-18 prepend-3 clearfix">
+    <h1>¿Cómo descargar un proyecto?</h1>
+    <p>Para descargar un proyecto debe seguir los siguientes pasos</p>
+    <ol>
+        <li>
+            <p>
+                Desde la lista de proyectos debe dar clic en <strong>Mostrar proyecto</strong>
+                del proyecto que desea descargar
+            </p>
+            <p><img src="<?php echo $this->baseUrl('/images/help/project/download-1.gif') ?>" alt="" /></p>
+        </li>
+        <li>
+            <p>
+                Después de dar clic, verá el nombre del o los protectos que tenga
+                en ese momento, cuando elija el proyecto de clic en <strong>Descargar</strong>,
+                como se muestra en la siguiente imagen
+            </p>
+            <p><img src="<?php echo $this->baseUrl('/images/help/project/download-2.gif') ?>" alt="" /></p>
+        </li>
+        <li>
+            <p>
+                Después de dar clic, verá un cuadro de diálogo en el que puede elegir la
+                opción de <strong>Abrir el archivo</strong> o si desea
+                <strong>Guardar el archivo</strong>. Elija la opción que más le convenga.
+            </p>
+            <p><img src="<?php echo $this->baseUrl('/images/help/project/download-3.gif') ?>" alt="" /></p>
+        </li>
+    </ol>
+</div>

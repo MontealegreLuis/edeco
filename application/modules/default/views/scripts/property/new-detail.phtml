@@ -1,0 +1,161 @@
+<?php
+/**
+ * Shows all the details of a property
+ *
+ * @author    LMV <luis.montealegre@mandragora-web-systems.com>
+ * @copyright Mandrágora Web-Based Systems
+ * @version   SVN: $Id$
+ */
+?>
+<?php
+$availabilities = App_Enum_PropertyAvailability::values();
+$address = $this->propertyDetail->Address;
+$location = $address ? $address->City->name . ', ' . $address->City->State->name : '';
+$h1 = $this->propertyDetail->name;
+$h2 = $this->propertyDetail->Category->name . ' en '
+    . $availabilities[$this->propertyDetail->availabilityFor];
+$h3 = $location;
+$title = sprintf('%s, %s', $h1, $h2);
+$title .= $h3 == '' ? $h3 : ' en ' .$h3;
+$this->headTitle($title);
+$this->headMeta()->appendName('keywords', $title);
+$this->headMeta()->appendName('description', $title);
+$this->bundleLink()
+     ->appendStylesheet($this->baseUrl('/styles/breadcrumbs.css'), 'screen, projection', false, array('charset' => 'utf-8'))
+     ->appendStylesheet($this->baseUrl('/styles/skins/breadcrumbs.css'), 'screen, projection', false, array('charset' => 'utf-8'))
+     ->appendStylesheet($this->baseUrl('/styles/gallery.css'), 'screen, projection')
+     ->appendStylesheet($this->baseUrl('/styles/skins/gallery.css'), 'screen, projection')
+     ->appendStylesheet($this->baseUrl('/styles/jquery/plugins/slideshow.css'), 'screen, projection')
+     ->appendStylesheet($this->baseUrl('/styles/jquery/plugins/jquery.fancybox-1.3.4.css'), 'screen, projection');
+if ($this->propertyDetail->Address->latitude != null) {
+    $googleMapUrl = sprintf('http://maps.google.com/maps?file=api&v=2&key=%s&sensor=false', $this->googleMapsKey);
+    $this->headScript()->appendFile($googleMapUrl);
+}
+$this->jQuery()
+     ->addJavascriptFile($this->baseUrl('/scripts/jquery/plugins/jquery.slideshow.js'))
+     ->addJavascriptFile($this->baseUrl('/scripts/jquery/plugins/jquery.map.js'))
+     ->addJavascriptFile($this->baseUrl('/scripts/jquery/plugins/jquery.easing-1.3.pack.js'))
+     ->addJavascriptFile($this->baseUrl('/scripts/jquery/plugins/jquery.fancybox-1.3.4.pack.js'))
+     ->addJavascriptFile($this->baseUrl('/scripts/edeco/pages/property/class.detail.js'));
+$this->jQuery()->enable()->uiEnable();
+$onLoad = sprintf(
+    'var page = new Edeco.Pages.Property.Detail();
+    page.init(%s);',
+    $this->propertyJson
+);
+$this->jQuery()->addOnLoad($onLoad);
+?>
+<?php echo $this->render('default/_side-content.phtml') ?>
+<div class="span-18 last">
+<p class="breadcrumb-message">&nbsp;</p>
+                <?php if ($this->breadcrumbs != null) : ?>
+                    <?php
+                        echo $this->navigation()
+                                  ->breadcrumbs($this->breadcrumbs)
+                                  ->setMinDepth(0)
+                                  ->setLinkLast(false)
+                                  ->setSeparator(' ')
+                                  ->setPartial('navigation/_breadcrumbs.phtml');
+                    ?>
+                <?php endif ?>
+<p></p>
+    <h1 class="two-column"><?php echo $h1 ?></h1>
+    <h3 class="two-column"><?php echo $h2 . ' en ' . $h3 ?></h3>
+    <?php echo $this->socialWidget ?>
+</div>
+<div class="column-left span-9">
+    <h2>Descripción</h2>
+	<?php echo $this->propertyDetail->description ?>
+	<a class="more more-info" title="¡Pida informes ahora!" href="<?php echo $this->url(array('action' => 'form'), 'index') ?>?id=<?php echo $this->propertyDetail->id ?>">
+        Pida informes
+    </a>
+</div>
+<?php $hasMap = $this->propertyDetail->Address->latitude != null ?>
+<div class="column-right span-9 last">
+    <h2>Fotos</h2>
+<?php if ($this->propertyDetail->Picture->count() > 0 ) : ?>
+    <p class="instructions">
+       De click en la imagen para verla en tamaño completo
+    </p>
+    <div class="slideShow">
+        <ul class="slides slide-detail">
+            <?php foreach ($this->propertyDetail->Picture as $picture) : ?>
+                <li class="slide">
+                    <p><?php echo $picture->shortDescription ?></p>
+                    <a class="dialog" href="<?php echo $this->baseUrl((string)$picture); ?>"
+                       title="<?php echo $picture->shortDescription ?>" rel="gallery">
+                        <img alt="<?php echo $picture->shortDescription ?>"
+                             src="<?php echo $this->baseUrl($picture->galleryToString()); ?>" />
+                    </a>
+                </li>
+            <?php endforeach ?>
+        </ul>
+    </div>
+<?php endif ?>
+</div>
+<div class="span-18 last">
+    <?php if ($this->propertyDetail->Address) : ?>
+        <h2 class="two-column">Ubicación</h2>
+        <div class="span-8">
+        	<p><?php echo $this->propertyDetail->Address->toHtml() ?></p>
+            <?php echo $this->propertyDetail->Address->addressReference ?>
+        </div>
+        <div class="span-10 last">
+            <?php if ($hasMap) : ?>
+                <div id="google-map" class="map">
+                </div>
+            <?php endif ?>
+        </div>
+    <?php endif ?>
+</div>
+
+<?php if ($this->propertyDetail->price) : ?>
+    <div class="two-column-indent column-left span-9 last">
+        <h2>Precio</h2>
+    	<?php echo $this->propertyDetail->price ?>
+    </div>
+<?php endif ?>
+<div class="two-column-indent span-18 last">
+<?php if ($this->propertyDetail->RecommendedProperty->count() > 0) : ?>
+    <h2 class="two-column">Otras opciones</h2>
+    <?php foreach ($this->propertyDetail->RecommendedProperty as $property) : ?>
+        <div class="<?php echo $this->cycle(array('span-9', 'span-9 last'))->next() ?>">
+        	<p><?php echo $property->RecommendedProperty ?></p>
+        	<p>
+                <a class="more more-info" title="<?php echo $property->RecommendedProperty->name ?>"
+                   href="<?php echo $this->url(array('propertyUrl' => $property->RecommendedProperty->url->render(), 'category' => $property->RecommendedProperty->Category->url, 'state' => $property->RecommendedProperty->Address->City->State->url, 'availability' => $this->translate($property->RecommendedProperty->availabilityFor)), 'newdetail') ?>">
+                    Leer más
+                </a>
+            </p>
+        </div>
+    <?php endforeach ?>
+<?php endif ?>
+</div>
+
+<!-- FB-start -->
+<?php
+    $this->headMeta('237124409700979', 'fb:app_id');
+    $this->headMeta('staffmandragorawebsystems', 'fb:admins');
+    $this->headMeta($this->serverUrl($this->url()), 'og:url');
+    $this->headMeta('website', 'og:type');
+    if ($this->propertyDetail->Picture->count() > 0) {
+        $this->headMeta($this->propertyDetail->Picture[0], 'og:image');
+    }
+    $this->headMeta($title, 'og:title');
+    $this->headMeta($title, 'og:description');
+?>
+<div class="two-column-indent span-18 last">
+    <h2>Más informes</h2>
+    <div id="fb-root"></div>
+    <script>(function(d, s, id) {
+      var js, fjs = d.getElementsByTagName(s)[0];
+      if (d.getElementById(id)) return;
+      js = d.createElement(s); js.id = id;
+      js.src = "//connect.facebook.net/es_LA/all.js#xfbml=1";
+      fjs.parentNode.insertBefore(js, fjs);
+    }(document, 'script', 'facebook-jssdk'));</script>
+    <div class="fb-comments" data-href= "<?php echo $this->serverUrl($this->url()) ?>"
+         data-num-posts="4" data-width="700" style = "width:710px; margin:30px; float: none;" >
+    </div>
+</div>
+<!-- FB-end -->

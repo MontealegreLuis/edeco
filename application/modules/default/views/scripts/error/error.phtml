@@ -1,0 +1,28 @@
+<?php
+/**
+ * Shows error page
+ *
+ * @author     LMV <luis.montealegre@mandragora-web-systems.com>
+ * @copyright  Mandrágora Web-Based Systems 2010
+ * @version    SVN: $Id$
+ */
+?>
+<h1><?php echo $this->title ?></h1>
+<?php if ('development' == APPLICATION_ENV) : ?>
+    <?php $this->headTitle('Ha ocurrido un error') ?>
+    <h2>Información de la excepción:</h2>
+    <p>
+        <strong>Excepción: </strong><?php echo get_class($this->exception) ?>
+        <br />
+        <strong>Mensaje: </strong><?php echo $this->exception->getMessage() ?>
+    </p>
+    <h2>Traza:</h2>
+    <pre class="error"><code><?php echo $this->exception->getTraceAsString() ?></code></pre>
+    <h3>Parámetros de la solicitud:</h3>
+    <pre class="error"><code><?php echo var_export($this->request->getParams(), true) ?></code></pre>
+<?php else : ?>
+    <?php $this->headTitle($this->title) ?>
+    <p><?php echo $this->message ?></p>
+    <p>Ubique la página que busca en nuestro mapa del sitio</p>
+    <?php echo $this->action('sitemap', 'index', 'default', array()) ?>
+<?php endif ?>

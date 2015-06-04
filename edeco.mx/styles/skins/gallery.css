@@ -1,0 +1,29 @@
+@charset "utf-8";
+
+/**
+ * @author     LMV <luis.montealegre@mandragora-web-systems.com>
+ * @version    SVN $Id$
+ * @copyright  Mandrágora Web-Based Systems 2010
+ */
+/* --------------------------------------------------------- *
+ * Picture gallery
+ * --------------------------------------------------------- */
+.gallery-navigation {
+    background-color: #fff;
+}
+
+#gallery-images {
+   background-image: url(../../images/background-gallery.gif);
+}
+
+.more {
+	background-image: url(../../images/background-link-more.gif);
+	background-position: 0px 0px;
+    background-repeat: no-repeat;
+	color: #fff;
+}
+
+.more:hover {
+    background-position: -115px 0px;
+    color: #fff;
+}

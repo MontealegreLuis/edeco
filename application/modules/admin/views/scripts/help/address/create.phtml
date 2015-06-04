@@ -1,0 +1,128 @@
+<?php
+$this->headTitle('Ayuda');
+$this->headTitle('¿Cómo Agregar una dirección y un mapa de ubicación?');
+$this->bundleLink()
+     ->appendStylesheet($this->baseUrl('/styles/breadcrumbs.css'), 'screen, projection', false, array('charset' => 'utf-8'))
+     ->appendStylesheet($this->baseUrl('/styles/skins/breadcrumbs.css'), 'screen, projection', false, array('charset' => 'utf-8'))
+     ->appendStylesheet($this->baseUrl('/styles/forms.css'), 'screen, projection', false, array('charset' => 'utf-8'))
+     ->appendStylesheet($this->baseUrl('/styles/skins/forms.css'), 'screen, projection', false, array('charset' => 'utf-8'));
+?>
+<div class="span-18 prepend-3 clearfix">
+    <h1>¿Cómo agregar una dirección?</h1>
+    <p>Para agregar una dirección debe seguir los siguientes pasos</p>
+    <ol>
+        <li>
+            Haga clic en la liga que dice <strong>Inmuebles</strong> en el menú de
+            navegación principal como se muestra en la imagen a continuación
+        </li>
+        <p><img src="<?php echo $this->baseUrl('/images/help/address/create-1.gif') ?>" alt="" /></p>
+        <li>
+            <p>
+                Si existen inmuebles, el sistema mostrara todos los inmuebles a los que
+                podremos agregar una dirección, como se muestra la siguiente imagen
+            </p>
+            <p><img src="<?php echo $this->baseUrl('/images/help/address/create-2.gif') ?>" alt="" /></p>
+            <ul>
+                <li>
+                    Después debe darle clic haga clic en <strong>Mostrar inmueble</strong>,
+                    como se muestra la siguiente imagen
+                </li>
+                <p><img src="<?php echo $this->baseUrl('/images/help/address/create-3.gif') ?>" alt="" /></p>
+                <li>
+                    En esta página vamos a ver los datos del inmueble y
+                    <strong>Crear dirección</strong>, también las ligas con las cuales
+                    vamos a poder modificar esa información
+                </li>
+                <p><img src="<?php echo $this->baseUrl('/images/help/address/create-4.gif') ?>" alt="" /></p>
+                <p><img src="<?php echo $this->baseUrl('/images/help/address/create-5.gif') ?>" alt="" /></p>
+            </ul>
+        </li>
+        <li>
+            <p>
+                Después de hacer clic en agregar aparecerá el formulario para que
+                ingrese los datos de la dirección. Explicaremos a continuación el
+                significado de los campos.
+            </p>
+            <ul>
+                <li>
+                    El primer campo <strong>Calle y el número</strong> nos pide
+                    que agreguemos el nombre de la calle y el numero en donde se
+                    encuentra ubicada la propiedad, este campo es requerido
+                    porque google maps va a mostrar resultados mas exactos dependiendo de
+                    este campo.
+                </li>
+                <li>
+                    En el segundo campo <strong>Colonia</strong> ingresaremos
+                    el nombre de la colonia para que la búsqueda sea mas especifica de
+                    acuerdo a lo que necesitamos, por ejemplo zavaleta.
+                </li>
+                <li>
+                    El tercer campo <strong>Estado</strong>.
+                    En este campo basta con dar clic en -- Seleccionar -- y nos desplegara
+                    todos los estados del país, seleccionamos el estado en el que se
+                    encuentra la propiedad, y automáticamente cargara las ciudades
+                    del estado seleccionado.
+                </li>
+                <li>
+                    El cuarto campo  <strong>Ciudad</strong> seleccionamos la ciudad
+                    en la que se encuentra el inmueble
+                </li>
+                <p><img src="<?php echo $this->baseUrl('/images/help/address/create-6.gif') ?>" alt="" /></p>
+                <li>
+                    El quinto campo  <strong>Código postal,</strong> este campo
+                    es opcional, así que puede quedar vacio o se puede ingresar
+                    el código postal si es que se conoce.
+                </li>
+                <li>
+                    El campo <strong>Referencias para la dirección</strong> es un
+                    campo <strong>opcional y puede quedarse sin contenido</strong>.
+                    Este campo sirve para ingresar información que ayude a sus
+                    clientes a ubicar el inmueble que ofrece de manera sencilla. Por
+                    ejemplo, <strong>El local se ubica muy cerca de la Zona de
+                    Angelópolis</strong>.
+                </li>
+                <li>
+                    Cuando haya capturado toda la información obligatoria de clic en
+                    <strong>Guardar.</strong>.
+                </li>
+                <li>
+                    Nos va a mostrar la leyenda La dirección se creó correctamente,
+                    como se muestra la siguiente imagen
+                </li>
+                <p><img src="<?php echo $this->baseUrl('/images/help/address/create-7.gif') ?>" alt="" /></p>
+            </ul>
+        </li>
+    </ol>
+    <h1>¿Cómo agregar un mapa de ubicación?</h1>
+    <ol>
+        <li>
+            El siguiente paso es crear un mapa, en la misma página vemos unas
+            ligas, del ladoizquierdo, ahí vamos a dar clic en la liga que dice
+            <strong>Crear mapa</strong> como se muestra en la siguiente imagen
+        </li>
+            <p><img src="<?php echo $this->baseUrl('/images/help/address/emap-1.gif') ?>" alt="" /></p>
+        <li>
+            Después de darle clic nos va a mostrar el mapa con la dirección que
+            introducimos.
+        </li>
+        <p><img src="<?php echo $this->baseUrl('/images/help/address/emap-2.gif') ?>" alt="" /></p>
+        <ul>
+            <li>
+                Si nos muestra resultados para el mapa lo que debemos hacer es seleccionar
+                el mapa como se muestra en la imagen
+            </li>
+        </ul>
+        <li>
+            En caso de que no encontremos la dirección que necesitamos, en la parte
+            de <strong>Datos del mapa</strong> se puede agregar la latitud y longitud
+            manualmente, una vez realizada esa parte se le da clic en
+            el botón <strong>Guardar</strong> y los cambios a la ubicación ya
+            estarán actualizados y el sistema.
+        </li>
+        <p><img src="<?php echo $this->baseUrl('/images/help/address/emap-3.gif') ?>" alt="" /></p>
+        <li>
+            Después nos va a mostar una leyenda
+        </li>
+        <p><img src="<?php echo $this->baseUrl('/images/help/address/emap-4.gif') ?>" alt="" /></p>
+    </ol>
+</div>

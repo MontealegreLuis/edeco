@@ -1,0 +1,80 @@
+<?php
+$this->headTitle('Ayuda');
+$this->headTitle('¿Cómo modificar una fotografía?');
+$this->bundleLink()
+     ->appendStylesheet($this->baseUrl('/styles/breadcrumbs.css'), 'screen, projection', false, array('charset' => 'utf-8'))
+     ->appendStylesheet($this->baseUrl('/styles/skins/breadcrumbs.css'), 'screen, projection', false, array('charset' => 'utf-8'))
+     ->appendStylesheet($this->baseUrl('/styles/forms.css'), 'screen, projection', false, array('charset' => 'utf-8'))
+     ->appendStylesheet($this->baseUrl('/styles/skins/forms.css'), 'screen, projection', false, array('charset' => 'utf-8'));
+?>
+ <div class="span-18 prepend-3 clearfix">
+<h1>¿Cómo modificar una fotografía?</h1>
+<p>Para modificar una fotografía debe seguir los siguientes pasos</p>
+<ol>
+    <li>
+        <p>
+            Haga clic en la liga que dice <strong>Inmuebles</strong> en el menú de
+            navegación principal como se muestra en la imagen a continuación
+        </p>
+        <p><img src="<?php echo $this->baseUrl('/images/help/picture/create-1.gif') ?>" alt="" /></p>
+    </li>
+    <li>
+        <p>
+            Una vez que de clic en inmueble podra ver la lista de los inmuebles, una vez que
+            que decidio cual sera el inmueble en el que editara la o las fotografias debe de dar clic
+            en el boton <strong>Mostrar inmueble</strong>.
+        </p>
+        <p><img src="<?php echo $this->baseUrl('/images/help/picture/create-2.gif') ?>" alt="" /></p>
+    </li>
+    <li>
+        <p>
+            Después de hacer clic en mostrar inmueble, podra observar el inmueble, la dirección y
+            se visualizaran la tabla que contiene las fotografías ya existentes, debe buscar la fotografía
+            que desea modificar, una vez que la encuentre tiene que dar clic en <strong>Editar fotografía</strong>
+            como se muestra en la siguiente imagen.
+        </p>
+        <p><img src="<?php echo $this->baseUrl('/images/help/picture/edit-1.gif') ?>" alt="" /></p>
+    </li>
+    <li>
+        <p>
+            Después de hacer clic aparecerá el formulario que tendrá los datos de la
+            fotografía ya existente.
+        </p>
+         <ul>
+            <li>
+                Si desea modificar el primer campo <strong>Descripción de la fotografía</strong>
+                solo borre o sustituya el nombre o descripción que va a ser referencia
+                de la fotografía.
+            </li>
+            <li>
+                Si desea modificar el segundo campo <strong>Seleccione una imagen para el inmueble</strong>
+                siga los siguientes pasos.
+            </li>
+            <li>
+                Posicione el puntero sobre el recuadro, o bien de clic en el botón
+                <strong>Seleccionar</strong> ubicado el la parte derecha del cuadro.
+            <p><img src="<?php echo $this->baseUrl('/images/help/picture/create-4.gif') ?>" alt="" /></p>
+            </li>
+            <li>
+                Después de hacer clic se mostrara una pantalla donde deberá buscar y
+                seleccionar la fotografía deseada, como se muestra en la siguiente imagen.
+            <p><img src="<?php echo $this->baseUrl('/images/help/picture/create-5.gif') ?>" alt="" /></p>
+            </li>
+       		<li>
+                Después de seleccionar la fotografía damos clic en el botón de <strong>Abrir</strong>,
+                y automáticamente regresará a la pantalla del formulario de modificar
+                fotografía.
+            <p><img src="<?php echo $this->baseUrl('/images/help/picture/create-6.gif') ?>" alt="" /></p>
+            </li>
+            <li>
+                Si a modificado alguno de los 2 campos de clic en el botón de
+                guardar situado en la parte inferior izquierda del formulario, y
+                automáticamente se guardara los nuevos datos y nos llevara a la
+                pantalla de fotografías con los cambios realizados.
+            <p><img src="<?php echo $this->baseUrl('/images/help/picture/create-7.gif') ?>" alt="" /></p>
+            </li>
+        </ul>
+    </li>
+
+</ol>
+</div>

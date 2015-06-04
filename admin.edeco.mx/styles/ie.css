@@ -1,0 +1,29 @@
+@charset "utf-8";
+
+.error {
+	padding-bottom: 1em;
+}
+
+.error li {
+	margin-left: 5px;
+}
+
+.jcarousel-skin-edeco .jcarousel-item-horizontal {
+	padding-top: 0;
+	margin-top: 0;
+}
+
+.additional-links {
+	padding-bottom: 1.5em;
+}
+
+.slides-index {
+	position: relative;
+}
+
+.slideShow ul {
+	oveflow: hidden;
+	height: 300px;
+	width: 450px;
+	text-align: left;
+}

@@ -1,0 +1,322 @@
+@charset "utf-8";
+
+/**
+ * @author     LMV <luis.montealegre@mandragora-web-systems.com>
+ * @version    SVN $Id$
+ * @copyright  Mandrágora Web-Based Systems 2010
+ */
+/* ---------------------------------------------------------------------------
+ * Elements
+ * ---------------------------------------------------------------------------*/
+body {
+    background-position: left top;
+    background-repeat: repeat;
+}
+
+h1, h2, h3, h4, p, ul, dl, ol {
+	margin: 0 auto;
+	text-align: center;
+	width: 90%;
+	display: block;
+}
+
+h1 {
+	font-weight: bold;
+	font-size: 2.5em;
+	text-align: left;
+	padding-top: 1em;
+	margin-bottom: 1em;
+}
+
+h2 {
+	font-weight: bold;
+	font-size: 2em;
+	background-position: center left;
+	background-repeat: no-repeat;
+	text-indent: 1em;
+	text-align: left;
+	margin-top: 1em;
+    margin-bottom: 1em;
+    border-bottom-style: solid;
+    border-bottom-width: 2px;
+}
+
+h3 {
+	font-weight: bold;
+    font-size: 1.8em;
+    text-align: left;
+    margin-top: 1em;
+    margin-bottom: 1em;
+}
+
+h4 {
+	font-weight: bold;
+	font-size: 1.5em;
+	text-align: left;
+	margin-top: 1em;
+    margin-bottom: 1em;
+}
+
+p {
+	text-align: justify;
+	margin: 0.5em auto;
+}
+
+img {
+	border-style: none;
+}
+
+a {
+	font-weight: bold;
+	text-decoration: none;
+	border-bottom: dotted 1px;
+}
+
+a:hover {
+   border-bottom: dotted 2px;
+   border-top: dotted 2px;
+}
+
+acronym {
+   border-bottom: 1px dotted;
+   cursor: help;
+}
+
+li,
+dt,
+dd {
+	text-align: left;
+	margin-top: 5px;
+}
+
+dt {
+	font-weight: bold;
+}
+
+ul {
+    display: block;
+    float: none;
+    margin-bottom: 2em;
+}
+
+pre {
+	margin: 0 auto;
+    width: 90%;
+    overflow: auto;
+}
+
+div {
+	display: block;
+}
+
+/* --------------------------------------------------------- *
+ * Branding section
+ * --------------------------------------------------------- */
+.branding {
+    padding-top: 2em;
+}
+
+.logo {
+	margin-left: 4px;
+	border-style: none;
+	float: left;
+}
+
+.logo:hover {
+	border-style: none;
+}
+
+/* --------------------------------------------------------- *
+ * Navigation section
+ * --------------------------------------------------------- */
+.nav-wrapper {
+    background-position: right top;
+    background-repeat: repeat-y;
+    display: block;
+}
+
+.main-navigation {
+	float: right;
+	display: inline;
+}
+
+.navigation {
+	display: inline;
+	float: left;
+	list-style-type: none;
+	margin: 4.5em 0 0 0;
+	padding: 0;
+	width: 100%;
+}
+
+.navigation a,
+a.active {
+	font-size: 1.3em;
+	padding-left: 1em;
+    background-position: top left;
+    background-repeat: no-repeat; 
+    border-style: none;
+}
+
+.navigation a:hover {
+	border-style: dotted;
+}
+
+.nav-container {
+	float: left;
+	width: 188px;
+	margin-left: 2px;
+}
+
+.sub-navigation {
+	list-style-type: none;
+	margin: 0;
+	padding: 0;
+	width: 100%;
+}
+
+.main-navigation li {
+    list-style-image: none;
+    padding-left: 0;
+}
+
+.navigation li {    
+    padding-left: inherit;    
+}
+
+.navigation ul {    
+    margin-left: -1.4px;   
+}
+
+.navigation li{
+    margin-left: 2.10px;
+}
+
+/* --------------------------------------------------------- *
+ * Side content
+ * --------------------------------------------------------- */ 
+.column-flash {
+	padding-left: 7px;
+	margin-bottom: 3em;
+}
+
+/* --------------------------------------------------------- *
+ * Content
+ * --------------------------------------------------------- */
+.content {
+    padding-bottom: 3em;
+    display: block;
+}
+
+.map {
+	margin: 0 auto;
+	text-align: center;
+    width: 580px; 
+    height: 400px;
+}
+
+.column-image {
+    margin: 0 auto;
+    text-align: center;   
+}
+
+.link-img:hover {
+    border-top-style: none;
+}
+
+.google-link {
+	margin-bottom: 3em;
+}
+
+.instructions {
+	margin-bottom: 3em;
+}
+
+.action-link:hover {
+    border-top-style: none;
+}
+
+.actions {
+    margin: 0 auto;
+    width: 90%;
+}
+
+.actions-container {
+    list-style-type: none;
+    display: block;
+    width: 80%;
+    margin: 0 auto;
+}
+
+.submenu {
+	padding-left: 10px;
+	font-size: 0.9em;
+}
+
+.messages-container {
+    width: 90%;
+    margin: 0 auto;
+    list-style-type: none;
+    padding-left: 0;
+}
+
+.model-show {
+	display: block;
+	width: 90%;
+	margin: 0 auto;
+	border-style: none;
+}
+
+.model-property,
+.model-value {
+    text-align: justify;
+    border-style: none;
+}
+
+.model-value p {
+	width: 100%;
+}
+
+/* --------------------------------------------------------- *
+ * Footer
+ * --------------------------------------------------------- */
+.footer {
+    border-top: solid 1px;
+    padding: 1em 0;
+    display: block;
+}
+
+.footer-p {
+	margin: 0 auto;
+	text-align: center;
+    font-size: 0.9em;
+}
+
+.additional-links {
+    background-position: left top;
+    background-repeat: repeat-y;
+    display: block;
+    float: none;
+}
+
+.additional-links li{
+    list-style-image: none;
+    margin-left: 0;
+    line-height: 30px;
+    font-size: 1.1em;
+    padding-left: 0;
+} 
+
+.link-list {
+	border-width: 1px;
+    padding: 0;
+    margin-top: 2em;
+    margin-bottom: 2em;
+}
+
+.additional-links-ul {
+    list-style-type: none;
+    width: 80%;
+    margin: 2em auto;
+    font-size: 1.1em;
+}

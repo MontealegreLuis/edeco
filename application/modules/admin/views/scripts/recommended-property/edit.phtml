@@ -1,0 +1,41 @@
+<?php
+/**
+ * Edit RecommendedProperty page
+ *
+ * @author    LMV <luis.montealegre@mandragora-web-systems.com>
+ * @copyright Mandrágora Web-Based Systems 2011
+ * @version   SVN: $Id$
+ */
+?>
+<?php
+$title = $this->translate('recommendedProperty.action.edit');
+$this->headTitle($title);
+?>
+<h1><?php echo $title ?></h1>
+<div class="span-6">
+    <div class="actions">
+        <ul class="actions-container">
+            <?php
+            $params = array('id' => $this->recommendedProperty->id);
+            $actions = array(
+                'recommendedProperty.action.list' => array($this->translate('page') => 1),
+                'recommendedProperty.action.create' => $params,
+                'recommendedProperty.action.edit' => $params,
+                'recommendedProperty.action.show' => $params,
+                'recommendedProperty.action.delete' => $params,
+            );
+            echo $this->partial(
+                'navigation/_actions.phtml',
+                array(
+                    'pages' => $this->actions,
+                    'actions' => $actions,
+                    'decorator' => 'li'
+                )
+            );
+            ?>
+        </ul>
+    </div>
+</div>
+<div class="span-18 last">
+    <?php echo $this->recommendedPropertyForm ?>
+</div>

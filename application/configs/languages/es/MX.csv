@@ -1,0 +1,548 @@
+### General messages -----------------------------------------------------------
+
+### General messages forms
+form.csrfBadToken;Ha ocurrido un error, por favor inténtelo de nuevo
+form.required;Obligatorio
+form.emptyOption;----Seleccionar----
+
+### Pagination
+page;pagina
+item.first;Ir a la primera página
+item.last;Ir a la última página
+item.next;Ir a la página siguiente
+item.prev;Ir a la página anterior
+
+### Params
+propertyId;inmueble
+stateId;estado
+pictureId;fotografia
+startDate;fecha-inicial
+stopDate;fecha-final
+fileName;nombre-de-archivo
+username;nombre-de-usuario
+confirmationKey;clave
+imageName;imagen
+
+### Pages
+about;quienes-somos
+objectives;objetivos
+property;inmuebles
+contact;contacto
+form;correo
+premise;buscas-un-local
+accessibility;declaracion-de-accesibilidad
+legal;aviso-legal
+sitemap;mapa-del-sitio
+
+### Entitities
+pictures; Fotografía(s)
+
+### Property ------------------------------------------------------------------
+property.legend;Datos del inmueble
+census.legend;Datos para el censo
+contact.legend;Datos de contacto
+
+### Property actions
+property.action.list;Lista de inmuebles
+property.action.create;Crear inmueble
+property.action.edit;Editar inmueble
+property.action.delete;Eliminar inmueble
+property.action.show;Mostrar inmueble
+action.property.searchResults;Lista de Resultados
+
+### Flash messages
+property.created;El inmueble se creó correctamente
+property.not.found;No se encontró el inmueble
+property.optimistic.locking.failure;Alguien más modifico los datos del inmueble mientras usted los editaba
+property.updated;El inmueble se actualizó correctamente
+property.deleted;El inmueble se eliminó correctamente
+property.constraintError;Debe eliminar la dirección y las fotografías relacionadas a este inmueble antes de poder eliminarlo
+
+### Property fields
+property.field.name;Nombre
+property.field.search;Buscar
+property.field.price;Precio
+property.field.description;Descripción
+property.field.showOnWeb;Mostrar en el sitio Web
+property.field.categoryId;Categoría
+property.field.Category;Categoría
+property.field.totalSurface;Superficie total
+property.field.metersOffered;Metros ofrecidos
+property.field.metersFront;Metros de frente
+property.field.contactName;Nombre
+property.field.contactPhone;Número telefónico
+property.field.contactCellphone;Número celular
+property.field.landUse;Tipo de uso
+property.field.save;Guardar
+property.field.creationDate;Fecha de creación
+property.field.availabilityFor;Disponibilidad para
+property.field.Address;Dirección
+
+### PropertyAvailability
+rent;renta
+sale;venta
+
+### PropertyCategory
+Premises;Locales comerciales
+Warehouses;Bodegas
+Lands;Terrenos
+
+### PropertyAvailability
+Housing;Habitacional
+Commercial;Comercial
+Industrial;Industrial
+Mixed;Mixto
+
+### PropertyLandUse
+housing;Habitacional
+commercial;Comercial
+industrial;Industrial
+mixed;Mixto
+
+### PropertyCategory
+premises;Locales comerciales
+warehouses;Bodegas
+lands;Terrenos
+
+### Show on web
+yes;Sí
+no;No
+
+
+### Detail form
+property.id.isEmpty;El Id de la propiedad está vacío
+property.id.notEmptyInvalid;El Id del inmueble es inválido
+property.name.isEmpty;Ingrese un nombre para el inmueble
+property.name.notEmptyInvalid;El nombre del inmueble es inválido
+property.name.strlenInvalid;No se reconoce el formato del nombre del inmueble
+property.name.strlenTooShort;El nombre '%value%' debe tener mínimo %min% caracteres
+property.name.strlenTooLong;El nombre '%value%' debe tener máximo %max% caracteres
+property.name.errorRecordFound;Ya existe un inmueble llamado '%value%'
+property.description.notEmptyInvalid;El formato de la descripción es inválido
+property.description.isEmpty;Ingrese una descripción
+property.description.strlenInvalid;No se reconoce el formato de la descripción
+property.description.strlenTooShort;La descripción '%value%' debe tener mínimo %min% caracteres
+property.description.strlenTooLong;La descripción '%value%' debe tener máximo %max% caracteres
+property.price.isEmpty;Debe ingresar el precio del inmueble
+property.price.notEmptyInvalid;El formato del precio del inmueble es inválido
+property.price.strlenInvalid;No se reconoce el formato del precio 
+property.price.strlenTooShort;El precio debe tener mínimo %min% caracteres
+property.price.strlenTooLong;El precio debe tener máximo %max% caracteres
+property.categoryId.isEmpty;La propiedad debe tener una categoría
+property.categoryId.notEmptyInvalid;Categoría no válida
+property.categoryId.notInArray;La categoría '%value%' es inválida
+property.availabilityFor.isEmpty;Elija la disponibilidad del inmuebles
+property.availabilityFor.notEmptyInvalid;La disponibilidad es inválida
+property.availabilityFor.notInArray;La disponibilidad '%value%' es inválida
+property.showOnWeb.notEmptyInvalid;Debe indicar si el inmueble se mostrará en la Página Web o no
+property.showOnWeb.isEmpty;Debe indicar si el inmueble se mostrará en la Página Web o no
+property.metersOffered.notEmptyInvalid;Cantida de metros es inválida
+property.metersOffered.isEmpty;Ingrese la cantidad de metros que se ofrece
+property.metersOffered.notGreaterThan;Los metros ofrecidos para este inmueble %value%' debe tener mínimo '%min% caracteres
+property.landUse.notEmptyInvalid;El formato de tipo de uso de la tierra es inválido
+property.landUse.isEmpty;Ingrese el tipo de uso de la tierra
+property.contactName.strlenInvalid;No se reconoce el formato de nombre
+property.contactName.strlenTooShort;El nombre '%value%' debe tener mínimo %min% caracteres
+property.contactName.strlenTooLong;El nombre '%value%' debe tener máximo %max% caracteres
+property.contactPhone.strlenInvalid;No se reconoce el formato del número teléfonico 
+property.contactPhone.strlenTooShort;El número teléfonico '%value%' debe tener mínimo %min% caracteres
+property.contactPhone.strlenTooLong;El número teléfonico '%value%' debe tener máximo %max% caracteres
+property.field.contactCellphone.strlenInvalid;No se reconoce el formato del número de celular
+property.field.contactCellphone.strlenTooShort;El número de celular '%value%' debe tener mínimo %min% caracteres
+property.field.contactCellphone.strlenTooLong;El número de celular '%value%' debe tener máximo %max% caracteres
+property.version.notEmptyInvalid;El formato de la versión es inválido
+property.version.isEmpty;Ingrese una versión
+
+### User -----------------------------------------------------------------------
+user.legend;Usuario
+login.legend;Ingresar
+
+### User actions
+user.action.login;Ingresar
+user.action.create;Crear usuario
+user.action.delete;Eliminar usuario
+user.action.edit;Editar usuario
+user.action.show;Mostrar usuario
+user.action.list;Listar usuarios
+
+### User fields
+user.field.username;Nombre de usuario
+user.field.password;Contraseña
+user.field.state;Estado
+user.field.roleName;Rol
+user.field.confirmationKey;Clave de confirmación
+user.field.creationDate;Fecha de creación
+user.field.login;Ingresar
+
+### Flash messages
+user.not.found;No se encontró el usuario
+user.updated;El usuario se actualizó correctamente
+user.deleted;El usuario se eliminó correctamente
+user.created;El usuario se creó correctamente
+
+### UserState
+active;Activo
+unconfirmed;Sin confirmar
+inactive;Inactivo
+banned;Bloqueado
+
+### UserRole
+active;Activo
+unconfirmed;Sin confirmar
+inactive;Inactivo
+banned;Bloqueado
+
+### Detail form
+user.username.notEmptyInvalid;El formato del nombre de usuario es inválido
+user.username.isEmpty;Ingrese el nombre de usuario
+user.username.strlenInvalid;No se reconoce el formato del nombre de usuario
+user.username.strlenShort;El nombre de usuario '%value%' debe tener mínimo %min% caracteres  
+user.username.strlenLong;El nombre de usuario '%value%' debe tener máximo %max% caracteres
+user.state.notEmptyInvalid;El formato de estado de usuario es inválido
+user.state.isEmpty;Ingrese el estado de usuario
+user.state.notInArray;El estado de usuario '%value%' es inválida
+user.version.notEmptyInvalid;El formato de la versión de usuario es inválido
+user.version.isEmpty;Ingrese la versión de usuario
+user.username.emailAddressInvalid;El formato de correo electrónico es inválido
+user.username.emailAddressInvalidFormat; No es una dirección de correo electrónico con el formato nombre-usuario@dominio
+user.username.emailAddressInvalidHostname;'%hostname%' No es un nombre de dominio válido para la dirección de correo electrónico '%value%'
+user.username.emailAddressInvalidSegment;'%hostname%' No es un segmento de red enrutable. La dirección de correo electrónico '%value%' debería resolverse desde la red pública
+user.username.emailAddressDotAtom;El usuario '%localPart%' no corresponde al formato 'dot-atom'
+user.username.emailAddressQuotedString;El usuario '%localPart%' no corresponde al formato 'quoted-string' (cadena entrecomillada)
+user.username.emailAddressInvalidLocalPart;'%localPart%' no es un nombre de usuario válido para la dirección de correo electrónico '%value%'
+user.username.emailAddressLengthExceeded;'%value%' Sobrepasa la longitud permitida
+user.password.notEmptyInvalid;El formato de password es inválido
+user.password.isEmpty; Ingresa tu password
+user.wrong.password;El password es incorrecto
+
+### Project --------------------------------------------------------------------
+project.legend;Datos del proyecto
+
+### Project actions
+project.action.create;Crear proyecto
+project.action.edit;Editar proyecto
+project.action.list;Lista de proyectos
+project.action.delete;Eliminar proyecto
+project.action.show;Mostrar proyecto
+project.action.download;Descargar proyecto
+
+### Flash messages
+project.created;El proyecto se agregó correctamente
+project.updated;El proyecto se actualizó correctamente
+project.deleted;El proyecto se eliminó correctamente
+
+save;Guardar 
+
+### Project fields
+project.field.name;Nombre
+project.field.attachment;Archivo adjunto
+
+### Flash messages
+project.created;El proyecto se creó correctamente
+project.not.found;No se encontró el proyecto
+
+### Detail form
+project.id.notEmptyInvalid;El Id de proyecto es inválido
+project.id.isEmpty;El Id de proyecto está vacío
+project.name.notEmptyInvalid;El formato del nombre de proyecto es inválido
+project.name.isEmpty;Ingrese el nombre de proyecto
+project.name.strlenInvalid;No se reconoce el formato del nombre de proyecto
+project.name.strlenTooShort;El nombre del proyecto '%value%' debe tener mínimo %min% caracteres
+project.name.strlenTooLong; El nombre del proyecto '%value%' debe tener máximo %max% caracteres
+project.attachment.fileExtensionFalse;El archivo adjunto '%value%' no es valido
+project.attachment.fileExtensionNotFound;No se encontró el archivo '%value%'
+project.version.notEmptyInvalid;La versión es inválida
+project.version.isEmpty;Ingrese la versión de proyecto
+
+### Picture---------------------------------------------------------------------
+picture.legend;Datos de la fotografía 
+
+### Picture actions
+picture.action.list;Lista de fotografías
+picture.action.create;Crear fotografía
+picture.action.edit;Editar fotografía
+picture.action.delete;Eliminar fotografía
+picture.action.show;Mostrar fotografía
+
+### Picture fields
+picture.field.shortDescription;Descripción
+picture.field.filename;Archivo
+picture.field.save;Guardar
+
+### Picture fieldname
+picture.filename.exceeds;'%value%' sobrepasa el tamaño permitida
+
+### Flash messages
+picture.created;La fotografía se agregó correctamente
+picture.updated;La fotografía se actualizó correctamente
+picture.deleted;La fotografía se eliminó correctamente
+
+### Detail form
+picture.id.notEmptyInvalid;El Id de fotografía es inválido
+picture.id.isEmpty;El Id de fotografía está vacío
+picture.shortDescription.isEmpty;Ingrese la descripción corta de la fotografía
+picture.shortDescription.notEmptyInvalid;El formato de la descripción corta de la fotografía es inválido
+picture.shortDescription.strlenInvalid;No se reconoce el formato de la descripción corta de la fotografía
+picture.shortDescription.strlenTooShort;La descripción '%value%' debe tener mínimo %min% caracteres
+picture.shortDescription.strlenTooLong;La descripción '%value%' debe tener máximo %max% caracteres
+picture.shortDescription.errorRecordFound;Ya existe una fotografía con el nombre '%value%'
+picture.filename.fileExtensionFalse;La descripción '%value%' no es valido
+picture.filename.fileExtensionNotFound;No se reconoce la descripción '%value%'
+picture.propertyId.notEmptyInvalid;El id de propiedad de la fotografís es inválido
+picture.propertyId.isEmpty;Ingresa el id de la propiedad de fotografía
+picture.image.notEmptyInvalid;El formato de la imagen es inválido
+picture.image.isEmpty;Ingresa una imagen
+picture.version.notEmptyInvalidLa versión es inválida
+picture.version.isEmpty;Ingrese la versión de la imagen
+
+### Address --------------------------------------------------------------------
+address.legend;Datos de la dirección
+
+### Address actions
+address.action.create;Crear dirección
+address.action.edit;Editar dirección
+address.action.show;Mostrar dirección
+address.action.delete;Eliminar dirección
+
+### Address fields
+address.field.streetAndNumber;Calle y número
+address.field.neighborhood;Colonia
+address.field.category;Categoría
+address.field.cityId;Ciudad
+address.field.state;Estado
+address.field.country;País
+address.field.zipCode;Código Postal
+address.field.addressReference;Referencias
+address.field.save;Guardar
+address.field.City;Ciudad
+address.field.latitude;Latitud
+address.field.longitude;Longitud
+
+### Flash messages
+address.created;La dirección se creó correctamente
+address.not.found;No se encontró la dirección
+address.updated;La dirección se actualizó correctamente
+address.deleted;La dirección se elminó correctamente
+address.constraintError;No se puede eliminar la dirección
+
+### Detail form
+address.streetAndNumber.notEmptyInvalid;El formato de calle y número es inválido
+address.streetAndNumber.isEmpty;Ingrese la calle y número 
+address.streetAndNumber.strlenInvalid;No se reconoce el formato de la calle y número
+address.streetAndNumber.strlenTooShort;La calle y número '%value%' debe tener mínimo %min% caracteres
+address.streetAndNumber.strlenTooLong;La calle y número '%value%' debe tener máximo %max% caracteres
+address.neighborhood.notEmptyInvalid;El formato de la colonia es inválido
+address.neighborhood.isEmpty;Ingrese la Colonia
+address.neighborhood.strlenInvalid;No se reconoce el formato de la colonia
+address.neighborhood.strlenTooShort;La colonia '%value%' debe tener mínimo %min% caracteres
+address.neighborhood.strlenTooLong;La colonia '%value%' debe tener máximo %max% caracteres
+address.cityId.notEmptyInvalid;El formato de la ciudad es inválido
+address.cityId.isEmpty;Ingrese la ciudad
+address.cityId.notInArray;La ciudad no está dentro de los valores permitidos
+address.state.isEmpty;Ingrese el Estado
+address.state.notEmptyInvalid;El formato del estado es inválido
+address.state.notInArray;El estado '%value%' es inválido
+address.zipcode.notEmptyInvalid;El formato del Código Postal es inválido
+address.zipcode.isEmpty;Ingrese el código Postal
+address.zipcode.strlenInvalid;No se reconoce el formato del Código Postal
+address.zipcode.strlenTooShort;El Código Postal '%value%' debe tener mínimo %min% caracteres
+address.zipcode.strlenTooLong;El Código Postal '%value%' debe tener máximo %max% caracteres
+address.addressReference.isEmpty;Ingrese una referencia para la dirección
+address.addressReference.notEmptyInvalid;El formato de la referencia de la dirección es inválido
+address.addressReference.strlenInvalid;No se reconoce el formato de la referencia de la dirección
+address.addressReference.strlenTooShort;La referencia de la dirección debe tener mínimo %min% caracteres
+address.addressReference.strlenTooLong;La referencia de la dirección debe tener máximo %max% caracteres
+address.id.notEmptyInvalid;No se reconoce el formato de identificación de la propiedad
+address.id.isEmpty;Ingrese la identificación de la propiedad
+address.version.notEmptyInvalid;Versión no válida
+address.version.isEmpty;Debes colocar la versión
+
+### Gmap -----------------------------------------------------------------------
+gmap.legend;Datos del mapa
+
+### Gmaps actions
+gmap.action.show;Mostrar mapa
+gmap.action.edit;Editar mapa
+gmap.action.create;Crear mapa
+gmap.action.save;Guardar mapa
+
+### Googe fields;
+gmap.field.longitude;Longitud
+gmap.field.latitude;Latitud
+gmap.field.save;Guardar
+
+### Flash messages
+gmap.saved;El mapa se guardó correctamente
+
+### Detail form
+gmap.longitude.notEmptyInvalid;No se reconoce el formato de longitud
+gmap.longitude.isEmpty;Ingrese la longitud
+gmap.longitude.strlenInvalid;No se reconoce el formato de longitud
+gmap.longitude.strlenTooShort;Longitud '%value%' debe tener mínimo %min% caracteres
+gmap.longitude.strlenTooLong;Longitud '%value%' debe tener máximo %max% caracteres
+gmap.latitude.notEmptyInvalid;No se reconoce el formato de latitud
+gmap.latitude.isEmpty;Ingrese la latitud
+gmap.latitude.strlenInvalid;No se reconoce el formato de latitud
+gmap.latitude.strlenTooShort;Latitud '%value%' debe tener mínimo %min% caracteres
+gmap.latitude.strlenTooLong;Latitud '%value%' debe tener máximo %max% caracteres
+gmap.propertyId.notEmptyInvalid;No se reconoce el formato de identificación del mapa
+gmap.propertyId.isEmpty;Ingrese la identificación del mapa
+gmap.version.notEmptyInvalid;Versión no válida
+gmap.version.isEmpty;Debes colocar la versión
+
+### Excel -----------------------------------------------------------------------
+excel.legend;Datos del archivo de excel
+
+### Excel actions
+excel.action.list;Lista de archivos Excel
+excel.action.create;Crear archivo Excel
+excel.action.show;Mostrar archivo Excel
+excel.action.delete;Eliminar archivo Excel
+excel.action.download;Descargar archivo Excel
+
+### Excel flash messages
+excel.noPropertiesFound;No se encontraron inmuebles para el rango que seleccionó
+excel.created;El archivo se creó correctamente
+excel.deleted;El archivo se eliminó correctamente
+excel.fileNotFound;El archivo Excel no existe
+
+### Excel fields
+excel.field.startDate;Desde
+excel.field.stopDate;Hasta
+excel.field.generate;Generar
+
+### Contact --------------------------------------------------------------------
+contact.legend;Datos de contacto
+
+### Contact fields
+contact.field.name;Nombre
+contact.field.emailAddress;Correo electrónico
+contact.field.message;Mensaje
+
+contact.id.isEmpty;El Id de contacto está vacío
+contact.id.notEmptyInvalid;El Id de contacto es inválido
+contact.name.notEmptyInvalid;El formato del nombre de contacto es inválido
+contact.name.strlenInvalid; No se reconoce el formato del nombre de contacto 
+contact.name.strlenTooShort; El nombre de contacto '%value%' debe tener mínimo %min% caracteres
+contact.name.strlenTooLong; El nombre de contacto '%value%' debe tener máximo %max% caracteres
+contact.emailAddress.notEmptyInvalid;El formato de correo electrónico del usuario es inválido
+contact.emailAddress.isEmpty;Ingrese el correo electrónico del usuario
+contact.emailAddress.strlenInvalid;No se reconoce el formato de correo electrónico del usuario
+contact.emailAddress.strlenShort;El correo electrónico del usuario '%value%' debe tener mínimo %min% caracteres
+contact.emailAddress.strlenLong;El correo electrónico del usuario '%value%' debe tener máximo %max% caracteres
+contact.emailAddress.emailAddressInvalid;El formato de correo electrónico es inválido
+contact.emailAddress.emailAddressInvalidFormat;'%value%' No es una dirección de correo con el formato nombre-usuario@dominio
+contact.emailAddress.emailAddressInvalidHostname;'%hostname%' no es un nombre de dominio válido para la dirección '%value%'
+contact.emailAddress.emailAddressInvalidSegment; %hostname%' no es un segmento de red enrutable. La dirección de correo '%value%' debería resolverse desde la red pública 
+contact.emailAddress.emailAddressDotAtom;El usuario '%localPart%' no corresponde al formato 'dot-atom' (átomo-punto)
+contact.emailAddress.emailAddressQuotedString;El usuario '%localPart%' no corresponde al formato 'quoted-string' (cadena entrecomillada)
+contact.emailAddress.emailAddressLengthExceeded;'%value%' sobrepasa la longitud permitida
+contact.emailAddress.emailAddressInvalidLocalPart;'%localPart%' no es un nombre de usuario válido para la dirección de correo '%value%'
+contact.message.isEmpty;Ingresa el mensaje de contacto
+contact.message.notEmptyInvalid;El formato de mensaje de contacto es inválido
+contact.message.strlenInvalid;No se reconoce el formato de mensaje de contacto
+contact.message.strlenTooShort;El mensaje '%value%' debe tener al menos  %min% caracteres
+contact.message.strlenTooLong;El mensaje '%value%' debe tener máximo %max% caracteres
+contact.version.isEmpty; Ingresa la version de usuario
+contact.version.notEmptyInvalid;El formato de version de contacto es inválido
+
+### Premise --------------------------------------------------------------------
+premiseinformation.legend;Datos de información
+
+### Premiseinformation fields
+premiseinformation.field.name;Nombre
+premiseinformation.field.telephone;Telefóno
+premiseinformation.field.emailAddress;Correo electrónico
+premiseinformation.field.zone;Zona
+premiseinformation.field.minPrice;Precio mínimo
+premiseinformation.field.maxPrice;Precio máximo
+premiseinformation.field.surface;Superficie
+premiseinformation.field.characteristics;Características
+
+### Detail form
+premiseinformation.id.isEmpty;El Id de su nombre está vacío
+premiseinformation.id.notEmptyInvalid;El Id de su nombre es inválido
+premiseinformation.name.isEmpty;Ingrese su nombre 
+premiseinformation.name.notEmptyInvalid;El formato de su nombre es inválido
+premiseinformation.name.strlenInvalid;No se reconoce el formato de su nombre
+premiseinformation.name.strlenTooShort;Su nombre '%value%' debe tener al menos  %min% caracteres
+premiseinformation.name.strlenTooLong;Su nombre '%value%' debe tener máximo %max% caracteres
+premiseinformation.telephone.notEmptyInvalid;El formato de su nombre es inválido
+premiseinformation.telephone.isEmpty;Ingrese su telefóno
+premiseinformation.telephone.strlenInvalid;No se reconoce el formato de su telefóno 
+premiseinformation.telephone.strlenTooShort;El telefóno '%value%' debe tener al menos  %min% caracteres
+premiseinformation.telephone.strlenTooLong;El telefóno '%value%' debe tener máximo %max% caracteres
+premiseinformation.emailAddress.notEmptyInvalid;El formato de correo electrónico es inválido
+premiseinformation.emailAddress.isEmpty;Ingrese su correo electrónico
+premiseinformation.emailAddress.strlenInvalid;No se reconoce el formato de su correo electrónico
+premiseinformation.emailAddress.strlenShort;El correo electrónico '%value%' debe tener al menos  %min% caracteres
+premiseinformation.emailAddress.strlenLong;El correo electrónico '%value%' debe tener máximo %max% caracteres
+premiseinformation.emailAddress.emailAddressInvalid;El formato de correo electrónico es inválido
+premiseinformation.emailAddress.emailAddressInvalidFormat;'%value%' No es una dirección de correo con el formato nombre-usuario@dominio
+premiseinformation.emailAddress.emailAddressInvalidHostname;'%hostname%' no es un nombre de dominio válido para la dirección '%value%'
+premiseinformation.emailAddress.emailAddressInvalidSegment; %hostname%' no es un segmento de red enrutable. La dirección de correo '%value%' debería resolverse desde la red pública
+premiseinformation.emailAddress.emailAddressDotAtom;El usuario '%localPart%' no corresponde al formato 'dot-atom' (átomo-punto)
+premiseinformation.emailAddress.emailAddressQuotedString;El usuario '%localPart%' no corresponde al formato 'quoted-string' (cadena entrecomillada)
+premiseinformation.emailAddress.emailAddressLengthExceeded;'%value%' sobrepasa la longitud permitida
+premiseinformation.emailAddress.emailAddressInvalidLocalPart;'%localPart%' no es un nombre de usuario válido para la dirección de correo '%value%'
+premiseinformation.zone.notEmptyInvalid;El formato de la zona es inválido
+premiseinformation.zone.isEmpty;Ingrese la zona
+premiseinformation.zone.strlenInvalid;No se reconoce el formato de zona
+premiseinformation.zone.strlenTooShort;La zona '%value%' debe tener al menos  %min% caracteres
+premiseinformation.zone.strlenTooLong;La zona '%value%' debe tener máximo %max% caracteres
+premiseinformation.minPrice.notEmptyInvalid;El formato de la Precio min es inválido
+premiseinformation.minPrice.isEmpty;Ingrese en el Precio min
+premiseinformation.minPrice.notBetween;Ingrese un valor mayor a '%min%' y menor a '%max%'
+premiseinformation.maxPrice.notEmptyInvalid;El formato de la Precio max es inválido
+premiseinformation.maxPrice.isEmpty;Ingresa el Precio max
+premiseinformation.maxPrice.notBetween;Ingrese un valor mayor a '%min%' y menor a '%max%'
+premiseinformation.surface.notEmptyInvalid;El formato de la superficie es inválido
+premiseinformation.surface.isEmpty;Ingrese la información de la superficie
+premiseinformation.surface.strlenInvalid;No se reconoce el formato de la superficie
+premiseinformation.surface.strlenTooShort;La superficie '%value%' debe tener al menos  %min% caracteres
+premiseinformation.surface.strlenTooLong;La superficie '%value%' debe tener máximo %max% caracteres
+premiseinformation.characteristics.notEmptyInvalid;El fproperty.field.Categoryormato de las características es inválido
+premiseinformation.characteristics.isEmpty;Ingrese las características
+premiseinformation.characteristics.strlenInvalid;No se reconoce el formato de las caraterísticas
+premiseinformation.characteristics.strlenTooShort;Las características '%value%' debe tener al menos  %min% caracteres
+premiseinformation.characteristics.strlenTooLong;Las características '%value%' debe tener máximo %max% caracteres
+premiseinformation.version.notEmptyInvalid;El formato de versión es inválido
+premiseinformation.version.isEmpty;Ingrese la versión
+
+### Category --------------------------------------------------------------------
+category.legend;Datos de la categoría
+
+# Actions
+category.action.list;Lista de categorías
+category.action.create;Crear categoría
+category.action.show;Mostrar categoría
+category.action.edit;Editar categoría 
+category.action.delete;Eliminar categoría
+
+
+# Fields
+category.field.name;Nombre
+category.field.save;Guardar
+category.field.url;Dirección Web
+
+# Messages
+category.created;La categoría se creó correctamente
+category.updated;La categoría se actualizó correctamente
+
+### Recommended property --------------------------------------------------------------------
+
+# Actions
+recommendedProperty.action.list;Lista de inmuebles recomendados
+recommendedProperty.action.create;Agregar inmueble recomendado
+recommendedProperty.action.delete;Eliminar inmueble recomendado
+recommendedProperty.action.show;Mostrar inmueble recomendado
+
+# Fields
+recommendedProperty.legend;Datos del inmueble
+recommendedProperty.field.name;Nombre
+recommendedProperty.field.save;Guardar
+
+# Messages
+recommendedProperty.created;El inmueble recomendado se agregó correctamente
+recommendedProperty.deleted;El inmueble recomendado se eliminó correctamente
+recommendedProperty.emptyList;Aún no se agregan recomendaciones de inmuebles

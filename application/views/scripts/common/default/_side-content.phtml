@@ -1,0 +1,17 @@
+<div class="column column-flash span-5">
+<?php
+echo $this->htmlObject(
+    $this->baseUrl('/media/edeco.swf'),
+    'application/x-shockwave-flash',
+    array(
+        'data' => $this->baseUrl('/media/edeco.swf'),
+        'width' => '190',
+        'height' => '600',
+    ),
+    array(
+        'movie' => $this->baseUrl('/media/edeco.swf'),
+    ),
+    '<img src="' . $this->baseUrl('/images/flash.jpg') . '" alt="EDECO" />'
+);
+?>
+</div>

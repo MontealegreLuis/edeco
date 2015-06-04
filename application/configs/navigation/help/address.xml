@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configdata>
+    <nav>
+        <create>
+            <label>¿Cómo agregar una dirección y un mapa de ubicación?</label>
+            <module>admin</module>
+            <controller>help</controller>
+            <action>show</action>
+            <params>
+                <topic>address</topic>
+                <operation>create</operation>
+            </params>
+            <route>help</route>
+        </create>
+        <update>
+            <label>¿Cómo modificar una dirección?</label>
+            <module>admin</module>
+            <controller>help</controller>
+            <action>show</action>
+            <params>
+                <topic>address</topic>
+                <operation>edit</operation>
+            </params>
+            <route>help</route>
+        </update>
+        <emap>
+            <label>¿Cómo modificar un mapa de ubicación?</label>
+            <module>admin</module>
+            <controller>help</controller>
+            <action>show</action>
+            <params>
+                <topic>address</topic>
+                <operation>edit-map</operation>
+            </params>
+            <route>help</route>
+        </emap>
+    </nav>
+</configdata>

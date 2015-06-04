@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configdata>
+    <nav>
+        <property>
+            <label>Ayuda</label>
+            <controller>help</controller>
+            <action>show</action>
+            <module>admin</module>
+            <params>
+                <topic>index</topic>
+                <operation>index</operation>
+            </params>
+            <route>help</route>
+            <pages>
+                <address>
+                    <label>Dirección</label>
+                    <controller>help</controller>
+                    <action>show</action>
+                    <module>admin</module>
+                    <params>
+                        <topic>address</topic>
+                        <operation>index</operation>
+                    </params>
+                    <route>help</route>
+                    <pages>
+                        <create>
+                            <label>Crear Dirección</label>
+                            <controller>help</controller>
+                            <action>show</action>
+                            <module>admin</module>
+                            <params>
+                                <topic>address</topic>
+                                <operation>create</operation>
+                            </params>
+                            <route>help</route>
+                        </create>
+                        <update>
+                            <label>Editar Dirección</label>
+                            <controller>help</controller>
+                            <action>show</action>
+                            <module>admin</module>
+                            <params>
+                                <topic>address</topic>
+                                <operation>edit</operation>
+                            </params>
+                            <route>help</route>
+                        </update>
+                        <umap>
+                            <label>Editar mapa</label>
+                            <controller>help</controller>
+                            <action>show</action>
+                            <module>admin</module> 
+                            <params>
+                                <topic>address</topic>
+                                <operation>create</operation>
+                            </params> 
+                            <route>help</route>
+                        </umap>
+                    </pages>
+                </address>
+            </pages>
+        </property>
+    </nav>
+</configdata>

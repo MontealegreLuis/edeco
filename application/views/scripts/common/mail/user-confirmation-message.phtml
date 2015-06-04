@@ -1,0 +1,61 @@
+<html>
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+        <title>Proyectos de inversión</title>
+        <style>
+        * {
+            padding: 0;
+            margin: 0;
+            font-family: Arial, sans-serif;
+        }
+        #content a:hover {
+            color: #fff;
+            font-weight: bold;
+        }
+        </style>
+    </head>
+    <body style="width: 600px; background-image: url(<?php echo $this->baseUrl . $this->baseUrl('/images/background-body.gif') ?>)">
+        <table style="border-style:none; width:600px">
+            <tr style="background-color: #7766b7">
+                <td style="height: 185px; background-color: #fff; text-align: left; width: 155px">
+                    <a href="<?php echo $this->baseUrl . $this->baseUrl('/') ?>"
+                      title="Edificaciones y Desarrollos Comerciales de México">
+                        <img alt="Logo EDECO"
+                    src="<?php echo $this->baseUrl . $this->baseUrl('/images/logo-edeco.gif') ?>"
+                        style="margin: 15px 0 15px 15px; border-style: none;" />
+                    </a>
+                </td>
+                <td style="width: 400px; margin: 90px 0 0 15px; padding: 10px 0 10px 0;">
+                    <p style="border-style: none; margin: 8px 0 8px 15px; font-family: Arial, sans-serif; font-weight: bold; font-size: 1.8em; color: #fff; padding: 20px 0 20px 10px; ">
+                        Servicio de Atención al Cliente
+                    </p>
+                </td>
+            </tr>
+            <tr>
+                <td colspan="2" id="content" style="color: #666; background-color: #fff; border-style: solid none solid none; border-width: 5px; border-color: #29166F; text-align:center; padding: 25px 0; width: 600px">
+                    <h1 style="padding: 0 0 20px 0; margin: 20px 40px 2em 40px; color: #666; font-family: Arial, sans-serif; text-align:left;  font-size:1.5em;">
+                        Confirme la creación de su cuenta
+                    </h1>
+                    <p style="text-align: justify; margin: 2em 40px 2em 40px;">
+                        Nuestro equipo de atención al cliente ha creado una
+                        cuenta de usuario para usted. Para confirmar la creación
+                        de dicha cuenta por favor copie y pegue la siguiente
+                        liga en la barra de direcciones de su navegador y
+                        siga las instrucciones.
+                    </p>
+                    <p style="text-align: justify; margin: 2em 40px 2em 40px;">
+                        <?php echo $this->baseUrl . $this->url(array('action' => 'confirm', 'controller' => 'user', $this->translate('confirmationKey') => $this->confirmationKey), 'controllers') ?>
+                    </p>
+                    <p style="text-align: justify; margin: 2em 40px 2em 40px;">
+                        Si no confirma la creación de su cuenta, esta expirará
+                        en 2 días. Mensaje enviado el día
+                        <strong><?php echo $this->date ?></strong>
+                    </p>
+                </td>
+            </tr>
+            <tr style="background-color: #7766b7">
+                <td colspan="2">&nbsp;</td>
+            </tr>
+        </table>
+    </body>
+</html>

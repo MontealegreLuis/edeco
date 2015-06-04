@@ -1,0 +1,35 @@
+<?php
+/**
+ * Helper for main navigation menu
+ *
+ * @author     LMV <luis.montealegre@mandragora-web-systems.com>
+ * @copyright  Mandrágora Web-Based Systems 2010
+ * @version    SVN: $Id$
+ */
+?>
+<ul class="navigation">
+<?php foreach ($this->container as $section) : ?>
+    <?php
+        $acl = $this->navigation()->getAcl();
+        if ($acl) {
+            $role = $this->navigation()->getRole();
+            $resource = $section->getModule() . '_' . $section->getController();
+            $privilege = $section->getAction();
+        }
+    ?>
+    <?php if (!$acl || $acl->isAllowed($role, $resource, $privilege)) : ?>
+        <li class="nav-container">
+            <?php echo $this->accessibleMenu()->render($section) ?>
+            <?php if ($section->hasPages()) : ?>
+                <ul class="sub-navigation">
+                <?php foreach ($section as $page) : ?>
+                    <li>
+                        <?php echo $this->accessibleMenu()->render($page) ?>
+                    </li>
+                <?php endforeach ?>
+                </ul>
+            <?php endif ?>
+        </li>
+    <?php endif ?>
+<?php endforeach ?>
+</ul>

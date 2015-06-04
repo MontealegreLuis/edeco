@@ -1,0 +1,53 @@
+<?php
+/**
+ * Show user confirmation page
+ *
+ * @author     LMV <luis.montealegre@mandragora-web-systems.com>
+ * @copyright  Mandrágora Web-Based Systems 2010
+ * @version    SVN: $Id$
+ */
+?>
+<?php
+$this->headMeta()->appendName('robots', 'noindex, nofollow');
+$this->bundleLink()
+     ->appendStylesheet($this->baseUrl('/styles/breadcrumbs.css'), 'screen, projection', false, array('charset' => 'utf-8'))
+     ->appendStylesheet($this->baseUrl('/styles/skins/breadcrumbs.css'), 'screen, projection', false, array('charset' => 'utf-8'));
+?>
+<?php if ($this->code == App_Model_ConfirmationResult::CONFIRMATION_SUCCED) : ?>
+        <?php $this->headTitle('Cuenta habilitada') ?>
+        <div class="span-7 prepend-3 clearfix">
+            <h1>Cuenta habilitada</h1>
+            <p>Su cuenta ha sido habilitada. Su password nuevo es:</p>
+            <p><strong><?php echo $this->password ?></strong></p>
+            <p>Su nombre de usuario es su cuenta de correo electrónico.</p>
+            <p>
+                Por favor
+                <a title="Iniciar sesión"
+                   href="<?php echo $this->url(array('action' => 'login', ), 'index') ?>">
+                    inicie sesion aquí
+                </a>
+            </p>
+        </div>
+        <div class="span-12 last">
+            <img alt="" src="<?php echo $this->baseUrl('/images/confirmation.jpg') ?>" />
+            <p>&nbsp;</p>
+        </div>
+<?php else : ?>
+        <?php $this->headTitle('Falló la confirmación'); ?>
+        <div class="span-7 prepend-3 clearfix">
+            <h1 class="wrapper-confirmation">Falló la confirmación</h1>
+            <p>
+                Lo sentimos&hellip; Su clave no pudo confirmarse, tal vez haya
+                expirado. Comuníquese con nosotros a los siguientes teléfonos
+                para más información:
+            </p>
+            <ul>
+                <li>(222) 403 43 11 (Oficina)</li>
+                <li>(222) 320 17 12 (Directo)</li>
+            </ul>
+        </div>
+        <div class="span-12 last">
+            <img alt="" src="<?php echo $this->baseUrl('/images/confirmation.jpg') ?>" />
+            <p>&nbsp;</p>
+        </div>
+<?php endif ?>

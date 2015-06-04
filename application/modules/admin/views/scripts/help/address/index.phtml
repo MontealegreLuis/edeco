@@ -1,0 +1,20 @@
+<?php
+$this->headTitle('Ayuda');
+$this->headTitle('Inmuebles');
+$this->bundleLink()
+     ->appendStylesheet($this->baseUrl('/styles/breadcrumbs.css'), 'screen, projection', false, array('charset' => 'utf-8'))
+     ->appendStylesheet($this->baseUrl('/styles/skins/breadcrumbs.css'), 'screen, projection', false, array('charset' => 'utf-8'))
+     ->appendStylesheet($this->baseUrl('/styles/forms.css'), 'screen, projection', false, array('charset' => 'utf-8'))
+     ->appendStylesheet($this->baseUrl('/styles/skins/forms.css'), 'screen, projection', false, array('charset' => 'utf-8'))
+     ->appendStylesheet($this->baseUrl('/styles/skins/forms.css'), 'screen, projection', false, array('charset' => 'utf-8'));
+?>
+<div class="span-18 prepend-3 clearfix">
+    <h1>Inmuebles</h1>
+    <?php if (count($this->helpMenu->getPages()) > 0) : ?>
+        <ol>
+            <?php foreach ($this->helpMenu->getPages() as $page) : ?>
+                <li><?php echo $this->navigation()->menu()->htmlify($page) ?></li>
+            <?php endforeach ?>
+        </ol>
+    <?php endif ?>
+</div>

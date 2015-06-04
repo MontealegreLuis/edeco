@@ -1,0 +1,56 @@
+<?php
+/**
+ * Shows contact information
+ *
+ * @author    MMS <meri.michimani@mandragora-web-systems.com>
+ * @author    LMV <luis.montealegre@mandragora-web-systems.com>
+ * @copyright Mandrágora Web-Based Systems
+ * @version   SVN: $Id$
+ */
+?>
+<?php
+$this->headTitle('Contacto');
+$this->headMeta()->appendName(
+    'keywords',
+    'oficinas Puebla, oficinas Monterrey, oficinas Mérida'
+);
+$this->headMeta()->appendName(
+    'description',
+    'Direcciones y mapas de nuestras oficinas, información de contacto de EDECO,'
+    . ' Edificaciones y Desarrollos Comerciales de México'
+);
+?>
+<?php echo $this->render('default/_side-content.phtml') ?>
+<div class="span-18 last">
+    <h1 class="two-column">Contacto</h1>
+</div>
+<div class="span-9">
+    <h2>Oficina Puebla</h2>
+    <p>
+        Calle Tehuacán Sur No. 71<br />
+        Despachos 201<br />
+        Col. La Paz<br />
+        Puebla, Pue.<br />
+        C. P. 72160<br />
+        Tel. Oficina: +52 (222) 403 43 11, +52 (222) 225 64 08<br />
+        Tel. Directo: (044 2223) 56 83 80<br />
+    </p>
+    <p>
+        O si lo prefiere
+        <a href="<?php echo $this->url(array('action' => 'form'), 'index') ?>">
+            <strong>envíenos un correo</strong>
+        </a>
+        <img src="<?php echo $this->baseUrl('/images/email.gif') ?>" alt="" />
+    </p>
+</div>
+<div class="column-right span-9 last">
+    <iframe width="318" height="262" frameborder="0" scrolling="no"
+            marginheight="0" marginwidth="0"
+            src="http://maps.google.es/maps?f=q&amp;source=s_q&amp;hl=es&amp;q=Tehuac%C3%A1n+Sur+71,+La+Paz,+Heroica+Puebla+de+Zaragoza,+Puebla,+M%C3%A9xico&amp;sll=40.396764,-3.713379&amp;sspn=4.467063,14.128418&amp;ie=UTF8&amp;geocode=Ff-3IgEdDzIl-g&amp;split=0&amp;hq=&amp;hnear=Tehuac%C3%A1n+Sur+71,+Heroica+Puebla+de+Zaragoza,+Puebla,+M%C3%A9xico&amp;z=14&amp;ll=19.052543,-98.225649&amp;output=embed">
+    </iframe>
+    <p class="google-link">
+        <a href="http://maps.google.es/maps?f=q&amp;source=embed&amp;hl=es&amp;q=Tehuac%C3%A1n+Sur+71,+La+Paz,+Heroica+Puebla+de+Zaragoza,+Puebla,+M%C3%A9xico&amp;sll=40.396764,-3.713379&amp;sspn=4.467063,14.128418&amp;ie=UTF8&amp;geocode=Ff-3IgEdDzIl-g&amp;split=0&amp;hq=&amp;hnear=Tehuac%C3%A1n+Sur+71,+Heroica+Puebla+de+Zaragoza,+Puebla,+M%C3%A9xico&amp;z=14&amp;ll=19.052543,-98.225649">
+            Ver mapa más grande
+        </a>
+    </p>
+</div>

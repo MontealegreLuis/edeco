@@ -1,0 +1,67 @@
+<?php
+/**
+ * Shows welcome page
+ *
+ * @author    MMS <meri.michimani@mandragora-web-systems.com>
+ * @author    LMV <luis.montealegre@mandragora-web-systems.com>
+ * @copyright Mandrágora Web-Based Systems
+ * @version   SVN: $Id$
+ */
+?>
+<?php
+$this->headTitle('Bienvenido');
+$this->headMeta()->appendName(
+    'keywords',
+    'localización de inmuebles, estudios mercado inmobiliario, negociación propietarios inmuebles'
+);
+$this->headMeta()->appendName(
+    'description',
+    'Objetivos estratégicos de Edificaciones y Desarrollos Comerciales de México '
+    . '(EDECO): Estudios de mercado inmobiliario, localización de puntos de venta'
+    . ' estratégicos, encuestas a población específica en vivienda o establecimientos,'
+    . ' negociación con propietarios.'
+);
+$this->bundleLink()
+     ->appendStylesheet($this->baseUrl('/styles/jquery/plugins/slideshow.css'), 'screen, projection', false, array('charset' => 'utf-8'));
+$this->jQuery()->enable()
+     ->addJavascriptFile($this->baseUrl('/scripts/jquery/plugins/jquery.slideshow.js'))
+     ->addJavascriptFile($this->baseUrl('/scripts/edeco/pages/index/class.objectives.js'));
+$this->jQuery()->addOnLoad(
+    'var page = new Edeco.Pages.Index.Objectives();
+    page.init();'
+);
+?>
+<?php $this->headTitle('Objetivos') ?>
+<?php echo $this->render('default/_side-content.phtml') ?>
+<div class="span-18 last">
+    <h1>Objetivos estratégicos</h1>
+    <p>
+        El personal que integra EDECO mantiene varios Objetivos Estratégicos en
+        cada día de trabajo, a saber: Localizar inmuebles  que ayuden a elevar
+        el valor de la marca de nuestros clientes,  con un criterio de selección
+        que incluya  características importantes  como son visibilidad a gran
+        distancia, acceso cómodo para los usuarios, estacionamiento amplio y un
+        precio justo de mercado.
+    </p>
+    <p>
+        El servicio que ofrecemos  se adapta a las necesidades de nuestros
+        clientes, como son:
+    </p>
+    <ul>
+        <li>Estudios de Mercado Inmobiliario</li>
+        <li>Localización de puntos de venta estratégicos</li>
+        <li>Encuestas a población específica en vivienda o establecimientos</li>
+        <li>Negociación con propietarios</li>
+    </ul>
+</div>
+<div class="span-18 last">
+    <div class="slideShow">
+        <ul class="slides">
+            <?php for($i = 1; $i <= 6; $i++) : ?>
+                <li class="slide">
+                    <img src="<?php echo $this->baseUrl("/images/edeco-objectives-$i.jpg") ?>" alt="" />
+                </li>
+            <?php endfor ?>
+        </ul>
+    </div>
+</div>

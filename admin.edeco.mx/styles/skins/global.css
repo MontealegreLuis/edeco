@@ -1,0 +1,116 @@
+@charset "utf-8";
+
+/**
+ * @author     LMV <luis.montealegre@mandragora-web-systems.com>
+ * @version    SVN $Id$
+ * @copyright  Mandrágora Web-Based Systems 2010
+ */
+/* ---------------------------------------------------------------------------
+ * Elements
+ * ---------------------------------------------------------------------------*/
+body {
+    background-image: url(../../images/background-body.gif);
+    background-color: #EBEBEB;
+    color: #444;
+}
+
+h1 {
+    color: #29166f;
+}
+
+h2 {
+	background-image: url('../../images/background-h2.gif');
+	color: #466BB5;
+	border-bottom-color: #29166f;
+}
+
+h3 {
+	color: #647FB5;
+}
+
+h4 {
+	color: #695605;
+}
+
+li {
+    list-style-image: url(../../images/li-bullet.gif);
+}
+
+a {
+	color: #466BB5;
+	border-bottom-color: #466BB5;
+}
+
+a:hover {
+	color: #466BB5;
+	border-bottom-color: #6049B7;
+	border-top-color: #6049B7;
+}
+
+/* --------------------------------------------------------- *
+ * Branding section
+ * --------------------------------------------------------- */
+.branding {
+	background-color: #7766B7;
+}
+
+/* --------------------------------------------------------- *
+ * Navigation section
+ * --------------------------------------------------------- */
+.nav-wrapper {
+    background-image: url(../../images/background-navigation.gif);
+}
+
+.main-navigation {
+	background-color: transparent; 
+}
+
+.navigation a {
+	color: #fff;
+	border-color: #fff;
+	background-image: url(../../images/background-nav-item.gif);
+}	
+
+a.active {
+	border-color: #FFCC33;
+	background-image: url(../../images/background-nav-item-active.gif);
+	color: #FFCC33;
+}
+
+/* --------------------------------------------------------- *
+ * Content
+ * --------------------------------------------------------- */ 
+.content-wrapper {
+    background-color: #fff;
+}
+
+.model-property {
+    font-weight: bold;
+}
+
+.action-item,
+.message {
+    list-style-image: none;
+}
+
+/* --------------------------------------------------------- *
+ * Footer
+ * --------------------------------------------------------- */
+.footer {
+    background-color: #7766B7;
+    border-top-color: #fff;
+}
+
+.footer p {
+    color: #fff;
+}
+
+.additional-links {
+    background-color: #d0bd68;
+    background-image: url(../../images/background-footer.gif);
+}
+
+.link-list-a {
+	color: #fff;
+	border-bottom-color: #fff;
+}

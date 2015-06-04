@@ -1,0 +1,17 @@
+<p class="footer-p">
+    &copy; EDECO <?php echo $this->copyrightYear() ?>.
+    Todos los derechos reservados.
+</p>
+<p class="footer-p">
+    Un desarrollo de Mandr&aacute;gora Web-Based Systems.
+</p>
+<?php
+echo $this->headScript();
+$moduleName = Zend_Controller_Front::getInstance()->getRequest()->getModuleName();
+if ($moduleName == 'admin' || $this->bundleScript()->isEnabled()) {
+    $this->bundleScript()->enable()->uiEnable()
+         ->setLocalPath($this->baseUrl('/scripts/jquery/jquery-1.6.2.min.js'))
+         ->setUiLocalPath($this->baseUrl('/scripts/jquery/jquery-ui-1.8.14.custom.min.js'));
+    echo $this->bundleScript(true);
+}
+?>

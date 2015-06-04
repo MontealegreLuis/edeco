@@ -1,0 +1,44 @@
+<?php
+$this->headTitle('Ayuda');
+$this->headTitle('¿Cómo eliminar un proyecto?');
+$this->bundleLink()
+     ->appendStylesheet($this->baseUrl('/styles/breadcrumbs.css'), 'screen, projection', false, array('charset' => 'utf-8'))
+     ->appendStylesheet($this->baseUrl('/styles/skins/breadcrumbs.css'), 'screen, projection', false, array('charset' => 'utf-8'))
+     ->appendStylesheet($this->baseUrl('/styles/forms.css'), 'screen, projection', false, array('charset' => 'utf-8'))
+     ->appendStylesheet($this->baseUrl('/styles/skins/forms.css'), 'screen, projection', false, array('charset' => 'utf-8'));
+?>
+<div class="span-18 prepend-3 clearfix">
+    <h1>¿Cómo eliminar un proyecto?</h1>
+    <p>Para eliminar un proyecto debe seguir los siguientes pasos</p>
+    <ol>
+        <li>
+            <p>
+                Desde la lista de proyectos debe dar clic en la imagen de color rojo
+                de la primer columna (el título de la columna es
+                <strong>Eliminar proyecto</strong>), como se muestra a continuación
+            </p>
+            <p><img src="<?php echo $this->baseUrl('/images/help/project/delete-1.gif') ?>" alt="" /></p>
+        </li>
+        <li>
+            <p>
+                A continuación aparece un recuadro de diálogo que le pregunta si desea
+                eliminar el proyecto, como se muestra a continuación.
+            </p>
+            <p><img src="<?php echo $this->baseUrl('/images/help/project/delete-2.gif') ?>" alt="" /></p>
+        </li>
+        <li>
+            <p>
+                Por último le pide que confirme la eliminación del proyecto, seleccione
+                <strong>Si</strong> para eliminar y <strong>No</strong> para cancelar
+                la eliminación, como se muestra a continuación.
+            </p>
+            <p><img src="<?php echo $this->baseUrl('/images/help/project/delete-3.gif') ?>" alt="" /></p>
+        </li>
+        <li>
+            <p>
+                Usted podrá visualizar una leyenda donde dice que el archivo se eliminó correctamente
+            </p>
+            <p><img src="<?php echo $this->baseUrl('/images/help/project/delete-4.gif') ?>" alt="" /></p>
+        </li>
+    </ol>
+</div>

@@ -1,0 +1,52 @@
+<?php
+$this->headTitle('Ayuda');
+$this->headTitle('¿Cómo editar un usuario?');
+$this->bundleLink()
+     ->appendStylesheet($this->baseUrl('/styles/breadcrumbs.css'), 'screen, projection', false, array('charset' => 'utf-8'))
+     ->appendStylesheet($this->baseUrl('/styles/skins/breadcrumbs.css'), 'screen, projection', false, array('charset' => 'utf-8'))
+     ->appendStylesheet($this->baseUrl('/styles/forms.css'), 'screen, projection', false, array('charset' => 'utf-8'))
+     ->appendStylesheet($this->baseUrl('/styles/skins/forms.css'), 'screen, projection', false, array('charset' => 'utf-8'));
+?>
+<div class="span-18 prepend-3 clearfix">
+<h1>¿Cómo editar un usuario?</h1>
+<p>Para editar un usuario debe seguir los siguientes pasos</p>
+<ol>
+    <li>
+        <p>
+            Desde la lista de usuarios debe dar clic en el boton que dice <strong>Editar</strong>
+            (columna con el título Acciones).
+        </p>
+        <p><img src="<?php echo $this->baseUrl('/images/help/user/edit-1.gif') ?>" alt="" /></p>
+    </li>
+    <li>
+        <p>
+            Después de hacer clic en el boton Editar aparecerá el formulario para que
+            modifique los datos del usuario. Explicaremos a continuación el significado
+            y uso de los campos.
+        </p>
+        <p><img src="<?php echo $this->baseUrl('/images/help/user/edit-2.gif') ?>" alt="" /></p>
+    </li>
+    <ul>
+        <li>
+            El primer campo <strong>Nombre de usuario</strong> es el correo electrónico
+            del usuario, este campo no es editable, si lo cambia, al momento de
+            guardar tendra el mismo correo.
+        </li>
+        <li>
+            El segundo campo <strong>Estado de la cuenta de usuario</strong> en este
+            campo edita el estado de los usuarios. La primera opción <strong>Activo</strong>
+            es cuando el usuario esta activo para ingresar al sitio, esta opcion se
+            activa cuando el usuario activa su cuenta. Segunda opción <strong>Sin confirmar</strong>,
+            cuando el usuario no ha activado o confirmado su cuenta. Tercera opción
+            <strong>Inactivo</strong> cuando el usuario no ha tenido actividad en el
+            sitio. Cuarta opción <strong>Bloqueado</strong>, cuando el usuario no
+            tiene acceso al sitio, la cuenta de usuario se bloquea.
+        </li>
+    </ul>
+    <li>
+        Cuando haya capturado toda la información obligatoria de clic en
+        <strong>Guardar</strong>.
+        Después de guardar, la aplicación volverá a la lista de usuarios.
+    </li>
+</ol>
+</div>

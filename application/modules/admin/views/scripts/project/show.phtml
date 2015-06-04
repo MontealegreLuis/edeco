@@ -1,0 +1,82 @@
+<?php
+/**
+ * Show project information
+ *
+ * @author     MMS <meri.michimani@mandragora-web-systems.com>
+ * @copyright  Mandrágora Web-Based Systems 2010
+ * @version    SVN: $Id$
+ */
+?>
+<?php
+$title = $this->translate('project.action.show');
+$this->headTitle($title);
+$this->bundleLink()
+     ->appendStylesheet($this->baseUrl('/styles/breadcrumbs.css'), 'screen, projection', false, array('charset' => 'utf-8'))
+     ->appendStylesheet($this->baseUrl('/styles/skins/breadcrumbs.css'), 'screen, projection', false, array('charset' => 'utf-8'))
+     ->appendStylesheet($this->baseUrl('/styles/tables.css'), 'screen, projection', false, array('charset' => 'utf-8'))
+     ->appendStylesheet($this->baseUrl('/styles/skins/tables.css'), 'screen, projection', false, array('charset' => 'utf-8'));
+$this->jQuery()
+     ->addJavascriptFile($this->baseUrl('/scripts/jquery/plugins/jquery.confirm.js'))
+     ->addJavascriptFile($this->baseUrl('/scripts/edeco/pages/project/class.show.js'));
+$this->jQuery()->addOnLoad(
+    'var page = new Edeco.Pages.Project.Show();
+    page.init();'
+);
+?>
+<h1><?php echo $title ?></h1>
+<div class="clearfix">
+    <div class="span-6">
+        <div class="actions">
+            <ul class="actions-container">
+                <?php
+                $params = array('id' => $this->project->id);
+                $actions = array(
+                    'project.action.list' => array($this->translate('page') => 1),
+                    'project.action.show' => $params,
+                );
+                if ($this->role == 'admin') {
+                    $actions += array(
+                        'project.action.create' => array(),
+                        'project.action.edit' => $params,
+                        'project.action.delete' => $params,
+                    );
+                }
+                echo $this->partial(
+                    'navigation/_actions.phtml',
+                    array(
+                        'pages' => $this->actions,
+                        'actions' => $actions,
+                        'decorator' => 'li'
+                    )
+                );
+                ?>
+            </ul>
+        </div>
+    </div>
+    <div class="span-18 last">
+        <?php echo $this->partial('partials/flash-messages.phtml', array('messages' => $this->messages)) ?>
+        <table class="model-show">
+            <colgroup>
+                <col width="170px" />
+                <col width="470px" />
+            </colgroup>
+            <tr class="even">
+                <td class="model-property">
+                    <?php echo $this->translate('project.field.name') ?>
+                </td>
+                <td class="model-value">
+                    <?php echo $this->project->name ?>
+                </td>
+            </tr>
+            <tr class="odd">
+                <td class="model-property"><?php echo $this->translate('project.action.download') ?></td>
+                <td class="model-value">
+                    <a title="<?php echo $this->project->attachment ?>"  class="action-link"
+                       href="<?php echo $this->url(array('controller' => 'project', 'action' => 'download', $this->translate('fileName') => $this->project->attachment), 'controllers', true) ?>" />
+                        <img alt="<?php echo $this->translate('excel.action.download') ?>" src="/images/action-buttons/download.gif" />
+                    </a>
+                </td>
+            </tr>
+        </table>
+    </div>
+</div>

@@ -1,0 +1,130 @@
+<?php
+$this->headTitle('Ayuda');
+$this->headTitle('¿Cómo crear un inmueble?');
+$this->bundleLink()
+     ->appendStylesheet($this->baseUrl('/styles/breadcrumbs.css'), 'screen, projection', false, array('charset' => 'utf-8'))
+     ->appendStylesheet($this->baseUrl('/styles/skins/breadcrumbs.css'), 'screen, projection', false, array('charset' => 'utf-8'))
+     ->appendStylesheet($this->baseUrl('/styles/forms.css'), 'screen, projection', false, array('charset' => 'utf-8'))
+     ->appendStylesheet($this->baseUrl('/styles/skins/forms.css'), 'screen, projection', false, array('charset' => 'utf-8'));
+?>
+<div class="span-18 prepend-3 clearfix">
+    <h1>¿Cómo crear un inmueble?</h1>
+    <p>Para crear un inmueble debe seguir los siguientes pasos.</p>
+    <ol>
+        <li>
+            <p>
+                Haga clic en la liga que dice <strong>Inmuebles</strong> en el menú de
+                navegación principal como se muestra en la imagen a continuación.
+            </p>
+            <p><img src="<?php echo $this->baseUrl('/images/help/property/create-1.gif') ?>" alt="" /></p>
+        </li>
+        <li>
+            <p>
+                Haga clic en la liga que dice <strong>Crear inmueble</strong> como
+                se muestra en la siguiente imagen
+            </p>
+            <p><img src="<?php echo $this->baseUrl('/images/help/property/create-2.gif') ?>" alt="" /></p>
+        </li>
+        <li>
+            <p>
+                Después de hacer clic en Crear inmueble aparecerá el formulario
+                para que ingrese los datos del inmueble. Explicaremos a
+                continuación el significado y uso de los campos.
+            </p>
+            <p><img src="<?php echo $this->baseUrl('/images/help/property/create-3.gif') ?>" alt="" /></p>
+            <ul>
+                <li>
+                    El primer campo <strong>Nombre</strong> es el nombre que se
+                    mostrará en su sitio Web y el contenido del título es lo que
+                    buscadores como Google usarán para devolver como resultado a
+                    sus usuarios. Así que es recomendable una descripción breve y
+                    objetiva de cada inmueble.
+                </li>
+                <li>
+                    El segundo campo <strong>Descripción</strong> sirve a sus
+                    clientes potenciales para decidir si el inmueble que se oferta
+                    sirve a sus necesidades. Una buena idea es tratar de ponerse en
+                    el lugar del cliente y pensar <strong>Si estuviera buscando un
+                    local por Internet ¿qué me gustaría saber del local? ¿con que
+                    palabras lo buscaría en Google?</strong> e incluya dicha
+                    información con las palabras que usaría para buscar. Recuerde
+                    que su sitio Web es un vendedor y un servicio más que usted
+                    ofrece.
+                </li>
+            </ul>
+        </li>
+        <li>
+            <p>
+                Explicamos a continuación el significado/uso de los siguientes 6
+                campos del formulario de inmuebles.
+            </p>
+            <p><img src="<?php echo $this->baseUrl('/images/help/property/create-4.gif') ?>" alt="" /></p>
+            <ul>
+                <li>
+                    El tercer campo que se muestra es el de <strong>Precio</strong>.
+                    Este campo puede ser una cantidad como $4, 000. Le sugerimos
+                    ser un poco más específico/a e ingrese texto como
+                    <strong>$4, 000 al mes</strong>. Recuerde que al no haber una
+                    persona, un cliente espera que el sitio sea <strong>amable,
+                    atento y dispuesto a explicar el producto o servicio que ofrece
+                    </strong> del mismo modo que lo haría una persona.
+                    Este campo también puede contener texto como: <strong>$3, 000
+                    los locales de 20 metros cuadrados y $8, 000 los locales de 30
+                    metros</strong>.
+                </li>
+                <li>
+                    El campo <strong>Categoría</strong> sirve para indicar si el
+                    inmueble es un local, un terreno o una bodega.
+                </li>
+                <li>
+                    El campo <strong>Mostrar en el sitio Web</strong> sirve, como su
+                    nombre lo indica para saber si el inmueble se mostrará o no en el
+                    sitio Web.
+                </li>
+                <li>
+                    El siguiente bloque de datos <strong>Datos para el censo</strong>
+                    sirve para crear los archivos de excel (Vea la
+                    <a href="<?php echo $this->url(array('controller' => 'excel' , 'action' => 'index', 'module' => 'help'), 'controllers', true) ?>">
+                        página de ayuda para los archivos de excel
+                    </a>
+                    para más información)
+                </li>
+            </ul>
+        </li>
+        <li>
+            <p>
+                Por último se describen el último campo del censo y la sección de
+                <strong>Datos de contacto</strong>
+            </p>
+            <p><img src="<?php echo $this->baseUrl('/images/help/property/create-5.gif') ?>" alt="" /></p>
+            <ul>
+                <li>
+                    Los campos Superficie total, Metros ofrecidos y Metros de frente
+                    son campos numéricos y obligatorios cuyo significado se puede
+                    obviar.
+                </li>
+                <li>
+                    El campo <strong>Tipo de uso</strong> cuenta con cuatro opciones
+                    posibles: Uso habitacional, uso comercial, uso industrial, y uso
+                    mixto.
+                </li>
+                <li>
+                    El último campo del censo es <strong>Disponible para</strong>,
+                    el cual cuenta con dos opciones: Venta y Renta.
+                </li>
+            </ul>
+            <li>
+                El último bloque de datos es el de
+                <strong>Datos de contacto</strong>, en el cual deberá ingresar el
+                nombre, número fijo y número de celular de la persona que
+                corresponda. <strong>Todo el bloque de datos es
+                opcional y puede quedar vacío</strong>.
+            </li>
+            <p><img src="<?php echo $this->baseUrl('/images/help/property/create-6.gif') ?>" alt="" /></p>
+            </li>
+        <li>
+            Cuando haya capturado toda la información obligatoria de clic en Guardar.
+            Después de guardar, la aplicación volverá a la lista de inmuebles.
+        </li>
+    </ol>
+</div>

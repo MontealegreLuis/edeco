@@ -1,0 +1,55 @@
+<?php
+/**
+ * Shows update project form
+ *
+ * @author     LMV <luis.montealegre@mandragora-web-systems.com>
+ * @author     LNJ <lemuel.nonoal@mandragora-web-systems.com>
+ * @copyright  Mandrágora Web-Based Systems 2010
+ * @version    SVN: $Id$
+ */
+?>
+<?php
+$this->headTitle($this->translate('project.action.edit'));
+$this->bundleLink()
+     ->appendStylesheet($this->baseUrl('/styles/breadcrumbs.css'), 'screen, projection', false, array('charset' => 'utf-8'))
+     ->appendStylesheet($this->baseUrl('/styles/skins/breadcrumbs.css'), 'screen, projection', false, array('charset' => 'utf-8'))
+     ->appendStylesheet($this->baseUrl('/styles/forms.css'), 'screen, projection', false, array('charset' => 'utf-8'))
+     ->appendStylesheet($this->baseUrl('/styles/skins/forms.css'), 'screen, projection', false, array('charset' => 'utf-8'))
+     ->appendStylesheet($this->baseUrl('/styles/jquery/plugins/file.css'), 'screen, projection', false, array('charset' => 'utf-8'));
+$this->jQuery()
+     ->addJavascriptFile($this->baseUrl('/scripts/jquery/plugins/jquery.validate.js'))
+     ->addJavascriptFile($this->baseUrl('/scripts/jquery/plugins/jquery.confirm.js'))
+     ->addJavascriptFile($this->baseUrl('/scripts/jquery/plugins/jquery.file.js'))
+     ->addJavascriptFile($this->baseUrl('/scripts/edeco/pages/project/class.detail.js'));
+$onLoad = sprintf(
+    'var page = new Edeco.Pages.Project.Detail();
+    page.init();');
+$this->jQuery()->addOnLoad($onLoad);
+?>
+<h1 class="h1"><?php echo $this->translate('project.action.edit') ?></h1>
+<div class="span-6">
+    <div class="actions">
+        <ul class="actions-container">
+            <?php
+            $params = array('id' => $this->project->id);
+            $actions = array(
+                'project.action.list' => array($this->translate('page') => 1),
+                'project.action.create' => array(),
+                'project.action.edit' => $params,
+                'project.action.show' => $params
+            );
+            echo $this->partial(
+                'navigation/_actions.phtml',
+                array(
+                    'pages' => $this->actions,
+                    'actions' => $actions,
+                    'decorator' => 'li'
+                )
+            );
+            ?>
+        </ul>
+    </div>
+</div>
+<div class="span-18 last">
+    <?php echo $this->projectForm ?>
+</div>

@@ -1,0 +1,73 @@
+<?php
+/**
+ * Shows the google map results and the form to store the latitude and
+ * longitude for the selected map
+ *
+ * @author     LMV <luis.montealegre@mandragora-web-systems.com>
+ * @copyright  Mandrágora Web-Based Systems 2010
+ * @version    SVN: $Id$
+ */
+?>
+<?php
+$title = $this->translate('gmap.action.show');
+$this->headTitle($title);
+$this->bundleLink()
+     ->appendStylesheet($this->baseUrl('/styles/breadcrumbs.css'), 'screen, projection')
+     ->appendStylesheet($this->baseUrl('/styles/skins/breadcrumbs.css'), 'screen, projection')
+     ->appendStylesheet($this->baseUrl('/styles/forms.css'), 'screen, projection')
+     ->appendStylesheet($this->baseUrl('/styles/skins/forms.css'), 'screen, projection')
+     ->appendStylesheet($this->baseUrl('/styles/tables.css'), 'screen, projection')
+     ->appendStylesheet($this->baseUrl('/styles/skins/tables.css'), 'screen, projection');
+$googleMapUrl = sprintf('http://maps.google.com/maps?file=api&v=2&key=%s&sensor=false', $this->googleMapsKey);
+$this->headScript()->appendFile($googleMapUrl);
+$this->jQuery()
+     ->addJavascriptFile($this->baseUrl('/scripts/jquery/plugins/jquery.map.js'))
+     ->addJavascriptFile($this->baseUrl('/scripts/edeco/pages/google-map/class.show.js'));
+$onload = sprintf(
+    'var page = new Edeco.Pages.GoogleMap.Show();
+    page.init(%s);',
+    $this->propertyJson
+);
+$this->jQuery()->addOnLoad($onload);
+?>
+<h1><?php echo $title ?></h1>
+<div class="span-6">
+    <div class="actions">
+        <ul class="actions-container">
+            <?php
+            $params = array('id' => $this->addressId);
+            $actions = array(
+                'gmap.action.show' => $params,
+                'gmap.action.edit' => $params,
+                'address.action.show' => $params,
+                'address.action.edit' => $params,
+                'property.action.show' => $params,
+                'property.action.edit' => $params,
+                'property.action.list' => array($this->translate('page') => 1),
+            );
+            echo $this->partial(
+                'navigation/_actions.phtml',
+                array(
+                    'pages' => $this->actions,
+                    'actions' => $actions, 'decorator' => 'li'
+                )
+            )
+            ?>
+        </ul>
+    </div>
+</div>
+<div class="span-18 last">
+    <?php echo $this->partial('partials/flash-messages.phtml', array('messages' => $this->messages)) ?>
+    <table>
+        <tr class="even">
+            <td>
+                <p><strong><?php echo $this->property->name ?></strong></p>
+                <p><?php echo $this->address ?></p>
+            </td>
+            <td>
+                <div id="google-map" style="width: 350px; height: 280px; margin: 0 auto;">
+                </div>
+            </td>
+        </tr>
+    </table>
+</div>

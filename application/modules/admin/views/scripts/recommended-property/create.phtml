@@ -1,0 +1,75 @@
+<?php
+/**
+ * Create RecommendedProperty page
+ *
+ * @author    LMV <luis.montealegre@mandragora-web-systems.com>
+ * @copyright Mandrágora Web-Based Systems 2011
+ * @version   SVN: $Id$
+ */
+?>
+<?php
+$title = $this->translate('recommendedProperty.action.create');
+$this->headTitle($title);
+$this->bundleLink()
+     ->appendStylesheet($this->baseUrl('/styles/breadcrumbs.css'), 'screen, projection')
+     ->appendStylesheet($this->baseUrl('/styles/skins/breadcrumbs.css'), 'screen, projection')
+     ->appendStylesheet($this->baseUrl('/styles/forms.css'), 'screen, projection')
+     ->appendStylesheet($this->baseUrl('/styles/skins/forms.css'), 'screen, projection')
+     ->appendStylesheet($this->baseUrl('/styles/tables.css'), 'screen, projection')
+     ->appendStylesheet($this->baseUrl('/styles/skins/tables.css'), 'screen, projection');
+$this->jQuery()
+     ->addJavascriptFile($this->baseUrl('/scripts/jquery/plugins/jquery.validate.js'))
+     ->addJavascriptFile($this->baseUrl('/scripts/edeco/pages/recommended-property/class.detail.js'));
+$this->jQuery()->addOnLoad(
+	'var recommendedPropertyPage = new Edeco.Pages.RecommendedProperty.Detail();
+    recommendedPropertyPage.init();'
+);
+?>
+<h1><?php echo $title ?></h1>
+<div class="span-6">
+    <div class="actions">
+        <ul class="actions-container">
+            <?php
+            $actions = array(
+                'recommendedProperty.action.create' => array(),
+                'recommendedProperty.action.list' => array(
+                    $this->translate('page') => 1,
+                    $this->translate('propertyId') => $this->propertyId,
+                    $this->translate('stateId') => $this->stateId,
+                )
+            );
+            echo $this->partial(
+                'navigation/_actions.phtml',
+                array(
+                    'pages' => $this->actions,
+                    'actions' => $actions,
+                    'decorator' => 'li'
+                )
+            );
+            ?>
+        </ul>
+    </div>
+</div>
+<div class="span-18 last">
+	<?php if ($this->properties->count() <= 0) : ?>
+	    <p class="empty-list">No existen recomendaciones para esta propiedad.</p>
+	<?php else : ?>
+        <table>
+            <colgroup>
+                <col width="60" />
+                <col width="580" />
+            </colgroup>
+            <tr>
+                <th>Agregar</th>
+                <th>Inmueble</th>
+            </tr>
+            <?php foreach($this->properties as $property) : ?>
+                <tr class="<?php echo $this->cycle(array('even', 'odd'))->next() ?>">
+                    <td><?php echo $this->formCheckbox('property-' . $property->id, $property->id) ?></td>
+                    <td><p><?php echo $property ?></p></td>
+                </tr>
+            <?php endforeach ?>
+        </table>
+        <?php echo $this->recommendedPropertyForm ?>
+    <?php endif ?>
+</div>

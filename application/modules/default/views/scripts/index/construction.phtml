@@ -1,0 +1,57 @@
+<?php
+/**
+ * Construction service page
+ *
+ * @author    LMV <luis.montealegre@mandragora-web-systems.com>
+ * @copyright Mandrágora Web-Based Systems
+ * @version   SVN: $Id$
+ */
+?>
+<?php
+$this->headTitle('Constructora');
+$this->jQuery()->enable();
+$this->jQuery()
+     ->addJavascriptFile($this->baseUrl('/scripts/jquery/plugins/jqFancyTransitions.1.8.min.js'))
+     ->addJavascriptFile($this->baseUrl('/scripts/edeco/pages/index/class.construction.js'));
+$this->jQuery()->addOnload(
+	'var page = new Edeco.Pages.Index.Construction();
+    page.init();'
+);
+?>
+<?php echo $this->render('default/_side-content.phtml') ?>
+<div class="span-18 last">
+    <h1 class="two-column">Constructora</h1>
+    <div class="span-9">
+        <p>
+        	En Edificaciones y Desarrollos Comerciales de México nos
+        	especializamos en <strong>diseñar y construir</strong>,
+        	interpretando las ideas de nuestros clientes, para
+        	<strong>crear los espacios comerciales adecuados</strong>, y
+        	alcanzar  el éxito y funcionalidad de su negocio o empresa.
+        </p>
+        <p>
+        	Estamos comprometidos para trabajar con <strong>calidad, precios
+        	justos, y en el tiempo pactado</strong>, brindando así el mejor
+        	servicio, antes, durante y después del proyecto.
+        </p>
+        <p>
+        	Elaboramos <strong>proyectos integrales que se ajusten a su
+        	presupuesto</strong>, trabajando con cronogramas de obra y
+        	supervisión constante de un director de obra.
+        </p>
+        <p>
+        	Realizamos también, <strong>remodelaciones de locales y
+        	oficinas</strong>, logrando un cambio total en la imagen,
+        	generando ambientes cálidos y modernos que atraen a los clientes
+        	esperados.
+        </p>
+    </div>
+    <div class="span-9 last">
+        <p id="construction-slides">
+        	<img src="<?php echo $this->baseUrl('/images/edeco-construction-1.jpg') ?>" alt="<strong>Espacios adecuados</strong>" />
+        	<img src="<?php echo $this->baseUrl('/images/edeco-construction-2.jpg') ?>" alt="<strong>Precios justos</strong>" />
+        	<img src="<?php echo $this->baseUrl('/images/edeco-construction-3.jpg') ?>" alt="<strong>Proyectos integrales</strong>" />
+        	<img src="<?php echo $this->baseUrl('/images/edeco-construction-4.jpg') ?>" alt="<strong>Remodelaciones</strong>" />
+    	</p>
+    </div>
+</div>

@@ -1,0 +1,58 @@
+<?php
+/**
+ * Shows about page
+ *
+ * @author    MMS <meri.michimani@mandragora-web-systems.com>
+ * @author    LMV <luis.montealegre@mandragora-web-systems.com>
+ * @copyright Mandrágora Web-Based Systems
+ * @version   SVN: $Id$
+ */
+?>
+<?php
+$this->headTitle('Mapa del sitio');
+$this->headMeta()->appendName(
+    'keywords',
+    'mapa sitio edeco'
+);
+$this->headMeta()->appendName(
+    'description',
+    'Mapa del sitio Web de Edificaciones y Desarrollos Comerciales de México '
+    . '(EDECO), empresa de consultoría profesional inmobiliaria.'
+);
+?>
+<?php echo $this->render('default/_side-content.phtml') ?>
+<div class="span-18 last">
+    <h1>Mapa del Sitio</h1>
+    <ul>
+    <?php foreach ($this->sitemap as $section) : ?>
+        <li>
+            <?php $label = $section->getLabel() ?>
+            <a href="<?php echo $section->getHref()?>" title="<?php echo $label ?>">
+                <?php echo $label ?>
+            </a>
+            <?php if ($section->hasPages()) : ?>
+                <ul class="subsection">
+                <?php foreach ($section as $page) : ?>
+                    <li>
+                        <a href="<?php echo $page->getHref() ?>" title="<?php echo $label ?>">
+                            <?php echo $page->getLabel() ?>
+                        </a>
+                        <?php if ($page->hasPages()) : ?>
+                            <ul class="subsection">
+                            <?php foreach ($page as $subsection) : ?>
+                                <li>
+                                    <a href="<?php echo $subsection->getHref() ?>" title="<?php echo $subsection->getLabel() ?>">
+                                        <?php echo $subsection->getLabel() ?>
+                                    </a>
+                                </li>
+                            <?php endforeach ?>
+                            </ul>
+                        <?php endif ?>
+                    </li>
+                <?php endforeach ?>
+                </ul>
+            <?php endif ?>
+        </li>
+    <?php endforeach ?>
+    </ul>
+</div>

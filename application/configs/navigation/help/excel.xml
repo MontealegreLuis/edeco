@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configdata>
+    <nav>
+        <create>
+            <label>¿Cómo agregar un archivo de Excel?</label>
+            <module>admin</module>
+            <controller>help</controller>
+            <action>show</action>
+            <params>
+                <topic>excel</topic>
+                <operation>create</operation>
+            </params>
+            <route>help</route>
+        </create>
+        <update>
+            <label>¿Cómo eliminar un archivo de Excel?</label>
+            <module>admin</module>
+            <controller>help</controller>
+            <action>show</action>
+            <params>
+                <topic>excel</topic>
+                <operation>delete</operation>
+            </params>
+            <route>help</route>
+        </update>
+        <download>
+            <label>¿Cómo descargar un archivo de Excel?</label>
+            <module>admin</module>
+            <controller>help</controller>
+            <action>show</action>
+            <params>
+                <topic>excel</topic>
+                <operation>download</operation>
+            </params>
+            <route>help</route>
+        </download>
+     </nav>
+</configdata>

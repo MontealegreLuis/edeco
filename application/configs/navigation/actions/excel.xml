@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configdata>
+    <nav>
+        <list>
+            <label>excel.action.list</label>
+            <controller>excel</controller>
+            <action>list</action>
+            <module>admin</module>
+            <route>controllers</route>
+        </list>
+        <create>
+            <label>excel.action.create</label>
+            <controller>excel</controller>
+            <action>create</action>
+            <module>admin</module>
+            <route>controllers</route>
+        </create>
+        <delete>
+            <label>excel.action.delete</label>
+            <module>admin</module>
+            <controller>excel</controller>
+            <action>delete</action>
+            <route>controllers</route>
+        </delete>
+        <show>
+            <label>excel.action.show</label>
+            <controller>excel</controller>
+            <action>show</action>
+            <module>admin</module>
+            <route>controllers</route>
+        </show>
+        <download>
+            <label>excel.action.download</label>
+            <module>admin</module>
+            <controller>excel</controller>
+            <action>download</action>
+            <route>controllers</route>
+        </download>
+    </nav>
+</configdata>

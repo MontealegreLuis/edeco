@@ -1,0 +1,63 @@
+@charset "utf-8";
+
+/**
+ * @author     LMV <luis.montealegre@mandragora-web-systems.com>
+ * @version    SVN $Id$
+ * @copyright  Mandrágora Web-Based Systems 2010
+ */
+/* --------------------------------------------------------- *
+ * Printing stylesheet
+ * --------------------------------------------------------- */
+body {
+	color: #555;
+	font-size: 12pt;
+}
+
+img {
+	border-style: none;
+}
+
+dd {
+	margin-left: 0;
+	padding-left: 0;
+}
+
+input,
+textarea {
+	border-style: none none solid none;
+	border-width: 1px;
+	border-bottom-color: #000;
+}
+
+a:link:after,
+a:visited:after {
+  content: " (" attr(href) ") ";
+  font-size: 90%;
+}
+
+input[type=submit],
+input[type=password],
+.branding,
+.gallery-navigation,
+.column-flash,
+.admin-nav,
+.additional-links,
+.footer,
+.property-pictures {
+	display: none;
+}
+
+h1, h2 {
+    page-break-before: auto;
+}
+
+p {
+    page-break-inside: avoid;
+}
+
+.map {
+    margin: 0 auto;
+    text-align: center;
+    width: 580px; 
+    height: 400px;
+}

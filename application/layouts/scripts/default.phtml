@@ -1,0 +1,33 @@
+<?php echo $this->doctype() ?>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="es-mx" dir="ltr">
+    <head>
+        <meta http-equiv="X-UA-Compatible" content="IE=EmulateIE7" />
+		<?php echo $this->render('includes/_head.phtml') ?>
+    </head>
+    <body>
+        <div class="branding">
+            <div class="container nav-wrapper">
+                <?php echo $this->render('includes/_branding.phtml') ?>
+                <div class="main-navigation">
+                    <?php
+                        echo $this->navigation()->menu()->setPartial(
+                            array('includes/_navigation.phtml','default')
+                        );
+                    ?>
+                </div>
+            </div>
+        </div>
+        <div class="container content-wrapper">
+            <div class="content clearfix">
+                <?php echo $this->layout()->content ?>
+            </div>
+            <div class="additional-links clearfix">
+                <?php echo $this->render('includes/_additional-links.phtml') ?>
+            </div>
+        </div>
+        <div class="footer">
+            <?php echo $this->render('includes/_footer.phtml') ?>
+            <?php echo $this->googleAnalytics('UA-8689135-8') ?>
+        </div>
+    </body>
+</html>

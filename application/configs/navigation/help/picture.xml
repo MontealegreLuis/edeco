@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configdata>
+    <nav>
+        <create>
+            <label>¿Cómo agregar una fotografía?</label>
+            <module>admin</module>
+            <controller>help</controller>
+            <action>show</action>
+            <params>
+                <topic>picture</topic>
+                <operation>create</operation>
+            </params>
+            <route>help</route>
+        </create>
+        <update>
+            <label>¿Cómo modificar una fotografía?</label>
+            <module>admin</module>
+            <controller>help</controller>
+            <action>show</action>
+            <params>
+                <topic>picture</topic>
+                <operation>edit</operation>
+            </params>
+            <route>help</route>
+        </update>
+        <delete>
+            <label>¿Cómo eliminar una fotografía?</label>
+            <module>admin</module>
+            <controller>help</controller>
+            <action>show</action>
+            <params>
+                <topic>picture</topic>
+                <operation>delete</operation>
+            </params>
+            <route>help</route>
+        </delete>
+    </nav>
+</configdata>

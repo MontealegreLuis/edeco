@@ -1,0 +1,95 @@
+<?php
+/**
+ * Shows welcome page
+ *
+ * @author    LMV <luis.montealegre@mandragora-web-systems.com>
+ * @author    LNJ <lemuel.nonoal@mandragora-web-systems.com>
+ * @copyright Mandrágora Web-Based Systems
+ * @version   SVN: $Id$
+ */
+?>
+<?php
+$this->headTitle('Bienvenido');
+$this->headMeta()->appendName(
+    'keywords',
+    'consultoría inmobiliaria, desarrollos comerciales, venta-renta de locales'
+);
+$this->headMeta()->appendName(
+    'description',
+    'Bienvenido al sitio Web de Edificaciones y Desarrollos Comerciales de México (EDECO), empresa de consultoría profesional inmobiliaria.'
+);
+$this->bundleLink()
+     ->appendStylesheet($this->baseUrl('/styles/gallery.css'), 'screen, projection', false, array('charset' => 'utf-8'))
+     ->appendStylesheet($this->baseUrl('/styles/skins/gallery.css'), 'screen, projection', false, array('charset' => 'utf-8'))
+     ->appendStylesheet($this->baseUrl('/styles/skins/edeco/skin.css'), 'screen, projection', false, array('charset' => 'utf-8'))
+     ->appendStylesheet($this->baseUrl('/styles/jquery/plugins/slideshow.css'), 'screen, projection', false, array('charset' => 'utf-8'))
+     ->appendStylesheet($this->baseUrl('/styles/jquery/plugins/jquery.fancybox-1.3.4.css'), 'screen, projection', false, array('charset' => 'utf-8'));
+$this->jQuery()->enable();
+$this->jQuery()
+     ->addJavascriptFile($this->baseUrl('/scripts/jquery/plugins/jquery.jcarousel.min.js'))
+     ->addJavascriptFile($this->baseUrl('/scripts/jquery/plugins/jquery.slideshow.js'))
+     ->addJavascriptFile($this->baseUrl('/scripts/jquery/plugins/jquery.gallery.js'))
+     ->addJavascriptFile($this->baseUrl('/scripts/jquery/plugins/jquery.easing-1.3.pack.js'))
+     ->addJavascriptFile($this->baseUrl('/scripts/jquery/plugins/jquery.fancybox-1.3.4.pack.js'))
+     ->addJavascriptFile($this->baseUrl('/scripts/edeco/pages/index/class.index.js'));
+$onload = sprintf(
+    'var page = new Edeco.Pages.Index.Index();
+    page.init(%s, "%s", "%s", "%s");',
+    $this->dtoProperties,
+    $this->baseUrl('/images/properties/'),
+    $this->baseUrl('/images/gallery/'),
+    $this->url(array('propertyUrl' => 'propertyUrl', 'category' => 'category', 'state' => 'state', 'availability' => 'availability'), 'newdetail')
+);
+$this->jQuery()->addOnLoad($onload);
+?>
+<div class="column column-index span-11">
+    <h1>Edificaciones y Desarrollos Comerciales de México</h1>
+    <p>
+        Edeco es una empresa de Consultoría Profesional Inmobiliaria. Nuestro
+        principal objetivo es proporcionarle asesoría para localizar inmuebles
+        que ayuden a elevar el valor de la marca de su negocio o empresa,
+        utilizando un criterio de selección que incluye características
+        importantes como visibilidad a gran distancia, acceso cómodo para sus
+        clientes, estacionamiento amplio y un precio justo de mercado.
+    </p>
+</div>
+<div class="slides-index span-12 last">
+    <div class="slideShow">
+        <ul class="slides">
+            <?php for($i = 1; $i <= 6; $i++) : ?>
+                <li class="slide">
+                    <img src="<?php echo $this->baseUrl("/images/edeco-index-$i.jpg") ?>" alt="" />
+                </li>
+            <?php endfor ?>
+        </ul>
+    </div>
+</div>
+<?php if ($this->properties->count() > 0) : ?>
+<?php $property = $this->properties[0] ?>
+<div class="span-24 last">
+    <div class="gallery">
+        <div id="gallery-current">
+            <h2 id="gallery-property-name"><?php echo $property->name ?></h2>
+            <div class="gallery-image span-11">
+                <a id="dialog" href="<?php echo $this->baseUrl((string)$property->Picture[0]); ?>"
+                   title="<?php echo $property->Picture[0]->shortDescription ?>">
+                    <img alt="<?php echo $property->Picture[0]->shortDescription ?>"
+                         src="<?php echo $this->baseUrl($property->Picture[0]->galleryToString()); ?>"
+                         class="left" id="gallery-main-image" />
+                </a>
+            </div>
+            <div class="gallery-description span-10 last">
+                <h3>Descripción</h3>
+                <?php echo $property->description ?>
+                <p>
+                    <a class="more" title="<?php echo $property->name ?>"
+                       href="<?php echo $this->url(array('propertyUrl' => $property->url, 'category' => $property->Category->url, 'state' => $property->Address->City->State->url, 'availability' => $this->translate($property->availabilityFor)), 'newdetail') ?>">
+                        Leer más
+                    </a>
+                </p>
+            </div>
+        </div>
+        <div class="gallery-navigation"></div>
+    </div>
+</div>
+<?php endif ?>

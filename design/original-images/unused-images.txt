@@ -1,0 +1,3 @@
+background-content.png
+motto-1.png
+motto-2.png

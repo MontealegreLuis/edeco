@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configdata>
+    <nav>
+        <list>
+            <label>category.action.list</label>
+            <controller>category</controller>
+            <action>list</action>
+            <module>admin</module>
+            <route>controllers</route>
+        </list>
+        <create>
+            <label>category.action.create</label>
+            <controller>category</controller>
+            <action>create</action>
+            <module>admin</module>
+            <route>controllers</route>
+        </create>
+        <delete>
+            <label>category.action.delete</label>
+            <module>admin</module>
+            <controller>category</controller>
+            <action>delete</action>
+            <route>controllers</route>
+        </delete>
+        <edit>
+            <label>category.action.edit</label>
+            <controller>category</controller>
+            <action>edit</action>
+            <module>admin</module>
+            <route>controllers</route>
+        </edit>
+        <show>
+            <label>category.action.show</label>
+            <module>admin</module>
+            <controller>category</controller>
+            <action>show</action>
+            <route>controllers</route>
+        </show>
+    </nav>
+</configdata>

@@ -1,0 +1,67 @@
+<?php
+/**
+ * Show picture information
+ *
+ * @author     LMV <luis.montealegre@mandragora-web-systems.com>
+ * @copyright  Mandrágora Web-Based Systems 2010
+ * @version    SVN: $Id$
+ */
+?>
+<?php
+$title = $this->translate('picture.action.show');
+$this->headTitle($title);
+$this->bundleLink()
+     ->appendStylesheet($this->baseUrl('/styles/breadcrumbs.css'), 'screen, projection', false, array('charset' => 'utf-8'))
+     ->appendStylesheet($this->baseUrl('/styles/skins/breadcrumbs.css'), 'screen, projection', false, array('charset' => 'utf-8'))
+     ->appendStylesheet($this->baseUrl('/styles/tables.css'), 'screen, projection', false, array('charset' => 'utf-8'))
+     ->appendStylesheet($this->baseUrl('/styles/skins/tables.css'), 'screen, projection', false, array('charset' => 'utf-8'));
+?>
+<h1><?php echo $this->translate('picture.action.show') ?></h1>
+<div class="span-6">
+    <div class="actions">
+        <ul class="actions-container">
+            <?php
+            $actions = array(
+                'picture.action.create' => array($this->translate('propertyId') => $this->propertyId,),
+                'picture.action.edit' => array($this->translate('propertyId') => $this->propertyId, 'id' => $this->picture->id,),
+                'picture.action.show' => array($this->translate('propertyId') => $this->propertyId, 'id' => $this->picture->id,),
+                'picture.action.list' => array($this->translate('propertyId') => $this->propertyId, $this->translate('page') => 1),
+                'property.action.show' => array('id' => $this->propertyId),
+                'property.action.list' => array($this->translate('page') => 1),
+            );
+            echo $this->partial(
+                'navigation/_actions.phtml',
+                array(
+                    'pages' => $this->actions,
+                    'actions' => $actions,
+                    'decorator' => 'li'
+                )
+            );
+            ?>
+        </ul>
+    </div>
+</div>
+<div class="span-18 last">
+    <?php echo $this->partial('partials/flash-messages.phtml', array('messages' => $this->messages)) ?>
+    <table class="model-show">
+        <colgroup>
+            <col width="170px" />
+            <col width="470px" />
+        </colgroup>
+        <tr class="even">
+            <td class="model-property">
+                <?php echo $this->translate('property.field.description') ?>
+            </td>
+            <td class="model-value">
+                <?php echo $this->picture->shortDescription ?>
+            </td>
+        </tr>
+        <tr class="odd">
+            <td class="model-property">Imagen</td>
+            <td class="model-value">
+                <img alt="<?php echo $this->picture->shortDescription ?>" title="<?php echo $this->picture->shortDescription ?>"
+                     src="<?php echo $this->url(array('controller' => 'image', 'action' => 'show', $this->translate('imageName') => $this->picture->filename), 'controllers', true) ?>" />
+            </td>
+        </tr>
+    </table>
+</div>
