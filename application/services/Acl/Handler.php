@@ -1,4 +1,11 @@
 <?php
+/**
+ * PHP version 5.6
+ *
+ * This source file is subject to the license that is bundled with this package in the file LICENSE.
+ *
+ * @copyright  Mandrágora Web-Based Systems 2010-2015 (http://www.mandragora-web-systems.com)
+ */
 class App_Service_Acl_Handler implements Mandragora_Service_Acl_Interface
 {
     /**
@@ -57,8 +64,7 @@ class App_Service_Acl_Handler implements Mandragora_Service_Acl_Interface
                 $this->auditActivity($identity->username);
             }
         } else {
-            if ($this->acl->has($resource) &&
-                !$this->acl->isAllowed('guest', $resource, $action)) {
+            if ($this->acl->has($resource) && !$this->acl->isAllowed('guest', $resource, $action)) {
                 $this->notAuthenticated = true;
             }
         }

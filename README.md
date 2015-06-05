@@ -1,7 +1,6 @@
-# Libraries info
+# EDECO
 
-* ZF       1.10.1
-* Doctrine 1.2
+## Apache setup
 
 Place this in vhosts.conf
 
@@ -10,11 +9,9 @@ Place this in vhosts.conf
 # edeco.mx
 #
 <VirtualHost *:80>
-    DocumentRoot "C:/Archivos de programa/Zend/Apache2/htdocs/svn/edeco.com/edeco.mx"
+    DocumentRoot "/path/to/edeco/edeco.mx"
     ServerName edeco.mx
-    ErrorLog "C:/Archivos de programa/Zend/Apache2/logs/error-vhosts.log"
-    CustomLog "C:/Archivos de programa/Zend/Apache2/logs/access-vhosts.log" common
-    <Directory "C:/Archivos de programa/Zend/Apache2/htdocs/svn/edeco.com/edeco.mx">
+    <Directory "/path/to/edeco/edeco.mx">
         Options Indexes FollowSymLinks
         AllowOverride All
         Order allow,deny
@@ -25,11 +22,9 @@ Place this in vhosts.conf
 # admin.edeco.mx
 #
 <VirtualHost *:80>
-    DocumentRoot "C:/Archivos de programa/Zend/Apache2/htdocs/svn/edeco.com/admin.edeco.mx"
+    DocumentRoot "/path/to/edeco/admin.edeco.mx"
     ServerName admin.edeco.mx
-    ErrorLog "C:/Archivos de programa/Zend/Apache2/logs/error-vhosts.log"
-    CustomLog "C:/Archivos de programa/Zend/Apache2/logs/access-vhosts.log" common
-    <Directory "C:/Archivos de programa/Zend/Apache2/htdocs/svn/edeco.com/admin.edeco.mx">
+    <Directory "/path/to/edeco/admin.edeco.mx">
         Options Indexes FollowSymLinks
         AllowOverride All
         Order allow,deny
@@ -45,16 +40,6 @@ Place this in hosts
 127.0.0.1       admin.edeco.mx
 ```
 
-## Admin credentials
-
-User: admin@edeco.com
-password: edecodev
-
-## Client credentials
-
-User: client@edeco.com
-password: edecoclient
-
 Add this to .htaccess in admin when in production
 
 ```apache
@@ -62,6 +47,16 @@ RewriteEngine On
 RewriteCond %{HTTPS} !=on
 RewriteRule .* https://%{SERVER_NAME}%{REQUEST_URI} [R,L]
 ```
+
+## Admin credentials
+
+* User: `admin@edeco.com`
+* Password: `edecodev`
+
+## Client credentials
+
+* User: `client@edeco.com`
+* password: `edecoclient`
 
 ## Application setup
 
