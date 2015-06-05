@@ -51,7 +51,7 @@ class   Admin_IndexController extends Mandragora_Controller_Action_Auth
      * @return void
      */
     public function loginAction()
-    {die;
+    {
         if ($this->service->isUserLogged()) {
             $this->redirectToInitialPage();
         }

@@ -1,4 +1,11 @@
 <?php
+/**
+ * PHP version 5.6
+ *
+ * This source file is subject to the license that is bundled with this package in the file LICENSE.
+ *
+ * @copyright  Mandrágora Web-Based Systems 2010-2015 (http://www.mandragora-web-systems.com)
+ */
 class Mandragora_Geocoder_Adapter
 {
     const SUCCESS = 200;
@@ -28,21 +35,21 @@ class Mandragora_Geocoder_Adapter
     /**
      * @param string $address
      * @return array
+     * @throws Exception
      */
     public function lookup($address)
     {
         $client = new Zend_Http_Client();
-        $client->setUri($this->getGeocodeUri());
-        $client->setParameterGet('q', (string)$address)
-               ->setParameterGet('output', 'json')
-               ->setParameterGet('sensor', 'false')
-               ->setParameterGet('key', $this->apiKey);
-
+        $client
+            ->setUri($this->getGeocodeUri())
+            ->setParameterGet('q', (string)$address)
+            ->setParameterGet('output', 'json')
+            ->setParameterGet('sensor', 'false')
+            ->setParameterGet('key', $this->apiKey)
+        ;
         $result = $client->request('GET');
 
-        $response = Zend_Json_Decoder::decode(
-            $result->getBody(), Zend_Json::TYPE_OBJECT
-        );
+        $response = Zend_Json_Decoder::decode($result->getBody(), Zend_Json::TYPE_OBJECT);
 
         if ($response instanceof stdClass) {
             $status = $response->Status->code;
@@ -54,10 +61,7 @@ class Mandragora_Geocoder_Adapter
 
                 $placemarks = array();
                 foreach ($response->Placemark as $placemark) {
-
-                    $placemarks[] = Mandragora_Geocoder_PlaceMark::fromJson(
-                        $placemark
-                    );
+                    $placemarks[] = Mandragora_Geocoder_PlaceMark::fromJson($placemark);
                 }
                 return $placemarks;
 
@@ -65,9 +69,7 @@ class Mandragora_Geocoder_Adapter
             case self::UNAVAILABLE_ADDRESS:
                 return array();
             default:
-                throw new Exception(
-                    sprintf('Google Geocode error %d occurred', $status)
-                );
+                throw new Exception(sprintf('Google Geocode error %d occurred', $status));
         }
     }
 
