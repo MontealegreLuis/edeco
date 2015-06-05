@@ -103,7 +103,7 @@ class Admin_UserController extends Mandragora_Controller_Action_Abstract
             $this->flash()->addMessage(array('success' => 'user.created'));
             $userName = $this->view->translate('username');
             $params = array($userName => $this->service->getModel()->username);
-            $this->redirect('show', $params);
+            $this->redirectToRoute('show', $params);
         } else {
             $this->view->userForm = $userForm;
             $this->renderScript('user/create.phtml');
@@ -122,7 +122,7 @@ class Admin_UserController extends Mandragora_Controller_Action_Abstract
         $user = $this->service->retrieveUserByUsername($username);
         if (!$user) {
             $this->flash('error')->addMessage('user.not.found');
-            $this->redirect('list', array($this->view->translate('page') => 1));
+            $this->redirectToRoute('list', array($this->view->translate('page') => 1));
         } else {
             $user->prepareShowing();
             $this->view->user = $user;
@@ -139,7 +139,7 @@ class Admin_UserController extends Mandragora_Controller_Action_Abstract
         $user = $this->service->retrieveUserByUsername((string)$username);
         if (!$user) {
             $this->flash('error')->addMessage('user.not.found');
-            $this->redirect('list', array('page' => 1));
+            $this->redirectToRoute('list', array('page' => 1));
         } else {
             $action = $this->view->url(array('action' => 'update'));
             $userForm = $this->service->getFormForEditing($action);
@@ -164,7 +164,7 @@ class Admin_UserController extends Mandragora_Controller_Action_Abstract
             $user = $this->service->retrieveUserByUsername($username);
             if (!$user) {
                 $this->flash('error')->addMessage('user.not.found');
-                $this->redirect('list', array('page' => 1));
+                $this->redirectToRoute('list', array('page' => 1));
             } else {
                 if ($user->version > $userValues['version']) {
                     $this->flash('error')->addMessage(
@@ -178,7 +178,7 @@ class Admin_UserController extends Mandragora_Controller_Action_Abstract
                     $this->flash('success')->addMessage('user.updated');
                     $username = $this->view->translate('username');
                     $params = array($username => $user->username);
-                    $this->redirect('show', $params);
+                    $this->redirectToRoute('show', $params);
                 }
             }
         } else {
@@ -198,7 +198,7 @@ class Admin_UserController extends Mandragora_Controller_Action_Abstract
         $userName = $this->param($this->view->translate('username'));
         $this->service->deleteUser((string)$userName);
         $this->flash('error')->addMessage('user.deleted');
-        $this->redirect('list', array('page' => 1));
+        $this->redirectToRoute('list', array('page' => 1));
     }
 
     /**

@@ -92,7 +92,7 @@ extends Mandragora_Controller_Action_Abstract
             $this->service->createCategory();
             $this->flash('success')->addMessage('category.created');
             $params = array('id' => $this->service->getModel()->id);
-            $this->redirect('show', $params);
+            $this->redirectToRoute('show', $params);
         } else {
             $this->view->categoryForm = $categoryForm;
             $this->renderScript('category/create.phtml');
@@ -108,7 +108,7 @@ extends Mandragora_Controller_Action_Abstract
         $category = $this->service->retrieveCategoryById($id);
         if (!$category) {
             $this->flash('error')->addMessage('category.not.found');
-            $this->redirect('list', array($this->view->translate('page') => 1));
+            $this->redirectToRoute('list', array($this->view->translate('page') => 1));
         } else {
             $this->view->category = $category;
         }
@@ -123,7 +123,7 @@ extends Mandragora_Controller_Action_Abstract
         $category = $this->service->retrieveCategoryById($id);
         if (!$category) {
             $this->flash('error')->addMessage('category.not.found');
-            $this->redirect('list', array('page' => 1));
+            $this->redirectToRoute('list', array('page' => 1));
         } else {
             $action = $this->view->url(array('action' => 'update'));
             $categoryForm = $this->service->getFormForEditing($action);
@@ -146,7 +146,7 @@ extends Mandragora_Controller_Action_Abstract
             $category = $this->service->retrieveCategoryById($id);
             if (!$category) {
                 $this->flash('error')->addMessage('category.not.found');
-                $this->redirect('list', array('page' => 1));
+                $this->redirectToRoute('list', array('page' => 1));
             } else {
                 if ($category->version > $values['version']) {
                     $this->flash('error')
@@ -157,7 +157,7 @@ extends Mandragora_Controller_Action_Abstract
                 } else {
                     $this->service->updateCategory();
                     $this->flash('success')->addMessage('category.updated');
-                    $this->redirect('show', array('id' => $category->id));
+                    $this->redirectToRoute('show', array('id' => $category->id));
                 }
             }
         } else {
@@ -177,7 +177,7 @@ extends Mandragora_Controller_Action_Abstract
         $category = $this->service->retrieveCategoryById($id);
         if (!$category) {
             $this->flash('error')->addMessage('category.not.found');
-            $this->redirect(
+            $this->redirectToRoute(
                 'list', array($this->view->translate('page') => 1)
             );
         } else {
@@ -185,13 +185,13 @@ extends Mandragora_Controller_Action_Abstract
                 $this->service->deleteCategory($id);
                 $this->flash('success')->addMessage('category.deleted');
                 $params = array($this->view->translate('page') => 1);
-                $this->redirect('list', $params);
+                $this->redirectToRoute('list', $params);
             } catch (Doctrine_Connection_Exception $ce) {
                 if ($ce->getPortableCode() == Doctrine_Core::ERR_CONSTRAINT) {
                     $this->flash('error')
                          ->addMessage('category.constraintError');
                     $params = array('id' => $category->id);
-                    $this->redirect('show', $params);
+                    $this->redirectToRoute('show', $params);
                 }
             }
         }

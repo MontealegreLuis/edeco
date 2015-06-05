@@ -1,6 +1,7 @@
 --
 -- Base de datos: `edeco`
 --
+use edeco;
 
 -- --------------------------------------------------------
 
@@ -10,10 +11,10 @@
 
 CREATE TABLE IF NOT EXISTS `address` (
   `id` int(11) NOT NULL,
-  `streetAndNumber` varchar(45) NOT NULL,
+  `streetAndNumber` varchar(120) NOT NULL,
   `neighborhood` varchar(45) NOT NULL,
   `zipCode` varchar(45) DEFAULT NULL,
-  `addressReference` varchar(45) DEFAULT NULL,
+  `addressReference` varchar(500) DEFAULT NULL,
   `latitude` float DEFAULT NULL,
   `longitude` float DEFAULT NULL,
   `cityId` int(11) NOT NULL,

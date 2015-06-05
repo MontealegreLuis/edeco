@@ -67,7 +67,7 @@ class Admin_ProjectController extends Mandragora_Controller_Action_Abstract
      */
     public function indexAction()
     {
-        $this->redirect('list',  array($this->view->translate('page') => 1));
+        $this->redirectToRoute('list',  array($this->view->translate('page') => 1));
     }
 
     /**
@@ -109,7 +109,7 @@ class Admin_ProjectController extends Mandragora_Controller_Action_Abstract
         if ($projectForm->isValid($this->post())) {
             $this->service->createProject();
             $this->flash()->addMessage(array('success' => 'project.created'));
-            $this->redirect(
+            $this->redirectToRoute(
                 'show',  array('id' => $this->service->getModel()->id)
             );
         } else {
@@ -129,7 +129,7 @@ class Admin_ProjectController extends Mandragora_Controller_Action_Abstract
         $project = $this->service->retrieveProjectById($id);
         if (!$project) {
             $this->flash('error')->addMessage('project.not.found');
-            $this->redirect('list', array('page' => 1));
+            $this->redirectToRoute('list', array('page' => 1));
         } else {
             $this->view->project = $project;
             $this->view->role = Zend_Auth::getInstance()->getIdentity()
@@ -148,7 +148,7 @@ class Admin_ProjectController extends Mandragora_Controller_Action_Abstract
         $project = $this->service->retrieveProjectById($id);
         if (!$project) {
             $this->flash('error')->addMessage('project.not.found');
-            $this->redirect('list', array('page' => 1));
+            $this->redirectToRoute('list', array('page' => 1));
         } else {
             $action = $this->view->url(array('action' => 'update'));
             $projectForm = $this->service->getFormForEditing($action);
@@ -179,7 +179,7 @@ class Admin_ProjectController extends Mandragora_Controller_Action_Abstract
             $project = $this->service->retrieveProjectById($id);
             if (!$project) {
                 $this->flash('error')->addMessage('project.not.found');
-                $this->redirect('list', array('page' => 1));
+                $this->redirectToRoute('list', array('page' => 1));
             } else {
                 if ($project->version > $projectValues['version']) {
                     $this->flash('error')->addMessage(
@@ -191,7 +191,7 @@ class Admin_ProjectController extends Mandragora_Controller_Action_Abstract
                 } else {
                     $this->service->updateProject();
                     $this->flash('success')->addMessage('project.updated');
-                    $this->redirect('show', array('id' => $project->id));
+                    $this->redirectToRoute('show', array('id' => $project->id));
                 }
             }
         } else {
@@ -212,7 +212,7 @@ class Admin_ProjectController extends Mandragora_Controller_Action_Abstract
         $this->service->deleteProject((int)$this->param('id'));
         $this->flash('success')->addMessage('project.deleted');
         $params = array($this->view->translate('page') => 1);
-        $this->redirect('list', $params);
+        $this->redirectToRoute('list', $params);
     }
 
     /**

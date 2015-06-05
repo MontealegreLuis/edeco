@@ -99,7 +99,7 @@ class Admin_GoogleMapController extends Mandragora_Controller_Action_Abstract
             $addressId = (int)$this->post('addressId');
             $this->service->saveGeoPosition($addressId, $geoPosition);
             $this->flash('success')->addMessage('gmap.saved');
-            $this->redirect('show', array('id' => $addressId), 'google-map');
+            $this->redirectToRoute('show', array('id' => $addressId), 'google-map');
         } else {
             $googleMapsKey = $this->_helper->googleMaps($this->getRequest());
             $this->view->googleMapsKey = $googleMapsKey;

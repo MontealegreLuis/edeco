@@ -30,12 +30,10 @@
 /**
  * Base class for Mandragora controllers
  *
- * @category   Library
  * @package    Mandragora
  * @subpackage Controller_Action
  * @author     LMV <luis.montealegre@mandragora-web-systems.com>
  * @copyright  Mandrágora Web-Based Systems 2010
- * @version    SVN: $Id$
  */
 abstract class Mandragora_Controller_Action_Abstract
 extends        Zend_Controller_Action
@@ -167,7 +165,7 @@ extends        Zend_Controller_Action
      * @param string $module = ''
      * @param string $route = null
      */
-    public function redirect(
+    public function redirectToRoute(
         $action, $params = array(), $controller = '', $module = '',
         $route = null
     )

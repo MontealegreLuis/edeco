@@ -24,18 +24,12 @@
  * @subpackage Service_Menu
  * @author     LMV <luis.montealegre@mandragora-web-systems.com>
  * @copyright  Mandrágora Web-Based Systems 2010
- * @version    SVN: $Id$
  */
 
 /**
  * Service that will setup the main navigation menu
  *
- * @category   Library
- * @package    Mandragora
- * @subpackage Service_Menu
  * @author     LMV <luis.montealegre@mandragora-web-systems.com>
- * @copyright  Mandrágora Web-Based Systems 2010
- * @version    SVN: $Id$
  */
 class      App_Service_Menu_Selector
 extends    Mandragora_Service_Controller_Plugin_Abstract
@@ -86,12 +80,10 @@ implements Mandragora_Service_Menu_Interface
      */
     protected function setAccessKeyValues(Zend_Navigation $container)
     {
-        $it = new RecursiveIteratorIterator(
-            $container, RecursiveIteratorIterator::SELF_FIRST
-        );
+        $it = new RecursiveIteratorIterator($container, RecursiveIteratorIterator::SELF_FIRST);
         $i = 1;
         foreach ($it as $page) {
-            $page->accesskey = $i;
+            $page->accesskey = (string) $i;
             $i++;
         }
     }

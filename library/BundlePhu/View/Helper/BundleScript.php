@@ -178,10 +178,7 @@ class BundlePhu_View_Helper_BundleScript extends ZendX_JQuery_View_Helper_JQuery
      * Modifications of captured scripts cannot be detected by this.
      * DONT USE DYNAMICALLY GENERATED CAPTURED SCRIPTS.
      *
-     *
-     *
-     * @param string $indent
-     * @return void
+     * @return string
      * @throws UnexpectedValueException if item has no src attribute or contains no captured source
      */
     public function __toString()

@@ -65,7 +65,7 @@ extends Mandragora_Controller_Action_Auth
      */
     public function indexAction()
     {
-        $this->redirect('login');
+        $this->redirectToRoute('login');
     }
 
     /**
@@ -125,7 +125,7 @@ extends Mandragora_Controller_Action_Auth
             $identity = Zend_Auth::getInstance()->getIdentity();
             $router = Mandragora_Service_Router::factory('Helper');
             $url = $router->getDefaultRoute($identity->roleName);
-            $this->redirect(
+            $this->redirectToRoute(
                 $url['action'], array(), $url['controller'], $url['module'],
                 $url['route']
             );

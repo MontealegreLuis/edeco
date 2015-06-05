@@ -92,7 +92,7 @@ class Admin_AddressController extends Mandragora_Controller_Action_Abstract
             $this->service->createAddress();
             $this->flash('success')->addMessage('address.created');
             $params = array('id' => (int)$this->post('id'));
-            $this->redirect('show', $params);
+            $this->redirectToRoute('show', $params);
         } else {
             $this->view->addressForm = $addressForm;
             $this->renderScript('address/create.phtml');
@@ -109,7 +109,7 @@ class Admin_AddressController extends Mandragora_Controller_Action_Abstract
         $address = $this->service->retrieveAddressById((int)$this->param('id'));
         if (!$address) {
             $this->flash('error')->addMessage('address.not.found');
-            $this->redirect('list', array('page' => 1), 'property');
+            $this->redirectToRoute('list', array('page' => 1), 'property');
         } else {
             $this->view->address = $address;
             $this->setGoogleMapActions();
@@ -126,7 +126,7 @@ class Admin_AddressController extends Mandragora_Controller_Action_Abstract
         $address = $this->service->retrieveAddressById((int)$this->param('id'));
         if (!$address) {
             $this->flash('error')->addMessage('address.not.found');
-            $this->redirect('list', array('page' => 1), 'property');
+            $this->redirectToRoute('list', array('page' => 1), 'property');
         } else {
             $action = $this->view->url(array('action' => 'update'));
             $addressForm = $this->service->getFormForEditing($action);
@@ -158,7 +158,7 @@ class Admin_AddressController extends Mandragora_Controller_Action_Abstract
             if (!$address) {
                 $this->flash('error')->addMessage('address.not.found');
                 $params = array('id' => $propertyId);
-                $this->redirect('show', $params, 'property');
+                $this->redirectToRoute('show', $params, 'property');
             } else {
                 if ($address->version > $addressValues['version']) {
                     $this->flash('error')->addMessage(
@@ -170,7 +170,7 @@ class Admin_AddressController extends Mandragora_Controller_Action_Abstract
                 } else {
                     $this->service->updateAddress();
                     $this->flash('success')->addMessage('address.updated');
-                    $this->redirect('show', array('id' => $propertyId));
+                    $this->redirectToRoute('show', array('id' => $propertyId));
                 }
             }
         } else {
@@ -191,18 +191,18 @@ class Admin_AddressController extends Mandragora_Controller_Action_Abstract
         $address = $this->service->retrieveAddressById($id);
         if (!$address) {
             $this->flash('error')->addMessage('address.not.found');
-            $this->redirect('show', array('id' => $id), 'property');
+            $this->redirectToRoute('show', array('id' => $id), 'property');
         } else {
             try {
                 $this->service->deleteAddress($id);
                 $this->flash('success')->addMessage('address.deleted');
-                $this->redirect('show', array('id' => $id), 'property');
+                $this->redirectToRoute('show', array('id' => $id), 'property');
             } catch (Doctrine_Connection_Exception $ce) {
                 if ($ce->getPortableCode() == Doctrine_Core::ERR_CONSTRAINT) {
                     $this->flash('error')
                     ->addMessage('address.constraintError');
                     $params = array('id' => $address->id);
-                    $this->redirect('show', $params);
+                    $this->redirectToRoute('show', $params);
                 }
             }
         }

@@ -115,7 +115,7 @@ class Admin_PictureController extends Mandragora_Controller_Action_Abstract
                 $this->view->translate('propertyId') => $propertyId,
                 'id' => (int)$this->service->getModel()->id
             );
-            $this->redirect('show', $params);
+            $this->redirectToRoute('show', $params);
         } else {
             $this->view->pictureForm = $pictureForm;
             $this->view->propertyId = (int)$this->post('propertyId');
@@ -140,7 +140,7 @@ class Admin_PictureController extends Mandragora_Controller_Action_Abstract
                 $this->translate('page') => 1,
                 $this->translate('propertyId') => $propertyId
             );
-            $this->redirect('list', $params);
+            $this->redirectToRoute('list', $params);
         } else {
             $action = $this->view->url(array('action' => 'update'));
             $pictureForm = $this->service->getFormForEditing($action);
@@ -175,7 +175,7 @@ class Admin_PictureController extends Mandragora_Controller_Action_Abstract
                             ->retrievePictureByIdAndPropertyId($id, $propertyId);
             if (!$picture) {
                 $this->flash('error')->addMessage('property.not.found');
-                $this->redirect('list', array('page' => 1));
+                $this->redirectToRoute('list', array('page' => 1));
             } else {
                 if ($picture->version > $pictureValues['version']) {
                     $this->flash('error')->addMessage(
@@ -187,7 +187,7 @@ class Admin_PictureController extends Mandragora_Controller_Action_Abstract
                 } else {
                     $this->service->updatePicture();
                     $this->flash('success')->addMessage('picture.updated');
-                    $this->redirect(
+                    $this->redirectToRoute(
                         'show',
                         array(
                             $this->view->translate('propertyId') => $propertyId,
@@ -215,7 +215,7 @@ class Admin_PictureController extends Mandragora_Controller_Action_Abstract
                         ->retrievePictureByIdAndPropertyId($id, $propertyId);
         if (!$picture) {
             $this->flash('error')->addMessage('picture.not.found');
-            $this->redirect(
+            $this->redirectToRoute(
                 'list',
                 array($this->view->translate('page') => 1)
             );
@@ -238,13 +238,13 @@ class Admin_PictureController extends Mandragora_Controller_Action_Abstract
                         ->retrievePictureByIdAndPropertyId($id, $propertyId);
         if (!$picture) {
             $this->flash('error')->addMessage('picture.not.found');
-            $this->redirect(
+            $this->redirectToRoute(
                 'list', array($this->view->translate('page') => 1)
             );
         } else {
             $this->service->deletePicture($id, $propertyId);
             $this->flash('success')->addMessage('picture.deleted');
-            $this->redirect(
+            $this->redirectToRoute(
                 'list',
                 array(
                     $this->view->translate('propertyId') => $propertyId,

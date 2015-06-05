@@ -104,14 +104,14 @@ class Admin_ExcelController extends Mandragora_Controller_Action_Abstract
             if (!$isfileCreated) {
                 $this->flash('error')->addMessage('excel.noPropertiesFound');
                 $params = array($this->view->translate('page') => 1);
-                $this->redirect('list', $params);
+                $this->redirectToRoute('list', $params);
             } else {
                 $this->flash('success')->addMessage('excel.created');
                 $fileName = sprintf('%s_%s.xls', $startDate, $stopDate);
                 $params = array(
                     $this->view->translate('filename') => $fileName,
                 );
-                $this->redirect('show', $params);
+                $this->redirectToRoute('show', $params);
             }
         } else {
             $this->view->excelForm = $excelForm;
@@ -135,7 +135,7 @@ class Admin_ExcelController extends Mandragora_Controller_Action_Abstract
         } else {
             $this->flash('error')->addMessage('excel.fileNotFound');
             $params = array($this->view->translate('page') => 1);
-            $this->redirect('list', $params);
+            $this->redirectToRoute('list', $params);
         }
     }
 
@@ -170,7 +170,7 @@ class Admin_ExcelController extends Mandragora_Controller_Action_Abstract
         $file = $this->service->getExcelFileInformation($fileName);
         $file->delete();
         $this->flash('error')->addMessage('excel.deleted');
-        $this->redirect('list', array());
+        $this->redirectToRoute('list', array());
     }
 
 }

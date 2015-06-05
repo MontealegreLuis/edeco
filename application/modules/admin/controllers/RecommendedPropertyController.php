@@ -111,7 +111,7 @@ extends Mandragora_Controller_Action_Abstract
             	$this->view->translate('propertyId') => $this->post('id'),
             	$this->view->translate('stateId') => $stateId,
             );
-            $this->redirect('list', $params);
+            $this->redirectToRoute('list', $params);
         } else {
             $this->view->recommendedPropertyForm = $recommendedPropertyForm;
             $this->renderScript('recommended-Property/create.phtml');
@@ -136,19 +136,19 @@ extends Mandragora_Controller_Action_Abstract
         );
         if (!$recommendedProperty) {
             $this->flash('error')->addMessage('recommendedProperty.not.found');
-            $this->redirect('list', $params);
+            $this->redirectToRoute('list', $params);
         } else {
             try {
                 $this->service->deleteRecommendedProperty();
                 $this->flash('success')
                      ->addMessage('recommendedProperty.deleted');
-                $this->redirect('list', $params);
+                $this->redirectToRoute('list', $params);
             } catch (Doctrine_Connection_Exception $ce) {
                 if ($ce->getPortableCode() == Doctrine_Core::ERR_CONSTRAINT) {
                     $this->flash('error')
                          ->addMessage('recommendedProperty.constraintError');
                     $params = array('id' => $recommendedProperty->id);
-                    $this->redirect('show', $params);
+                    $this->redirectToRoute('show', $params);
                 }
             }
         }

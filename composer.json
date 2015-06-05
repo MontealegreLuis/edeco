@@ -1,0 +1,24 @@
+{
+    "name": "mandragora/edeco",
+    "description": "Web application for EDECO",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Luis Montealegre",
+            "email": "montealegreluis@gmail.com"
+        }
+    ],
+    "require": {
+        "zendframework/zendframework1": "^1.12",
+        "doctrine/doctrine1": "^1.2",
+        "zendframework/zf1-extras": "^1.12"
+    },
+    "autoload": {
+        "psr-0": {
+            "": "library/"
+        }
+    },
+    "config": {
+        "bin-dir": "bin"
+    }
+}

@@ -111,7 +111,7 @@ class Admin_PropertyController extends Mandragora_Controller_Action_Abstract
             $this->service->createProperty();
             $this->flash('success')->addMessage('property.created');
             $params = array('id' => $this->service->getModel()->id);
-            $this->redirect('show', $params);
+            $this->redirectToRoute('show', $params);
         } else {
             $this->view->propertyForm = $propertyForm;
             $this->renderScript('property/create.phtml');
@@ -129,7 +129,7 @@ class Admin_PropertyController extends Mandragora_Controller_Action_Abstract
         $property = $this->service->retrievePropertyById($id);
         if (!$property) {
             $this->flash('error')->addMessage('property.not.found');
-            $this->redirect('list', array($this->view->translate('page') => 1));
+            $this->redirectToRoute('list', array($this->view->translate('page') => 1));
         } else {
             if (!$property->Address) {
                 $page = $this->view->actions
@@ -163,7 +163,7 @@ class Admin_PropertyController extends Mandragora_Controller_Action_Abstract
         $property = $this->service->retrievePropertyById($id);
         if (!$property) {
             $this->flash('error')->addMessage('property.not.found');
-            $this->redirect('list', array('page' => 1));
+            $this->redirectToRoute('list', array('page' => 1));
         } else {
             $action = $this->view->url(array('action' => 'update'));
             $propertyForm = $this->service->getFormForEditing($action);
@@ -188,7 +188,7 @@ class Admin_PropertyController extends Mandragora_Controller_Action_Abstract
             $property = $this->service->retrievePropertyById($id);
             if (!$property) {
                 $this->flash('error')->addMessage('property.not.found');
-                $this->redirect('list', array('page' => 1));
+                $this->redirectToRoute('list', array('page' => 1));
             } else {
                 if ($property->version > $propertyValues['version']) {
                     $this->flash('error')->addMessage(
@@ -200,7 +200,7 @@ class Admin_PropertyController extends Mandragora_Controller_Action_Abstract
                 } else {
                     $this->service->updateProperty();
                     $this->flash('success')->addMessage('property.updated');
-                    $this->redirect('show', array('id' => $property->id));
+                    $this->redirectToRoute('show', array('id' => $property->id));
                 }
             }
         } else {
@@ -222,7 +222,7 @@ class Admin_PropertyController extends Mandragora_Controller_Action_Abstract
         $property = $this->service->retrievePropertyById($id);
         if (!$property) {
             $this->flash('error')->addMessage('property.not.found');
-            $this->redirect(
+            $this->redirectToRoute(
                 'list', array($this->view->translate('page') => 1)
             );
         } else {
@@ -230,13 +230,13 @@ class Admin_PropertyController extends Mandragora_Controller_Action_Abstract
                 $params = array($this->view->translate('page') => 1);
                 $this->service->deleteProperty($id);
                 $this->flash('success')->addMessage('property.deleted');
-                $this->redirect('list', $params);
+                $this->redirectToRoute('list', $params);
             } catch (Doctrine_Connection_Exception $ce) {
                 if ($ce->getPortableCode() == Doctrine_Core::ERR_CONSTRAINT) {
                     $this->flash('error')
                          ->addMessage('property.constraintError');
                     $params = array('id' => $property->id);
-                    $this->redirect('show', $params);
+                    $this->redirectToRoute('show', $params);
                 }
             }
         }
@@ -258,7 +258,7 @@ class Admin_PropertyController extends Mandragora_Controller_Action_Abstract
             );
     	} else {
     	    $params = array($this->view->translate('page') => 1);
-    	    $this->redirect('list', $params);
+    	    $this->redirectToRoute('list', $params);
     	}
     }
 

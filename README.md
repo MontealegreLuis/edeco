@@ -1,9 +1,11 @@
-Libraries info
+# Libraries info
 
-ZF       1.10.1
-Doctrine 1.2
+* ZF       1.10.1
+* Doctrine 1.2
 
 Place this in vhosts.conf
+
+```apache
 #
 # edeco.mx
 #
@@ -34,21 +36,39 @@ Place this in vhosts.conf
         Allow from all
     </Directory>
 </VirtualHost>
+```
 
 Place this in hosts
+
+```
 127.0.0.1       edeco.mx
 127.0.0.1       admin.edeco.mx
+```
 
-Admin credentials
+## Admin credentials
+
 User: admin@edeco.com
 password: edecodev
 
-Client credentials
+## Client credentials
+
 User: client@edeco.com
 password: edecoclient
 
 Add this to .htaccess in admin when in production
 
+```apache
 RewriteEngine On
 RewriteCond %{HTTPS} !=on
 RewriteRule .* https://%{SERVER_NAME}%{REQUEST_URI} [R,L]
+```
+
+## Application setup
+
+To create the database run:
+
+```bash
+$ mysql -u root -p < application/configs/data/sql/database-dev.sql
+$ mysql -u root -p < application/configs/data/sql/schema.sql
+$ mysql -u root -p < application/configs/data/sql/inserts.sql
+```

@@ -1,7 +1,6 @@
+use edeco;
+
 -- Table `role`
-TRUNCATE TABLE `permission`;
-TRUNCATE TABLE `user`;
-TRUNCATE TABLE role;
 INSERT INTO role(`name`, parentRole) VALUES
 ('admin', null),
 ('guest', null),
@@ -13,7 +12,6 @@ INSERT INTO `user` (`username`, `password`, `state`, roleName) VALUES
 ('client@edeco.com', 'a14cd8b9538171c9112f6ab2f322fa955d7fb2fe', 'active', 'client');
 
 -- Table `resource`
-TRUNCATE TABLE `resource`;
 INSERT INTO `resource` (`name`) VALUES
 ('*'),
 ('admin_address'),
@@ -42,8 +40,6 @@ INSERT INTO `permission` (roleName, resourceName, `name`) VALUES
 ('client', 'admin_index', 'logout');
 
 -- Table state
-TRUNCATE TABLE city; -- Foreign constraint
-TRUNCATE TABLE `state`;
 INSERT INTO state (id, name) VALUES
 (1, 'AGUASCALIENTES'),
 (2, 'BAJA CALIFORNIA NORTE'),
