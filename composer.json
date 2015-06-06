@@ -15,7 +15,7 @@
     },
     "autoload": {
         "psr-0": {
-            "": "library/"
+            "": "src/"
         }
     },
     "config": {
