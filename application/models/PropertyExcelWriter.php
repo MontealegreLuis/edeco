@@ -1,4 +1,11 @@
 <?php
+/**
+ * PHP version 5.6
+ *
+ * This source file is subject to the license that is bundled with this package in the file LICENSE.
+ *
+ * @copyright  Mandrágora Web-Based Systems 2010-2015 (http://www.mandragora-web-systems.com)
+ */
 class App_Model_PropertyExcelWriter
 {
     /**
@@ -38,11 +45,9 @@ class App_Model_PropertyExcelWriter
     /**
      * @param string $startDate
      * @param string $stopDate
-     * @param Edeco_Model_Collection_Property $properties
+     * @param App_Model_Collection_Property $properties
      */
-    public function saveFile(
-        $startDate, $stopDate, App_Model_Collection_Property $properties
-    )
+    public function saveFile($startDate, $stopDate, App_Model_Collection_Property $properties)
     {
         $filename = self::getExcelFilesDirectory() . DIRECTORY_SEPARATOR
             . $startDate . '_' . $stopDate . '.xls';
