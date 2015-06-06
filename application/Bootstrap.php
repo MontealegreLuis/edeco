@@ -48,34 +48,6 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap
     }
 
     /**
-     * Initialize the path to this system resources (forms, services, and
-     * models)
-     *
-     * @return Zend_Loader_Autoloader_Resource
-     */
-    protected function _initResources()
-    {
-        $resourceLoader = new Zend_Loader_Autoloader_Resource(
-            array(
-                'basePath' => APPLICATION_PATH,
-                'namespace' => 'App_',
-                'resourceTypes' =>
-                 array(
-                     'forms' =>
-                         array('path' => 'forms', 'namespace' => 'Form_'),
-                    'services' =>
-                        array('path' => 'services', 'namespace' => 'Service_'),
-                    'models' =>
-                        array('path' => 'models', 'namespace' => 'Model_'),
-                    'enums' =>
-                        array('path' => 'enums', 'namespace' => 'Enum_'),
-                ),
-            )
-        );
-        return $resourceLoader;
-    }
-
-    /**
      * Initialize action helpers
      *
      * @return void
