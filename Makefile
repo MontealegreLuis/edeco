@@ -2,8 +2,9 @@ SHELL = /bin/bash
 
 .PHONY: setup
 
-reset: @echo "Reset database..."
-		php bin/doctrine-cli drop-db
+reset:
+		@echo "Reset database..."
+		php bin/doctrine-cli drop-db --force
 		mysql -u root -p < application/configs/data/sql/database-dev.sql
 		mysql -u root -p < application/configs/data/sql/schema.sql
 		mysql -u root -p < application/configs/data/sql/inserts.sql

@@ -1,5 +1,34 @@
 # EDECO
 
+## Setup
+
+The initial setup needs the following command
+
+```bash
+$ make setup
+```
+
+## Local server setup
+
+There are two commands to run the application using PHP's built-in server.
+
+Run the web section with
+
+```bash
+$ make run
+```
+
+Run the admin section with
+
+```bash
+$ make run-admin
+```
+
+NOTE: The actions that work with files won't work because the routes have the files extensions and the local server
+will try to find the files and will ignore the routes.
+
+To work with those routes you will need Apache.
+
 ## Apache setup
 
 Place this in vhosts.conf
@@ -40,14 +69,6 @@ Place this in hosts
 127.0.0.1       admin.edeco.mx
 ```
 
-Add this to .htaccess in admin when in production
-
-```apache
-RewriteEngine On
-RewriteCond %{HTTPS} !=on
-RewriteRule .* https://%{SERVER_NAME}%{REQUEST_URI} [R,L]
-```
-
 ## Admin credentials
 
 * User: `admin@edeco.com`
@@ -58,12 +79,20 @@ RewriteRule .* https://%{SERVER_NAME}%{REQUEST_URI} [R,L]
 * User: `client@edeco.com`
 * password: `edecoclient`
 
-## Application setup
+## Reset database
 
-To create the database run:
+To start again with a clean database run this command
 
 ```bash
-$ mysql -u root -p < application/configs/data/sql/database-dev.sql
-$ mysql -u root -p < application/configs/data/sql/schema.sql
-$ mysql -u root -p < application/configs/data/sql/inserts.sql
+$ make reset
+```
+
+## Notes
+
+Add this to .htaccess in admin when in production
+
+```apache
+RewriteEngine On
+RewriteCond %{HTTPS} !=on
+RewriteRule .* https://%{SERVER_NAME}%{REQUEST_URI} [R,L]
 ```
