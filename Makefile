@@ -6,7 +6,7 @@ reset:
 		@echo "Reset database..."
 		php bin/doctrine-cli drop-db --force
 		mysql -u root -p < application/configs/data/sql/database-dev.sql
-		mysql -u root -p < application/configs/data/sql/schema.sql
+		php bin/doctrine-cli create-tables
 		mysql -u root -p < application/configs/data/sql/inserts.sql
 
 run:
@@ -18,7 +18,7 @@ run-admin:
 setup:
 		composer install
 		mysql -u root -p < application/configs/data/sql/database-dev.sql
-		mysql -u root -p < application/configs/data/sql/schema.sql
+		php bin/doctrine-cli create-tables
 		mysql -u root -p < application/configs/data/sql/inserts.sql
 		cp application/configs/data/images/gallery/* edeco.mx/images/gallery/
 		cp application/configs/data/images/properties/* edeco.mx/images/properties/
