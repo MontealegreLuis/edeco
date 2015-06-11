@@ -15,6 +15,10 @@ run:
 run-admin:
 		php -S localhost:8000 -t ./admin.edeco.mx
 
+publish:
+		@echo "Deploy project"
+		php bin/mage deploy to:production
+
 setup:
 		composer install
 		mysql -u root -p < application/configs/data/sql/database-dev.sql

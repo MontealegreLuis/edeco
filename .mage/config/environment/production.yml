@@ -1,0 +1,37 @@
+#production
+deployment:
+  user: ewallet
+  from: ./
+  to: /home/ewallet/edeco
+  excludes:
+    - vendor
+    - edeco.mx/images/gallery
+    - edeco.mx/images/properties
+    - edeco.mx/images/thumbs
+    - application/files/*
+    - var/cache/css/*
+    - var/cache/default/*
+    - var/cache/form/*
+    - var/cache/gateway/*
+    - var/cache/js/*
+    - var/cache/page/*
+    - var/cache/paginator/*
+    - var/debug-mail/*
+    - var/logs/*
+    - var/sessions/*
+releases:
+  enabled: true
+  max: 3
+  symlink: current
+  directory: releases
+hosts:
+  - ewallet.mandragora-web-systems.com
+tasks:
+  pre-deploy:
+  on-deploy:
+    - composer install
+    - shared folder images: {sharedImages: 'properties,gallery,thumbs'}
+    - shared folder files: {sharedFiles: 'excel,power-point'}
+  post-release:
+    - shared composer
+  post-deploy:

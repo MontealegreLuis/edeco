@@ -1,0 +1,7 @@
+# global settings
+name: Edeco, Edificios y Desarrollos Comerciales
+email: misraim.mendoza@mandragora-web-systems
+notifications: true
+logging: true
+maxlogs: 30
+ssh_needs_tty: false

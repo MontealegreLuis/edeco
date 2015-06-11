@@ -20,5 +20,8 @@
     },
     "config": {
         "bin-dir": "bin"
+    },
+    "require-dev": {
+        "andres-montanez/magallanes": "^1.0"
     }
 }
