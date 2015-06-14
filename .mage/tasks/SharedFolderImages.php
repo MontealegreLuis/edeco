@@ -20,19 +20,14 @@ class SharedFolderImages extends AbstractTask
 
     public function run()
     {
-        $sharedImages = $this->getParameter('sharedImages', false);
+        $sharedImages = $this->getParameter('sharedImages', []);
+        $folderTo = $this->getConfig()->deployment('to');
 
-        if ($sharedImages) {
-            $folderTo = $this->getConfig()->deployment('to');
-            $releaseId = $this->getConfig()->getReleaseId();
-            foreach (explode(',', $sharedImages) as $folder) {
-                $command = "ln -s $folderTo/shared/$folder edeco.mx/images/$folder";
-                $this->runCommandRemote($command);
-            }
-
-            return true;
-        } else {
-            return false;
+        foreach (explode(',', $sharedImages) as $folder) {
+            $command = "ln -s $folderTo/shared/$folder edeco.mx/images/$folder";
+            $this->runCommandRemote($command);
         }
+
+        return true;
     }
 }

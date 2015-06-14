@@ -6,9 +6,7 @@
  *
  * @copyright  Mandrágora Web-Based Systems 2015 (http://www.mandragora-web-systems.com)
  */
-
 namespace Task;
-
 
 use Mage\Task\AbstractTask;
 
@@ -16,14 +14,13 @@ class SharedComposer extends AbstractTask
 {
     public function getName()
     {
-        return 'Creating symlinks to shared folder composer';
+        return 'Creating symlinks to composer\'s shared folder';
     }
 
     public function run()
     {
         $folderTo = $this->getConfig()->deployment('to');
 
-        $command = "ln -s $folderTo/shared/vendor ./";
-        return $this->runCommandRemote($command);
+        return $this->runCommandRemote("ln -s $folderTo/shared/vendor ./");
     }
 }

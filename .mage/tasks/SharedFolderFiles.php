@@ -6,12 +6,11 @@
  *
  * @copyright  Mandrágora Web-Based Systems 2015 (http://www.mandragora-web-systems.com)
  */
-
 namespace Task;
 
 use Mage\Task\AbstractTask;
 
-class SharedFolderFiles extends  AbstractTask
+class SharedFolderFiles extends AbstractTask
 {
     public function getName()
     {
@@ -20,20 +19,14 @@ class SharedFolderFiles extends  AbstractTask
 
     public function run()
     {
-        $sharedFiles = $this->getParameter('sharedFiles', false);
+        $sharedFiles = $this->getParameter('sharedFiles', []);
+        $folderTo = $this->getConfig()->deployment('to');
 
-        if ($sharedFiles) {
-            $folderTo = $this->getConfig()->deployment('to');
-            $releaseId = $this->getConfig()->getReleaseId();
-
-            foreach (explode(',', $sharedFiles) as $folder) {
-                $command = "ln -s $folderTo/shared/$folder application/files/$folder";
-                $this->runCommandRemote($command);
-            }
-
-            return true;
-        } else {
-            return false;
+        foreach (explode(',', $sharedFiles) as $folder) {
+            $command = "ln -s $folderTo/shared/$folder application/files/$folder";
+            $this->runCommandRemote($command);
         }
+
+        return true;
     }
 }

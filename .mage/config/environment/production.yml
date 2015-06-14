@@ -1,8 +1,8 @@
 #production
 deployment:
-  user: ewallet
+  user: edeco_web
   from: ./
-  to: /home/ewallet/edeco
+  to: /home/edeco_web/edeco
   excludes:
     - vendor
     - edeco.mx/images/gallery
@@ -25,7 +25,7 @@ releases:
   symlink: current
   directory: releases
 hosts:
-  - ewallet.mandragora-web-systems.com
+  - edeco.mx
 tasks:
   pre-deploy:
   on-deploy:

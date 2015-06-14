@@ -17,11 +17,15 @@ class ComposerInstall extends AbstractTask
         return 'Composer install';
     }
 
+    /**
+     * Executes composer install using the shared folder as its vendor directory
+     *
+     * @return boolean
+     */
     public function run()
     {
         $command = "COMPOSER_VENDOR_DIR={$this->getConfig()->deployment('to')}/shared/vendor composer install -o --prefer-dist --no-dev";
 
         return $this->runCommandRemote($command);
     }
-
 }
