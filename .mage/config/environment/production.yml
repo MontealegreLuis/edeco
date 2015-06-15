@@ -32,6 +32,7 @@ tasks:
     - composer install
     - shared folder images: {sharedImages: 'properties,gallery,thumbs'}
     - shared folder files: {sharedFiles: 'excel,power-point'}
+    - access file: {foldersAccess: 'edeco.mx,admin.edeco.mx'}
   post-release:
     - shared composer
   post-deploy:
