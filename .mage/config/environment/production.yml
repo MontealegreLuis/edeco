@@ -16,6 +16,7 @@ deployment:
     - var/cache/js/*
     - var/cache/page/*
     - var/cache/paginator/*
+    - var/cache/locale/*
     - var/debug-mail/*
     - var/logs/*
     - var/sessions/*
