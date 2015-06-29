@@ -48,6 +48,23 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap
     }
 
     /**
+     * @return Zend_Locale
+     */
+    protected function _initLocale()
+    {
+        $frontendOptions = array(
+            'debug_header' => false,
+            'lifetime' => null,
+        );
+        $backendOptions = array('cache_dir' => APPLICATION_PATH . '/../var/cache/locale');
+        $locale = new Zend_Locale('es_MX');
+        $cache = Zend_Cache::factory('CORE', 'FILE', $frontendOptions, $backendOptions);
+        $locale->setCache($cache);
+
+        return $locale;
+    }
+
+    /**
      * Initialize action helpers
      *
      * @return void
