@@ -21,9 +21,10 @@ publish:
 
 setup:
 		composer install
-		mysql -u root -p < application/configs/data/sql/database-dev.sql
+		bin/phing
+		mysql -u $(RUSER) -p$(RPSWD) < application/configs/data/sql/database-dev.sql
 		php bin/doctrine-cli create-tables
-		mysql -u root -p < application/configs/data/sql/inserts.sql
+		mysql -u $(RUSER) -p$(RPSWD) < application/configs/data/sql/inserts.sql
 		cp application/configs/data/images/gallery/* edeco.mx/images/gallery/
 		cp application/configs/data/images/properties/* edeco.mx/images/properties/
 		cp application/configs/data/images/thumbs/* edeco.mx/images/thumbs/

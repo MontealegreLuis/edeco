@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="edeco" description="Sitio Web de EDECO" default="app:config">
+    <resolvepath propertyName="root.path" file="./" />
+
+    <available file="${settings.file}" property="settings.file.exists" value="1" />
+    <if>
+        <equals arg1="${settings.file.exists}" arg2="1" />
+        <then>
+            <property file="${settings.file}" />
+        </then>
+        <else>
+            <property file="${root.path}/build.properties" />
+        </else>
+    </if>
+
+    <target name="app:local-properties" if="local.properties.exist" depends="app:local-properties-check" description="Load custom properties if present">
+        <echo message="Loading custom properties..." />
+        <property file="${root.path}/local.build.properties" override="true" />
+    </target>
+
+    <target name="app:local-properties-check" description="Checks if there are custom properties to load">
+        <available file="${root.path}/local.build.properties" property="local.properties.exist" value="1" />
+    </target>
+
+    <target name="app:config" description="Build configuration files" depends="app:local-properties">
+        <echo msg="Building application.ini file..." />
+        <copy file="${root.path}/application/build/templates/application.ini"
+              tofile="${root.path}/application/configs/application.ini"
+              overwrite="true">
+            <filterchain>
+                <replacetokens begintoken="@@" endtoken="@@">
+                    <token key="email.password" value="${email.password}" />
+                    <token key="gmaps.key" value="${gmaps.key}" />
+                    <token key="csrf.salt" value="${csrf.salt}" />
+                    <token key="db.dsn" value="${db.dsn}" />
+                </replacetokens>
+            </filterchain>
+        </copy>
+        <copy file="${root.path}/application/build/templates/.admin.htaccess"
+              tofile="${root.path}/admin.edeco.mx/.htaccess"
+              overwrite="true">
+            <filterchain>
+                <replacetokens begintoken="@@" endtoken="@@">
+                    <token key="app.env" value="${app.env}" />
+                </replacetokens>
+            </filterchain>
+        </copy>
+        <copy file="${root.path}/application/build/templates/.web.htaccess"
+              tofile="${root.path}/edeco.mx/.htaccess"
+              overwrite="true">
+            <filterchain>
+                <replacetokens begintoken="@@" endtoken="@@">
+                    <token key="app.env" value="${app.env}" />
+                </replacetokens>
+            </filterchain>
+        </copy>
+    </target>
+</project>

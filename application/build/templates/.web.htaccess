@@ -17,12 +17,12 @@ ExpiresByType application/x-shockwave-flash A2592000
 </IfModule>
 
 
-<ifmodule mod_headers.c="">  
-Header unset ETag  
-</ifmodule>  
+<ifmodule mod_headers.c="">
+Header unset ETag
+</ifmodule>
 FileETag None
 
-SetEnv APPLICATION_ENV development
+SetEnv APPLICATION_ENV @@app.env@@
 
 RewriteEngine On
 RewriteCond %{REQUEST_FILENAME} -s [OR]

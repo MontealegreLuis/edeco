@@ -5,8 +5,11 @@
 The initial setup needs the following command
 
 ```bash
-$ make setup
+$ make setup RUSER="root" RPSWD="root"
 ```
+
+The values of `RUSER` and `RPSWD` are those of a MySQL user with permissions to
+create users and databases.
 
 ## Local server setup
 
@@ -24,8 +27,9 @@ Run the admin section with
 $ make run-admin
 ```
 
-NOTE: The actions that work with files won't work because the routes have the files extensions and the local server
-will try to find the files and will ignore the routes.
+NOTE: The actions that work with files won't work because the routes have the
+files extensions and the local server will try to find the files and will ignore
+the routes.
 
 To work with those routes you will need Apache.
 

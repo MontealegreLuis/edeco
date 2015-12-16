@@ -1,2 +1,5 @@
+/admin.edeco.mx/.htaccess
+/edeco.mx/.htaccess
+/application/configs/application.ini
+/bin/*
 /vendor
-/bin/mage

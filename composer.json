@@ -22,6 +22,7 @@
         "bin-dir": "bin"
     },
     "require-dev": {
-        "andres-montanez/magallanes": "^1.0"
+        "andres-montanez/magallanes": "^1.0",
+        "phing/phing": "^2.13"
     }
 }
