@@ -1,31 +1,8 @@
 <?php
 /**
- * Service class for Property model
- *
  * PHP version 5
  *
- * LICENSE: Redistribution and use of this file in source and binary forms,
- * with or without modification, is not permitted under any circumstance
- *
- * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
- * "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
- * LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
- * A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT
- * OWNER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL,
- * SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT
- * LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE,
- * DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY
- * THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
- * (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
- * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
- *
- * @category   Panel
- * @package    Panel
- * @subpackage Service
- * @author     LNJ <lemuel.nonoal@mandragora-web-systems.com>
- * @author     LMV <luis.montealegre@mandragora-web-systems.com>
- * @copyright  Mandrágora Web-Based Systems 2010
- * @version    SVN: $Id$
+ * This source file is subject to the license that is bundled with this package in the file LICENSE.
  */
 
 /**
@@ -35,9 +12,7 @@
  * @package    Panel
  * @subpackage Service
  * @author     LNJ <lemuel.nonoal@mandragora-web-systems.com>
- * @author     LMV <luis.montealegre@mandragora-web-systems.com>
- * @copyright  Mandrágora Web-Based Systems 2010
- * @version    SVN: $Id$
+ * @author     LMV <montealegreluis@gmail.com>
  */
 class   App_Service_Property
 extends Mandragora_Service_Crud_Doctrine_Abstract
@@ -53,18 +28,19 @@ extends Mandragora_Service_Crud_Doctrine_Abstract
 
     /**
      * @param int $pageNumber
-     * @return Edeco_Model_Collection_Property
+     * @return App_Model_Collection_Property
      */
     public function retrieveAllPropertiesWithPictures($pageNumber)
     {
         $this->init();
-        $this->query = $this->getGateway()
-                            ->getQueryFindAllWebPropertiesWithPictures();
+        $this->query = $this
+            ->getGateway()
+            ->getQueryFindAllWebPropertiesWithPictures()
+        ;
         $this->setPropertiesPaginator();
-        $items = (array)$this->getPaginator($pageNumber)->getCurrentItems();
+        $items = (array) $this->getPaginator($pageNumber)->getCurrentItems();
+
         return new App_Model_Collection_Property($items);
-
-
     }
 
     /**
@@ -85,17 +61,19 @@ extends Mandragora_Service_Crud_Doctrine_Abstract
      * @param string $state
      * @param string $category
      * @param string $availability
-     * @param int $pageNumber
+     * @param int $page
      * @return App_Model_Collection_Property
      * @todo Deprecated?
      */
     public function retrievePropertiesBy($state, $category, $availability, $page)
     {
         $this->init();
-        $this->query = $this->getGateway()
-                            ->getQueryFindPropertiesBy($state, $category, $availability);
+        $this->query = $this
+            ->getGateway()
+            ->getQueryFindPropertiesBy($state, $category, $availability)
+        ;
         $this->setPropertiesPaginator();
-        $items = (array)$this->getPaginator((int)$page)->getCurrentItems();
+        $items = (array) $this->getPaginator((int) $page)->getCurrentItems();
     	return new App_Model_Collection_Property($items);
     }
 
@@ -119,7 +97,7 @@ extends Mandragora_Service_Crud_Doctrine_Abstract
     {
         $adapter = new Mandragora_Paginator_Adapter_DoctrineQuery($this->query);
         $this->paginator = new Edeco_Paginator_Property($adapter);
-        $itemsPerPage = (int)$this->paginatorOptions['itemCountPerPage'];
+        $itemsPerPage = (int) $this->paginatorOptions['itemCountPerPage'];
         $this->paginator->setItemCountPerPage($itemsPerPage);
         $pageRange = (int)$this->paginatorOptions['pageRange'];
         $this->paginator->setPageRange($pageRange);

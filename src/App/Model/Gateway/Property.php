@@ -142,7 +142,8 @@ extends Mandragora_Gateway_Doctrine_Abstract
               ->innerJoin('c.State s')
               ->innerJoin('p.Picture pic')
               ->where('p.showOnWeb = 1')
-              ->orderBy('p.creationDate ASC');
+              ->orderBy('p.creationDate ASC')
+        ;
         $query->getSqlQuery();
         return $query;
     }
