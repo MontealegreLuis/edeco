@@ -1,5 +1,6 @@
 /admin.edeco.mx/.htaccess
-/edeco.mx/.htaccess
 /application/configs/application.ini
 /bin/*
+/edeco.mx/.htaccess
+/local.build.properties
 /vendor

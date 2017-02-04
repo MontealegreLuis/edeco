@@ -2,7 +2,17 @@
 
 ## Setup
 
-The initial setup needs the following command
+You'll need to setup some configuration values before configuring this project
+for development. Create a file named `local.build.properties` and set values 
+for the following keys.
+
+* `email.password`. This a application requires you to setup an SMTP email account
+* `gmaps.key`. This application uses Google maps to provide the location of the 
+   properties
+* `csrf.salt`. Add a secure CSRF key here
+* `db.dsn`. This is the Data Source Name for your development database
+
+Once you have your configuration values, run the following command
 
 ```bash
 $ make setup RUSER="root" RPSWD="root"
