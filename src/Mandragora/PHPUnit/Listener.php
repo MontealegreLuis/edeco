@@ -27,6 +27,21 @@
  * @version    SVN: $Id$
  */
 
+namespace Mandragora\PHPUnit;
+
+use PHPUnit_Framework_TestListener;
+use PHPUnit_Framework_Test;
+use Mandragora\PHPUnit\DoctrineTest\DoctrineTestInterface;
+use Zend_Application;
+use Doctrine_Manager;
+use Doctrine_Core;
+use PHPUnit_Framework_TestSuite;
+use Exception;
+use PHPUnit_Framework_AssertionFailedError;
+
+
+
+
 /**
  * PHPUnit Listener for Doctrine's tests
  *
@@ -40,7 +55,7 @@
  *             LMV
  *             - Interface creation
  */
-class Mandragora_PHPUnit_Listener implements PHPUnit_Framework_TestListener
+class Listener implements PHPUnit_Framework_TestListener
 {
     /**
      * This method runs before each test.
@@ -54,7 +69,7 @@ class Mandragora_PHPUnit_Listener implements PHPUnit_Framework_TestListener
      */
     public function startTest(PHPUnit_Framework_Test $test)
     {
-        if($test instanceof Mandragora_PHPUnit_DoctrineTest_Interface) {
+        if($test instanceof DoctrineTestInterface) {
 
             $configFilePath = APPLICATION_PATH . '/configs/application.ini';
             $application = new Zend_Application(
@@ -78,7 +93,7 @@ class Mandragora_PHPUnit_Listener implements PHPUnit_Framework_TestListener
      */
     public function endTest(PHPUnit_Framework_Test $test, $time)
     {
-        if($test instanceof Mandragora_PHPUnit_DoctrineTest_Interface) {
+        if($test instanceof DoctrineTestInterface) {
 
             Doctrine_Manager::getInstance()->closeConnection(
                 Doctrine_Manager::connection()

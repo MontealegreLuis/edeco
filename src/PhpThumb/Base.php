@@ -22,6 +22,14 @@
  * @filesource
  */
 
+namespace PhpThumb;
+
+use Exception;
+use BadMethodCallException;
+
+
+
+
 /**
  * ThumbBase Class Definition
  *
@@ -32,7 +40,7 @@
  * @package PhpThumb
  * @subpackage Core
  */
-abstract class PhpThumb_Base
+abstract class Base
 {
 	/**
 	 * All imported objects

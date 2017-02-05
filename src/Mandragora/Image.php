@@ -27,6 +27,12 @@
  * @version    SVN: $Id$
  */
 
+namespace Mandragora;
+
+
+
+
+
 /**
  * Handle image size information
  *
@@ -37,7 +43,7 @@
  * @package    Mandragora
  * @subpackage Image
  */
-class Mandragora_Image
+class Image
 {
     /**
      * @var resource

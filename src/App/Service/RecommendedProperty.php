@@ -1,42 +1,19 @@
 <?php
 /**
- * Service class for RecommendedProperty model
- *
  * PHP version 5
  *
- * LICENSE: Redistribution and use of this file in source and binary forms,
- * with or without modification, is not permitted under any circumstance
- *
- * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
- * "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
- * LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
- * A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT
- * OWNER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL,
- * SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT
- * LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE,
- * DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY
- * THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
- * (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
- * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
- *
- * @package    App
- * @subpackage Service
- * @author     LMV <luis.montealegre@mandragora-web-systems.com>
- * @copyright  Mandrágora Web-Based Systems 2011
- * @version    SVN: $Id$
+ * This source file is subject to the license that is bundled with this package in the file LICENSE.
  */
+namespace App\Service;
+
+use Mandragora\Service\Crud\Doctrine\AbstractDoctrine;
+use App\Model\Collection\RecommendedProperty as AppModelCollectionRecommendedProperty;
+use Mandragora\Gateway\NoResultsFoundException;
 
 /**
  * Service class for RecommendedProperty model
- *
- * @package    App
- * @subpackage Service
- * @author     LMV <luis.montealegre@mandragora-web-systems.com>
- * @copyright  Mandrágora Web-Based Systems 2011
- * @version    SVN: $Id$
  */
-class   App_Service_RecommendedProperty
-extends Mandragora_Service_Crud_Doctrine_Abstract
+class RecommendedProperty extends AbstractDoctrine
 {
     /**
      * @return void
@@ -57,7 +34,7 @@ extends Mandragora_Service_Crud_Doctrine_Abstract
         $this->init();
         $this->query = $this->getGateway()->getQueryFindAll($id);
         $items = (array)$this->getPaginator($pageNumber)->getCurrentItems();
-        return new App_Model_Collection_RecommendedProperty($items);
+        return new AppModelCollectionRecommendedProperty($items);
     }
 
     /**
@@ -95,7 +72,7 @@ extends Mandragora_Service_Crud_Doctrine_Abstract
             $values = $this->getGateway()
                            ->findOneBy((int)$id, (int)$propertyId);
             return $this->getModel($values);
-        } catch (Mandragora_Gateway_NoResultsFoundException $nrfe) {
+        } catch (NoResultsFoundException $nrfe) {
             return false;
         }
     }
@@ -120,5 +97,4 @@ extends Mandragora_Service_Crud_Doctrine_Abstract
         $this->init();
         $this->getGateway()->delete($this->getModel());
     }
-
 }

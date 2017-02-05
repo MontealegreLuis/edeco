@@ -27,6 +27,14 @@
  * @version    SVN: $Id$
  */
 
+namespace Mandragora\View\Helper;
+
+use Zend_View_Helper_Navigation_HelperAbstract;
+use Zend_Navigation_Container;
+
+
+
+
 /**
  * View helper to show the accesskey attribute in links
  *
@@ -37,7 +45,7 @@
  * @copyright  Mandrágora Web-Based Systems 2010
  * @version    SVN: $Id$
  */
-class Mandragora_View_Helper_AccessibleMenu
+class AccessibleMenu
     extends Zend_View_Helper_Navigation_HelperAbstract
 {
     /**

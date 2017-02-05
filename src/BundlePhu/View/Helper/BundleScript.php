@@ -8,25 +8,26 @@
  * with this package in the file LICENSE. This license can also be viewed
  * at http://hobodave.com/license.txt
  *
- * @category    BundlePhu
- * @package     BundlePhu_View
- * @subpackage  Helper
  * @author      David Abdemoulaie <dave@hobodave.com>
  * @copyright   Copyright (c) 2010 David Abdemoulaie (http://hobodave.com/)
  * @license     http://hobodave.com/license.txt New BSD License
  */
+namespace BundlePhu\View\Helper;
+
+use ZendX_JQuery_View_Helper_JQuery;
+use Zend_View_Interface;
+use Zend_Controller_Front;
+use Mandragora\File;
+use BadMethodCallException;
 
 /**
- * Helper for bundling of all included javascripts into a single file
+ * Helper for bundling of all included javascript files into a single file
  *
- * @category    BundlePhu
- * @package     BundlePhu_View
- * @subpackage  Helper
  * @author      David Abdemoulaie <dave@hobodave.com>
  * @copyright   Copyright (c) 2010 David Abdemoulaie (http://hobodave.com/)
  * @license     http://hobodave.com/license.txt New BSD License
- **/
-class BundlePhu_View_Helper_BundleScript extends ZendX_JQuery_View_Helper_JQuery
+ */
+class BundleScript extends ZendX_JQuery_View_Helper_JQuery
 {
     /**
      * local Zend_View reference
@@ -189,7 +190,7 @@ class BundlePhu_View_Helper_BundleScript extends ZendX_JQuery_View_Helper_JQuery
         $action = $fc->getRequest()->getActionName();
         $hash = sprintf('%s-%s-%s', $module, $controller, $action);
         $cacheFile = "{$this->_docRoot}/{$this->_urlPrefix}/bundle-{$hash}.js";
-        if (!Mandragora_File::exists($cacheFile)) {
+        if (!File::exists($cacheFile)) {
             $data = $this->_getJsData();
             $this->_writeUncompressed($cacheFile, $this->contents);
         }
@@ -256,7 +257,7 @@ class BundlePhu_View_Helper_BundleScript extends ZendX_JQuery_View_Helper_JQuery
         if (!empty($this->_minifyCommand)) {
             $parts = explode('/', $cacheFile);
             $filename = $parts[count($parts) - 1];
-            $temp = Mandragora_File::create("{$this->_cacheDir}/$filename");
+            $temp = File::create("{$this->_cacheDir}/$filename");
             $temp->write($data);
             $command = str_replace(
                 ':filename', escapeshellarg($cacheFile), $this->_minifyCommand
@@ -272,5 +273,4 @@ class BundlePhu_View_Helper_BundleScript extends ZendX_JQuery_View_Helper_JQuery
             );
         }
     }
-
 }

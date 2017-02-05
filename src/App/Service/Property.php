@@ -4,18 +4,24 @@
  *
  * This source file is subject to the license that is bundled with this package in the file LICENSE.
  */
+namespace App\Service;
+
+use Mandragora\Service\Crud\Doctrine\AbstractDoctrine;
+use App\Model\Collection\Property as AppModelCollectionProperty;
+use Mandragora\Paginator\Adapter\DoctrineQuery;
+use Edeco\Paginator\Property as EdecoPaginatorProperty;
+use App\Enum\PropertyAvailability;
+use App\Enum\PropertyLandUse;
+use Mandragora\Service;
+use Mandragora\Gateway\NoResultsFoundException;
+use Zend_Navigation;
+use Zend_Layout;
+use Zend_Navigation_Page;
 
 /**
  * Service class for Property model
- *
- * @category   Panel
- * @package    Panel
- * @subpackage Service
- * @author     LNJ <lemuel.nonoal@mandragora-web-systems.com>
- * @author     LMV <montealegreluis@gmail.com>
  */
-class   App_Service_Property
-extends Mandragora_Service_Crud_Doctrine_Abstract
+class Property extends AbstractDoctrine
 {
     /**
      * @return void
@@ -40,7 +46,7 @@ extends Mandragora_Service_Crud_Doctrine_Abstract
         $this->setPropertiesPaginator();
         $items = (array) $this->getPaginator($pageNumber)->getCurrentItems();
 
-        return new App_Model_Collection_Property($items);
+        return new AppModelCollectionProperty($items);
     }
 
     /**
@@ -53,7 +59,7 @@ extends Mandragora_Service_Crud_Doctrine_Abstract
         $query = $this->getGateway()->getQueryFindAll();
         $this->setPaginatorQuery($query);
         $items = (array)$this->getPaginator($pageNumber)->getCurrentItems();
-        return new App_Model_Collection_Property($items);
+        return new AppModelCollectionProperty($items);
 
     }
 
@@ -74,7 +80,7 @@ extends Mandragora_Service_Crud_Doctrine_Abstract
         ;
         $this->setPropertiesPaginator();
         $items = (array) $this->getPaginator((int) $page)->getCurrentItems();
-    	return new App_Model_Collection_Property($items);
+    	return new AppModelCollectionProperty($items);
     }
 
     /**
@@ -95,8 +101,8 @@ extends Mandragora_Service_Crud_Doctrine_Abstract
      */
     public function setPropertiesPaginator()
     {
-        $adapter = new Mandragora_Paginator_Adapter_DoctrineQuery($this->query);
-        $this->paginator = new Edeco_Paginator_Property($adapter);
+        $adapter = new DoctrineQuery($this->query);
+        $this->paginator = new EdecoPaginatorProperty($adapter);
         $itemsPerPage = (int) $this->paginatorOptions['itemCountPerPage'];
         $this->paginator->setItemCountPerPage($itemsPerPage);
         $pageRange = (int)$this->paginatorOptions['pageRange'];
@@ -161,8 +167,8 @@ extends Mandragora_Service_Crud_Doctrine_Abstract
     {
         $this->getForm()->setCategories($this->getCategories());
         $this->getForm()
-             ->setAvailabilities(App_Enum_PropertyAvailability::values());
-        $this->getForm()->setLandUses(App_Enum_PropertyLandUse::values());
+             ->setAvailabilities(PropertyAvailability::values());
+        $this->getForm()->setLandUses(PropertyLandUse::values());
     }
 
     /**
@@ -170,7 +176,7 @@ extends Mandragora_Service_Crud_Doctrine_Abstract
      */
     public function getCategories()
     {
-        $serviceCategory = Mandragora_Service::factory('Category');
+        $serviceCategory = Service::factory('Category');
         $serviceCategory->setCacheManager($this->cacheManager);
         $serviceCategory->setDoctrineManager($this->doctrineManager);
         return $serviceCategory->retrieveAllCategories();
@@ -185,7 +191,7 @@ extends Mandragora_Service_Crud_Doctrine_Abstract
         try {
             $propertyValues = $this->getGateway()->findOneById((int)$id);
             return $this->getModel($propertyValues);
-        } catch (Mandragora_Gateway_NoResultsFoundException $nrfe) {
+        } catch (NoResultsFoundException $nrfe) {
             return false;
         }
     }
@@ -239,7 +245,7 @@ extends Mandragora_Service_Crud_Doctrine_Abstract
     public function findPropertiesByNameLike($propertyName)
     {
         $this->init();
-    	return new App_Model_Collection_Property(
+    	return new AppModelCollectionProperty(
     	   $this->getGateway()->findAllPropertiesWithNameLike($propertyName)
     	);
     }
@@ -266,7 +272,7 @@ extends Mandragora_Service_Crud_Doctrine_Abstract
         $properties = $this->getGateway()->findRecommendedWebProperties(
             (int)$stateId, (int)$propertyId
         );
-        return new App_Model_Collection_Property($properties);
+        return new AppModelCollectionProperty($properties);
     }
 
     /**
@@ -297,5 +303,4 @@ extends Mandragora_Service_Crud_Doctrine_Abstract
         }
 
     }
-
 }

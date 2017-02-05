@@ -27,6 +27,14 @@
  * @version    SVN: $Id$
  */
 
+namespace Mandragora\Model\Property;
+
+use Mandragora\Model\Property\PropertyInterface;
+use Zend_Measure_Area;
+
+
+
+
 /**
  * Utility class for handling model's square meter properties
  *
@@ -37,8 +45,8 @@
  * @copyright  Mandrágora Web-Based Systems 2010
  * @version    SVN: $Id$
  */
-class      Mandragora_Model_Property_SquareMeter
-implements Mandragora_Model_Property_Interface
+class SquareMeter
+implements PropertyInterface
 {
     /**
      * @var float

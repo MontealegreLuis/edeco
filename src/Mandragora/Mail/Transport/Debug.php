@@ -7,12 +7,21 @@
  * @copyright  Mandrágora Web-Based Systems 2010-2015 (http://www.mandragora-web-systems.com)
  */
 
+namespace Mandragora\Mail\Transport;
+
+use Zend_Mail_Transport_Abstract;
+use Mandragora\Filter\FriendlyUrl;
+use Mandragora\File;
+
+
+
+
 /**
  * Class to mock the process of sending email messages
  *
  * @author     LMV <luis.montealegre@mandragora-web-systems.com>
  */
-class Mandragora_Mail_Transport_Debug extends Zend_Mail_Transport_Abstract
+class Debug extends Zend_Mail_Transport_Abstract
 {
     /**
      * Write the content of an email message to an html file instead of sending
@@ -22,11 +31,11 @@ class Mandragora_Mail_Transport_Debug extends Zend_Mail_Transport_Abstract
      */
     public function _sendMail()
     {
-        $filter = new Mandragora_Filter_FriendlyUrl();
+        $filter = new FriendlyUrl();
         $subject = $filter->filter($this->_mail->getSubject());
         $directory = APPLICATION_PATH . '/../var/debug-mail/';
         $fullPath = $directory . 'mail-' . $subject. '.html';
-        $file = Mandragora_File::create($fullPath);
+        $file = File::create($fullPath);
         if ($this->_mail->getBodyHtml()) {
             $content = quoted_printable_decode(
                 $this->_mail->getBodyHtml()->getContent()

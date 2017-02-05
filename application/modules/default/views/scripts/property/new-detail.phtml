@@ -1,14 +1,10 @@
 <?php
 /**
  * Shows all the details of a property
- *
- * @author    LMV <luis.montealegre@mandragora-web-systems.com>
- * @copyright Mandrágora Web-Based Systems
- * @version   SVN: $Id$
  */
 ?>
 <?php
-$availabilities = App_Enum_PropertyAvailability::values();
+$availabilities = App\Enum\PropertyAvailability::values();
 $address = $this->propertyDetail->Address;
 $location = $address ? $address->City->name . ', ' . $address->City->State->name : '';
 $h1 = $this->propertyDetail->name;

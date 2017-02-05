@@ -1,5 +1,16 @@
 <?php
-class Edeco_Paginator_Property extends Zend_Paginator
+/**
+ * PHP version 5
+ *
+ * This source file is subject to the license that is bundled with this package in the file LICENSE.
+ */
+namespace Edeco\Paginator;
+
+use Zend_Paginator;
+use Traversable;
+use ArrayIterator;
+
+class Property extends Zend_Paginator
 {
     const PROPERTIES_TAG = 'properties';
 
@@ -48,5 +59,4 @@ class Edeco_Paginator_Property extends Zend_Paginator
 
         return $items;
     }
-
 }

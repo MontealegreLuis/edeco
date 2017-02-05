@@ -27,6 +27,15 @@
  * @version    SVN: $Id$
  */
 
+namespace Mandragora;
+
+use Mandragora\File\Exception;
+use Mandragora\File\Size\Factory;
+use Mandragora\File as MandragoraFile;
+
+
+
+
 /**
  * Handles read/write and delete/rename operations on files
  *
@@ -40,7 +49,7 @@
  *             LMV
  *             - Class creation
  */
-class Mandragora_File
+class File
 {
     /**
      * @var string
@@ -77,7 +86,7 @@ class Mandragora_File
     public function __construct($filename)
     {
         if (!self::exists((string)$filename)) {
-            throw new Mandragora_File_Exception(
+            throw new Exception(
                 'The file ' . $filename . ' does not exist'
             );
         }
@@ -145,7 +154,7 @@ class Mandragora_File
     public function read()
     {
         if (!is_readable($this->_fullName)) {
-            throw new Mandragora_File_Exception(
+            throw new Exception(
                 "The file $this->_fullName cannot be read"
             );
         }
@@ -166,7 +175,7 @@ class Mandragora_File
     {
         if (!is_writable($this->_fullName)) {
 
-            throw new Mandragora_File_Exception(
+            throw new Exception(
                 'The file ' . $this->_fullName . ' cannot be written'
             );
         }
@@ -208,7 +217,7 @@ class Mandragora_File
     public function getSize()
     {
         $sizeInBytes = filesize($this->_fullName);
-        return Mandragora_File_Size_Factory::create($sizeInBytes);
+        return Factory::create($sizeInBytes);
     }
 
     /**
@@ -231,11 +240,11 @@ class Mandragora_File
     public static function create($filename)
     {
         if (file_put_contents((string)$filename, '') === false) {
-            throw new Mandragora_File_Exception(
+            throw new Exception(
                 "The file $filename cannot be created"
             );
         } else {
-            return new Mandragora_File((string)$filename);
+            return new MandragoraFile((string)$filename);
         }
     }
 

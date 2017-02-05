@@ -4,41 +4,22 @@
  *
  * PHP version 5
  *
- * LICENSE: Redistribution and use of this file in source and binary forms,
- * with or without modification, is not permitted under any circumstance
- *
- * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
- * "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
- * LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
- * A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT
- * OWNER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL,
- * SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT
- * LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE,
- * DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY
- * THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
- * (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
- * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
- *
- * @category   Application
- * @package    Edeco
- * @subpackage Service
- * @author     LMV <luis.montealegre@mandragora-web-systems.com>
- * @copyright  Mandrágora Web-Based Systems 2010
- * @version    SVN: $Id$
+ * This source file is subject to the license that is bundled with this package in the file LICENSE.
  */
+
+namespace App\Service;
+
+use Mandragora\Service\Crud\Doctrine\AbstractDoctrine;
+use App\Model\Collection\Picture as AppModelCollectionPicture;
+use Mandragora\Model;
+use App\Model\PictureFileHandler;
+use Mandragora\Gateway;
+use App\Model\Gateway\Cache\Property;
 
 /**
  * Service class for Property model
- *
- * @category   Application
- * @package    Edeco
- * @subpackage Service
- * @author     LMV <luis.montealegre@mandragora-web-systems.com>
- * @copyright  Mandrágora Web-Based Systems 2010
- * @version    SVN: $Id$
  */
-class   App_Service_Picture
-extends Mandragora_Service_Crud_Doctrine_Abstract
+class Picture extends AbstractDoctrine
 {
     /**
      * @return void
@@ -58,7 +39,7 @@ extends Mandragora_Service_Crud_Doctrine_Abstract
         $query = $this->getGateway()->getQueryFindAllByPropertyId($propertyId);
         $this->setPaginatorQuery($query);
         $items = (array)$this->getPaginator($pageNumber)->getCurrentItems();
-        return new App_Model_Collection_Picture($items);
+        return new AppModelCollectionPicture($items);
     }
 
     /**
@@ -107,7 +88,7 @@ extends Mandragora_Service_Crud_Doctrine_Abstract
         $propertyId = $this->getForm()->getValue('propertyId');
         $pictureValues = $this->getGateway()
                               ->findOneByIdAndPropertyId($id, $propertyId);
-        $this->setModel(Mandragora_Model::factory('Picture', $pictureValues));
+        $this->setModel(Model::factory('Picture', $pictureValues));
         if ($this->isTheImageNew()) {
             $this->saveImageFileInForm();
             if ($this->isNewDescription()) {
@@ -118,14 +99,14 @@ extends Mandragora_Service_Crud_Doctrine_Abstract
             $this->getModel()->createImages();
         } else {
             if ($this->isNewDescription()) {
-                $newFilename = App_Model_PictureFileHandler::filterFileName(
+                $newFilename = PictureFileHandler::filterFileName(
                     $this->buildFilename()
                 );
                 $this->getModel()->changeAllFilenames($newFilename);
             }
         }
         $pictureValues = $this->getForm()->getValues();
-        $this->setModel(Mandragora_Model::factory('Picture', $pictureValues));
+        $this->setModel(Model::factory('Picture', $pictureValues));
         $this->getModel()->filename = $this->buildFilename();
         $this->getGateway()->update($this->getModel());
     }
@@ -137,10 +118,10 @@ extends Mandragora_Service_Crud_Doctrine_Abstract
      */
     protected function saveImageFileInForm()
     {
-        $fileName = App_Model_PictureFileHandler::filterFileName(
+        $fileName = PictureFileHandler::filterFileName(
             $this->buildFilename()
         );
-        $fullName = App_Model_PictureFileHandler::getPicturesDirectory()
+        $fullName = PictureFileHandler::getPicturesDirectory()
             . DIRECTORY_SEPARATOR . (string)$fileName;
         $this->getForm()->savePictureFile($fullName);
     }
@@ -153,8 +134,8 @@ extends Mandragora_Service_Crud_Doctrine_Abstract
      */
     protected function buildFilename()
     {
-        $gateway = Mandragora_Gateway::factory('Property');
-        $gateway = new App_Model_Gateway_Cache_Property($gateway);
+        $gateway = Gateway::factory('Property');
+        $gateway = new Property($gateway);
         $gateway->setCache($this->getCache('gateway'));
         $this->getModel()->setGateway($gateway);
         return $this->getModel()->buildFilename(
@@ -232,5 +213,4 @@ extends Mandragora_Service_Crud_Doctrine_Abstract
         //Do not use cache in forms with 'file' elements
         $this->getForm($formName, true, true);
     }
-
 }

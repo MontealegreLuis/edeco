@@ -29,6 +29,13 @@
  * @version    SVN: $Id$
  */
 
+namespace Mandragora\Validate\Db\Doctrine;
+
+use Mandragora\Validate\Db\Doctrine\AbstractDoctrine;
+
+
+
+
 /**
  * Determine if a record does not exist in a given table filtering by a given
  * field
@@ -41,8 +48,8 @@
  * @copyright  Mandrágora Web-Based Systems 2010
  * @version    SVN: $Id$
  */
-class Mandragora_Validate_Db_Doctrine_NoRecordExists
-    extends Mandragora_Validate_Db_Doctrine_Abstract
+class NoRecordExists
+    extends AbstractDoctrine
 {
     /**
      * @param string

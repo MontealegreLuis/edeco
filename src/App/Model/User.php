@@ -4,28 +4,21 @@
  *
  * PHP version 5
  *
- * LICENSE: Redistribution and use of this file in source and binary forms,
- * with or without modification, is not permitted under any circumstance
- *
- * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
- * "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
- * LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
- * A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT
- * OWNER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL,
- * SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT
- * LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE,
- * DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY
- * THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
- * (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
- * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
- *
- * @category   Application
- * @package    Edeco
- * @subpackage Model
- * @author     LMV <luis.montealegre@mandragora-web-systems.com>
- * @copyright  Mandrágora Web-Based Systems 2010
- * @version    SVN: $Id$
+ * This source file is subject to the license that is bundled with this package in the file LICENSE.
  */
+
+namespace App\Model;
+
+use Mandragora\Model\AbstractModel;
+use Mandragora\Model\Property\Password as MandragoraModelPropertyPassword;
+use Mandragora\Model\Property\Date;
+use App\Enum\UserState;
+use Zend_Date;
+use Zend_Mail;
+use Mandragora\HtmlEmailSender;
+use Mandragora\View\Helper\DateFormat;
+use Text\Password as TextPassword;
+use Zend_Layout;
 
 /**
  * Model for users
@@ -36,15 +29,8 @@
  * @property string $roleName
  * @property string $confirmationKey
  * @property string $creationDate
- *
- * @package    Edeco
- * @subpackage Model
- * @author     LMV <luis.montealegre@mandragora-web-systems.com>
- * @copyright  Mandrágora Web-Based Systems 2010
- * @version    SVN: $Id$
  */
-class   App_Model_User
-extends Mandragora_Model_Abstract
+class User extends AbstractModel
 {
 	/**
      * @var array
@@ -74,7 +60,7 @@ extends Mandragora_Model_Abstract
     public function setPassword($password)
     {
         if (!is_null($password)) {
-            $password = new Mandragora_Model_Property_Password($password);
+            $password = new MandragoraModelPropertyPassword($password);
         }
         $this->properties['password'] = $password;
     }
@@ -85,7 +71,7 @@ extends Mandragora_Model_Abstract
     public function setConfirmationKey($key)
     {
         if (!is_null($key)) {
-            $key = new Mandragora_Model_Property_Password($key);
+            $key = new MandragoraModelPropertyPassword($key);
         }
         $this->properties['confirmationKey'] = $key;
     }
@@ -96,7 +82,7 @@ extends Mandragora_Model_Abstract
      */
     public function setCreationDate($creationDate)
     {
-        $creationDate = new Mandragora_Model_Property_Date($creationDate);
+        $creationDate = new Date($creationDate);
         $this->properties['creationDate'] = $creationDate;
     }
 
@@ -107,7 +93,7 @@ extends Mandragora_Model_Abstract
     public function createClientAccount($username)
     {
     	$this->properties['username'] = (string)$username;
-    	$this->properties['state'] = App_Enum_UserState::Unconfirmed;
+    	$this->properties['state'] = UserState::Unconfirmed;
         $this->properties['roleName'] = 'client';
         $creationDate = new Zend_Date();
         $this->properties['creationDate'] = $creationDate->toString('YYYY-MM-dd');
@@ -131,9 +117,9 @@ extends Mandragora_Model_Abstract
         $mail->addTo((string)$userEmail, (string)$userEmail)
              ->setFrom($recipient['email'], $recipient['name'])
              ->setSubject('Proyectos de Inversion EDECO');
-        $mailer = new Mandragora_HtmlEmailSender($mail);
+        $mailer = new HtmlEmailSender($mail);
         $mailer->setViewParam('confirmationKey', (string)$confirmationKey);
-        $dateHelper = new Mandragora_View_Helper_DateFormat();
+        $dateHelper = new DateFormat();
         $date = $dateHelper->dateFormat()->full();
         $mailer->setViewParam('date', $date);
         $mailer->setViewParam('baseUrl', $baseUrl);
@@ -145,7 +131,7 @@ extends Mandragora_Model_Abstract
      */
     public function confirmClientAccountCreation()
     {
-        $this->properties['state'] = App_Enum_UserState::Active;
+        $this->properties['state'] = UserState::Active;
         return $this->generatePassword();
     }
 
@@ -155,7 +141,7 @@ extends Mandragora_Model_Abstract
      */
     protected function generatePassword()
     {
-        $passwordGenerator = new Text_Password();
+        $passwordGenerator = new TextPassword();
         $password = $passwordGenerator->create(10, 'unpronounceable');
         $this->setPassword($password);
         return $password;
@@ -195,5 +181,4 @@ extends Mandragora_Model_Abstract
         );
         return $user;
     }
-
 }

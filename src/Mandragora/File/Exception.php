@@ -1,2 +1,9 @@
 <?php
-class Mandragora_File_Exception extends Exception {}
+
+
+namespace Mandragora\File;
+
+use Exception as Exception;
+
+
+class Exception extends Exception {}

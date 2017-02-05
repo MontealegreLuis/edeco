@@ -27,6 +27,12 @@
  * @version    SVN: $Id$
  */
 
+namespace Mandragora\Service;
+
+
+
+
+
 /**
  * Factory for the service that holds all the default routes
  *
@@ -37,7 +43,7 @@
  * @copyright  Mandrágora Web-Based Systems 2010
  * @version    SVN: $Id$
  */
-class Mandragora_Service_Router
+class Router
 {
     /**
      * @return void

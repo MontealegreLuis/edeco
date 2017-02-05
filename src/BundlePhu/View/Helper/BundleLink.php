@@ -8,25 +8,22 @@
  * with this package in the file LICENSE. This license can also be viewed
  * at http://hobodave.com/license.txt
  *
- * @category    BundlePhu
- * @package     BundlePhu_View
- * @subpackage  Helper
  * @author      David Abdemoulaie <dave@hobodave.com>
  * @copyright   Copyright (c) 2010 David Abdemoulaie (http://hobodave.com/)
  * @license     http://hobodave.com/license.txt New BSD License
  */
+namespace BundlePhu\View\Helper;
+
+use Zend_View_Helper_HeadLink;
+use Zend_View_Interface;
+use Zend_Controller_Front;
+use Mandragora\File;
+use BadMethodCallException;
 
 /**
  * Helper for bundling of all included stylesheets into a single file
- *
- * @category    BundlePhu
- * @package     BundlePhu_View
- * @subpackage  Helper
- * @author      David Abdemoulaie <dave@hobodave.com>
- * @copyright   Copyright (c) 2010 David Abdemoulaie (http://hobodave.com/)
- * @license     http://hobodave.com/license.txt New BSD License
- **/
-class BundlePhu_View_Helper_BundleLink extends Zend_View_Helper_HeadLink
+ */
+class BundleLink extends Zend_View_Helper_HeadLink
 {
     /**
      * Local Zend_View reference
@@ -197,7 +194,7 @@ class BundlePhu_View_Helper_BundleLink extends Zend_View_Helper_HeadLink
             $fileKey = $key == 'screen, projection' ? 'screen' : $key;
         	$hash = sprintf('%s-%s-%s-%s', $module, $controller, $action, $fileKey);
             $cacheFile = "{$this->_docRoot}/{$this->_urlPrefix}/bundle-{$hash}.css";
-            if (!Mandragora_File::exists($cacheFile)) {
+            if (!File::exists($cacheFile)) {
                 if (!$isCssBundled) {
                     $data = $this->_setCssData();
                     $isCssBundled =  true;
@@ -250,7 +247,7 @@ class BundlePhu_View_Helper_BundleLink extends Zend_View_Helper_HeadLink
         if (!empty($this->_minifyCommand)) {
             $parts = explode('/', $cacheFile);
             $filename = $parts[count($parts) - 1];
-            $temp = Mandragora_File::create("{$this->_cacheDir}/$filename");
+            $temp = File::create("{$this->_cacheDir}/$filename");
             $temp->write($data);
             $command = str_replace(
                 ':filename', escapeshellarg($cacheFile), $this->_minifyCommand
@@ -264,5 +261,4 @@ class BundlePhu_View_Helper_BundleLink extends Zend_View_Helper_HeadLink
             throw new BadMethodCallException("Neither _minifyCommand or _minifyCallback are defined.");
         }
     }
-
 }

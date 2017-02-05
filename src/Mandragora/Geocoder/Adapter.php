@@ -6,7 +6,19 @@
  *
  * @copyright  Mandrágora Web-Based Systems 2010-2015 (http://www.mandragora-web-systems.com)
  */
-class Mandragora_Geocoder_Adapter
+
+namespace Mandragora\Geocoder;
+
+use Zend_Http_Client;
+use Zend_Json_Decoder;
+use Zend_Json;
+use stdClass;
+use Mandragora\Geocoder\PlaceMark;
+use Exception;
+
+
+
+class Adapter
 {
     const SUCCESS = 200;
     const BAD_REQUEST = 400;
@@ -61,7 +73,7 @@ class Mandragora_Geocoder_Adapter
 
                 $placemarks = array();
                 foreach ($response->Placemark as $placemark) {
-                    $placemarks[] = Mandragora_Geocoder_PlaceMark::fromJson($placemark);
+                    $placemarks[] = PlaceMark::fromJson($placemark);
                 }
                 return $placemarks;
 

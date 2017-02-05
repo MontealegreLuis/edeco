@@ -32,6 +32,20 @@
 *    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 */
 
+namespace Spreadsheet\Excel\Writer;
+
+use Spreadsheet\Excel\Writer\BIFFwriter;
+use Spreadsheet\Excel\Writer\Parser;
+use Spreadsheet\Excel\Writer\Format;
+use Spreadsheet\Excel\Writer\Worksheet;
+use Spreadsheet\Excel\Writer\Validator;
+use Spreadsheet\OLE\PPS\File;
+use Spreadsheet\OLE;
+use Spreadsheet\OLE\PPS\Root;
+
+
+
+
 /**
 * Class for generating Excel Spreadsheets
 *
@@ -39,8 +53,8 @@
 * @category FileFormats
 * @package  Spreadsheet_Excel_Writer
 */
-class Spreadsheet_Excel_Writer_Workbook
-    extends Spreadsheet_Excel_Writer_BIFFwriter
+class Workbook
+    extends BIFFwriter
 {
     /**
     * Filename for the Workbook
@@ -176,7 +190,7 @@ class Spreadsheet_Excel_Writer_Workbook
         parent::__construct();
 
         $this->_filename         = $filename;
-        $this->_parser = new Spreadsheet_Excel_Writer_Parser(
+        $this->_parser = new Parser(
             $this->_byte_order, $this->_BIFF_version
         );
         $this->_1904             = 0;
@@ -187,7 +201,7 @@ class Spreadsheet_Excel_Writer_Workbook
         $this->_fileclosed       = 0;
         $this->_biffsize         = 0;
         $this->_sheetname        = 'Sheet';
-        $this->_tmp_format       = new Spreadsheet_Excel_Writer_Format(
+        $this->_tmp_format       = new Format(
             $this->_BIFF_version
         );
         $this->_worksheets       = array();
@@ -337,7 +351,7 @@ class Spreadsheet_Excel_Writer_Workbook
             }
         }
 
-        $worksheet = new Spreadsheet_Excel_Writer_Worksheet($this->_BIFF_version,
+        $worksheet = new Worksheet($this->_BIFF_version,
                                    $name, $index,
                                    $this->_activesheet, $this->_firstsheet,
                                    $this->_str_total, $this->_str_unique,
@@ -360,7 +374,7 @@ class Spreadsheet_Excel_Writer_Workbook
     */
     function &addFormat($properties = array())
     {
-        $format = new Spreadsheet_Excel_Writer_Format($this->_BIFF_version, $this->_xf_index, $properties);
+        $format = new Format($this->_BIFF_version, $this->_xf_index, $properties);
         $this->_xf_index += 1;
         $this->_formats[] = &$format;
         return $format;
@@ -376,7 +390,7 @@ class Spreadsheet_Excel_Writer_Workbook
     {
         include_once 'Spreadsheet/Excel/Writer/Validator.php';
         /* FIXME: check for successful inclusion*/
-        $valid = new Spreadsheet_Excel_Writer_Validator($this->_parser);
+        $valid = new Validator($this->_parser);
         return $valid;
     }
 
@@ -582,7 +596,7 @@ class Spreadsheet_Excel_Writer_Workbook
     */
     function _storeOLEFile()
     {
-        $OLE = new Spreadsheet_OLE_PPS_File(Spreadsheet_OLE::Asc2Ucs('Book'));
+        $OLE = new File(OLE::Asc2Ucs('Book'));
         if ($this->_tmp_dir != '') {
             $OLE->setTempDir($this->_tmp_dir);
         }
@@ -599,7 +613,7 @@ class Spreadsheet_Excel_Writer_Workbook
             }
         }
 
-        $root = new Spreadsheet_OLE_PPS_Root(time(), time(), array($OLE));
+        $root = new Root(time(), time(), array($OLE));
         if ($this->_tmp_dir != '') {
             $root->setTempDir($this->_tmp_dir);
         }

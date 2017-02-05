@@ -27,6 +27,14 @@
  * @version    SVN: $Id$
  */
 
+namespace Mandragora\Model\Property;
+
+use Mandragora\Model\Property\PropertyInterface;
+use Zend_View_Helper_Currency;
+
+
+
+
 /**
  * Utility class for handling model's currency properties
  *
@@ -37,8 +45,8 @@
  * @copyright  Mandrágora Web-Based Systems 2010
  * @version    SVN: $Id$
  */
-class Mandragora_Model_Property_Currency
-    implements Mandragora_Model_Property_Interface
+class Currency
+    implements PropertyInterface
 {
     /**
      * @var Zend_View_Helper_Currency

@@ -1,9 +1,17 @@
 <?php
-class Mandragora_File_Size_GigaByte extends Mandragora_File_Size_Abstract
+
+
+namespace Mandragora\File\Size;
+
+use Mandragora\File\Size\AbstractSize;
+use Mandragora\File\Size\Factory;
+
+
+class GigaByte extends AbstractSize
 {
     public function __construct($sizeInBytes)
     {
-        $this->size = $sizeInBytes / Mandragora_File_Size_Factory::GigaByte;
+        $this->size = $sizeInBytes / Factory::GigaByte;
     }
 
     public function __toString()

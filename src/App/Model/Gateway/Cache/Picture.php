@@ -1,6 +1,17 @@
 <?php
-class App_Model_Gateway_Cache_Picture
-    extends Mandragora_Gateway_Decorator_CacheAbstract
+/**
+ * PHP version 5
+ *
+ * This source file is subject to the license that is bundled with this package in the file LICENSE.
+ */
+namespace App\Model\Gateway\Cache;
+
+use Mandragora\Gateway\Decorator\CacheAbstract;
+use Mandragora\Model\AbstractModel;
+use Zend_Cache;
+use Edeco\Paginator\Property;
+
+class Picture extends CacheAbstract
 {
     /**
      * @param int $id
@@ -21,7 +32,7 @@ class App_Model_Gateway_Cache_Picture
     /**
      * @param Mandragora_Model_Abstract $project
      */
-    public function insert(Mandragora_Model_Abstract $picture)
+    public function insert(AbstractModel $picture)
     {
         $this->gateway->insert($picture);
         $this->getCache()->save($picture->toArray(), 'picture' . $picture->id);
@@ -30,7 +41,7 @@ class App_Model_Gateway_Cache_Picture
             array(
                 'property' . $picture->propertyId,
                 // Also clean data in default module
-                Edeco_Paginator_Property::PROPERTIES_TAG,
+                Property::PROPERTIES_TAG,
             )
         );
     }
@@ -38,7 +49,7 @@ class App_Model_Gateway_Cache_Picture
     /**
      * @param Mandragora_Model_Abstract $project
      */
-    public function update(Mandragora_Model_Abstract $picture)
+    public function update(AbstractModel $picture)
     {
         $this->gateway->update($picture);
         $this->getCache()->save($picture->toArray(), 'picture' . $picture->id);
@@ -47,7 +58,7 @@ class App_Model_Gateway_Cache_Picture
             array(
                 'property' . $picture->propertyId,
                 // Also clean data in default module
-                Edeco_Paginator_Property::PROPERTIES_TAG,
+                Property::PROPERTIES_TAG,
             )
         );
     }
@@ -55,7 +66,7 @@ class App_Model_Gateway_Cache_Picture
     /**
      * @param Mandragora_Model_Abstract $project
      */
-    public function delete(Mandragora_Model_Abstract $picture)
+    public function delete(AbstractModel $picture)
     {
         $this->gateway->delete($picture);
         $this->getCache()->remove('picture' . $picture->id);
@@ -64,9 +75,8 @@ class App_Model_Gateway_Cache_Picture
             array(
                 'property' . $picture->propertyId,
                 // Also clean data in default module
-                Edeco_Paginator_Property::PROPERTIES_TAG,
+                Property::PROPERTIES_TAG,
             )
         );
     }
-
 }

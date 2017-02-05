@@ -1,6 +1,14 @@
 <?php
-class   App_Form_RecommendedProperty_Detail
-extends Mandragora_Form_Crud_Abstract
+/**
+ * PHP version 5
+ *
+ * This source file is subject to the license that is bundled with this package in the file LICENSE.
+ */
+namespace App\Form\RecommendedProperty;
+
+use Mandragora\Form\Crud\AbstractCrud;
+
+class Detail extends AbstractCrud
 {
     /**
      * @return void
@@ -19,5 +27,4 @@ extends Mandragora_Form_Crud_Abstract
     {
         $this->getElement('id')->setValue((int)$propertyId);
     }
-
 }

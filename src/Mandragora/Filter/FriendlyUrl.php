@@ -27,6 +27,16 @@
  * @version    SVN: $Id$
  */
 
+namespace Mandragora\Filter;
+
+use Zend_Filter_Interface;
+use Mandragora\Filter\AccentsAndSpecialSymbols;
+use Zend_Filter_StringToLower;
+use Zend_Filter_Word_SeparatorToDash;
+
+
+
+
 /**
  * Filter to transform a sentence into a friendly URL
  *
@@ -40,7 +50,7 @@
  *             LMV
  *             - Class creation
  */
-class Mandragora_Filter_FriendlyUrl implements Zend_Filter_Interface
+class FriendlyUrl implements Zend_Filter_Interface
 {
     /**
      * Apply the Mandragora_Filter_AccentsAndSpecialSymbols filter, lower case
@@ -54,7 +64,7 @@ class Mandragora_Filter_FriendlyUrl implements Zend_Filter_Interface
     public function filter($value)
     {
         /* Remove acents */
-        $filterAccents = new Mandragora_Filter_AccentsAndSpecialSymbols();
+        $filterAccents = new AccentsAndSpecialSymbols();
         $value = $filterAccents->filter((string)$value);
 
         /* Transform to lower case */

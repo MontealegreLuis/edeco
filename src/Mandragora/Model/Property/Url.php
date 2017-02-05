@@ -27,6 +27,14 @@
  * @version    SVN: $Id$
  */
 
+namespace Mandragora\Model\Property;
+
+use Mandragora\Model\Property\PropertyInterface;
+use Mandragora\Filter\FriendlyUrl;
+
+
+
+
 /**
  * Utility class for handling the displaying of model's URL properties
  *
@@ -37,8 +45,8 @@
  * @copyright  Mandrágora Web-Based Systems 2010
  * @version    SVN: $Id$
  */
-class      Mandragora_Model_Property_Url
-implements Mandragora_Model_Property_Interface
+class Url
+implements PropertyInterface
 {
     /**
      * @var Mandragora_Filter_FriendlyUrl
@@ -56,7 +64,7 @@ implements Mandragora_Model_Property_Interface
     public function __construct($url)
     {
         if (!self::$urlFilter) {
-            self::$urlFilter = new Mandragora_Filter_FriendlyUrl();
+            self::$urlFilter = new FriendlyUrl();
         }
         $this->url = $this->filter($url);
     }

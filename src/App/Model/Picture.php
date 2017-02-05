@@ -1,32 +1,17 @@
 <?php
 /**
- * Contains all the information related to the pictures of the properties being
- * sold or rented
- *
  * PHP version 5
  *
- * LICENSE: Redistribution and use of this file in source and binary forms,
- * with or without modification, is not permitted under any circumstance
- *
- * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
- * "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
- * LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
- * A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT
- * OWNER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL,
- * SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT
- * LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE,
- * DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY
- * THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
- * (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
- * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
- *
- * @category   Application
- * @package    Edeco
- * @subpackage Model
- * @author     LMV <luis.montealegre@mandragora-web-systems.com>
- * @copyright  Mandrágora Web-Based Systems 2010
- * @version    SVN: $Id$
+ * This source file is subject to the license that is bundled with this package in the file LICENSE.
  */
+namespace App\Model;
+
+use Mandragora\Model\AbstractModel;
+use App\Model\PictureFileHandler;
+use App\Enum\Directories;
+use Edeco_Enum_Directories;
+use Mandragora\Image;
+use Mandragora\Gateway\Decorator\CacheAbstract;
 
 /**
  * Contains all the information related to the pictures of the properties being
@@ -36,16 +21,8 @@
  * @property string $shortDescription
  * @property string $filename
  * @property integer $propertyId
- *
- * @category   Application
- * @package    Edeco
- * @subpackage Model
- * @author     LMV <luis.montealegre@mandragora-web-systems.com>
- * @copyright  Mandrágora Web-Based Systems 2010
- * @version    SVN: $Id$
  */
-class   App_Model_Picture
-extends Mandragora_Model_Abstract
+class Picture extends AbstractModel
 {
     /**
      * @var array
@@ -81,7 +58,7 @@ extends Mandragora_Model_Abstract
     public function setFilename($filename)
     {
         if (!preg_match('/.*\.jpg/', $filename)) {
-            $filteredName = App_Model_PictureFileHandler::filterFileName(
+            $filteredName = PictureFileHandler::filterFileName(
                 (string)$filename
             );
             $this->properties['filename'] = $filteredName;
@@ -131,7 +108,7 @@ extends Mandragora_Model_Abstract
     protected function refreshPictureFileHandler()
     {
         if (!$this->pictureFileHandler) {
-            $this->pictureFileHandler = new App_Model_PictureFileHandler(
+            $this->pictureFileHandler = new PictureFileHandler(
                 $this->filename
             );
         }
@@ -142,7 +119,7 @@ extends Mandragora_Model_Abstract
      */
     public function galleryToString()
     {
-        return App_Enum_Directories::Gallery . $this->filename
+        return Directories::Gallery . $this->filename
                . '?mo=' . $this->getGalleryLastModifiedTime();
     }
 
@@ -178,9 +155,9 @@ extends Mandragora_Model_Abstract
      */
     public function getThumbnailWidthAndHeight()
     {
-        $fullPath = App_Model_PictureFileHandler::getThumbsDirectory()
+        $fullPath = PictureFileHandler::getThumbsDirectory()
             . DIRECTORY_SEPARATOR . $this->filename;
-        $imageHandler = new Mandragora_Image($fullPath);
+        $imageHandler = new Image($fullPath);
         return array(
             'width' => $imageHandler->getWidth(),
             'height' => $imageHandler->getHeight()
@@ -192,7 +169,7 @@ extends Mandragora_Model_Abstract
      * @return void
      */
     public function setGateway(
-        Mandragora_Gateway_Decorator_CacheAbstract $gateway
+        CacheAbstract $gateway
     )
     {
         $this->gateway = $gateway;
@@ -218,9 +195,7 @@ extends Mandragora_Model_Abstract
     public function __toString()
     {
         $this->refreshPictureFileHandler();
-        return App_Enum_Directories::Properties . $this->filename
+        return Directories::Properties . $this->filename
             . '?mo=' . $this->pictureFileHandler->getPictureLastModifiedTime();
     }
-
-
 }

@@ -1,6 +1,15 @@
 <?php
-class   App_Model_RecommendedProperty
-extends Mandragora_Model_Abstract
+/**
+ * PHP version 5.6
+ *
+ * This source file is subject to the license that is bundled with this package in the file LICENSE.
+ */
+namespace App\Model;
+
+use Mandragora\Model\AbstractModel;
+use App\Model\Property;
+
+class RecommendedProperty extends AbstractModel
 {
     /**
      * @var array
@@ -21,7 +30,7 @@ extends Mandragora_Model_Abstract
     public function setRecommendedProperty($values = null)
     {
         if (is_array($values)) {
-            $property = new App_Model_Property($values);
+            $property = new Property($values);
             $this->properties['RecommendedProperty'] = $property;
         }
     }
@@ -33,5 +42,4 @@ extends Mandragora_Model_Abstract
     {
         return (string)$this->properties['RecommendedProperty'];
     }
-
 }

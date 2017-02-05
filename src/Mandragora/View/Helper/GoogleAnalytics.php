@@ -27,6 +27,12 @@
  * @version    SVN: $Id$
  */
 
+namespace Mandragora\View\Helper;
+
+
+
+
+
 /**
  * Google Analytics helper
  *
@@ -37,7 +43,7 @@
  * @package    Mandragora
  * @subpackage View
  */
-class Mandragora_View_Helper_GoogleAnalytics
+class GoogleAnalytics
 {
     /**
      * @param string $trackerId

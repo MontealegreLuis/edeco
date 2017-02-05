@@ -1,6 +1,15 @@
 <?php
-class      Edeco_Geocoder_PlaceMark_JsonFormater
-implements Mandragora_Geocoder_PlaceMark_JsonFormater
+/**
+ * PHP version 5
+ *
+ * This source file is subject to the license that is bundled with this package in the file LICENSE.
+ */
+namespace Edeco\Geocoder\PlaceMark;
+
+use Mandragora\Geocoder\PlaceMark\JsonFormater as BaseFormatter;
+use Zend_Json;
+
+class JsonFormater implements BaseFormatter
 {
     /**
      * @see Mandragora_Geocoder_PlaceMark_JsonFormater::format()

@@ -27,6 +27,13 @@
  * @version    SVN: $Id$
  */
 
+namespace Mandragora\Model\Property;
+
+use Mandragora\Model\Property\PropertyInterface;
+
+
+
+
 /**
  * Utility class for handling model's password properties
  *
@@ -37,8 +44,8 @@
  * @copyright  Mandrágora Web-Based Systems 2010
  * @version    SVN: $Id$
  */
-class Mandragora_Model_Property_Password
-    implements Mandragora_Model_Property_Interface
+class Password
+    implements PropertyInterface
 {
     /**
      * @var string

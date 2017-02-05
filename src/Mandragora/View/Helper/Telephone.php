@@ -26,6 +26,12 @@
  * @version    SVN: $Id$
  */
 
+namespace Mandragora\View\Helper;
+
+
+
+
+
 /**
  * Helper for formatting telephone numbers
  *
@@ -35,7 +41,7 @@
  * @category   Library
  * @package    Mandragora
  */
-class Mandragora_View_Helper_Telephone
+class Telephone
 {
     /**
      * @param string $telephoneNumber

@@ -1,19 +1,25 @@
 <?php
+/**
+ * PHP version 5
+ *
+ * This source file is subject to the license that is bundled with this package in the file LICENSE.
+ */
+namespace App\Model\Dao;
+
+use Doctrine_Manager;
+use Doctrine_Record;
+
 // Connection Component Binding
-Doctrine_Manager::getInstance()->bindComponent('App_Model_Dao_Map', 'doctrine');
+Doctrine_Manager::getInstance()->bindComponent(Map::class, 'doctrine');
 
 /**
- * App_Model_Dao_Map
- *
  * @property integer $id
  * @property integer $top
  * @property integer $left
  * @property float $width
  * @property App_Model_State $State
- *
- * @author     LMV <luis.montealegre@mandragora-web-systems.com>
  */
-class App_Model_Dao_Map extends Doctrine_Record
+class Map extends Doctrine_Record
 {
     public function setTableDefinition()
     {
@@ -57,8 +63,9 @@ class App_Model_Dao_Map extends Doctrine_Record
     public function setUp()
     {
         parent::setUp();
-        $this->hasOne('App_Model_Dao_State as State', array(
+        $this->hasOne('App\Model\Dao\StateDao as State', [
              'local' => 'id',
-             'foreign' => 'id'));
+             'foreign' => 'id'
+        ]);
     }
 }

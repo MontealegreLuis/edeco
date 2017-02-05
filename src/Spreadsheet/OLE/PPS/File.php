@@ -21,6 +21,13 @@
 // $Id: File.php,v 1.8 2003/12/12 21:10:10 xnoguer Exp $
  */
 
+namespace Spreadsheet\OLE\PPS;
+
+use Spreadsheet\OLE\PPS;
+
+
+
+
 /**
 * Class for creating File PPS's for OLE containers
 *
@@ -28,7 +35,7 @@
 * @category Structures
 * @package  OLE
 */
-class Spreadsheet_OLE_PPS_File extends Spreadsheet_OLE_PPS
+class File extends PPS
 {
     /**
     * The temporary dir for storing the OLE file

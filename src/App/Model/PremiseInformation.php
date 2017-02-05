@@ -1,43 +1,20 @@
 <?php
 /**
- * Premise information model
- *
  * PHP version 5
  *
- * LICENSE: Redistribution and use of this file in source and binary forms,
- * with or without modification, is not permitted under any circumstance
- *
- * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
- * "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
- * LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
- * A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT
- * OWNER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL,
- * SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT
- * LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE,
- * DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY
- * THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
- * (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
- * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
- *
- * @category   Application
- * @package    Edeco
- * @subpackage Model
- * @author     LMV <luis.montealegre@mandragora-web-systems.com>
- * @copyright  Mandrágora Web-Based Systems 2010
- * @version    SVN: $Id$
+ * This source file is subject to the license that is bundled with this package in the file LICENSE.
  */
+namespace App\Model;
+
+use Mandragora\Model\AbstractModel;
+use Zend_Mail;
+use Mandragora\HtmlEmailSender;
+use Mandragora\View\Helper\DateFormat;
 
 /**
  * Premise Information model
- *
- * @category   Application
- * @package    Edeco
- * @subpackage Model
- * @author     LMV <luis.montealegre@mandragora-web-systems.com>
- * @copyright  Mandrágora Web-Based Systems 2010
- * @version    SVN: $Id$
  */
-class App_Model_PremiseInformation extends Mandragora_Model_Abstract
+class PremiseInformation extends AbstractModel
 {
     /**
      * @var array
@@ -67,11 +44,11 @@ class App_Model_PremiseInformation extends Mandragora_Model_Abstract
              ->addTo('ventas@edeco.mx', 'Ventas')
              ->setFrom($this->emailAddress, $this->name)
              ->setSubject('Atención al cliente - Locales');
-        $mailer = new Mandragora_HtmlEmailSender($mail);
+        $mailer = new HtmlEmailSender($mail);
         foreach ($this->properties as $property => $value) {
             $mailer->setViewParam($property, $value);
         }
-        $dateHelper = new Mandragora_View_Helper_DateFormat();
+        $dateHelper = new DateFormat();
         $date = $dateHelper->dateFormat()->full();
         $mailer->setViewParam('date', $date);
         $mailer->setViewParam('baseUrl', $baseUrl);
@@ -85,5 +62,4 @@ class App_Model_PremiseInformation extends Mandragora_Model_Abstract
     {
         return (string)$this->properties['name'];
     }
-
 }

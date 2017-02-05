@@ -1,4 +1,11 @@
 <?php
+
+
+namespace Text;
+
+use Text\Password as TextPassword;
+
+
 /* vim: set expandtab tabstop=4 shiftwidth=4 softtabstop=4: */
 
 /**
@@ -39,7 +46,7 @@ $GLOBALS['_Text_Password_NumberOfPossibleCharacters'] = 0;
  * @version    Release: @package_version@
  * @link       http://pear.php.net/package/Text_Password
  */
-class Text_Password {
+class Password {
 
     /**
      * Create a single password.
@@ -56,11 +63,11 @@ class Text_Password {
     {
         switch ($type) {
         case 'unpronounceable' :
-            return Text_Password::_createUnpronounceable($length, $chars);
+            return TextPassword::_createUnpronounceable($length, $chars);
 
         case 'pronounceable' :
         default :
-            return Text_Password::_createPronounceable($length);
+            return TextPassword::_createPronounceable($length);
         }
     }
 
@@ -85,7 +92,7 @@ class Text_Password {
 
         while ($number > 0) {
             while (true) {
-                $password = Text_Password::create($length, $type, $chars);
+                $password = TextPassword::create($length, $type, $chars);
                 if (!in_array($password, $passwords)) {
                     $passwords[] = $password;
                     break;
@@ -114,31 +121,31 @@ class Text_Password {
             return strrev($login);
 
         case 'shuffle':
-            return Text_Password::_shuffle($login);
+            return TextPassword::_shuffle($login);
 
         case 'xor':
-            return Text_Password::_xor($login, $key);
+            return TextPassword::_xor($login, $key);
 
         case 'rot13':
             return str_rot13($login);
 
         case 'rotx':
-            return Text_Password::_rotx($login, $key);
+            return TextPassword::_rotx($login, $key);
 
         case 'rotx++':
-            return Text_Password::_rotxpp($login, $key);
+            return TextPassword::_rotxpp($login, $key);
 
         case 'rotx--':
-            return Text_Password::_rotxmm($login, $key);
+            return TextPassword::_rotxmm($login, $key);
 
         case 'ascii_rotx':
-            return Text_Password::_asciiRotx($login, $key);
+            return TextPassword::_asciiRotx($login, $key);
 
         case 'ascii_rotx++':
-            return Text_Password::_asciiRotxpp($login, $key);
+            return TextPassword::_asciiRotxpp($login, $key);
 
         case 'ascii_rotx--':
-            return Text_Password::_asciiRotxmm($login, $key);
+            return TextPassword::_asciiRotxmm($login, $key);
         }
     }
 
@@ -161,7 +168,7 @@ class Text_Password {
 
         while ($number > 0) {
             while (true) {
-                $password = Text_Password::createFromLogin($login[$save - $number], $type, $key);
+                $password = TextPassword::createFromLogin($login[$save - $number], $type, $key);
                 if (!in_array($password, $passwords)) {
                     $passwords[] = $password;
                     break;

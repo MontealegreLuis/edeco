@@ -22,6 +22,15 @@
  * @filesource
  */
 
+namespace PhpThumb;
+
+use PhpThumb\Base;
+use InvalidArgumentException;
+use RuntimeException;
+
+
+
+
 /**
  * GdThumb Class Definition
  *
@@ -30,7 +39,7 @@
  * @package PhpThumb
  * @subpackage Core
  */
-class PhpThumb_GdThumb extends PhpThumb_Base
+class GdThumb extends Base
 {
 	/**
 	 * The prior image (before manipulation)

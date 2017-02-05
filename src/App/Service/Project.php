@@ -1,43 +1,20 @@
 <?php
 /**
- * Service class for Project model
- *
  * PHP version 5
  *
- * LICENSE: Redistribution and use of this file in source and binary forms,
- * with or without modification, is not permitted under any circumstance
- *
- * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
- * "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
- * LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
- * A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT
- * OWNER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL,
- * SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT
- * LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE,
- * DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY
- * THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
- * (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
- * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
- *
- * @category   Application
- * @package    Edeco
- * @subpackage Service
- * @author     LMV <luis.montealegre@mandragora-web-systems.com>
- * @copyright  Mandrágora Web-Based Systems 2010
- * @version    SVN: $Id$
+ * This source file is subject to the license that is bundled with this package in the file LICENSE.
  */
+namespace App\Service;
+
+use Mandragora\Service\Crud\Doctrine\AbstractDoctrine;
+use App\Model\Collection\Project as AppModelCollectionProject;
+use Mandragora\Gateway\NoResultsFoundException;
+use App\Model\Project as AppModelProject;
 
 /**
  * Service class for Project model
- *
- * @category   Application
- * @package    Edeco
- * @subpackage Service
- * @author     LMV <luis.montealegre@mandragora-web-systems.com>
- * @copyright  Mandrágora Web-Based Systems 2010
- * @version    SVN: $Id$
  */
-class App_Service_Project extends Mandragora_Service_Crud_Doctrine_Abstract
+class Project extends AbstractDoctrine
 {
     /**
      * @return void
@@ -58,7 +35,7 @@ class App_Service_Project extends Mandragora_Service_Crud_Doctrine_Abstract
         $query = $this->getGateway()->getQueryFindAll();
         $this->setPaginatorQuery($query);
         $items = (array)$this->getPaginator($pageNumber)->getCurrentItems();
-        return new App_Model_Collection_Project($items);
+        return new AppModelCollectionProject($items);
     }
 
     /**
@@ -92,7 +69,7 @@ class App_Service_Project extends Mandragora_Service_Crud_Doctrine_Abstract
         try {
             $this->getModel($this->getGateway()->findOneById((int)$id));
             return $this->getModel();
-        } catch (Mandragora_Gateway_NoResultsFoundException $nrfe) {
+        } catch (NoResultsFoundException $nrfe) {
             return false;
         }
     }
@@ -106,7 +83,7 @@ class App_Service_Project extends Mandragora_Service_Crud_Doctrine_Abstract
         $projectInformation = $this->getGateway()->findOneById(
             (int)$this->getForm()->getValue('id')
         );
-        $project = new App_Model_Project($projectInformation);
+        $project = new AppModelProject($projectInformation);
         $this->getModel()->id = (int)$project->id;
         if ($project->name != $this->getForm()->getValue('name')) {
             if ($this->getForm()->getValue('attachment') != null) {
@@ -199,5 +176,4 @@ class App_Service_Project extends Mandragora_Service_Crud_Doctrine_Abstract
     {
         $this->getForm($formName, true, true);
     }
-
 }

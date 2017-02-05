@@ -28,6 +28,13 @@
  * @version    SVN: $Id$
  */
 
+namespace Mandragora\Filter;
+
+use Zend_Filter_Interface;
+
+
+
+
 /**
  * Replaces accents and Ñ's with vouels and n, respectively, it also removes
  * non alphanumeric characters
@@ -39,7 +46,7 @@
  * @copyright  Mandrágora Web-Based Systems 2010
  * @version    SVN: $Id$
  */
-class Mandragora_Filter_Float implements Zend_Filter_Interface
+class Float implements Zend_Filter_Interface
 {
     /**
      * @param  string $value

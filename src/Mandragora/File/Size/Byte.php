@@ -1,5 +1,12 @@
 <?php
-class Mandragora_File_Size_Byte extends Mandragora_File_Size_Abstract
+
+
+namespace Mandragora\File\Size;
+
+use Mandragora\File\Size\AbstractSize;
+
+
+class Byte extends AbstractSize
 {
     public function __construct($sizeInBytes)
     {

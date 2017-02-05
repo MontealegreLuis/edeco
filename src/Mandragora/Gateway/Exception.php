@@ -27,6 +27,13 @@
  * @version    SVN: $Id$
  */
 
+namespace Mandragora\Gateway;
+
+use Exception as Exception;
+
+
+
+
 /**
  * Custom exception for gateways
  *
@@ -37,4 +44,4 @@
  * @copyright  Mandrágora Web-Based Systems 2010
  * @version    SVN: $Id$
  */
-class Mandragora_Gateway_Exception extends Exception {}
+class Exception extends Exception {}

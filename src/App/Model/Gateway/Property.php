@@ -1,44 +1,19 @@
 <?php
 /**
- * Gateway for property model objects
- *
  * PHP version 5
  *
- * LICENSE: Redistribution and use of this file in source and binary forms,
- * with or without modification, is not permitted under any circumstance
- *
- * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
- * "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
- * LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
- * A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT
- * OWNER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL,
- * SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT
- * LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE,
- * DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY
- * THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
- * (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
- * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
- *
- * @category   Application
- * @package    Edeco
- * @subpackage Gateway
- * @author     LMV <luis.montealegre@mandragora-web-systems.com>
- * @copyright  Mandrágora Web-Based Systems 2010
- * @version    SVN: $Id$
+ * This source file is subject to the license that is bundled with this package in the file LICENSE.
  */
+namespace App\Model\Gateway;
+
+use Mandragora\Gateway\Doctrine\AbstractDoctrine;
+use Doctrine_Core;
+use Mandragora\Gateway\NoResultsFoundException;
 
 /**
  * Gateway for property model objects
- *
- * @author     LMV <luis.montealegre@mandragora-web-systems.com>
- * @version    SVN: $Id$
- * @copyright  Mandrágora Web-Based Systems 2010
- * @category   Application
- * @package    Edeco
- * @subpackage Gateway
  */
-class   App_Model_Gateway_Property
-extends Mandragora_Gateway_Doctrine_Abstract
+class Property extends AbstractDoctrine
 {
     /**
      * @return array
@@ -58,7 +33,7 @@ extends Mandragora_Gateway_Doctrine_Abstract
             array(':id' => (int)$id), Doctrine_Core::HYDRATE_ARRAY
         );
         if (!$property) {
-            throw new Mandragora_Gateway_NoResultsFoundException(
+            throw new NoResultsFoundException(
                 "Property with id '$id' cannot be found"
             );
         }
@@ -76,7 +51,7 @@ extends Mandragora_Gateway_Doctrine_Abstract
               ->leftJoin('a.City c')
               ->leftJoin('c.State s')
               ->leftJoin('p.Picture pic');
-        $query->getSqlQuery();
+        var_dump($query->getSqlQuery());die;
         return $query;
     }
 
@@ -150,6 +125,7 @@ extends Mandragora_Gateway_Doctrine_Abstract
 
     /**
      * @return array
+     * @throws \Mandragora\Gateway\NoResultsFoundException
      */
     public function findOneByUrl($url)
     {
@@ -170,15 +146,11 @@ extends Mandragora_Gateway_Doctrine_Abstract
               ->leftJoin('rp.Address ra')
               ->leftJoin('ra.City rc')
               ->leftJoin('rc.State rs')
-              ->Where('p.url = :url');
-        $query->getSqlQuery();;
-        $property = $query->fetchOne(
-            array(':url' => (string)$url), Doctrine_Core::HYDRATE_ARRAY
-        );
+              ->where('p.url = :url');
+        $query->getSqlQuery();
+        $property = $query->fetchOne([':url' => (string) $url], Doctrine_Core::HYDRATE_ARRAY);
         if (!$property) {
-            throw new Mandragora_Gateway_NoResultsFoundException(
-                "Property with URL $url cannot be found"
-            );
+            throw new NoResultsFoundException("Property with URL $url cannot be found");
         }
         return $property;
     }
@@ -296,5 +268,4 @@ extends Mandragora_Gateway_Doctrine_Abstract
         $params = array(':startDate' => $startDate, ':stopDate' => $stopDate);
         return $query->fetchArray($params);
     }
-
 }

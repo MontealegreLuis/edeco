@@ -27,6 +27,14 @@
  * @filesource
  */
 
+namespace PhpThumb;
+
+use PhpThumb\PhpThumb;
+use Exception;
+
+
+
+
 // define some useful constants
 define('THUMBLIB_BASE_PATH', dirname(__FILE__));
 define('THUMBLIB_PLUGIN_PATH', THUMBLIB_BASE_PATH . '/Plugin/');
@@ -50,7 +58,7 @@ define('DEFAULT_THUMBLIB_IMPLEMENTATION', 'gd');
  * @package PhpThumb
  * @subpackage Core
  */
-class PhpThumb_Factory
+class Factory
 {
 	/**
 	 * Which implemenation of the class should be used by default
@@ -100,7 +108,7 @@ class PhpThumb_Factory
 		);
 
 		// grab an instance of PhpThumb
-		$pt = PhpThumb_PhpThumb::getInstance();
+		$pt = PhpThumb::getInstance();
 		// load the plugins
 		$pt->loadPlugins(self::$pluginPath);
 

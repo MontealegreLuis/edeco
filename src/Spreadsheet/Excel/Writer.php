@@ -31,6 +31,11 @@
 *    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 */
 
+namespace Spreadsheet\Excel;
+
+use Spreadsheet\Excel\Writer\Workbook;
+use PEAR_Error;
+
 /**
 * Class for writing Excel Spreadsheets. This class should change COMPLETELY.
 *
@@ -38,7 +43,7 @@
 * @category FileFormats
 * @package  Spreadsheet_Excel_Writer
 */
-class Spreadsheet_Excel_Writer extends Spreadsheet_Excel_Writer_Workbook
+class Writer extends Workbook
 {
     /**
     * The constructor. It just creates a Workbook

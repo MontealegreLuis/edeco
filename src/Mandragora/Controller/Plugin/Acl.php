@@ -1,47 +1,25 @@
 <?php
 /**
- * Plugin for authentication and authorization
- *
  * PHP version 5
  *
- * LICENSE: Redistribution and use of this file in source and binary forms,
- * with or without modification, is not permitted under any circumstance
- *
- * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
- * "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
- * LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
- * A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT
- * OWNER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL,
- * SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT
- * LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE,
- * DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY
- * THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
- * (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
- * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
- *
- * @category   Application
- * @package    Mandragora
- * @subpackage Controller_Plugin
- * @author     LMV <luis.montealegre@mandragora-web-systems.com>
- * @copyright  Mandrágora Web-Based Systems 2010
- * @version    SVN: $Id$
+ * This source file is subject to the license that is bundled with this package in the file LICENSE.
  */
+namespace Mandragora\Controller\Plugin;
+
+use Zend_Controller_Request_Abstract;
+use Mandragora\Acl as MandragoraAcl;
+use Mandragora\Service\Router;
+use Zend_Auth;
+use Zend_Session_Namespace;
+use Zend_Layout;
 
 /**
  * Plugin for authentication and authorization.
  *
  * It verifies if the user is logged and has permission to access the current
- * action during the predispatch phase.
- *
- * @category   Application
- * @package    Mandragora
- * @subpackage Controller_Plugin
- * @author     LMV <luis.montealegre@mandragora-web-systems.com>
- * @copyright  Mandrágora Web-Based Systems 2010
- * @version    SVN: $Id$
+ * action during the pre-dispatch phase.
  */
-class   Mandragora_Controller_Plugin_Acl
-extends Mandragora_Controller_Plugin_Abstract
+class Acl extends AbstractPlugin
 {
     /**
      * Verify if the user is logged and has permission to perform the current
@@ -54,16 +32,16 @@ extends Mandragora_Controller_Plugin_Abstract
     public function preDispatch(Zend_Controller_Request_Abstract $request)
     {
         $sessionOptions = $this->getResource('session')->getOptions();
-        $options = array(
+        $options = [
             'cacheManager' => $this->getResource('cachemanager'),
             'doctrineManager' => $this->getResource('doctrine'),
             'namespace' => $sessionOptions['name'],
-        );
-        $aclHandler = Mandragora_Acl::factory('Handler', $options);
+        ];
+        $aclHandler = MandragoraAcl::factory('Handler', $options);
         $aclHandler->execute($request);
         if ($aclHandler->isNotAuthenticated()) {
             //redirect to login
-            $router = Mandragora_Service_Router::factory('Helper');
+            $router = Router::factory('Helper');
             if ($request->isGet()) {
                 $name = Zend_Auth::getInstance()->getStorage()->getNamespace();
                 $session = new Zend_Session_Namespace($name);
@@ -77,7 +55,7 @@ extends Mandragora_Controller_Plugin_Abstract
             $this->_response->setRedirect($view->url($url, $route, true));
         } else if ($aclHandler->isNotAuthorized()) {
             //redirect to unauthorized page
-            $router = Mandragora_Service_Router::factory('Helper');
+            $router = Router::factory('Helper');
             $url = $router->getDefaultRoute('unauthorized');
             $view = Zend_Layout::getMvcInstance()->getView();
             $route = $url['route'];
@@ -85,5 +63,4 @@ extends Mandragora_Controller_Plugin_Abstract
             $this->_response->setRedirect($view->url($url, $route, true));
         }
     }
-
 }

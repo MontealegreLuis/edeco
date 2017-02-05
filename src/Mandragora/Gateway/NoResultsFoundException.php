@@ -27,6 +27,13 @@
  * @version    SVN: $Id$
  */
 
+namespace Mandragora\Gateway;
+
+use Exception;
+
+
+
+
 /**
  * Custom exception used when a query returns zero results
  *
@@ -37,4 +44,4 @@
  * @copyright  Mandrágora Web-Based Systems 2010
  * @version    SVN: $Id$
  */
-class Mandragora_Gateway_NoResultsFoundException extends Exception {}
+class NoResultsFoundException extends Exception {}

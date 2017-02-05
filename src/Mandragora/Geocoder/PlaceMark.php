@@ -1,5 +1,13 @@
 <?php
-class Mandragora_Geocoder_PlaceMark
+
+
+namespace Mandragora\Geocoder;
+
+use Mandragora\Geocoder\Point;
+use Mandragora\Geocoder\PlaceMark\JsonFormater;
+
+
+class PlaceMark
 {
     const ACCURACY_UNKNOWN = 0;
     const ACCURACY_COUNTRY = 1;
@@ -32,7 +40,7 @@ class Mandragora_Geocoder_PlaceMark
      * @param int $accuracy
      */
     protected function __construct(
-        Mandragora_Geocoder_Point $point, $address, $accuracy
+        Point $point, $address, $accuracy
     )
     {
         $this->point = $point;
@@ -70,7 +78,7 @@ class Mandragora_Geocoder_PlaceMark
      */
     public static function fromJson($json)
     {
-        $point = Mandragora_Geocoder_Point::fromCoordinate(
+        $point = Point::fromCoordinate(
             $json->Point->coordinates
         );
 
@@ -81,7 +89,7 @@ class Mandragora_Geocoder_PlaceMark
         return $placemark;
     }
 
-    public function arrayToJson(array $placeMarkers, Mandragora_Geocoder_PlaceMark_JsonFormater $formater)
+    public function arrayToJson(array $placeMarkers, JsonFormater $formater)
     {
     	return $formater->format($placeMarkers);
     }

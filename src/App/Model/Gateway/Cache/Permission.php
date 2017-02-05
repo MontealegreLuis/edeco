@@ -1,6 +1,14 @@
 <?php
-class App_Model_Gateway_Cache_Permission
-    extends Mandragora_Gateway_Decorator_CacheAbstract
+/**
+ * PHP version 5
+ *
+ * This source file is subject to the license that is bundled with this package in the file LICENSE.
+ */
+namespace App\Model\Gateway\Cache;
+
+use Mandragora\Gateway\Decorator\CacheAbstract;
+
+class Permission extends CacheAbstract
 {
     /**
      * @return array

@@ -1,10 +1,18 @@
 <?php
+/**
+ * PHP version 5
+ *
+ * This source file is subject to the license that is bundled with this package in the file LICENSE.
+ */
+namespace App\Model\Dao;
+
+use Doctrine_Manager;
+use Doctrine_Record;
+
 // Connection Component Binding
-Doctrine_Manager::getInstance()->bindComponent('App_Model_Dao_User', 'doctrine');
+Doctrine_Manager::getInstance()->bindComponent(User::class, 'doctrine');
 
 /**
- * App_Model_Dao_User
- * 
  * @property string $username
  * @property string $password
  * @property enum $state
@@ -12,10 +20,8 @@ Doctrine_Manager::getInstance()->bindComponent('App_Model_Dao_User', 'doctrine')
  * @property string $confirmationKey
  * @property date $creationDate
  * @property App_Model_Role $Role
- * 
- * @author     LMV <luis.montealegre@mandragora-web-systems.com>
  */
-class App_Model_Dao_User extends Doctrine_Record
+class User extends Doctrine_Record
 {
     public function setTableDefinition()
     {
@@ -42,7 +48,7 @@ class App_Model_Dao_User extends Doctrine_Record
              'length' => 11,
              'fixed' => false,
              'unsigned' => false,
-             'values' => 
+             'values' =>
              array(
               0 => 'active',
               1 => 'unconfirmed',
@@ -85,8 +91,9 @@ class App_Model_Dao_User extends Doctrine_Record
     public function setUp()
     {
         parent::setUp();
-        $this->hasOne('App_Model_Dao_Role as Role', array(
+        $this->hasOne('App\Model\Dao\Role as Role', [
              'local' => 'roleName',
-             'foreign' => 'name'));
+             'foreign' => 'name'
+        ]);
     }
 }

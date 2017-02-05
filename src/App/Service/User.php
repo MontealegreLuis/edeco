@@ -3,17 +3,23 @@
  * PHP version 5.6
  *
  * This source file is subject to the license that is bundled with this package in the file LICENSE.
- *
- * @copyright  Mandrágora Web-Based Systems 2010-2015 (http://www.mandragora-web-systems.com)
  */
+namespace App\Service;
+
+use Mandragora\Service\Crud\Doctrine\AbstractDoctrine;
+use Edeco\Auth\Adapter;
+use Zend_Auth;
+use Zend_Session;
+use App\Model\Collection\User as AppModelCollectionUser;
+use App\Model\ConfirmationResult;
+use App\Model\User as AppModelUser;
+use Mandragora\Gateway\NoResultsFoundException;
+use App\Enum\UserState;
 
 /**
  * Service class for User's model
- *
- * @author     LNJ <lemuel.nonoal@mandragora-web-systems.com>
- * @author     LMV <luis.montealegre@mandragora-web-systems.com>
  */
-class App_Service_User extends Mandragora_Service_Crud_Doctrine_Abstract
+class User extends AbstractDoctrine
 {
     /**
      * Decorate the gateway in order to cache the query results
@@ -35,7 +41,7 @@ class App_Service_User extends Mandragora_Service_Crud_Doctrine_Abstract
         $user = $this->getModel();
         $user->username = $this->getForm()->getValue('username');
         $user->password = $this->getForm()->getValue('password');
-        $adapter = new Edeco_Auth_Adapter($user, $this->getGateway());
+        $adapter = new Adapter($user, $this->getGateway());
         $authenticator = Zend_Auth::getInstance();
         return $authenticator->authenticate($adapter);
     }
@@ -80,7 +86,7 @@ class App_Service_User extends Mandragora_Service_Crud_Doctrine_Abstract
     	$query = $this->getGateway()->getQueryFindAllClients();
         $this->setPaginatorQuery($query);
         $items = (array)$this->getPaginator($pageNumber)->getCurrentItems();
-        return new App_Model_Collection_User($items);
+        return new AppModelCollectionUser($items);
     }
 
     /**
@@ -105,7 +111,7 @@ class App_Service_User extends Mandragora_Service_Crud_Doctrine_Abstract
     public function confirmClientAccountCreation($confirmationKey)
     {
     	$this->init();
-        return new App_Model_ConfirmationResult(
+        return new ConfirmationResult(
             $confirmationKey, $this->getGateway()
         );
     }
@@ -135,8 +141,8 @@ class App_Service_User extends Mandragora_Service_Crud_Doctrine_Abstract
     {
         try {
             $userValues = $this->getGateway()->findOneByUsername($userName);
-            return new App_Model_User($userValues);
-        } catch (Mandragora_Gateway_NoResultsFoundException $nrfe) {
+            return new AppModelUser($userValues);
+        } catch (NoResultsFoundException $nrfe) {
             return false;
         }
     }
@@ -182,7 +188,7 @@ class App_Service_User extends Mandragora_Service_Crud_Doctrine_Abstract
         $this->createForm('Detail');
         $this->getForm()->setAction($action);
         $this->getForm()->prepareForEditing();
-        $this->getForm()->setState(App_Enum_UserState::values());
+        $this->getForm()->setState(UserState::values());
         return $this->getForm();
     }
 
@@ -194,5 +200,4 @@ class App_Service_User extends Mandragora_Service_Crud_Doctrine_Abstract
     {
         $this->getForm($formName);
     }
-
 }

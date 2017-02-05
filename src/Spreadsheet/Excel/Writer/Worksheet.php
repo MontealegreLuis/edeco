@@ -32,6 +32,14 @@
 *    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 */
 
+namespace Spreadsheet\Excel\Writer;
+
+use Spreadsheet\Excel\Writer\BIFFwriter;
+use PEAR_Error;
+
+
+
+
 /**
 * Class for generating Excel Spreadsheets
 *
@@ -39,8 +47,8 @@
 * @category FileFormats
 * @package  Spreadsheet_Excel_Writer
 */
-class Spreadsheet_Excel_Writer_Worksheet
-    extends Spreadsheet_Excel_Writer_BIFFwriter
+class Worksheet
+    extends BIFFwriter
 {
     /**
     * Name of the Worksheet

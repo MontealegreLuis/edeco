@@ -3,16 +3,19 @@
  * PHP version 5.6
  *
  * This source file is subject to the license that is bundled with this package in the file LICENSE.
- *
- * @copyright  Mandrágora Web-Based Systems 2010-2015 (http://www.mandragora-web-systems.com)
  */
+namespace App\Model;
+
+use Mandragora\File;
+use PhpThumb\Factory;
+use App\Enum\Directories;
+use Zend_Config_Ini;
+use Mandragora\Filter\FriendlyUrl;
 
 /**
  * Handler for the picture's files: original, gallery and thumbnail
- *
- * @author     LMV <luis.montealegre@mandragora-web-systems.com>
  */
-class App_Model_PictureFileHandler
+class PictureFileHandler
 {
     /**
      * @var string
@@ -79,7 +82,7 @@ class App_Model_PictureFileHandler
         $this->pictureFilename = (string)$filename;
         $this->pictureFullPath = self::getPicturesDirectory()
             . DIRECTORY_SEPARATOR . $this->pictureFilename;
-        $this->pictureFileHandler = new Mandragora_File($this->pictureFullPath);
+        $this->pictureFileHandler = new File($this->pictureFullPath);
         $this->createFileHandlers();
     }
 
@@ -106,8 +109,8 @@ class App_Model_PictureFileHandler
      */
     protected function createFileHandler($path)
     {
-        if (Mandragora_File::exists($path)) {
-            return new Mandragora_File($path);
+        if (File::exists($path)) {
+            return new File($path);
         }
         return null;
     }
@@ -208,7 +211,7 @@ class App_Model_PictureFileHandler
      */
     public function createThumbnail()
     {
-        $thumb = PhpThumb_Factory::create($this->pictureFullPath);
+        $thumb = Factory::create($this->pictureFullPath);
         $thumb->resize(80, 55);
         $thumb->save(
             self::getThumbsDirectory()
@@ -222,7 +225,7 @@ class App_Model_PictureFileHandler
      */
     public function createGalleryImage()
     {
-        $thumb = PhpThumb_Factory::create($this->pictureFullPath);
+        $thumb = Factory::create($this->pictureFullPath);
         $thumb->resize(275, 190);
         $thumb->save(
             self::getGalleryDirectory()
@@ -238,7 +241,7 @@ class App_Model_PictureFileHandler
     {
         if (self::$picturesDirectory == null) {
             self::$picturesDirectory = realpath(
-                self::getImagesDirectory() . App_Enum_Directories::Properties
+                self::getImagesDirectory() . Directories::Properties
             );
         }
         return self::$picturesDirectory;
@@ -251,7 +254,7 @@ class App_Model_PictureFileHandler
     {
         if (self::$galleryDirectory == null) {
             self::$galleryDirectory = realpath(
-                self::getImagesDirectory() . App_Enum_Directories::Gallery
+                self::getImagesDirectory() . Directories::Gallery
             );
         }
         return self::$galleryDirectory;
@@ -264,7 +267,7 @@ class App_Model_PictureFileHandler
     {
         if (self::$thumbsDirectory == null) {
             self::$thumbsDirectory = realpath(
-                self::getImagesDirectory() . App_Enum_Directories::Thumbnails
+                self::getImagesDirectory() . Directories::Thumbnails
             );
         }
         return self::$thumbsDirectory;
@@ -292,8 +295,7 @@ class App_Model_PictureFileHandler
      */
     public static function filterFileName($filename)
     {
-        $filenameFilter = new Mandragora_Filter_FriendlyUrl();
+        $filenameFilter = new FriendlyUrl();
         return $filenameFilter->filter((string)$filename) . '.jpg';
     }
-
 }

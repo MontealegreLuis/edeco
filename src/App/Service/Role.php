@@ -1,5 +1,14 @@
 <?php
-class App_Service_Role extends Mandragora_Service_Crud_Doctrine_Abstract
+/**
+ * PHP version 5
+ *
+ * This source file is subject to the license that is bundled with this package in the file LICENSE.
+ */
+namespace App\Service;
+
+use Mandragora\Service\Crud\Doctrine\AbstractDoctrine;
+
+class Role extends AbstractDoctrine
 {
     /**
      * @return void
@@ -23,10 +32,9 @@ class App_Service_Role extends Mandragora_Service_Crud_Doctrine_Abstract
      * @see Mandragora_Service_Crud_Abstract::getFormForCreating()
      */
     public function getFormForCreating($action) {}
-    
+
     /**
      * @see Mandragora_Service_Crud_Abstract::getFormForEditing()
      */
     public function getFormForEditing($action) {}
-    
 }

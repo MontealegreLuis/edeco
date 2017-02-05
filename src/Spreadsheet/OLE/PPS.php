@@ -21,6 +21,13 @@
 // $Id: PPS.php,v 1.5 2003/12/14 18:12:28 xnoguer Exp $
 */
 
+namespace Spreadsheet\OLE;
+
+use Spreadsheet\OLE;
+
+
+
+
 /**
 * Class for creating PPS's for OLE containers
 *
@@ -28,7 +35,7 @@
 * @category Structures
 * @package  OLE
 */
-class Spreadsheet_OLE_PPS
+class PPS
 {
     /**
     * The PPS index
@@ -184,8 +191,8 @@ class Spreadsheet_OLE_PPS
               . "\xc0\x00\x00\x00"                  // 92
               . "\x00\x00\x00\x46"                  // 96 // Seems to be ok only for Root
               . "\x00\x00\x00\x00"                  // 100
-              . Spreadsheet_OLE::LocalDate2OLE($this->Time1st)       // 108
-              . Spreadsheet_OLE::LocalDate2OLE($this->Time2nd)       // 116
+              . OLE::LocalDate2OLE($this->Time1st)       // 108
+              . OLE::LocalDate2OLE($this->Time2nd)       // 116
               . pack("V", isset($this->_StartBlock)?
                         $this->_StartBlock:0)        // 120
               . pack("V", $this->Size)               // 124

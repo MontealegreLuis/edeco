@@ -1,43 +1,21 @@
 <?php
 /**
- * Gateway for user model objects
- *
  * PHP version 5
  *
- * LICENSE: Redistribution and use of this file in source and binary forms,
- * with or without modification, is not permitted under any circumstance
- *
- * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
- * "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
- * LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
- * A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT
- * OWNER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL,
- * SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT
- * LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE,
- * DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY
- * THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
- * (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
- * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
- *
- * @category   Application
- * @package    Edeco
- * @subpackage Gateway
- * @author     LMV <luis.montealegre@mandragora-web-systems.com>
- * @copyright  Mandrágora Web-Based Systems 2010
- * @version    SVN: $Id$
+ * This source file is subject to the license that is bundled with this package in the file LICENSE.
  */
+
+namespace App\Model\Gateway;
+
+use Mandragora\Gateway\Doctrine\AbstractDoctrine;
+use App\Enum\UserState;
+use Doctrine_Core;
+use Mandragora\Gateway\NoResultsFoundException;
 
 /**
  * Gateway for user model objects
- *
- * @category   Application
- * @package    Edeco
- * @subpackage Gateway
- * @author     LMV <luis.montealegre@mandragora-web-systems.com>
- * @copyright  Mandrágora Web-Based Systems 2010
- * @version    SVN: $Id$
  */
-class App_Model_Gateway_User extends Mandragora_Gateway_Doctrine_Abstract
+class User extends AbstractDoctrine
 {
     /**
      * @param string $username
@@ -52,13 +30,13 @@ class App_Model_Gateway_User extends Mandragora_Gateway_Doctrine_Abstract
         $user = $query->fetchOne(
             array(
                 ':username' => (string)$username,
-                ':state' => App_Enum_UserState::Active,
+                ':state' => UserState::Active,
             ),
             Doctrine_Core::HYDRATE_ARRAY
         );
         if (!$user) {
             $message = "User with username '$username' cannot be found";
-            throw new Mandragora_Gateway_NoResultsFoundException($message);
+            throw new NoResultsFoundException($message);
         }
         return $user;
     }
@@ -78,7 +56,7 @@ class App_Model_Gateway_User extends Mandragora_Gateway_Doctrine_Abstract
         );
         if (!$user) {
             $message = "User with username '$username' cannot be found";
-            throw new Mandragora_Gateway_NoResultsFoundException($message);
+            throw new NoResultsFoundException($message);
         }
         return $user;
     }
@@ -107,14 +85,14 @@ class App_Model_Gateway_User extends Mandragora_Gateway_Doctrine_Abstract
               ->andWhere('u.confirmationKey = :confirmationKey');
         $client = $query->fetchOne(
             array(
-                ':state' => App_Enum_UserState::Unconfirmed,
+                ':state' => UserState::Unconfirmed,
                 ':confirmationKey' => (string)$confirmationKey,
             ),
             Doctrine_Core::HYDRATE_ARRAY
         );
         if (!$client) {
             $message = "User with key '$confirmationKey' not found";
-            throw new Mandragora_Gateway_NoResultsFoundException($message);
+            throw new NoResultsFoundException($message);
         }
         return $client;
     }
@@ -156,5 +134,4 @@ class App_Model_Gateway_User extends Mandragora_Gateway_Doctrine_Abstract
             array(':state' => $newState, ':username' => $userName)
         );
     }
-
 }

@@ -1,6 +1,17 @@
 <?php
-class   App_Model_Gateway_Cache_Property
-extends Mandragora_Gateway_Decorator_CacheAbstract
+/**
+ * PHP version 5
+ *
+ * This source file is subject to the license that is bundled with this package in the file LICENSE.
+ */
+namespace App\Model\Gateway\Cache;
+
+use Mandragora\Gateway\Decorator\CacheAbstract;
+use Edeco\Paginator\Property as EdecoPaginatorProperty;
+use Mandragora\Model\AbstractModel;
+use Zend_Cache;
+
+class Property extends CacheAbstract
 {
     /**
      * @return array
@@ -44,7 +55,7 @@ extends Mandragora_Gateway_Decorator_CacheAbstract
             $property = $this->gateway->findOneByUrl($url);
             $this->getCache()->save(
                 $property, $cacheId,
-                array(Edeco_Paginator_Property::PROPERTIES_TAG,)
+                array(EdecoPaginatorProperty::PROPERTIES_TAG,)
             );
         }
         return $property;
@@ -77,7 +88,7 @@ extends Mandragora_Gateway_Decorator_CacheAbstract
      * @param Mandragora_Model_Abstract $property
      * @return void
      */
-    public function delete(Mandragora_Model_Abstract $property)
+    public function delete(AbstractModel $property)
     {
         $this->gateway->delete($property);
         $cacheId = 'property' . $property->id;
@@ -85,7 +96,7 @@ extends Mandragora_Gateway_Decorator_CacheAbstract
         // Also clean data in default module
         $this->getCache()->clean(
             Zend_Cache::CLEANING_MODE_MATCHING_ANY_TAG,
-            array(Edeco_Paginator_Property::PROPERTIES_TAG,)
+            array(EdecoPaginatorProperty::PROPERTIES_TAG,)
         );
     }
 
@@ -93,13 +104,13 @@ extends Mandragora_Gateway_Decorator_CacheAbstract
      * @param Mandragora_Model_Abstract $property
      * @return void
      */
-    public function insert(Mandragora_Model_Abstract $property)
+    public function insert(AbstractModel $property)
     {
         $this->gateway->insert($property);
         // Also clean data in default module
         $this->getCache()->clean(
             Zend_Cache::CLEANING_MODE_MATCHING_ANY_TAG,
-            array(Edeco_Paginator_Property::PROPERTIES_TAG,)
+            array(EdecoPaginatorProperty::PROPERTIES_TAG,)
         );
     }
 
@@ -107,7 +118,7 @@ extends Mandragora_Gateway_Decorator_CacheAbstract
      * @param Mandragora_Model_Abstract $property
      * @return void
      */
-    public function update(Mandragora_Model_Abstract $property)
+    public function update(AbstractModel $property)
     {
         $this->gateway->clearRelated();
         $this->gateway->update($property);
@@ -116,8 +127,7 @@ extends Mandragora_Gateway_Decorator_CacheAbstract
         // Also clean data in default module
         $this->getCache()->clean(
             Zend_Cache::CLEANING_MODE_MATCHING_ANY_TAG,
-            array(Edeco_Paginator_Property::PROPERTIES_TAG,)
+            array(EdecoPaginatorProperty::PROPERTIES_TAG,)
         );
     }
-
 }

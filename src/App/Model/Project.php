@@ -1,31 +1,15 @@
 <?php
 /**
- * Model for projects
- *
  * PHP version 5
  *
- * LICENSE: Redistribution and use of this file in source and binary forms,
- * with or without modification, is not permitted under any circumstance
- *
- * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
- * "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
- * LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
- * A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT
- * OWNER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL,
- * SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT
- * LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE,
- * DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY
- * THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
- * (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
- * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
- *
- * @category   Application
- * @package    Edeco
- * @subpackage Model
- * @author     LMV <luis.montealegre@mandragora-web-systems.com>
- * @copyright  Mandrágora Web-Based Systems 2010
- * @version    SVN: $Id$
+ * This source file is subject to the license that is bundled with this package in the file LICENSE.
  */
+namespace App\Model;
+
+use Mandragora\Model\AbstractModel;
+use Edeco_Model_Collection_Picture;
+use InvalidArgumentException;
+use App\Model\ProjectAttachment;
 
 /**
  * Model for projects
@@ -33,14 +17,8 @@
  * @property int $id
  * @property string $name
  * @property string $attachment
- *
- * @package    Edeco
- * @subpackage Model
- * @author     LMV <luis.montealegre@mandragora-web-systems.com>
- * @copyright  Mandrágora Web-Based Systems 2010
- * @version    SVN: $Id$
  */
-class App_Model_Project extends Mandragora_Model_Abstract
+class Project extends AbstractModel
 {
     /**
      * @var array
@@ -100,7 +78,7 @@ class App_Model_Project extends Mandragora_Model_Abstract
     public function createAttachmentFileHandler($fileName, $extension)
     {
         $this->attachmentFileHandler =
-            App_Model_ProjectAttachment::createAttachment(
+            ProjectAttachment::createAttachment(
                 $fileName, $extension
             );
         $this->attachment = $this->attachmentFileHandler->getFileName();
@@ -112,7 +90,7 @@ class App_Model_Project extends Mandragora_Model_Abstract
     public function initAttachmentFileHandler()
     {
         $this->attachmentFileHandler =
-            App_Model_ProjectAttachment::retrieveAttachment(
+            ProjectAttachment::retrieveAttachment(
                 $this->attachment
             );
     }
@@ -159,5 +137,4 @@ class App_Model_Project extends Mandragora_Model_Abstract
     {
         return $this->properties['name'];
     }
-
 }

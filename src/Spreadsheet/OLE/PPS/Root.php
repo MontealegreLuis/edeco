@@ -21,6 +21,14 @@
 // $Id: Root.php,v 1.7 2003/12/12 21:10:10 xnoguer Exp $
 */
 
+namespace Spreadsheet\OLE\PPS;
+
+use Spreadsheet\OLE\PPS;
+use Spreadsheet\OLE;
+
+
+
+
 /**
 * Class for creating Root PPS's for OLE containers
 *
@@ -28,7 +36,7 @@
 * @category Structures
 * @package  OLE
 */
-class Spreadsheet_OLE_PPS_Root extends Spreadsheet_OLE_PPS
+class Root extends PPS
 {
     /**
     * The temporary dir for storing the OLE file
@@ -48,7 +56,7 @@ class Spreadsheet_OLE_PPS_Root extends Spreadsheet_OLE_PPS
         $this->_tmp_dir = '';
         parent::__construct(
            null,
-           Spreadsheet_OLE::Asc2Ucs('Root Entry'),
+           OLE::Asc2Ucs('Root Entry'),
            OLE_PPS_TYPE_ROOT,
            null,
            null,

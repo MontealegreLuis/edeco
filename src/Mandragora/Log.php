@@ -26,6 +26,21 @@
  * @version    SVN $Id$
  */
 
+namespace Mandragora;
+
+use Zend_Controller_Front;
+use Mandragora\Mail\Transport\Debug;
+use Zend_Mail;
+use Zend_Layout;
+use Zend_Log_Formatter_Simple;
+use Zend_Log_Writer_Mail;
+use Zend_Log;
+use Exception;
+use Zend_Controller_Request_Abstract;
+
+
+
+
 /**
  * Logger for applications
  *
@@ -35,7 +50,7 @@
  * @copyright  Mandrágora Web-Based Systems
  * @version    SVN $Id$
  */
-class Mandragora_Log
+class Log
 {
     /**
      * @var Zend_Log
@@ -99,7 +114,7 @@ class Mandragora_Log
             $fc = Zend_Controller_Front::getInstance();
             $mailTransport = $fc->getParam('bootstrap')->getResource('mail');
         } else {
-            $mailTransport = new Mandragora_Mail_Transport_Debug();
+            $mailTransport = new Debug();
         }
         Zend_Mail::setDefaultTransport($mailTransport);
         $mail = new Zend_Mail('utf-8');

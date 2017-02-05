@@ -1,10 +1,6 @@
 <?php
 /**
  * Shows properties list
- *
- * @author    LMV <luis.montealegre@mandragora-web-systems.com>
- * @copyright Mandrágora Web-Based Systems
- * @version   SVN: $Id$
  */
 ?>
 <?php
@@ -79,9 +75,9 @@ $this->bundleLink()
                 <th>Imagen</th>
             </tr>
         <?php $i = 0 ?>
-        <?php $availabilities = App_Enum_PropertyAvailability::values() ?>
+        <?php $availabilities = App\Enum\PropertyAvailability::values() ?>
         <?php foreach ($this->properties as $property) : ?>
-            <tr class="<?php echo $this->cycle(array('even', 'odd'))->next() ?>">
+            <tr class="<?php echo $this->cycle(['even', 'odd'])->next() ?>">
                 <td>
                     <h3><?php echo $property->name ?></h3>
                     <p>

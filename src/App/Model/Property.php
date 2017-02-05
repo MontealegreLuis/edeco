@@ -1,32 +1,32 @@
 <?php
 /**
- * Contains all the information related to the properties being sold or rented
- *
  * PHP version 5
  *
- * LICENSE: Redistribution and use of this file in source and binary forms,
- * with or without modification, is not permitted under any circumstance
- *
- * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
- * "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
- * LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
- * A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT
- * OWNER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL,
- * SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT
- * LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE,
- * DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY
- * THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
- * (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
- * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
- *
- * @category   Application
- * @package    Edeco
- * @subpackage Model
- * @author     LNJ <lemuel.nonoal@mandragora-web-systems.com>
- * @author     LMV <luis.montealegre@mandragora-web-systems.com>
- * @copyright  Mandrágora Web-Based Systems 2010
- * @version    SVN: $Id$
+ * This source file is subject to the license that is bundled with this package in the file LICENSE.
  */
+namespace App\Model;
+
+use Mandragora\Model\AbstractModel;
+use Mandragora\Model\Property\Url;
+use Mandragora\Model;
+use App\Model\Collection\Picture as AppModelCollectionPicture;
+use InvalidArgumentException;
+use Mandragora\Model\Property\Date;
+use Mandragora\Model\Property\Boolean;
+use Mandragora\Model\Property\SquareMeter;
+use Mandragora\Model\Property\Meter;
+use Mandragora\Model\Property\Telephone;
+use App\Model\Collection\RecommendedProperty;
+use Zend_Controller_Router_Route;
+use App\Enum\PropertyAvailability;
+use App\Model\Picture as AppModelPicture;
+use App\Model\PictureFileHandler;
+use Mandragora\Image;
+use Zend_Json;
+use Edeco\Paginator\Property as EdecoPaginatorProperty;
+use Zend_Controller_Front;
+use Zend_Date;
+use Zend_Layout;
 
 /**
  * Contains all the information related to the properties being sold or rented
@@ -50,22 +50,13 @@
  * @property integer $version
  * @property Doctrine_Collection $Address
  * @property Doctrine_Collection $Picture
- *
- * @category   Application
- * @package    Edeco
- * @subpackage Model
- * @author     LNJ <lemuel.nonoal@mandragora-web-systems.com>
- * @author     LMV <luis.montealegre@mandragora-web-systems.com>
- * @copyright  Mandrágora Web-Based Systems 2010
- * @version    SVN: $Id$
  */
-class   App_Model_Property
-extends Mandragora_Model_Abstract
+class Property extends AbstractModel
 {
     /**
      * @var array
      */
-    protected $properties = array(
+    protected $properties = [
         'name' => null, 'url' => null, 'description' => null,
         'price' => null, 'totalSurface' => null, 'metersOffered' => null,
         'metersFront' => null, 'landUse' => null, 'creationDate' => null,
@@ -73,12 +64,12 @@ extends Mandragora_Model_Abstract
         'contactPhone' => null, 'contactCellphone' => null,
         'categoryId' => null, 'version' => null, 'Category' => null,
         'Address' => null, 'Picture' => null, 'RecommendedProperty' => null,
-    );
+    ];
 
     /**
      * @var array
      */
-    protected $identifier = array('id');
+    protected $identifier = ['id'];
 
     /**
      * @var Zend_Cache
@@ -91,7 +82,7 @@ extends Mandragora_Model_Abstract
      */
     public function setUrl($propertyName)
     {
-        $url = new Mandragora_Model_Property_Url($this->properties['name']);
+        $url = new Url($this->properties['name']);
         $this->properties['url'] = $url;
     }
 
@@ -101,7 +92,7 @@ extends Mandragora_Model_Abstract
     public function setAddress($values)
     {
         if (!is_null($values)) {
-            $modelAddress = Mandragora_Model::factory('Address', $values);
+            $modelAddress = Model::factory('Address', $values);
             $this->properties['Address'] = $modelAddress;
         }
     }
@@ -115,8 +106,8 @@ extends Mandragora_Model_Abstract
     public function setPicture($pictures)
     {
         if (is_array($pictures)) {
-            $pictures = new App_Model_Collection_Picture($pictures);
-        } elseif (!($pictures instanceof App_Model_Collection_Picture)) {
+            $pictures = new AppModelCollectionPicture($pictures);
+        } elseif (!($pictures instanceof AppModelCollectionPicture)) {
             throw new InvalidArgumentException(
                 'Expected array or App_Model_Collection_Picture'
             );
@@ -129,7 +120,7 @@ extends Mandragora_Model_Abstract
      */
     public function setCreationDate($creationDate)
     {
-        $creationDate = new Mandragora_Model_Property_Date($creationDate);
+        $creationDate = new Date($creationDate);
         $this->properties['creationDate'] = $creationDate;
     }
 
@@ -139,7 +130,7 @@ extends Mandragora_Model_Abstract
     public function setShowOnWeb($showOnWeb)
     {
         $values = array('no', 'yes');
-        $showOnWeb = new Mandragora_Model_Property_Boolean($showOnWeb, $values);
+        $showOnWeb = new Boolean($showOnWeb, $values);
         $this->properties['showOnWeb'] = $showOnWeb;
     }
 
@@ -149,7 +140,7 @@ extends Mandragora_Model_Abstract
      */
     public function setTotalSurface($totalSurface)
     {
-        $totalSurface = new Mandragora_Model_Property_SquareMeter($totalSurface);
+        $totalSurface = new SquareMeter($totalSurface);
         $this->properties['totalSurface'] = $totalSurface;
     }
 
@@ -159,7 +150,7 @@ extends Mandragora_Model_Abstract
      */
     public function setMetersOffered($metersOffered)
     {
-        $metersOffered = new Mandragora_Model_Property_SquareMeter($metersOffered);
+        $metersOffered = new SquareMeter($metersOffered);
         $this->properties['metersOffered'] = $metersOffered;
     }
 
@@ -169,7 +160,7 @@ extends Mandragora_Model_Abstract
      */
     public function setMetersFront($metersFront)
     {
-        $metersFront = new Mandragora_Model_Property_Meter($metersFront);
+        $metersFront = new Meter($metersFront);
         $this->properties['metersFront'] = $metersFront;
     }
 
@@ -180,7 +171,7 @@ extends Mandragora_Model_Abstract
     public function setContactPhone($phone)
     {
         if (!is_null($phone) && trim($phone) !== '') {
-            $phone = new Mandragora_Model_Property_Telephone($phone);
+            $phone = new Telephone($phone);
             $this->properties['contactPhone'] = $phone;
         }
     }
@@ -193,7 +184,7 @@ extends Mandragora_Model_Abstract
     {
         if (!is_null($phone) && trim($phone) !== '') {
             $mobile = '/(\d{5})(\d{2})(\d{2})(\d{2})(\d{2})/i';
-            $phone = new Mandragora_Model_Property_Telephone($phone, $mobile);
+            $phone = new Telephone($phone, $mobile);
             $this->properties['contactCellphone'] = $phone;
         }
     }
@@ -204,13 +195,13 @@ extends Mandragora_Model_Abstract
      */
     public function setCategory(array $values)
     {
-        $category = Mandragora_Model::factory('Category', $values);
+        $category = Model::factory('Category', $values);
         $this->properties['Category'] = $category;
     }
 
     public function setRecommendedProperty(array $collection)
     {
-        $collection = new App_Model_Collection_RecommendedProperty($collection);
+        $collection = new RecommendedProperty($collection);
         $this->properties['RecommendedProperty'] = $collection;
     }
 
@@ -232,21 +223,21 @@ extends Mandragora_Model_Abstract
         if (!$jsonProperties) {
             $dtoProperties = array();
             $translator = Zend_Controller_Router_Route::getDefaultTranslator();
-            $availability = App_Enum_PropertyAvailability::values();
+            $availability = PropertyAvailability::values();
             foreach ($properties as $property) {
                 unset($property['price']);
                 $property['availabilityFor'] =
                     $availability[$property['availabilityFor']];
                 if (count($property['Picture']) > 0) {
                     $property['Picture'] = $property['Picture'][0];
-                    $picture = new App_Model_Picture($property['Picture']);
+                    $picture = new AppModelPicture($property['Picture']);
                     unset($property['Picture']['id']);
                     unset($property['Picture']['propertyId']);
                     unset($property['Picture']['version']);
                     $pathToImage =
-                        App_Model_PictureFileHandler::getPicturesDirectory()
+                        PictureFileHandler::getPicturesDirectory()
                         . '/' . $property['Picture']['filename'];
-                    $imageHandler = new Mandragora_Image($pathToImage);
+                    $imageHandler = new Image($pathToImage);
                     $property['Picture']['height'] = $imageHandler->getHeight();
                     $property['Picture']['width'] = $imageHandler->getWidth();
                     $parts = explode('/', (string)$picture);
@@ -260,7 +251,7 @@ extends Mandragora_Model_Abstract
             $jsonProperties = Zend_Json::encode($dtoProperties);
             $this->getCache()->save(
                 $jsonProperties, 'jsonProperties',
-                array(Edeco_Paginator_Property::PROPERTIES_TAG,)
+                array(EdecoPaginatorProperty::PROPERTIES_TAG,)
             );
         }
         return $jsonProperties;
@@ -303,9 +294,9 @@ extends Mandragora_Model_Abstract
                 $picture = $picture->toArray();
                 unset($picture['propertyId']);
                 $pathToImage =
-                    App_Model_PictureFileHandler::getPicturesDirectory()
+                    PictureFileHandler::getPicturesDirectory()
                     . '/' . $picture['filename'];
-                $imageHandler = new Mandragora_Image($pathToImage);
+                $imageHandler = new Image($pathToImage);
                 $picture['height'] = $imageHandler->getHeight();
                 $picture['width'] = $imageHandler->getWidth();
                 $pictures[] = $picture;
@@ -320,7 +311,7 @@ extends Mandragora_Model_Abstract
                 $jsonProperty, $cacheId,
                 array(
                     'property' . $propertyId,
-                    Edeco_Paginator_Property::PROPERTIES_TAG,
+                    EdecoPaginatorProperty::PROPERTIES_TAG,
                 )
             );
         }
@@ -367,5 +358,4 @@ extends Mandragora_Model_Abstract
         }
         return $property;
     }
-
 }

@@ -27,6 +27,13 @@
  * @version    SVN: $Id$
  */
 
+namespace Mandragora\Service;
+
+use App\Service\Menu\Selector;
+
+
+
+
 /**
  * Factory for the service that will setup the main navigation menu
  *
@@ -37,7 +44,7 @@
  * @copyright  Mandrágora Web-Based Systems 2010
  * @version    SVN: $Id$
  */
-class Mandragora_Service_Menu
+class Menu
 {
     /**
      * @return void
@@ -49,7 +56,7 @@ class Mandragora_Service_Menu
      */
     static public function factory()
     {
-        return new App_Service_Menu_Selector();
+        return new Selector();
     }
 
 }

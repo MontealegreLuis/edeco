@@ -27,6 +27,15 @@
  * @version    SVN: $Id$
  */
 
+namespace Mandragora\Model\Property;
+
+use Mandragora\Model\Property\PropertyInterface;
+use Mandragora\Filter\FriendlyUrl;
+use Zend_Layout;
+
+
+
+
 /**
  * Utility class for handling the displaying of model's image properties
  *
@@ -37,8 +46,8 @@
  * @copyright  Mandrágora Web-Based Systems 2010
  * @version    SVN: $Id$
  */
-class Mandragora_Model_Property_Image
-    implements Mandragora_Model_Property_Interface
+class Image
+    implements PropertyInterface
 {
     /**
      * @var Mandragora_Filter_FriendlyUrl
@@ -72,7 +81,7 @@ class Mandragora_Model_Property_Image
         $this->name = $name;
         $this->extension = $extension;
         $this->publicDirectory = $publicDirectory;
-        $this->urlFilter = new Mandragora_Filter_FriendlyUrl();
+        $this->urlFilter = new FriendlyUrl();
     }
 
     /**

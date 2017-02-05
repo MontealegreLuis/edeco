@@ -22,6 +22,12 @@
  * @filesource
  */
 
+namespace PhpThumb;
+
+
+
+
+
 
 
 /**
@@ -42,7 +48,7 @@
  * @package PhpThumb_PhpThumb
  * @subpackage Core
  */
-class PhpThumb_PhpThumb
+class PhpThumb
 {
 	/**
 	 * Instance of self

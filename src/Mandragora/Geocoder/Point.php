@@ -1,5 +1,11 @@
 <?php
-class Mandragora_Geocoder_Point
+
+
+namespace Mandragora\Geocoder;
+
+
+
+class Point
 {
     /**
      * @var float

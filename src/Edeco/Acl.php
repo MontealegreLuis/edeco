@@ -1,47 +1,18 @@
 <?php
 /**
- * Edeco's ACL
- *
  * PHP version 5
  *
- * LICENSE: Redistribution and use of this file in source and binary forms,
- * with or without modification, is not permitted under any circumstance
- *
- * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
- * "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
- * LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
- * A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT
- * OWNER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL,
- * SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT
- * LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE,
- * DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY
- * THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
- * (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
- * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
- *
- * @category   Panel
- * @package    Edeco
- * @subpackage Breadcumbs
- * @author     LNJ <lemuel.nonoal@mandragora-web-systems.com>
- * @copyright  Mandrágora Web-Based Systems 2010
- * @version    SVN: $Id$
+ * This source file is subject to the license that is bundled with this package in the file LICENSE.
  */
+namespace Edeco;
+
+use Zend_Acl;
+use Edeco\Acl as EdecoAcl;
 
 /**
  * Edeco's ACL
- *
- *
- * @author     LNJ <lemuel.nonoal@mandragora-web-systems.com>
- * @version    SVN: $Id$
- * @copyright  Mandrágora Web-Based Systems 2010
- * @category   Panel
- * @package    Edeco
- * @subpackage BreadscrumbsBuilder
- * @history    20 may 2010
- *             LNJ
- *             - Class Creation
  */
-class Edeco_Acl extends Zend_Acl
+class Acl extends Zend_Acl
 {
 	/**
 	 * @var
@@ -107,14 +78,13 @@ class Edeco_Acl extends Zend_Acl
     public static function getInstance()
     {
     	if (self::$acl == null) {
-            self::$acl = new Edeco_Acl();
+            self::$acl = new EdecoAcl();
     	}
     	return self::$acl;
     }
 
-    public static function setInstance(Edeco_Acl $acl)
+    public static function setInstance(EdecoAcl $acl)
     {
         self::$acl = $acl;
     }
-
 }

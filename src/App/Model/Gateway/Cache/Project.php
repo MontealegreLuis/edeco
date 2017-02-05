@@ -1,6 +1,15 @@
 <?php
-class App_Model_Gateway_Cache_Project
-    extends Mandragora_Gateway_Decorator_CacheAbstract
+/**
+ * PHP version 5
+ *
+ * This source file is subject to the license that is bundled with this package in the file LICENSE.
+ */
+namespace App\Model\Gateway\Cache;
+
+use Mandragora\Gateway\Decorator\CacheAbstract;
+use Mandragora\Model\AbstractModel;
+
+class Project extends CacheAbstract
 {
     /**
      * @return array
@@ -49,7 +58,7 @@ class App_Model_Gateway_Cache_Project
      * @param Mandragora_Model_Abstract $project
      * @return void
      */
-    public function delete(Mandragora_Model_Abstract $project)
+    public function delete(AbstractModel $project)
     {
         $this->gateway->delete($project);
     }
@@ -59,7 +68,7 @@ class App_Model_Gateway_Cache_Project
      * @param Mandragora_Model_Abstract $project
      * @return void
      */
-    public function insert(Mandragora_Model_Abstract $project)
+    public function insert(AbstractModel $project)
     {
         $this->gateway->insert($project);
         $cacheId = 'project' . $project->id;
@@ -71,7 +80,7 @@ class App_Model_Gateway_Cache_Project
      * @param Mandragora_Model_Abstract $project
      * @return void
      */
-    public function update(Mandragora_Model_Abstract $project)
+    public function update(AbstractModel $project)
     {
         $this->gateway->update($project);
         $cacheId = 'project' . $project->id;

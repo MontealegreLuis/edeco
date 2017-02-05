@@ -1,5 +1,16 @@
 <?php
-class App_Model_ProjectAttachment
+/**
+ * PHP version 5
+ *
+ * This source file is subject to the license that is bundled with this package in the file LICENSE.
+ */
+namespace App\Model;
+
+use Mandragora\File;
+use Mandragora\Filter\FriendlyUrl;
+use App\Model\ProjectAttachment as AppModelProjectAttachment;
+
+class ProjectAttachment
 {
     /**
      * @var string
@@ -65,8 +76,8 @@ class App_Model_ProjectAttachment
     {
 
         return $fileName == ''
-            ? new Mandragora_File($this->fullName)
-            : new Mandragora_File(
+            ? new File($this->fullName)
+            : new File(
                 $this->getAttachmentsDirectory() . DIRECTORY_SEPARATOR
                 . $fileName
             );
@@ -96,7 +107,7 @@ class App_Model_ProjectAttachment
     protected static function getFilter()
     {
         if (self::$filter == null) {
-            self::$filter = new Mandragora_Filter_FriendlyUrl();
+            self::$filter = new FriendlyUrl();
         }
         return self::$filter;
     }
@@ -122,7 +133,7 @@ class App_Model_ProjectAttachment
      */
     public static function retrieveAttachment($fileName)
     {
-        return new App_Model_ProjectAttachment($fileName);
+        return new AppModelProjectAttachment($fileName);
     }
 
     /**
@@ -134,7 +145,6 @@ class App_Model_ProjectAttachment
      */
     public static function createAttachment($fileName, $extension)
     {
-        return new App_Model_ProjectAttachment($fileName, $extension);
+        return new AppModelProjectAttachment($fileName, $extension);
     }
-
 }

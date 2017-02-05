@@ -27,6 +27,13 @@
  * @version    SVN: $Id$
  */
 
+namespace Mandragora\Model\Property;
+
+use Exception as Exception;
+
+
+
+
 /**
  * Exception thrown when a non-existing property is tried to be modified
  *
@@ -37,4 +44,4 @@
  * @copyright  Mandrágora Web-Based Systems 2010
  * @version    SVN: $Id$
  */
-class Mandragora_Model_Property_Exception extends Exception {}
+class Exception extends Exception {}

@@ -27,6 +27,15 @@
  * @version    SVN: $Id$
  */
 
+namespace Mandragora\Validate;
+
+use Zend_Validate_Abstract;
+use Zend_Date;
+use Zend_Validate_Date;
+
+
+
+
 /**
  * Validate a date range
  *
@@ -37,7 +46,7 @@
  * @copyright  Mandrágora Web-Based Systems 2010
  * @version    SVN: $Id$
  */
-class Mandragora_Validate_DateRange extends Zend_Validate_Abstract
+class DateRange extends Zend_Validate_Abstract
 {
     const INVALID_START_DATE = 'invalidStartDate';
     const INVALID_STOP_DATE = 'invalidStopDate';

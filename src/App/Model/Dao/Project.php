@@ -1,18 +1,24 @@
 <?php
+/**
+ * PHP version 5
+ *
+ * This source file is subject to the license that is bundled with this package in the file LICENSE.
+ */
+namespace App\Model\Dao;
+
+use Doctrine_Manager;
+use Doctrine_Record;
+
 // Connection Component Binding
-Doctrine_Manager::getInstance()->bindComponent('App_Model_Dao_Project', 'doctrine');
+Doctrine_Manager::getInstance()->bindComponent(Project::class, 'doctrine');
 
 /**
- * App_Model_Dao_Project
- * 
  * @property integer $id
  * @property string $name
  * @property string $attachment
  * @property integer $version
- *
- * @author     LMV <luis.montealegre@mandragora-web-systems.com>
  */
-class App_Model_Dao_Project extends Doctrine_Record
+class Project extends Doctrine_Record
 {
     public function setTableDefinition()
     {
@@ -53,10 +59,5 @@ class App_Model_Dao_Project extends Doctrine_Record
              'notnull' => true,
              'autoincrement' => false,
              ));
-    }
-
-    public function setUp()
-    {
-        parent::setUp();
     }
 }

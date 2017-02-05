@@ -3,14 +3,14 @@
  * PHP version 5.6
  *
  * This source file is subject to the license that is bundled with this package in the file LICENSE.
- *
- * @copyright  Mandrágora Web-Based Systems 2010-2015 (http://www.mandragora-web-systems.com)
  */
+use Mandragora\Loader\PluginLoader;
+use Zend_Cache as Cache;
+use Zend_Locale as Locale;
+use Zend_Controller_Action_HelperBroker as HelperBroker;
 
 /**
  * Bootstrap class for Mandrágora's application
- *
- * @author     LMV <luis.montealegre@mandragora-web-systems.com>
  */
 class Bootstrap extends Zend_Application_Bootstrap_Bootstrap
 {
@@ -19,10 +19,10 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap
      */
     protected function _initCachePage()
     {
-        $frontendOptions = array(
+        $frontendOptions = [
             'debug_header' => false,
             'lifetime' => null,
-            'default_options' => array(
+            'default_options' => [
                 'cache' => false,
                 'cache_with_cookie_variables' => true,
                 'cache_with_get_variables' => true,
@@ -31,19 +31,19 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap
                 'cache_with_files_variables' => false,
                 'make_id_with_cookie_variables' => false,
                 'make_id_with_get_variables ' => true,
-            ),
-            'regexps' => array(
-                '^/objetivos-estrategicos$' => array('cache' => true,),
-                '^/quienes-somos$' => array('cache' => true,),
-                '^/contacto$' => array('cache' => true,),
-                '^/declaracion-de-accesibilidad$' => array('cache' => true,),
-                '^/aviso-legal$' => array('cache' => true,),
-                '^/ayuda' => array('cache' => true),
-        		'^/constructora' => array('cache' => true),
-            )
-        );
-        $backendOptions = array('cache_dir' => APPLICATION_PATH . '/../var/cache/page');
-        $cache = Zend_Cache::factory('Page', 'File', $frontendOptions, $backendOptions);
+            ],
+            'regexps' => [
+                '^/objetivos-estrategicos$' => ['cache' => true,],
+                '^/quienes-somos$' => ['cache' => true,],
+                '^/contacto$' => ['cache' => true,],
+                '^/declaracion-de-accesibilidad$' => ['cache' => true,],
+                '^/aviso-legal$' => ['cache' => true,],
+                '^/ayuda' => ['cache' => true],
+        		'^/constructora' => ['cache' => true],
+            ]
+        ];
+        $backendOptions = ['cache_dir' => APPLICATION_PATH . '/../var/cache/page'];
+        $cache = Cache::factory('Page', 'File', $frontendOptions, $backendOptions);
         $cache->start();
     }
 
@@ -52,13 +52,13 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap
      */
     protected function _initLocale()
     {
-        $frontendOptions = array(
+        $frontendOptions = [
             'debug_header' => false,
             'lifetime' => null,
-        );
-        $backendOptions = array('cache_dir' => APPLICATION_PATH . '/../var/cache/locale');
-        $locale = new Zend_Locale('es_MX');
-        $cache = Zend_Cache::factory('CORE', 'FILE', $frontendOptions, $backendOptions);
+        ];
+        $backendOptions = ['cache_dir' => APPLICATION_PATH . '/../var/cache/locale'];
+        $locale = new Locale('es_MX');
+        $cache = Cache::factory('CORE', 'FILE', $frontendOptions, $backendOptions);
         $locale->setCache($cache);
 
         return $locale;
@@ -71,11 +71,9 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap
      */
     protected function _initActionHelpers()
     {
-        Zend_Controller_Action_HelperBroker::addPrefix(
-            'Mandragora_Controller_Action_Helper'
-        );
-        Zend_Controller_Action_HelperBroker::addPrefix(
-            'Edeco_Controller_Action_Helper'
-        );
+        HelperBroker::setPluginLoader(new PluginLoader());
+        HelperBroker::addPrefix('Zend_Controller_Action_Helper');
+        HelperBroker::addPrefix('Mandragora\\Controller\\Action\\Helper');
+        HelperBroker::addPrefix('Edeco\\Controller\\Action\\Helper');
     }
 }

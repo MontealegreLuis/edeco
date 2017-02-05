@@ -22,6 +22,13 @@
 *    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 */
 
+namespace Spreadsheet\Excel\Writer;
+
+use PEAR;
+
+
+
+
 /**
 * @const SPREADSHEET_EXCEL_WRITER_ADD token identifier for character "+"
 */
@@ -99,7 +106,7 @@ define('SPREADSHEET_EXCEL_WRITER_NE', "<>");
 * @category FileFormats
 * @package  Spreadsheet_Excel_Writer
 */
-class Spreadsheet_Excel_Writer_Parser
+class Parser
 {
     /**
     * The index of the character we are currently looking at

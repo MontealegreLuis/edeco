@@ -3,10 +3,18 @@
  * PHP version 5.6
  *
  * This source file is subject to the license that is bundled with this package in the file LICENSE.
- *
- * @copyright  Mandrágora Web-Based Systems 2010-2015 (http://www.mandragora-web-systems.com)
  */
-class App_Service_Acl_Handler implements Mandragora_Service_Acl_Interface
+namespace App\Service\Acl;
+
+use Mandragora\Acl\Wrapper;
+use Mandragora\Log;
+use Mandragora\Service\Acl\AclInterface;
+use Mandragora\Service;
+use Zend_Auth;
+use Zend_Controller_Request_Abstract;
+use Zend_Date;
+
+class Handler implements AclInterface
 {
     /**
      * @var array
@@ -80,14 +88,14 @@ class App_Service_Acl_Handler implements Mandragora_Service_Acl_Interface
         $cache = $cacheManager->getCache('default');
         $acl = $cache->load('acl');
         if (!$acl) {
-            $acl = Mandragora_Acl_Wrapper::getInstance();
-            $rolesService = Mandragora_Service::factory('Role');
+            $acl = Wrapper::getInstance();
+            $rolesService = Service::factory('Role');
             $rolesService->setCacheManager($cacheManager);
             $rolesService->setDoctrineManager($doctrineManager);
-            $permissionsService = Mandragora_Service::factory('Permission');
+            $permissionsService = Service::factory('Permission');
             $permissionsService->setCacheManager($cacheManager);
             $permissionsService->setDoctrineManager($doctrineManager);
-            $resourceService = Mandragora_Service::factory('Resource');
+            $resourceService = Service::factory('Resource');
             $resourceService->setCacheManager($cacheManager);
             $resourceService->setDoctrineManager($doctrineManager);
             $acl->setRoles($rolesService->retrieveAllRoles());
@@ -95,8 +103,8 @@ class App_Service_Acl_Handler implements Mandragora_Service_Acl_Interface
             $acl->setPermissions($permissionsService->retrieveAllPermissions());
             $cache->save($acl, 'acl');
         }
-        Mandragora_Acl_Wrapper::setInstance($acl); //Recover acl from cache
-        $this->acl = Mandragora_Acl_Wrapper::getInstance();
+        Wrapper::setInstance($acl); //Recover acl from cache
+        $this->acl = Wrapper::getInstance();
     }
 
     /**
@@ -130,8 +138,7 @@ class App_Service_Acl_Handler implements Mandragora_Service_Acl_Interface
                 'Usuario: %s, página %s, fecha y hora: %s', $username, $uri,
                 $date
             );
-            Mandragora_Log::info($auditInformation);
+            Log::info($auditInformation);
         }
     }
-
 }

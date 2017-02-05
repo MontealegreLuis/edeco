@@ -1,43 +1,21 @@
 <?php
 /**
- * Service class for Excel files
- *
  * PHP version 5
  *
- * LICENSE: Redistribution and use of this file in source and binary forms,
- * with or without modification, is not permitted under any circumstance
- *
- * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
- * "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
- * LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
- * A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT
- * OWNER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL,
- * SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT
- * LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE,
- * DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY
- * THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
- * (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
- * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
- *
- * @category   Application
- * @package    Edeco
- * @subpackage Service
- * @author     LMV <luis.montealegre@mandragora-web-systems.com>
- * @copyright  Mandrágora Web-Based Systems 2010
- * @version    SVN: $Id$
+ * This source file is subject to the license that is bundled with this package in the file LICENSE.
  */
+namespace App\Service;
+
+use Mandragora\Service\Crud\Doctrine\AbstractDoctrine;
+use Mandragora\Gateway;
+use App\Model\Gateway\Cache\Property as AppModelGatewayCacheProperty;
+use App\Model\Collection\Property as AppModelCollectionProperty;
+use App\Model\PropertyExcelWriter;
 
 /**
  * Service class for Property model
- *
- * @category   Application
- * @package    Edeco
- * @subpackage Service
- * @author     LMV <luis.montealegre@mandragora-web-systems.com>
- * @copyright  Mandrágora Web-Based Systems 2010
- * @version    SVN: $Id$
  */
-class App_Service_Excel extends Mandragora_Service_Crud_Doctrine_Abstract
+class Excel extends AbstractDoctrine
 {
     /**
      * @return void
@@ -45,8 +23,8 @@ class App_Service_Excel extends Mandragora_Service_Crud_Doctrine_Abstract
     public function init()
     {
     	$this->openConnection();
-        $gateway = Mandragora_Gateway::factory('Property');
-        $this->setGateway(new App_Model_Gateway_Cache_Property($gateway));
+        $gateway = Gateway::factory('Property');
+        $this->setGateway(new AppModelGatewayCacheProperty($gateway));
     }
 
     /**
@@ -78,10 +56,10 @@ class App_Service_Excel extends Mandragora_Service_Crud_Doctrine_Abstract
      */
     public function createExcelFile($startDate, $stopDate)
     {
-        $gateway = Mandragora_Gateway::factory('Property');
+        $gateway = Gateway::factory('Property');
         $properties = $gateway->findPropertiesInDateRange($startDate, $stopDate);
         if (count($properties) > 0) {
-            $properties = new App_Model_Collection_Property($properties);
+            $properties = new AppModelCollectionProperty($properties);
             $this->getModel()
                  ->createExcelFile($startDate, $stopDate, $properties);
             return true;
@@ -106,7 +84,7 @@ class App_Service_Excel extends Mandragora_Service_Crud_Doctrine_Abstract
     public function getExcelFileInformation($fileName)
     {
         $pathToFile = sprintf(
-            '%s/%s', App_Model_PropertyExcelWriter::getExcelFilesDirectory(),
+            '%s/%s', PropertyExcelWriter::getExcelFilesDirectory(),
             $fileName
         );
         return $this->getModel()->getExcelFileInformation($pathToFile);
@@ -138,5 +116,4 @@ class App_Service_Excel extends Mandragora_Service_Crud_Doctrine_Abstract
      * @return void
      */
     public function createForm($formName) {}
-
 }

@@ -1,51 +1,25 @@
 <?php
 /**
- * Application's default controller
- *
  * PHP version 5
  *
- * LICENSE: Redistribution and use of this file in source and binary forms,
- * with or without modification, is not permitted under any circumstance
- *
- * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
- * "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
- * LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
- * A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT
- * OWNER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL,
- * SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT
- * LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE,
- * DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY
- * THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
- * (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
- * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
- *
- * @category   Application
- * @package    Edeco
- * @subpackage Controller
- * @author     LMV <luis.montealegre@mandragora-web-systems.com>
- * @copyright  Mandrágora Web-Based Systems 2010
- * @version    SVN $Id$
+ * This source file is subject to the license that is bundled with this package in the file LICENSE.
  */
+use App\Model\Collection\Category as Categories;
+use Mandragora\Controller\Action\AbstractAction;
+use Mandragora\Gateway;
+use Mandragora\Service;
 
 /**
  * Application's default controller
- *
- * @category   Application
- * @package    Edeco
- * @subpackage Controller
- * @author     LMV <luis.montealegre@mandragora-web-systems.com>
- * @copyright  Mandrágora Web-Based Systems 2010
- * @version    SVN $Id$
  */
-class   PropertyController
-extends Mandragora_Controller_Action_Abstract
+class PropertyController extends AbstractAction
 {
     /**
      * @see Zend_Controller_Action::init()
      */
     public function init()
     {
-        $this->service = Mandragora_Service::factory('Property');
+        $this->service = Service::factory('Property');
         $this->service->setCacheManager($this->getCacheManager());
         $doctrine = $this->getInvokeArg('bootstrap')->getResource('doctrine');
         $this->service->setDoctrineManager($doctrine);
@@ -61,11 +35,11 @@ extends Mandragora_Controller_Action_Abstract
      */
     public function listAction()
     {
-        $serviceCategory = Mandragora_Service::factory('Category');
+        $serviceCategory = Service::factory('Category');
         $serviceCategory->setCacheManager($this->getCacheManager());
         $doctrine = $this->getInvokeArg('bootstrap')->getResource('doctrine');
         $serviceCategory->setDoctrineManager($doctrine);
-        $url = (string)$this->param('category');
+        $url = (string) $this->param('category');
         $category = $serviceCategory->retrieveCategoryByUrl($url);
         if (!$category) {
             throw new Zend_Controller_Action_Exception(
@@ -93,12 +67,12 @@ extends Mandragora_Controller_Action_Abstract
             $categoryUrl = $this->param('category');
             $stateUrl = $this->param('state');
             $availability = $this->param('availability');
-            $categoryGateway = Mandragora_Gateway::factory('Category');
+            $categoryGateway = Gateway::factory('Category');
             $category = $categoryGateway->findOneByUrl($categoryUrl);
-            $stateGateway = Mandragora_Gateway::factory('State');
+            $stateGateway = Gateway::factory('State');
             $state = $stateGateway->findOneByUrl($stateUrl);
             $availability = $availability === 'renta' ? 'rent' : 'sale';
-            $page = (int)$this->param('page', 1);
+            $page = (int) $this->param('page', 1);
             $properties = $this->service->retrievePropertiesBy(
                 $stateUrl, $categoryUrl, $availability, $page
             );
@@ -151,10 +125,8 @@ extends Mandragora_Controller_Action_Abstract
     public function newDetailAction()
     {
         try {
-            $this->view->googleMapsKey = $this->_helper
-                                              ->googleMaps($this->getRequest());
-            $propertyUrl = (string)$this->param('propertyUrl');
-            $property = $this->service->retrievePropertyByUrl($propertyUrl);
+            $this->view->googleMapsKey = $this->_helper->googleMaps($this->getRequest());
+            $property = $this->service->retrievePropertyByUrl((string) $this->param('propertyUrl'));
             $category = (string)$this->param('category');
             $state = (string)$this->param('state');
             $availability = (string)$this->param('availability');
@@ -189,9 +161,6 @@ extends Mandragora_Controller_Action_Abstract
      */
     public function categoryListAction()
     {
-        $items = $this->service->getCategories();
-        $categories = new App_Model_Collection_Property($items);
-        $this->view->categories = $categories;
+        $this->view->categories = new Categories($this->service->getCategories());
     }
-
 }

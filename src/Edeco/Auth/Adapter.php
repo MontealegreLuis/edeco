@@ -1,43 +1,23 @@
 <?php
 /**
- * The authentication adapter for handling users login/logout process
- *
  * PHP version 5
  *
- * LICENSE: Redistribution and use of this file in source and binary forms,
- * with or without modification, is not permitted under any circumstance
- *
- * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
- * "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
- * LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
- * A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT
- * OWNER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL,
- * SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT
- * LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE,
- * DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY
- * THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
- * (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
- * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
- *
- * @category   Panel
- * @package    Mandragora
- * @subpackage Auth
- * @author     LMV <luis.montealegre@mandragora-web-systems.com>
- * @copyright  Mandrágora Web-Based Systems 2010
- * @version    SVN: $Id$
+ * This source file is subject to the license that is bundled with this package in the file LICENSE.
  */
+namespace Edeco\Auth;
+
+use Zend_Auth_Adapter_Interface;
+use App\Model\User;
+use Mandragora\Gateway\NoResultsFoundException;
+use Exception;
+use Zend_Auth_Adapter_Exception;
+use Zend_Auth_Result;
+use Mandragora\Model;
 
 /**
  * The authentication adapter for handling users login/logout process
- *
- * @category   Panel
- * @package    Mandragora
- * @subpackage Auth
- * @author     LMV <luis.montealegre@mandragora-web-systems.com>
- * @copyright  Mandrágora Web-Based Systems 2010
- * @version    SVN: $Id$
  */
-class Edeco_Auth_Adapter implements Zend_Auth_Adapter_Interface
+class Adapter implements Zend_Auth_Adapter_Interface
 {
     /**
      * @var Edeco_Model_User
@@ -54,7 +34,7 @@ class Edeco_Auth_Adapter implements Zend_Auth_Adapter_Interface
      * @param Mandragora_Gateway_Interface
      *        | Mandragora_Gateway_Decorator_CacheAbstract $userGateway
      */
-    public function __construct(App_Model_User $user, $userGateway)
+    public function __construct(User $user, $userGateway)
     {
         $this->user = $user;
         $this->userGateway = $userGateway;
@@ -70,7 +50,7 @@ class Edeco_Auth_Adapter implements Zend_Auth_Adapter_Interface
             $userFound = $this->userGateway->findOneByUsernameAndStateActive(
                 $this->user->username
             );
-        } catch(Mandragora_Gateway_NoResultsFoundException $e) {
+        } catch(NoResultsFoundException $e) {
             $userFound = null;
         } catch (Exception $e) {
             throw new Zend_Auth_Adapter_Exception($e->getMessage());
@@ -113,7 +93,7 @@ class Edeco_Auth_Adapter implements Zend_Auth_Adapter_Interface
      */
     protected function createResultAuthenticationSucceed($userInformation)
     {
-    	$identity = Mandragora_Model::factory('User', $userInformation);
+    	$identity = Model::factory('User', $userInformation);
         $identity->password = null;
         return new Zend_Auth_Result(Zend_Auth_Result::SUCCESS, $identity);
     }
@@ -131,5 +111,4 @@ class Edeco_Auth_Adapter implements Zend_Auth_Adapter_Interface
             array('password' => 'Su password es incorrecto')
         );
     }
-
 }

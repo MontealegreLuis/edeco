@@ -1,6 +1,16 @@
 <?php
-class App_Model_Gateway_Cache_User
-    extends Mandragora_Gateway_Decorator_CacheAbstract
+/**
+ * PHP version 5
+ *
+ * This source file is subject to the license that is bundled with this package in the file LICENSE.
+ */
+namespace App\Model\Gateway\Cache;
+
+use Mandragora\Gateway\Decorator\CacheAbstract;
+use App\Enum\UserState;
+use Mandragora\Model\AbstractModel;
+
+class User extends CacheAbstract
 {
     /**
      * @param string $username
@@ -9,7 +19,7 @@ class App_Model_Gateway_Cache_User
     public function findOneByUsernameAndStateActive($username)
     {
         $user = $this->getCache()->load('user' . md5(serialize($username)));
-        if (!$user || $user['state'] != App_Enum_UserState::Active) {
+        if (!$user || $user['state'] != UserState::Active) {
             $user = $this->gateway->findOneByUsernameAndStateActive($username);
             $this->getCache()->save($user, 'user' . md5(serialize($username)));
         }
@@ -72,7 +82,7 @@ class App_Model_Gateway_Cache_User
     /**
      * @param Mandragora_Model_Abstract $ser
      */
-    public function insert(Mandragora_Model_Abstract $user)
+    public function insert(AbstractModel $user)
     {
         $this->gateway->insert($user);
         $this->getCache()->save(
@@ -83,7 +93,7 @@ class App_Model_Gateway_Cache_User
     /**
      * @param Mandragora_Model_Abstract $user
      */
-    public function update(Mandragora_Model_Abstract $user)
+    public function update(AbstractModel $user)
     {
         $this->gateway->update($user);
         $this->getCache()->save(
@@ -94,10 +104,9 @@ class App_Model_Gateway_Cache_User
     /**
      * @param Mandragora_Model_Abstract $user
      */
-    public function delete(Mandragora_Model_Abstract $user)
+    public function delete(AbstractModel $user)
     {
         $this->gateway->delete($user);
         $this->getCache()->remove('user' . md5(serialize($user->username)));
     }
-
 }

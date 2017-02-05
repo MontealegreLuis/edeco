@@ -1,6 +1,13 @@
 <?php
-class Mandragora_Model_Property_Telephone
-implements Mandragora_Model_Property_Interface
+
+
+namespace Mandragora\Model\Property;
+
+use Mandragora\Model\Property\PropertyInterface;
+
+
+class Telephone
+implements PropertyInterface
 {
     protected $number;
     protected $pattern;

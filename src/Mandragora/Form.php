@@ -27,6 +27,12 @@
  * @version    SVN: $Id$
  */
 
+namespace Mandragora;
+
+use Zend_Cache_Core;
+use Zend_Filter_Word_CamelCaseToDash;
+use Zend_Config_Ini;
+
 /**
  * Factory for forms
  *
@@ -37,7 +43,7 @@
  * @copyright  Mandrágora Web-Based Systems 2010
  * @version    SVN: $Id$
  */
-class Mandragora_Form
+class Form
 {
     /**
      * Flag to determine if cache should be disabled
@@ -125,10 +131,11 @@ class Mandragora_Form
         if ($this->disableCache) {
             $form = $this->_loadFormFromIniFile($folder, $file, $className);
         } else  {
-            $form = $this->getCache()->load($className);
+            $cacheTag = str_replace('\\', '_', $className);
+            $form = $this->getCache()->load($cacheTag);
             if (!$form) {
                 $form = $this->_loadFormFromIniFile($folder, $file, $className);
-                $this->getCache()->save($form, $className);
+                $this->getCache()->save($form, $cacheTag);
             }
         }
         return $form;
@@ -149,8 +156,7 @@ class Mandragora_Form
      */
     protected function getClassName($formName, $model)
     {
-        $className = sprintf('App_Form_%s_%s', $model, $formName);
-        return $className;
+        return sprintf('App\Form\%s\%s', $model, $formName);
     }
 
     /**

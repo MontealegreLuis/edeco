@@ -1,5 +1,19 @@
 <?php
-class App_Model_Excel extends Mandragora_Model_Abstract
+/**
+ * PHP version 5
+ *
+ * This source file is subject to the license that is bundled with this package in the file LICENSE.
+ */
+namespace App\Model;
+
+use Mandragora\Model\AbstractModel;
+use Mandragora\Model\Property\Date;
+use App\Model\Collection\Property;
+use App\Model\PropertyExcelWriter;
+use Zend_Debug;
+use Mandragora\File;
+
+class Excel extends AbstractModel
 {
     /**
      * @var array
@@ -28,7 +42,7 @@ class App_Model_Excel extends Mandragora_Model_Abstract
      */
     public function setStartDate($startDate)
     {
-        $startDate = new Mandragora_Model_Property_Date($startDate);
+        $startDate = new Date($startDate);
         $this->properties['startDate'] = $startDate;
     }
 
@@ -38,7 +52,7 @@ class App_Model_Excel extends Mandragora_Model_Abstract
      */
     public function setStopDate($stopDate)
     {
-        $stopDate = new Mandragora_Model_Property_Date($stopDate);
+        $stopDate = new Date($stopDate);
         $this->properties['stopDate'] = $stopDate;
     }
 
@@ -56,10 +70,10 @@ class App_Model_Excel extends Mandragora_Model_Abstract
      * @param Edeco_Model_Collection_Property $properties
      */
     public function createExcelFile(
-        $startDate, $stopDate, App_Model_Collection_Property $properties
+        $startDate, $stopDate, Property $properties
     )
     {
-        $excelWriter = new App_Model_PropertyExcelWriter();
+        $excelWriter = new PropertyExcelWriter();
                     Zend_Debug::dump($excelWriter);
         $excelWriter->saveFile($startDate, $stopDate, $properties);
     }
@@ -69,7 +83,7 @@ class App_Model_Excel extends Mandragora_Model_Abstract
      */
     public function getListOfExcelFiles()
     {
-        $excelWriter = new App_Model_PropertyExcelWriter();
+        $excelWriter = new PropertyExcelWriter();
         return $excelWriter->listExcelFiles();
     }
 
@@ -80,7 +94,7 @@ class App_Model_Excel extends Mandragora_Model_Abstract
      */
     public function getExcelFileInformation($fileName)
     {
-        return new Mandragora_File($fileName);
+        return new File($fileName);
     }
 
     /**
@@ -90,5 +104,4 @@ class App_Model_Excel extends Mandragora_Model_Abstract
     {
         return '';
     }
-
 }

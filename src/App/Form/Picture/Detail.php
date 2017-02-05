@@ -3,16 +3,15 @@
  * PHP version 5.6
  *
  * This source file is subject to the license that is bundled with this package in the file LICENSE.
- *
- * @copyright  Mandrágora Web-Based Systems 2010-2015 (http://www.mandragora-web-systems.com)
  */
+namespace App\Form\Picture;
+
+use Mandragora\Form\Crud\AbstractCrud;
 
 /**
  * Pictures' form
- *
- * @author     LMV <luis.montealegre@mandragora-web-systems.com>
  */
-class App_Form_Picture_Detail extends Mandragora_Form_Crud_Abstract
+class Detail extends AbstractCrud
 {
     /**
      * Remove both the control for the picture's id, and the one for showing the

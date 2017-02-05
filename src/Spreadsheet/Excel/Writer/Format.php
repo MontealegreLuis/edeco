@@ -32,6 +32,12 @@
 *    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 */
 
+namespace Spreadsheet\Excel\Writer;
+
+
+
+
+
 /**
 * Class for generating Excel XF records (formats)
 *
@@ -39,7 +45,7 @@
 * @category FileFormats
 * @package  Spreadsheet_Excel_Writer
 */
-class Spreadsheet_Excel_Writer_Format
+class Format
 {
     /**
     * The index given by the workbook when creating a new format.

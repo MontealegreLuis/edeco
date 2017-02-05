@@ -26,6 +26,16 @@
  * @version    SVN: $Id$
  */
 
+namespace Mandragora\View\Helper;
+
+use Zend_Controller_Front;
+use Zend_Locale;
+use Zend_Registry;
+use Zend_Date;
+
+
+
+
 /**
  * Helper for displaying the current date
  *
@@ -35,7 +45,7 @@
  * @category   Library
  * @package    Mandragora
  */
-class Mandragora_View_Helper_DateFormat
+class DateFormat
 {
     /**
      * @var string

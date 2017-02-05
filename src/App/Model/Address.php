@@ -3,9 +3,14 @@
  * PHP version 5.6
  *
  * This source file is subject to the license that is bundled with this package in the file LICENSE.
- *
- * @copyright  Mandrágora Web-Based Systems 2010-2015 (http://www.mandragora-web-systems.com)
  */
+namespace App\Model;
+
+use Mandragora\Model\AbstractModel;
+use Mandragora\Model;
+use Zend_Registry;
+use Mandragora\Geocoder\Adapter;
+use Edeco\Geocoder\PlaceMark\JsonFormater;
 
 /**
  * Contains all the information related to the Address
@@ -21,10 +26,8 @@
  * @property integer $propertyId
  * @property integer $version
  * @property App_Model_City $City
- *
- * @author     LNJ <lemuel.nonoal@mandragora-web-systems.com>
  */
-class App_Model_Address extends Mandragora_Model_Abstract
+class Address extends AbstractModel
 {
     /**
      * @var array
@@ -47,7 +50,7 @@ class App_Model_Address extends Mandragora_Model_Abstract
     public function setCity($values)
     {
         if (is_array($values)) {
-            $city = Mandragora_Model::factory('City', $values);
+            $city = Model::factory('City', $values);
             $this->properties['City'] = $city;
         } else {
             $this->properties['City'] = null;
@@ -60,7 +63,7 @@ class App_Model_Address extends Mandragora_Model_Abstract
     public function geocode()
     {
         $googleMapskey = Zend_Registry::get('googleMapsKey');
-        $adapter = new Mandragora_Geocoder_Adapter($googleMapskey);
+        $adapter = new Adapter($googleMapskey);
         $address = str_replace('|', ', ', (string)$this);
         $results = $adapter->lookup($address);
         return $results;
@@ -85,7 +88,7 @@ class App_Model_Address extends Mandragora_Model_Abstract
      */
     public function placeMarksToJson(array $placeMarks)
     {
-        $formater = new Edeco_Geocoder_PlaceMark_JsonFormater();
+        $formater = new JsonFormater();
         $jsonPlaceMarkers = $formater->format($placeMarks);
         return $jsonPlaceMarkers;
     }
@@ -115,5 +118,4 @@ class App_Model_Address extends Mandragora_Model_Abstract
         . ', ' . $this->properties['City']->State->name
         . ', México' . $zipCode;
     }
-
 }

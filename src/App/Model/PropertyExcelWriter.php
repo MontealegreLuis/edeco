@@ -3,10 +3,18 @@
  * PHP version 5.6
  *
  * This source file is subject to the license that is bundled with this package in the file LICENSE.
- *
- * @copyright  Mandrágora Web-Based Systems 2010-2015 (http://www.mandragora-web-systems.com)
  */
-class App_Model_PropertyExcelWriter
+namespace App\Model;
+
+use App\Enum\PropertyLandUse;
+use Zend_Filter_StripTags;
+use Zend_Layout;
+use App\Model\Collection\Property;
+use Spreadsheet\Excel\Writer;
+use DirectoryIterator;
+use Mandragora\File;
+
+class PropertyExcelWriter
 {
     /**
      * @var string
@@ -36,7 +44,7 @@ class App_Model_PropertyExcelWriter
     public function __construct()
     {
         if (self::$labelLandUse == null) {
-            self::$labelLandUse = App_Enum_PropertyLandUse::values();
+            self::$labelLandUse = PropertyLandUse::values();
             self::$tagsFilter = new Zend_Filter_StripTags();
             self::$view = Zend_Layout::getMvcInstance()->getView();
         }
@@ -47,11 +55,11 @@ class App_Model_PropertyExcelWriter
      * @param string $stopDate
      * @param App_Model_Collection_Property $properties
      */
-    public function saveFile($startDate, $stopDate, App_Model_Collection_Property $properties)
+    public function saveFile($startDate, $stopDate, Property $properties)
     {
         $filename = self::getExcelFilesDirectory() . DIRECTORY_SEPARATOR
             . $startDate . '_' . $stopDate . '.xls';
-        $this->workbook = new Spreadsheet_Excel_Writer($filename);
+        $this->workbook = new Writer($filename);
         $this->workbook->setVersion(8); // Add UTF-8 support
         $formatHeader = $this->workbook->addFormat();
         $formatHeader->setBold();
@@ -131,7 +139,7 @@ class App_Model_PropertyExcelWriter
         $directory = new DirectoryIterator(self::getExcelFilesDirectory());
         foreach($directory as $fileInfo) {
             if(!$fileInfo->isDot() && !$fileInfo->isDir()) {
-                $file = new Mandragora_File($fileInfo->getRealPath());
+                $file = new File($fileInfo->getRealPath());
                 if ($file->getExtension() == 'xls') {
                     $excelFiles[] = $file;
                 }
@@ -150,5 +158,4 @@ class App_Model_PropertyExcelWriter
         }
         return self::$excelFilesDirectory;
     }
-
 }

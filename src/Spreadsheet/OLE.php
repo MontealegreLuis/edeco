@@ -21,6 +21,16 @@
 // $Id: OLE.php,v 1.7 2003/08/21 15:15:40 xnoguer Exp $
  */
 
+namespace Spreadsheet;
+
+use PEAR;
+use OLE_PPS;
+use OLE as OLE;
+use PEAR_Error;
+
+
+
+
 /**
 * Constants for OLE package
 */
@@ -39,7 +49,7 @@ define('OLE_PPS_SIZE',          0x80);
 * @category Structures
 * @package  OLE
 */
-class Spreadsheet_OLE
+class OLE
 {
     /**
     * The file handle for reading an OLE container

@@ -1,17 +1,23 @@
 <?php
+/**
+ * PHP version 5
+ *
+ * This source file is subject to the license that is bundled with this package in the file LICENSE.
+ */
+namespace App\Model\Dao;
+
+use Doctrine_Manager;
+use Doctrine_Record;
+
 // Connection Component Binding
-Doctrine_Manager::getInstance()->bindComponent('App_Model_Dao_Role', 'doctrine');
+Doctrine_Manager::getInstance()->bindComponent(Role::class, 'doctrine');
 
 /**
- * App_Model_Dao_Role
- * 
  * @property string $name
  * @property string $parentRole
  * @property Doctrine_Collection $User
- * 
- * @author     LMV <luis.montealegre@mandragora-web-systems.com>
  */
-class App_Model_Dao_Role extends Doctrine_Record
+class Role extends Doctrine_Record
 {
     public function setTableDefinition()
     {
@@ -39,8 +45,9 @@ class App_Model_Dao_Role extends Doctrine_Record
     public function setUp()
     {
         parent::setUp();
-        $this->hasMany('App_Model_Dao_User as User', array(
+        $this->hasMany('App\Model\Dao\User as User', [
              'local' => 'name',
-             'foreign' => 'roleName'));
+             'foreign' => 'roleName'
+        ]);
     }
 }

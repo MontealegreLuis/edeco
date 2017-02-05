@@ -26,6 +26,14 @@
  * @version    SVN: $Id$
  */
 
+namespace Mandragora;
+
+use Zend_Mail;
+use Zend_View;
+
+
+
+
 /**
  * Sends e-mails using Zend_View templates
  *
@@ -35,7 +43,7 @@
  * @category   Library
  * @package    Mandragora
  */
-class Mandragora_HtmlEmailSender
+class HtmlEmailSender
 {
     /**
      * @var Zend_View

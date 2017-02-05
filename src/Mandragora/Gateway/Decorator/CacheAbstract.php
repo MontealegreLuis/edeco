@@ -1,5 +1,16 @@
 <?php
-abstract class Mandragora_Gateway_Decorator_CacheAbstract
+/**
+ * PHP version 5
+ *
+ * This source file is subject to the license that is bundled with this package in the file LICENSE.
+ */
+namespace Mandragora\Gateway\Decorator;
+
+use Mandragora\Gateway\GatewayInterface;
+use Zend_Cache_Core;
+use Mandragora\Gateway\Exception;
+
+abstract class CacheAbstract
 {
     /**
      * @var Mandragora_Gateway_Interface
@@ -14,7 +25,7 @@ abstract class Mandragora_Gateway_Decorator_CacheAbstract
     /**
      * @param Mandragora_Gateway_Interface $gateway
      */
-    public function __construct(Mandragora_Gateway_Interface $gateway)
+    public function __construct(GatewayInterface $gateway)
     {
         $this->gateway = $gateway;
     }
@@ -46,7 +57,7 @@ abstract class Mandragora_Gateway_Decorator_CacheAbstract
             && is_callable(array($this->gateway, $method))) {
             return call_user_func_array(array($this->gateway, $method), $args);
         } else {
-            throw new Mandragora_Gateway_Exception(
+            throw new Exception(
                 "Method '$method' cannot be called or does not exist"
             );
         }
