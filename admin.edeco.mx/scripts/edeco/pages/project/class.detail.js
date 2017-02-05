@@ -1,28 +1,21 @@
 /**
  * Class for pages add project and update project
- *
- * @author     MMA <misraim.mendoza@mandragora-web.systems.com>
- * @author     LMV <luis.montealegre@mandragora-web.systems.com>
- * @copyright  Mandrágora Web-Based Systems
- * @version    SVN: $Id$
- * @package    Edeco
- * @subpackage Pages
  */
 var Edeco = {};
 Edeco.Pages = {};
 Edeco.Pages.Project = {};
 Edeco.Pages.Project.Detail = (function() {
-    
+
 	/**
      * @return void
      */
 	var wrap =  function(message) {
         return $.format(
-            '<ul class="error-list"><li class="error-message">{0}</li></ul>', 
+            '<ul class="error-list"><li class="error-message">{0}</li></ul>',
             message
         );
     };
-	
+
 	/**
 	 * @return void
 	 */
@@ -72,12 +65,12 @@ Edeco.Pages.Project.Detail = (function() {
         });
         $('#name').focus();
 	};
-	
+
 	/**
 	 * @return void
 	 */
 	var _constructor = function(){
-		
+
 	    /**
 	     * @return void
 	     */
@@ -95,6 +88,6 @@ Edeco.Pages.Project.Detail = (function() {
 		    $('#attachment').file();
 		};
 	};
-	
+
 	return _constructor;
 })();

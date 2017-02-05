@@ -10,7 +10,7 @@ use Doctrine_Manager;
 use Doctrine_Record;
 
 // Connection Component Binding
-Doctrine_Manager::getInstance()->bindComponent(Project::class, 'doctrine');
+Doctrine_Manager::getInstance()->bindComponent(ProjectDao::class, 'doctrine');
 
 /**
  * @property integer $id
@@ -18,7 +18,7 @@ Doctrine_Manager::getInstance()->bindComponent(Project::class, 'doctrine');
  * @property string $attachment
  * @property integer $version
  */
-class Project extends Doctrine_Record
+class ProjectDao extends Doctrine_Record
 {
     public function setTableDefinition()
     {
