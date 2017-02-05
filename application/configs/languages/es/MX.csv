@@ -125,7 +125,7 @@ property.description.strlenTooShort;La descripción '%value%' debe tener mínimo
 property.description.strlenTooLong;La descripción '%value%' debe tener máximo %max% caracteres
 property.price.isEmpty;Debe ingresar el precio del inmueble
 property.price.notEmptyInvalid;El formato del precio del inmueble es inválido
-property.price.strlenInvalid;No se reconoce el formato del precio 
+property.price.strlenInvalid;No se reconoce el formato del precio
 property.price.strlenTooShort;El precio debe tener mínimo %min% caracteres
 property.price.strlenTooLong;El precio debe tener máximo %max% caracteres
 property.categoryId.isEmpty;La propiedad debe tener una categoría
@@ -144,7 +144,7 @@ property.landUse.isEmpty;Ingrese el tipo de uso de la tierra
 property.contactName.strlenInvalid;No se reconoce el formato de nombre
 property.contactName.strlenTooShort;El nombre '%value%' debe tener mínimo %min% caracteres
 property.contactName.strlenTooLong;El nombre '%value%' debe tener máximo %max% caracteres
-property.contactPhone.strlenInvalid;No se reconoce el formato del número teléfonico 
+property.contactPhone.strlenInvalid;No se reconoce el formato del número teléfonico
 property.contactPhone.strlenTooShort;El número teléfonico '%value%' debe tener mínimo %min% caracteres
 property.contactPhone.strlenTooLong;El número teléfonico '%value%' debe tener máximo %max% caracteres
 property.field.contactCellphone.strlenInvalid;No se reconoce el formato del número de celular
@@ -196,7 +196,7 @@ banned;Bloqueado
 user.username.notEmptyInvalid;El formato del nombre de usuario es inválido
 user.username.isEmpty;Ingrese el nombre de usuario
 user.username.strlenInvalid;No se reconoce el formato del nombre de usuario
-user.username.strlenShort;El nombre de usuario '%value%' debe tener mínimo %min% caracteres  
+user.username.strlenShort;El nombre de usuario '%value%' debe tener mínimo %min% caracteres
 user.username.strlenLong;El nombre de usuario '%value%' debe tener máximo %max% caracteres
 user.state.notEmptyInvalid;El formato de estado de usuario es inválido
 user.state.isEmpty;Ingrese el estado de usuario
@@ -231,7 +231,7 @@ project.created;El proyecto se agregó correctamente
 project.updated;El proyecto se actualizó correctamente
 project.deleted;El proyecto se eliminó correctamente
 
-save;Guardar 
+save;Guardar
 
 ### Project fields
 project.field.name;Nombre
@@ -255,7 +255,7 @@ project.version.notEmptyInvalid;La versión es inválida
 project.version.isEmpty;Ingrese la versión de proyecto
 
 ### Picture---------------------------------------------------------------------
-picture.legend;Datos de la fotografía 
+picture.legend;Datos de la fotografía
 
 ### Picture actions
 picture.action.list;Lista de fotografías
@@ -327,7 +327,7 @@ address.constraintError;No se puede eliminar la dirección
 
 ### Detail form
 address.streetAndNumber.notEmptyInvalid;El formato de calle y número es inválido
-address.streetAndNumber.isEmpty;Ingrese la calle y número 
+address.streetAndNumber.isEmpty;Ingrese la calle y número
 address.streetAndNumber.strlenInvalid;No se reconoce el formato de la calle y número
 address.streetAndNumber.strlenTooShort;La calle y número '%value%' debe tener mínimo %min% caracteres
 address.streetAndNumber.strlenTooLong;La calle y número '%value%' debe tener máximo %max% caracteres
@@ -422,7 +422,7 @@ contact.field.message;Mensaje
 contact.id.isEmpty;El Id de contacto está vacío
 contact.id.notEmptyInvalid;El Id de contacto es inválido
 contact.name.notEmptyInvalid;El formato del nombre de contacto es inválido
-contact.name.strlenInvalid; No se reconoce el formato del nombre de contacto 
+contact.name.strlenInvalid; No se reconoce el formato del nombre de contacto
 contact.name.strlenTooShort; El nombre de contacto '%value%' debe tener mínimo %min% caracteres
 contact.name.strlenTooLong; El nombre de contacto '%value%' debe tener máximo %max% caracteres
 contact.emailAddress.notEmptyInvalid;El formato de correo electrónico del usuario es inválido
@@ -433,7 +433,7 @@ contact.emailAddress.strlenLong;El correo electrónico del usuario '%value%' deb
 contact.emailAddress.emailAddressInvalid;El formato de correo electrónico es inválido
 contact.emailAddress.emailAddressInvalidFormat;'%value%' No es una dirección de correo con el formato nombre-usuario@dominio
 contact.emailAddress.emailAddressInvalidHostname;'%hostname%' no es un nombre de dominio válido para la dirección '%value%'
-contact.emailAddress.emailAddressInvalidSegment; %hostname%' no es un segmento de red enrutable. La dirección de correo '%value%' debería resolverse desde la red pública 
+contact.emailAddress.emailAddressInvalidSegment; %hostname%' no es un segmento de red enrutable. La dirección de correo '%value%' debería resolverse desde la red pública
 contact.emailAddress.emailAddressDotAtom;El usuario '%localPart%' no corresponde al formato 'dot-atom' (átomo-punto)
 contact.emailAddress.emailAddressQuotedString;El usuario '%localPart%' no corresponde al formato 'quoted-string' (cadena entrecomillada)
 contact.emailAddress.emailAddressLengthExceeded;'%value%' sobrepasa la longitud permitida
@@ -462,14 +462,14 @@ premiseinformation.field.characteristics;Características
 ### Detail form
 premiseinformation.id.isEmpty;El Id de su nombre está vacío
 premiseinformation.id.notEmptyInvalid;El Id de su nombre es inválido
-premiseinformation.name.isEmpty;Ingrese su nombre 
+premiseinformation.name.isEmpty;Ingrese su nombre
 premiseinformation.name.notEmptyInvalid;El formato de su nombre es inválido
 premiseinformation.name.strlenInvalid;No se reconoce el formato de su nombre
 premiseinformation.name.strlenTooShort;Su nombre '%value%' debe tener al menos  %min% caracteres
 premiseinformation.name.strlenTooLong;Su nombre '%value%' debe tener máximo %max% caracteres
 premiseinformation.telephone.notEmptyInvalid;El formato de su nombre es inválido
 premiseinformation.telephone.isEmpty;Ingrese su telefóno
-premiseinformation.telephone.strlenInvalid;No se reconoce el formato de su telefóno 
+premiseinformation.telephone.strlenInvalid;No se reconoce el formato de su telefóno
 premiseinformation.telephone.strlenTooShort;El telefóno '%value%' debe tener al menos  %min% caracteres
 premiseinformation.telephone.strlenTooLong;El telefóno '%value%' debe tener máximo %max% caracteres
 premiseinformation.emailAddress.notEmptyInvalid;El formato de correo electrónico es inválido
@@ -516,7 +516,7 @@ category.legend;Datos de la categoría
 category.action.list;Lista de categorías
 category.action.create;Crear categoría
 category.action.show;Mostrar categoría
-category.action.edit;Editar categoría 
+category.action.edit;Editar categoría
 category.action.delete;Eliminar categoría
 
 
@@ -528,6 +528,7 @@ category.field.url;Dirección Web
 # Messages
 category.created;La categoría se creó correctamente
 category.updated;La categoría se actualizó correctamente
+category.deleted;La categoría se eliminó correctamente
 
 ### Recommended property --------------------------------------------------------------------
 

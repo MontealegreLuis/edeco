@@ -1,59 +1,34 @@
 <?php
 /**
- * Category controller
- *
  * PHP version 5
  *
- * LICENSE: Redistribution and use of this file in source and binary forms,
- * with or without modification, is not permitted under any circumstance
- *
- * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
- * "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
- * LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
- * A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT
- * OWNER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL,
- * SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT
- * LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE,
- * DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY
- * THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
- * (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
- * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
- *
- * @package    App
- * @subpackage Controller
- * @author     MMS <meri.michimani@mandragora-web-systems.com>
- * @copyright  Mandrágora Web-Based Systems 2011
- * @version    SVN: $Id$
+ * This source file is subject to the license that is bundled with this package in the file LICENSE.
  */
+use Mandragora\Controller\Action\AbstractAction;
+use Mandragora\Service;
 
 /**
  * Category controller
- *
- * @package    App
- * @subpackage Controller
- * @author     MMS <meri.michimani@mandragora-web-systems.com>
- * @copyright  Mandrágora Web-Based Systems 2011
- * @version    SVN: $Id$
  */
-class   Admin_CategoryController
-extends Mandragora_Controller_Action_Abstract
+class Admin_CategoryController extends AbstractAction
 {
     /**
      * @var array
      */
-    protected $validMethods = array(
-        'save' => array('method' => 'post'),
-        'update' => array('method' => 'post'),
-    );
+    protected $validMethods = [
+        'save' => ['method' => 'post'],
+        'update' => ['method' => 'post'],
+    ];
 
     /**
      * @return void
      */
     public function init()
     {
-        $this->service = Mandragora_Service::factory('Category');
+        $this->service = Service::factory('Category');
         $this->service->setCacheManager($this->getCacheManager());
         $doctrine = $this->getInvokeArg('bootstrap')->getResource('doctrine');
+        $doctrine->setUp();
         $this->service->setDoctrineManager($doctrine);
         $actions = $this->_helper->actionsBuilder($this->getRequest());
         $this->view->actions = $actions;
@@ -138,15 +113,14 @@ extends Mandragora_Controller_Action_Abstract
      */
     public function updateAction()
     {
-        $action = $this->view->url(array('action' => 'update'), 'controllers');
+        $action = $this->view->url(['action' => 'update'], 'controllers');
         $categoryForm = $this->service->getFormForEditing($action);
         $values = $this->post();
         if ($categoryForm->isValid($values)) {
-            $id = (int)$this->param('id');
-            $category = $this->service->retrieveCategoryById($id);
+            $category = $this->service->retrieveCategoryById((int) $this->param('id'));
             if (!$category) {
                 $this->flash('error')->addMessage('category.not.found');
-                $this->redirectToRoute('list', array('page' => 1));
+                $this->redirectToRoute('list', ['page' => 1]);
             } else {
                 if ($category->version > $values['version']) {
                     $this->flash('error')
@@ -157,7 +131,7 @@ extends Mandragora_Controller_Action_Abstract
                 } else {
                     $this->service->updateCategory();
                     $this->flash('success')->addMessage('category.updated');
-                    $this->redirectToRoute('show', array('id' => $category->id));
+                    $this->redirectToRoute('show', ['id' => $category->id]);
                 }
             }
         } else {
@@ -196,6 +170,4 @@ extends Mandragora_Controller_Action_Abstract
             }
         }
     }
-
 }
-

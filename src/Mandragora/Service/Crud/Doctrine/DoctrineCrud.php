@@ -37,9 +37,7 @@ abstract class DoctrineCrud extends AbstractCrud
      */
     protected $query;
 
-    /**
-     * @var Mandragora_Application_Doctrine_Manager
-     */
+    /** @var Manager */
     protected $doctrineManager;
 
     /**
@@ -103,12 +101,7 @@ abstract class DoctrineCrud extends AbstractCrud
         $this->paginatorOptions = $options;
     }
 
-    /**
-     * @param Mandragora_Application_Doctrine_Manager $doctrineManager
-     */
-    public function setDoctrineManager(
-        Manager $doctrineManager
-    )
+    public function setDoctrineManager(Manager $doctrineManager)
     {
         $this->doctrineManager = $doctrineManager;
     }
