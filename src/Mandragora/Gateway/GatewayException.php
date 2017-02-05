@@ -9,6 +9,6 @@ namespace Mandragora\Gateway;
 use Exception;
 
 /**
- * Custom exception used when a query returns zero results
+ * Custom exception for gateways
  */
-class NoResultsFoundException extends Exception {}
+class GatewayException extends Exception {}

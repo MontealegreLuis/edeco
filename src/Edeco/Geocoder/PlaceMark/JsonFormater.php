@@ -6,10 +6,10 @@
  */
 namespace Edeco\Geocoder\PlaceMark;
 
-use Mandragora\Geocoder\PlaceMark\JsonFormater as BaseFormatter;
+use Mandragora\Geocoder\PlaceMark\JsonFormatter as BaseFormatter;
 use Zend_Json;
 
-class JsonFormater implements BaseFormatter
+class JsonFormatter implements BaseFormatter
 {
     /**
      * @see Mandragora_Geocoder_PlaceMark_JsonFormater::format()

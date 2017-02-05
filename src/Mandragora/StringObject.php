@@ -6,7 +6,6 @@
  */
 namespace Mandragora;
 
-use Mandragora\String as MandragoraString;
 use Zend_Filter_Word_CamelCaseToDash;
 
 /**
@@ -29,7 +28,7 @@ class StringObject
      */
     public function __construct($string)
     {
-        $this->string = (string)$string;
+        $this->string = (string) $string;
     }
 
     /**
@@ -54,17 +53,17 @@ class StringObject
     }
 
     /**
-     * @return Mandragora_String
+     * @return StringObject
      */
     public function lowerCaseFirst()
     {
         $string = $this->string;
         $string{0} = strtolower($this->string{0});
-        return new MandragoraString($string);
+        return new StringObject($string);
     }
 
     /**
-     * @return Mandragora_String
+     * @return StringObject
      */
     public function camelCaseToDash()
     {
@@ -73,7 +72,7 @@ class StringObject
                 new Zend_Filter_Word_CamelCaseToDash();
         }
         $string = $this->camelCaseToDashFilter->filter($this->string);
-        return new MandragoraString($string);
+        return new StringObject($string);
     }
 
     /**

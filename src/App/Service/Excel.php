@@ -6,7 +6,7 @@
  */
 namespace App\Service;
 
-use Mandragora\Service\Crud\Doctrine\AbstractDoctrine;
+use Mandragora\Service\Crud\Doctrine\DoctrineCrud;
 use Mandragora\Gateway;
 use App\Model\Gateway\Cache\Property as AppModelGatewayCacheProperty;
 use App\Model\Collection\Property as AppModelCollectionProperty;
@@ -15,7 +15,7 @@ use App\Model\PropertyExcelWriter;
 /**
  * Service class for Property model
  */
-class Excel extends AbstractDoctrine
+class Excel extends DoctrineCrud
 {
     /**
      * @return void

@@ -31,12 +31,7 @@
  *    License along with this library; if not, write to the Free Software
  *    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  */
-
 namespace Spreadsheet\Excel\Writer;
-
-
-
-
 
 /**
  * Class for writing Excel BIFF records.
@@ -49,10 +44,6 @@ namespace Spreadsheet\Excel\Writer;
  * different types of BIFF records.  For example, one record type describes a
  * formula entered into a cell; one describes the size and location of a
  * window into a document; another describes a picture format.
- *
- * @author   Xavier Noguer <xnoguer@php.net>
- * @category FileFormats
- * @package  Spreadsheet_Excel_Writer
  */
 class BIFFwriter
 {
@@ -237,5 +228,4 @@ class BIFFwriter
 
         return $tmp;
     }
-
 }

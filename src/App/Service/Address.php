@@ -6,14 +6,14 @@
  */
 namespace App\Service;
 
-use Mandragora\Service\Crud\Doctrine\AbstractDoctrine;
+use Mandragora\Service\Crud\Doctrine\DoctrineCrud;
 use Mandragora\Service;
 use Mandragora\Gateway\NoResultsFoundException;
 
 /**
  * Service class for Address model
  */
-class Address extends AbstractDoctrine
+class Address extends DoctrineCrud
 {
     /**
      * @var App_Form_Address_GoogleMap

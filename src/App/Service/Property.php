@@ -6,7 +6,7 @@
  */
 namespace App\Service;
 
-use Mandragora\Service\Crud\Doctrine\AbstractDoctrine;
+use Mandragora\Service\Crud\Doctrine\DoctrineCrud;
 use App\Model\Collection\Property as AppModelCollectionProperty;
 use Mandragora\Paginator\Adapter\DoctrineQuery;
 use Edeco\Paginator\Property as EdecoPaginatorProperty;
@@ -21,7 +21,7 @@ use Zend_Navigation_Page;
 /**
  * Service class for Property model
  */
-class Property extends AbstractDoctrine
+class Property extends DoctrineCrud
 {
     /**
      * @return void

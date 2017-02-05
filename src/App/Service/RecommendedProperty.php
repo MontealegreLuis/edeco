@@ -6,14 +6,14 @@
  */
 namespace App\Service;
 
-use Mandragora\Service\Crud\Doctrine\AbstractDoctrine;
+use Mandragora\Service\Crud\Doctrine\DoctrineCrud;
 use App\Model\Collection\RecommendedProperty as AppModelCollectionRecommendedProperty;
 use Mandragora\Gateway\NoResultsFoundException;
 
 /**
  * Service class for RecommendedProperty model
  */
-class RecommendedProperty extends AbstractDoctrine
+class RecommendedProperty extends DoctrineCrud
 {
     /**
      * @return void

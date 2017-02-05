@@ -6,12 +6,12 @@
  */
 namespace App\Model\Gateway;
 
-use Mandragora\Gateway\Doctrine\AbstractDoctrine;
+use Mandragora\Gateway\Doctrine\DoctrineGateway;
 
 /**
  * Gateway for authorization resource model objects
  */
-class Resource extends AbstractDoctrine
+class Resource extends DoctrineGateway
 {
     /**
      * @return array

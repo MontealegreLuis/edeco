@@ -6,12 +6,12 @@
  */
 namespace App\Service;
 
-use Mandragora\Service\Crud\Doctrine\AbstractDoctrine;
+use Mandragora\Service\Crud\Doctrine\DoctrineCrud;
 
 /**
  * Service class for City model
  */
-class City extends AbstractDoctrine
+class City extends DoctrineCrud
 {
     /**
      * @return void

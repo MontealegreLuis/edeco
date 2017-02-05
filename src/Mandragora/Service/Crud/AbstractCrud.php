@@ -16,12 +16,12 @@ use Mandragora\Gateway\Decorator\CacheAbstract;
 abstract class AbstractCrud extends AbstractService
 {
     /**
-     * @var Mandragora_Gateway_Interface
+     * @var \Mandragora\Gateway\GatewayInterface
      */
     private $gateway;
 
     /**
-     * @var Mandragora_Paginator
+     * @var \Mandragora\Paginator
      */
     protected $paginator;
 
@@ -34,7 +34,7 @@ abstract class AbstractCrud extends AbstractService
     }
 
     /**
-     * @return Mandragora_Gateway_Interface
+     * @return \Mandragora\Gateway\GatewayInterface
      */
     public function getGateway()
     {

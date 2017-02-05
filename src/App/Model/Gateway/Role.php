@@ -6,12 +6,12 @@
  */
 namespace App\Model\Gateway;
 
-use Mandragora\Gateway\Doctrine\AbstractDoctrine;
+use Mandragora\Gateway\Doctrine\DoctrineGateway;
 
 /**
  * Gateway for authorization role model objects
  */
-class Role extends AbstractDoctrine
+class Role extends DoctrineGateway
 {
     /**
      * @return array

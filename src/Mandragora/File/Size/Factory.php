@@ -1,13 +1,10 @@
 <?php
-
-
+/**
+ * PHP version 5
+ *
+ * This source file is subject to the license that is bundled with this package in the file LICENSE.
+ */
 namespace Mandragora\File\Size;
-
-use Mandragora\File\Size\Byte;
-use Mandragora\File\Size\KiloByte;
-use Mandragora\File\Size\MegaByte;
-use Mandragora\File\Size\GigaByte;
-
 
 class Factory
 {
@@ -18,7 +15,8 @@ class Factory
     protected function __construct() { }
 
     /**
-     * @param Mandragora_File_Size_Abstract $sizeInBytes
+     * @param int $sizeInBytes
+     * @return AbstractSize
      */
     public static function create($sizeInBytes)
     {
@@ -31,5 +29,4 @@ class Factory
         }
         return new GigaByte($sizeInBytes);
     }
-
 }

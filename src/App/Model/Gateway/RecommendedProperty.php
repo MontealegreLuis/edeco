@@ -8,7 +8,7 @@
  */
 namespace App\Model\Gateway;
 
-use Mandragora\Gateway\Doctrine\AbstractDoctrine;
+use Mandragora\Gateway\Doctrine\DoctrineGateway;
 use Doctrine_Core;
 use Mandragora\Gateway\NoResultsFoundException;
 use Doctrine_Collection;
@@ -17,7 +17,7 @@ use App\Model\Dao\RecommendedProperty as AppModelDaoRecommendedProperty;
 /**
  * Gateway for RecommendedProperty model objects
  */
-class RecommendedProperty extends AbstractDoctrine
+class RecommendedProperty extends DoctrineGateway
 {
     /**
      * @return Doctrine_Query

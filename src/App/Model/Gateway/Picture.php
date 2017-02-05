@@ -6,7 +6,7 @@
  */
 namespace App\Model\Gateway;
 
-use Mandragora\Gateway\Doctrine\AbstractDoctrine;
+use Mandragora\Gateway\Doctrine\DoctrineGateway;
 use Doctrine_Core;
 use Mandragora\Gateway\NoResultsFoundException;
 use Mandragora_Gateway_Doctrine_NoResultsFoundException;
@@ -14,7 +14,7 @@ use Mandragora_Gateway_Doctrine_NoResultsFoundException;
 /**
  * Gateway for picture model objects
  */
-class Picture extends AbstractDoctrine
+class Picture extends DoctrineGateway
 {
     /**
      * @param int $id

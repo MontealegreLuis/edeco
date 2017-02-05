@@ -17,23 +17,12 @@
  *
  * Licensed under the MIT License
  * Redistributions of files must retain the above copyright notice.
- *
- * @author Ian Selby <ian@gen-x-design.com>
- * @copyright Copyright (c) 2009 Gen X Design
- * @link http://phpthumb.gxdlabs.com
- * @license http://www.opensource.org/licenses/mit-license.php The MIT License
- * @version 3.0
- * @package PhpThumb
- * @filesource
  */
 
 namespace PhpThumb;
 
 use PhpThumb\PhpThumb;
 use Exception;
-
-
-
 
 // define some useful constants
 define('THUMBLIB_BASE_PATH', dirname(__FILE__));
@@ -54,9 +43,6 @@ define('DEFAULT_THUMBLIB_IMPLEMENTATION', 'gd');
  * <code>$thumb = PhpThumbFactory::create('/path/to/file.png');</code>
  *
  * Refer to the documentation for the create function for more information
- *
- * @package PhpThumb
- * @subpackage Core
  */
 class Factory
 {

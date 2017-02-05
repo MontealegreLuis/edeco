@@ -9,7 +9,6 @@ namespace App\Model\Dao;
 use Doctrine_Manager;
 use Doctrine_Record;
 
-
 // Connection Component Binding
 Doctrine_Manager::getInstance()->bindComponent(Resource::class, 'doctrine');
 

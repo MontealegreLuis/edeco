@@ -6,14 +6,14 @@
  */
 namespace App\Model\Gateway;
 
-use Mandragora\Gateway\Doctrine\AbstractDoctrine;
+use Mandragora\Gateway\Doctrine\DoctrineGateway;
 use Doctrine_Core;
 use Mandragora\Gateway\NoResultsFoundException;
 
 /**
  * Gateway for property model objects
  */
-class Property extends AbstractDoctrine
+class Property extends DoctrineGateway
 {
     /**
      * @return array
@@ -41,7 +41,7 @@ class Property extends AbstractDoctrine
     }
 
     /**
-     * @return Doctrine_Query
+     * @return \Doctrine_Query
      */
     public function getQueryFindAll()
     {
@@ -51,7 +51,6 @@ class Property extends AbstractDoctrine
               ->leftJoin('a.City c')
               ->leftJoin('c.State s')
               ->leftJoin('p.Picture pic');
-        var_dump($query->getSqlQuery());die;
         return $query;
     }
 

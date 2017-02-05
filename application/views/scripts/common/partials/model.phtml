@@ -1,10 +1,6 @@
 <?php
 /**
  * Partial for show action
- *
- * @author    LMV <luis.montealegre@mandragora-web-systems.com>
- * @copyright Mandrágora Web-Based Systems
- * @version   SVN: $Id$
  */
 ?>
 <table class="model-show">
@@ -12,13 +8,13 @@
         <col width="170px" />
         <col width="470px" />
     </colgroup>
-    <?php $property = new Mandragora_String('') ?>
+    <?php $property = new \Mandragora\StringObject('') ?>
     <?php foreach ($this->model as $attribute => $value ) : ?>
         <?php $property->setValue($attribute) ?>
     	<?php if (!is_null($value) && $attribute != 'id' && $attribute != 'version' && $attribute != 'active' && !$property->endsWith('Id')) : ?>
             <tr class="<?php echo $this->cycle(array('even', 'odd'))->next() ?>">
                 <td class="model-property"><?php echo $this->translate($this->prefix . $attribute) ?></td>
-                <?php if ($value instanceof Mandragora_Model_Property_Interface) : ?>
+                <?php if ($value instanceof \Mandragora\Model\Property\PropertyInterface) : ?>
                     <td class="model-value"><?php echo $this->translate($value->render()) ?></td>
                 <?php else : ?>
                     <td class="model-value"><?php echo $this->translate($value) ?></td>

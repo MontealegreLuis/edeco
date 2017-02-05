@@ -10,7 +10,7 @@ use Mandragora\Model\AbstractModel;
 use Mandragora\Model;
 use Zend_Registry;
 use Mandragora\Geocoder\Adapter;
-use Edeco\Geocoder\PlaceMark\JsonFormater;
+use Edeco\Geocoder\PlaceMark\JsonFormatter;
 
 /**
  * Contains all the information related to the Address
@@ -88,7 +88,7 @@ class Address extends AbstractModel
      */
     public function placeMarksToJson(array $placeMarks)
     {
-        $formater = new JsonFormater();
+        $formater = new JsonFormatter();
         $jsonPlaceMarkers = $formater->format($placeMarks);
         return $jsonPlaceMarkers;
     }

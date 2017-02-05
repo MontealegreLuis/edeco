@@ -6,7 +6,7 @@
  */
 namespace App\Service;
 
-use Mandragora\Service\Crud\Doctrine\AbstractDoctrine;
+use Mandragora\Service\Crud\Doctrine\DoctrineCrud;
 use App\Model\Collection\Category as AppModelCollectionCategory;
 use Mandragora\Gateway\NoResultsFoundException;
 use Zend_Navigation;
@@ -15,7 +15,7 @@ use Zend_Navigation_Page;
 /**
  * Service class for Category model
  */
-class Category extends AbstractDoctrine
+class Category extends DoctrineCrud
 {
     /**
      * @return void

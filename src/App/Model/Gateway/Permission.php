@@ -9,13 +9,13 @@
 
 namespace App\Model\Gateway;
 
-use Mandragora\Gateway\Doctrine\AbstractDoctrine;
+use Mandragora\Gateway\Doctrine\DoctrineGateway;
 
 /**
  * Gateway for authorization permission model objects
  */
 class Permission
-extends AbstractDoctrine
+extends DoctrineGateway
 {
     /**
      * @return array

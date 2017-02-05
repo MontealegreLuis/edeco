@@ -8,13 +8,13 @@
  */
 namespace App\Model\Gateway;
 
-use Mandragora\Gateway\Doctrine\AbstractDoctrine;
+use Mandragora\Gateway\Doctrine\DoctrineGateway;
 use Doctrine_Core;
 
 /**
  * Gateway for city model objects
  */
-class City extends AbstractDoctrine
+class City extends DoctrineGateway
 {
     /**
      * @param string $stateName

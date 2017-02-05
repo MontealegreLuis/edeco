@@ -3,20 +3,14 @@
  * PHP version 5.6
  *
  * This source file is subject to the license that is bundled with this package in the file LICENSE.
- *
- * @copyright  Mandrágora Web-Based Systems 2010-2015 (http://www.mandragora-web-systems.com)
  */
-
 namespace Mandragora\Geocoder;
 
 use Zend_Http_Client;
 use Zend_Json_Decoder;
 use Zend_Json;
 use stdClass;
-use Mandragora\Geocoder\PlaceMark;
 use Exception;
-
-
 
 class Adapter
 {
@@ -92,5 +86,4 @@ class Adapter
     {
         return 'http://maps.google.com/maps/geo';
     }
-
 }

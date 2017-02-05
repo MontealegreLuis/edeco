@@ -45,7 +45,7 @@ class Role extends Doctrine_Record
     public function setUp()
     {
         parent::setUp();
-        $this->hasMany('App\Model\Dao\User as User', [
+        $this->hasMany('App\Model\Dao\UserDao as User', [
              'local' => 'name',
              'foreign' => 'roleName'
         ]);

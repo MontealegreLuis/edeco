@@ -3,27 +3,23 @@
  * PHP version 5.6
  *
  * This source file is subject to the license that is bundled with this package in the file LICENSE.
- *
- * @copyright  Mandrágora Web-Based Systems 2010-2015 (http://www.mandragora-web-systems.com)
  */
+use Mandragora\Controller\Action\AbstractAction;
+use Mandragora\Service;
 
 /**
  * Property' Controller for Edeco Panel Application
- *
- * @author     LNJ <lemuel.nonoal@mandragora-web-systems.com>
- * @author     LMV <luis.montealegre@mandragora-web-systems.com>
- * @copyright  Mandrágora Web-Based Systems 2010
  */
-class Admin_PropertyController extends Mandragora_Controller_Action_Abstract
+class Admin_PropertyController extends AbstractAction
 {
     /**
      * @var array
      */
-    protected $validMethods = array(
-        'save' => array('method' => 'post'),
-        'update' => array('method' => 'post'),
-        'search' => array('method' => 'post'),
-    );
+    protected $validMethods = [
+        'save' => ['method' => 'post'],
+        'update' => ['method' => 'post'],
+        'search' => ['method' => 'post'],
+    ];
 
     /**
      * Initialize the service object and build the breadcrumbs
@@ -32,7 +28,7 @@ class Admin_PropertyController extends Mandragora_Controller_Action_Abstract
      */
     public function init()
     {
-        $this->service = Mandragora_Service::factory('Property');
+        $this->service = Service::factory('Property');
         $this->service->setCacheManager($this->getCacheManager());
         $doctrine = $this->getInvokeArg('bootstrap')->getResource('doctrine');
         $this->service->setDoctrineManager($doctrine);
@@ -232,5 +228,4 @@ class Admin_PropertyController extends Mandragora_Controller_Action_Abstract
     	    $this->redirectToRoute('list', $params);
     	}
     }
-
 }

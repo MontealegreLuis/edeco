@@ -8,23 +8,16 @@ namespace Mandragora\Gateway\Decorator;
 
 use Mandragora\Gateway\GatewayInterface;
 use Zend_Cache_Core;
-use Mandragora\Gateway\Exception;
+use Mandragora\Gateway\GatewayException;
 
 abstract class CacheAbstract
 {
-    /**
-     * @var Mandragora_Gateway_Interface
-     */
+    /** @var GatewayInterface */
     protected $gateway;
 
-    /**
-     * @var Zend_Cache
-     */
+    /** @var Zend_Cache_Core */
     protected $cache;
 
-    /**
-     * @param Mandragora_Gateway_Interface $gateway
-     */
     public function __construct(GatewayInterface $gateway)
     {
         $this->gateway = $gateway;
@@ -48,19 +41,36 @@ abstract class CacheAbstract
     }
 
     /**
-     * @param string $function
+     * @param string $method
      * @param array $args
+     * @return mixed
+     * @throws \Mandragora\Gateway\GatewayException
      */
     public function __call($method, $args)
     {
-        if (method_exists($this->gateway, $method)
-            && is_callable(array($this->gateway, $method))) {
-            return call_user_func_array(array($this->gateway, $method), $args);
-        } else {
-            throw new Exception(
-                "Method '$method' cannot be called or does not exist"
-            );
+        if ($this->isACallable($method)) {
+            return $this->call($method, $args);
         }
+        throw new GatewayException("Method '$method' cannot be called or does not exist");
     }
 
+    /**
+     * @param $method
+     * @return bool
+     */
+    private function isACallable($method)
+    {
+        return method_exists($this->gateway, $method)
+            && is_callable([$this->gateway, $method]);
+    }
+
+    /**
+     * @param string $method
+     * @param array $args
+     * @return mixed
+     */
+    private function call($method, array $args)
+    {
+        return call_user_func_array([$this->gateway, $method], $args);
+    }
 }

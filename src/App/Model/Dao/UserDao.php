@@ -10,7 +10,7 @@ use Doctrine_Manager;
 use Doctrine_Record;
 
 // Connection Component Binding
-Doctrine_Manager::getInstance()->bindComponent(User::class, 'doctrine');
+Doctrine_Manager::getInstance()->bindComponent(UserDao::class, 'doctrine');
 
 /**
  * @property string $username
@@ -21,7 +21,7 @@ Doctrine_Manager::getInstance()->bindComponent(User::class, 'doctrine');
  * @property date $creationDate
  * @property App_Model_Role $Role
  */
-class User extends Doctrine_Record
+class UserDao extends Doctrine_Record
 {
     public function setTableDefinition()
     {

@@ -1,10 +1,7 @@
 <?php
-
-
 namespace Text;
 
 use Text\Password as TextPassword;
-
 
 /* vim: set expandtab tabstop=4 shiftwidth=4 softtabstop=4: */
 
@@ -537,4 +534,3 @@ class Password {
          return $password;
     }
 }
-?>

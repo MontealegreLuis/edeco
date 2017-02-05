@@ -6,7 +6,7 @@
  */
 namespace App\Service;
 
-use Mandragora\Service\Crud\Doctrine\AbstractDoctrine;
+use Mandragora\Service\Crud\Doctrine\DoctrineCrud;
 use Edeco\Auth\Adapter;
 use Zend_Auth;
 use Zend_Session;
@@ -19,7 +19,7 @@ use App\Enum\UserState;
 /**
  * Service class for User's model
  */
-class User extends AbstractDoctrine
+class User extends DoctrineCrud
 {
     /**
      * Decorate the gateway in order to cache the query results

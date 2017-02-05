@@ -4,34 +4,34 @@
  *
  * This source file is subject to the license that is bundled with this package in the file LICENSE.
  */
-
 namespace App\Model\Gateway;
 
-use Mandragora\Gateway\Doctrine\AbstractDoctrine;
 use App\Enum\UserState;
 use Doctrine_Core;
+use Mandragora\Gateway\Doctrine\DoctrineGateway;
 use Mandragora\Gateway\NoResultsFoundException;
 
 /**
  * Gateway for user model objects
  */
-class User extends AbstractDoctrine
+class User extends DoctrineGateway
 {
     /**
      * @param string $username
      * @return array
+     * @throws \Mandragora\Gateway\NoResultsFoundException
      */
     public function findOneByUsernameAndStateActive($username)
     {
         $query = $this->dao->getTable()->createQuery();
-        $query->from('App_Model_Dao_User u')
+        $query->from($this->alias())
               ->where('u.username = :username')
               ->andWhere('u.state = :state');
         $user = $query->fetchOne(
-            array(
-                ':username' => (string)$username,
+            [
+                ':username' => (string) $username,
                 ':state' => UserState::Active,
-            ),
+            ],
             Doctrine_Core::HYDRATE_ARRAY
         );
         if (!$user) {
@@ -44,14 +44,15 @@ class User extends AbstractDoctrine
     /**
      * @param string $username
      * @return array
+     * @throws \Mandragora\Gateway\NoResultsFoundException
      */
     public function findOneByUsername($username)
     {
         $query = $this->dao->getTable()->createQuery();
-        $query->from('App_Model_Dao_User u')
+        $query->from($this->alias())
               ->where('u.username = :username');
         $user = $query->fetchOne(
-            array(':username' => (string)$username,),
+            [':username' => (string)$username,],
             Doctrine_Core::HYDRATE_ARRAY
         );
         if (!$user) {
@@ -62,12 +63,12 @@ class User extends AbstractDoctrine
     }
 
     /**
-     * @return array
+     * @return \Doctrine_Query
      */
     public function getQueryFindAllClients()
     {
     	$query = $this->dao->getTable()->createQuery();
-    	$query->from('App_Model_Dao_User u')
+    	$query->from($this->alias())
     	      ->where('u.roleName = "client"');
         return $query;
     }
@@ -75,19 +76,20 @@ class User extends AbstractDoctrine
     /**
      * @param string $confirmationKey
      * @return array
+     * @throws \Mandragora\Gateway\NoResultsFoundException
      * @throws Mandragora_Doctrine_Gateway_NoResultsFoundException
      */
     public function findOneByConfirmationKey($confirmationKey)
     {
         $query = $this->dao->getTable()->createQuery();
-        $query->from('App_Model_Dao_User u')
+        $query->from($this->alias())
               ->where('u.state = :state')
               ->andWhere('u.confirmationKey = :confirmationKey');
         $client = $query->fetchOne(
-            array(
+            [
                 ':state' => UserState::Unconfirmed,
                 ':confirmationKey' => (string)$confirmationKey,
-            ),
+            ],
             Doctrine_Core::HYDRATE_ARRAY
         );
         if (!$client) {
@@ -99,24 +101,21 @@ class User extends AbstractDoctrine
 
     /**
      * @param array $userInformation
-     * @return int
      */
     public function updateClientAccountToConfirmed(array $userInformation)
     {
         $query = $this->dao->getTable()->createQuery();
-        $query->update('App_Model_Dao_User u')
+        $query->update($this->alias())
               ->set('u.password', ':password')
               ->set('u.state', ':state')
               ->set('u.confirmationKey', ':confirmationKey')
               ->where('u.username = :username');
-        $query->execute(
-            array(
-                ':password' => $userInformation['password'],
-                ':state' => $userInformation['state'],
-                ':confirmationKey' => null,
-                ':username' => $userInformation['username'],
-            )
-        );
+        $query->execute([
+            ':password' => $userInformation['password'],
+            ':state' => $userInformation['state'],
+            ':confirmationKey' => null,
+            ':username' => $userInformation['username'],
+        ]);
     }
 
     /**
@@ -127,11 +126,11 @@ class User extends AbstractDoctrine
     public function updateUserState($userName, $newState)
     {
         $query = $this->dao->getTable()->createQuery();
-        $query->update('App_Model_Dao_User u')
+        $query->update($this->alias())
               ->set('u.state', ':state')
               ->where('u.username = :username');
-        $client = $query->execute(
-            array(':state' => $newState, ':username' => $userName)
-        );
+        $query->execute([
+            ':state' => $newState, ':username' => $userName
+        ]);
     }
 }

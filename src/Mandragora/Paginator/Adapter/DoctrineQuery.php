@@ -4,25 +4,15 @@
  *
  * This source file is subject to the license that is bundled with this package in the file LICENSE.
  */
-
 namespace Mandragora\Paginator\Adapter;
 
 use Zend_Paginator_Adapter_Interface;
 use Doctrine_Query;
 
-
-
-
 /**
  * Implements a Zend paginator interface using a Doctrine query object
- *
- * @category   Library
- * @package    Mandragora
- * @subpackage Paginator_Adapter
- * @author     LMV <montealegreluis@gmail.com>
  */
-class DoctrineQuery
-    implements Zend_Paginator_Adapter_Interface
+class DoctrineQuery implements Zend_Paginator_Adapter_Interface
 {
     /** @var Doctrine_Query */
     protected $query;

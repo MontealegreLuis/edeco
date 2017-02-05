@@ -6,14 +6,14 @@
  */
 namespace App\Model\Gateway;
 
-use Mandragora\Gateway\Doctrine\AbstractDoctrine;
+use Mandragora\Gateway\Doctrine\DoctrineGateway;
 use Doctrine_Core;
 use Mandragora\Gateway\NoResultsFoundException;
 
 /**
  * Gateway for Category model objects
  */
-class Category extends AbstractDoctrine
+class Category extends DoctrineGateway
 {
     /**
      * @return Doctrine_Query

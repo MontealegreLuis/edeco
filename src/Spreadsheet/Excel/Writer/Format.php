@@ -31,19 +31,10 @@
 *    License along with this library; if not, write to the Free Software
 *    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 */
-
 namespace Spreadsheet\Excel\Writer;
-
-
-
-
 
 /**
 * Class for generating Excel XF records (formats)
-*
-* @author   Xavier Noguer <xnoguer@rezebra.com>
-* @category FileFormats
-* @package  Spreadsheet_Excel_Writer
 */
 class Format
 {
@@ -1102,5 +1093,4 @@ class Format
     {
         $this->_font_name = $font_family;
     }
-
 }

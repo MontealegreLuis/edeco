@@ -1,11 +1,12 @@
 <?php
-
-
+/**
+ * PHP version 5
+ *
+ * This source file is subject to the license that is bundled with this package in the file LICENSE.
+ */
 namespace Mandragora\Geocoder;
 
-use Mandragora\Geocoder\Point;
-use Mandragora\Geocoder\PlaceMark\JsonFormater;
-
+use Mandragora\Geocoder\PlaceMark\JsonFormatter;
 
 class PlaceMark
 {
@@ -89,9 +90,8 @@ class PlaceMark
         return $placemark;
     }
 
-    public function arrayToJson(array $placeMarkers, JsonFormater $formater)
+    public function arrayToJson(array $placeMarkers, JsonFormatter $formater)
     {
     	return $formater->format($placeMarkers);
     }
-    
 }

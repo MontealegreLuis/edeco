@@ -8,14 +8,14 @@
  */
 namespace App\Model\Gateway;
 
-use Mandragora\Gateway\Doctrine\AbstractDoctrine;
+use Mandragora\Gateway\Doctrine\DoctrineGateway;
 use Doctrine_Core;
 use Mandragora\Gateway\NoResultsFoundException;
 
 /**
  * Gateway for city model objects
  */
-class State extends AbstractDoctrine
+class State extends DoctrineGateway
 {
     /**
      * @return array

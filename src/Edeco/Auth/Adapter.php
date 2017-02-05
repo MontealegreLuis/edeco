@@ -30,7 +30,7 @@ class Adapter implements Zend_Auth_Adapter_Interface
     protected $userGateway;
 
     /**
-     * @param Edeco_Model_User $user
+     * @param User $user
      * @param Mandragora_Gateway_Interface
      *        | Mandragora_Gateway_Decorator_CacheAbstract $userGateway
      */
@@ -59,7 +59,7 @@ class Adapter implements Zend_Auth_Adapter_Interface
     }
 
     /**
-     * Create the apropriate result object according to query result
+     * Create the appropriate result object according to query result
      *
      * @return Zend_Auth_Result
      */
@@ -83,7 +83,7 @@ class Adapter implements Zend_Auth_Adapter_Interface
         return new Zend_Auth_Result(
             Zend_Auth_Result::FAILURE_IDENTITY_NOT_FOUND,
             null,
-            array('username' => 'Su nombre de usuario no existe')
+            ['username' => 'Su nombre de usuario no existe']
         );
     }
 
@@ -108,7 +108,7 @@ class Adapter implements Zend_Auth_Adapter_Interface
         return new Zend_Auth_Result(
             Zend_Auth_Result::FAILURE_CREDENTIAL_INVALID,
             null,
-            array('password' => 'Su password es incorrecto')
+            ['password' => 'Su password es incorrecto']
         );
     }
 }

@@ -12,14 +12,6 @@
  *
  * Licensed under the MIT License
  * Redistributions of files must retain the above copyright notice.
- *
- * @author Ian Selby <ian@gen-x-design.com>
- * @copyright Copyright (c) 2009 Gen X Design
- * @link http://phpthumb.gxdlabs.com
- * @license http://www.opensource.org/licenses/mit-license.php The MIT License
- * @version 3.0
- * @package PhpThumb
- * @filesource
  */
 
 namespace PhpThumb;
@@ -27,18 +19,12 @@ namespace PhpThumb;
 use Exception;
 use BadMethodCallException;
 
-
-
-
 /**
  * ThumbBase Class Definition
  *
  * This is the base class that all implementations must extend.  It contains the
  * core variables and functionality common to all implementations, as well as the functions that
  * allow plugins to augment those classes.
- *
- * @package PhpThumb
- * @subpackage Core
  */
 abstract class Base
 {
@@ -326,6 +312,4 @@ abstract class Base
 	{
 		$this->hasError = $hasError;
 	}
-
-
 }

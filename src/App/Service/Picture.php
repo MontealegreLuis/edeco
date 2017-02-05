@@ -9,7 +9,7 @@
 
 namespace App\Service;
 
-use Mandragora\Service\Crud\Doctrine\AbstractDoctrine;
+use Mandragora\Service\Crud\Doctrine\DoctrineCrud;
 use App\Model\Collection\Picture as AppModelCollectionPicture;
 use Mandragora\Model;
 use App\Model\PictureFileHandler;
@@ -19,7 +19,7 @@ use App\Model\Gateway\Cache\Property;
 /**
  * Service class for Property model
  */
-class Picture extends AbstractDoctrine
+class Picture extends DoctrineCrud
 {
     /**
      * @return void

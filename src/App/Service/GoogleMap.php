@@ -6,14 +6,14 @@
  */
 namespace App\Service;
 
-use Mandragora\Service\Crud\Doctrine\AbstractDoctrine;
+use Mandragora\Service\Crud\Doctrine\DoctrineCrud;
 use Mandragora\Model;
 use Mandragora\Gateway;
 
 /**
  * Service class for Address model
  */
-class GoogleMap extends AbstractDoctrine
+class GoogleMap extends DoctrineCrud
 {
     public function init()
     {

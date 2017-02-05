@@ -6,13 +6,13 @@
  */
 namespace App\Service;
 
-use Mandragora\Service\Crud\Doctrine\AbstractDoctrine;
+use Mandragora\Service\Crud\Doctrine\DoctrineCrud;
 use Mandragora\Service;
 
 /**
  * Service class for Contact model
  */
-class Contact extends AbstractDoctrine
+class Contact extends DoctrineCrud
 {
     /**
      * @param string $action

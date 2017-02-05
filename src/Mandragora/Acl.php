@@ -7,10 +7,10 @@
 namespace Mandragora;
 
 /**
- * FActory for ACL objects.
+ * Factory for ACL objects.
  *
  * It verifies if the user is logged and has permission to access the current
- * action during the predispatch phase.
+ * action during the pre-dispatch phase.
  */
 class Acl
 {

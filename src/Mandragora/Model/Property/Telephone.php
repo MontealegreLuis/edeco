@@ -1,13 +1,12 @@
 <?php
-
-
+/**
+ * PHP version 5.6
+ *
+ * This source file is subject to the license that is bundled with this package in the file LICENSE.
+ */
 namespace Mandragora\Model\Property;
 
-use Mandragora\Model\Property\PropertyInterface;
-
-
-class Telephone
-implements PropertyInterface
+class Telephone implements PropertyInterface
 {
     protected $number;
     protected $pattern;
@@ -38,5 +37,4 @@ implements PropertyInterface
     {
         return $this->number;
     }
-
 }

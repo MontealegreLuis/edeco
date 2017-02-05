@@ -9,14 +9,14 @@
 
 namespace App\Model\Gateway;
 
-use Mandragora\Gateway\Doctrine\AbstractDoctrine;
+use Mandragora\Gateway\Doctrine\DoctrineGateway;
 use Doctrine_Core;
 use Mandragora\Gateway\NoResultsFoundException;
 
 /**
  * Gateway for project model objects
  */
-class Project extends AbstractDoctrine
+class Project extends DoctrineGateway
 {
     /**
      * @return Doctrine_Query

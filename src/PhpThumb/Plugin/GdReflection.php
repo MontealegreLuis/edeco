@@ -12,30 +12,16 @@
  *
  * Licensed under the MIT License
  * Redistributions of files must retain the above copyright notice.
- *
- * @author Ian Selby <ian@gen-x-design.com>
- * @copyright Copyright (c) 2009 Gen X Design
- * @link http://phpthumb.gxdlabs.com
- * @license http://www.opensource.org/licenses/mit-license.php The MIT License
- * @version 3.0
- * @package PhpThumb
- * @filesource
  */
 
 namespace PhpThumb\Plugin;
 
 use PhpThumb\PhpThumb;
 
-
-
-
 /**
  * GD Reflection Lib Plugin
  *
  * This plugin allows you to create those fun Apple(tm)-style reflections in your images
- *
- * @package PhpThumb
- * @subpackage Plugins
  */
 class GdReflection
 {

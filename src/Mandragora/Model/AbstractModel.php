@@ -8,7 +8,7 @@ namespace Mandragora\Model;
 
 use Mandragora\ArrayConversion\ArrayInterface;
 use Mandragora\String\StringInterface;
-use Mandragora\Model\Property\Exception;
+use Mandragora\Model\Property\NonExistingProperty;
 use Mandragora\Model\Property\PropertyInterface;
 
 /**
@@ -93,7 +93,7 @@ abstract class AbstractModel implements ArrayInterface, StringInterface
     protected function isValidProperty($propertyName)
     {
         if (!array_key_exists($propertyName, $this->properties))  {
-            throw new Exception(
+            throw new NonExistingProperty(
                 "Property '$propertyName' does not belong to class "
                 . get_class($this)
             );

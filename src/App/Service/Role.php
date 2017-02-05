@@ -6,9 +6,9 @@
  */
 namespace App\Service;
 
-use Mandragora\Service\Crud\Doctrine\AbstractDoctrine;
+use Mandragora\Service\Crud\Doctrine\DoctrineCrud;
 
-class Role extends AbstractDoctrine
+class Role extends DoctrineCrud
 {
     /**
      * @return void

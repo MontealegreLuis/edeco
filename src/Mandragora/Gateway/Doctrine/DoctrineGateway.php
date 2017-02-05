@@ -14,7 +14,7 @@ use Mandragora\StringObject;
 /**
  * Base class for Doctrine gateway objects
  */
-abstract class AbstractDoctrine implements GatewayInterface
+abstract class DoctrineGateway implements GatewayInterface
 {
     /**
      * @var Doctrine_Record
@@ -87,9 +87,6 @@ abstract class AbstractDoctrine implements GatewayInterface
         $model->fromArray($this->dao->toArray());
     }
 
-    /**
-     * @throws Doctrine_Connection_Exception
-     */
     public function delete(AbstractModel $model)
     {
         $this->dao->assignIdentifier($model->getIdentifier());

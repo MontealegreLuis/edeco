@@ -11,9 +11,6 @@ namespace Mandragora\Service;
  */
 class Language
 {
-    /**
-     * @return void
-     */
     private function __construct() {}
 
     /**

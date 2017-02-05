@@ -6,14 +6,14 @@
  */
 namespace App\Model\Gateway;
 
-use Mandragora\Gateway\Doctrine\AbstractDoctrine;
+use Mandragora\Gateway\Doctrine\DoctrineGateway;
 use Doctrine_Core;
 use Mandragora\Gateway\NoResultsFoundException;
 
 /**
  * Gateway for Address model objects
  */
-class Address extends AbstractDoctrine
+class Address extends DoctrineGateway
 {
     /**
      * @return array

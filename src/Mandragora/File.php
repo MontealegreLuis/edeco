@@ -1,53 +1,16 @@
 <?php
 /**
- * Handles read/write and delete/rename operations on files
+ * PHP version 5.6
  *
- * PHP version 5
- *
- * LICENSE: Redistribution and use of this file in source and binary forms,
- * with or without modification, is not permitted under any circumstance
- *
- * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
- * "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
- * LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
- * A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT
- * OWNER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL,
- * SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT
- * LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE,
- * DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY
- * THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
- * (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
- * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
- *
- * @category   Library
- * @package    Mandragora
- * @subpackage File
- * @author     LMV <luis.montealegre@mandragora-web-systems.com>
- * @copyright  Mandrágora Web-Based Systems 2010
- * @version    SVN: $Id$
+ * This source file is subject to the license that is bundled with this package in the file LICENSE.
  */
-
 namespace Mandragora;
 
-use Mandragora\File\Exception;
+use Mandragora\File\FileException;
 use Mandragora\File\Size\Factory;
-use Mandragora\File as MandragoraFile;
-
-
-
 
 /**
  * Handles read/write and delete/rename operations on files
- *
- * @author     LMV <luis.montealegre@mandragora-web-systems.com>
- * @copyright  Mandrágora Web-Based Systems
- * @version    SVN: $Id$
- * @category   Library
- * @package    Mandragora
- * @subpackage File
- * @history    26 may 2010
- *             LMV
- *             - Class creation
  */
 class File
 {
@@ -86,7 +49,7 @@ class File
     public function __construct($filename)
     {
         if (!self::exists((string)$filename)) {
-            throw new Exception(
+            throw new FileException(
                 'The file ' . $filename . ' does not exist'
             );
         }
@@ -154,7 +117,7 @@ class File
     public function read()
     {
         if (!is_readable($this->_fullName)) {
-            throw new Exception(
+            throw new FileException(
                 "The file $this->_fullName cannot be read"
             );
         }
@@ -175,7 +138,7 @@ class File
     {
         if (!is_writable($this->_fullName)) {
 
-            throw new Exception(
+            throw new FileException(
                 'The file ' . $this->_fullName . ' cannot be written'
             );
         }
@@ -233,19 +196,15 @@ class File
 
     /**
      * @param string $filename
-     * @return Mandragora_File
-     * @throws Mandragora_File_Exception
-     *      If file cannot be created
+     * @return File
+     * @throws FileException If file cannot be created
      */
     public static function create($filename)
     {
         if (file_put_contents((string)$filename, '') === false) {
-            throw new Exception(
-                "The file $filename cannot be created"
-            );
+            throw new FileException("The file $filename cannot be created");
         } else {
-            return new MandragoraFile((string)$filename);
+            return new File((string) $filename);
         }
     }
-
 }

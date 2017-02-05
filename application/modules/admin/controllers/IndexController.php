@@ -3,33 +3,27 @@
  * PHP version 5.6
  *
  * This source file is subject to the license that is bundled with this package in the file LICENSE.
- *
- * @copyright  Mandrágora Web-Based Systems 2010-2015 (http://www.mandragora-web-systems.com)
  */
+use Mandragora\Controller\Action\Auth;
+use Mandragora\Service;
+use Mandragora\Service\Router;
 
 /**
  * Perform authentication process
- *
- * @package    Edeco
- * @subpackage Controllers
- * @author     LMV <luis.montealegre@mandragora-web-systems.com>
- * @copyright  Mandrágora Web-Based Systems 2010
  */
-class   Admin_IndexController extends Mandragora_Controller_Action_Auth
+class Admin_IndexController extends Auth
 {
     /**
      * @var array
      */
-    protected $validMethods = array(
-        'authenticate' => array('method' => 'post'),
-    );
+    protected $validMethods = ['authenticate' => ['method' => 'post']];
 
     /**
      * @return void
      */
     public function init()
     {
-        $this->service = Mandragora_Service::factory('User');
+        $this->service = Service::factory('User');
         $this->service->setCacheManager($this->getCacheManager());
         $doctrine = $this->getInvokeArg('bootstrap')->getResource('doctrine');
         $this->service->setDoctrineManager($doctrine);
@@ -100,11 +94,10 @@ class   Admin_IndexController extends Mandragora_Controller_Action_Auth
             $this->_redirect($url, array('prependBase' => false));
         } else {
             $identity = Zend_Auth::getInstance()->getIdentity();
-            $router = Mandragora_Service_Router::factory('Helper');
+            $router = Router::factory('Helper');
             $url = $router->getDefaultRoute($identity->roleName);
             $this->redirectToRoute(
-                $url['action'], array(), $url['controller'], $url['module'],
-                $url['route']
+                $url['action'], [], $url['controller'], $url['module'], $url['route']
             );
         }
     }
@@ -122,5 +115,4 @@ class   Admin_IndexController extends Mandragora_Controller_Action_Auth
             array('prependBase' => false)
         );
     }
-
 }

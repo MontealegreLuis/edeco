@@ -6,12 +6,12 @@
  */
 namespace App\Service;
 
-use Mandragora\Service\Crud\Doctrine\AbstractDoctrine;
+use Mandragora\Service\Crud\Doctrine\DoctrineCrud;
 
 /**
  * Service class for Premise Information model
  */
-class PremiseInformation extends AbstractDoctrine
+class PremiseInformation extends DoctrineCrud
 {
     /**
      * @param string $action

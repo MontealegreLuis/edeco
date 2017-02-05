@@ -6,7 +6,7 @@
  */
 namespace App\Service;
 
-use Mandragora\Service\Crud\Doctrine\AbstractDoctrine;
+use Mandragora\Service\Crud\Doctrine\DoctrineCrud;
 use App\Model\Collection\Project as AppModelCollectionProject;
 use Mandragora\Gateway\NoResultsFoundException;
 use App\Model\Project as AppModelProject;
@@ -14,7 +14,7 @@ use App\Model\Project as AppModelProject;
 /**
  * Service class for Project model
  */
-class Project extends AbstractDoctrine
+class Project extends DoctrineCrud
 {
     /**
      * @return void
