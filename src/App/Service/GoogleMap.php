@@ -30,7 +30,7 @@ class GoogleMap extends DoctrineCrud
     public function geocodeAddress($id)
     {
         $this->init();
-        $addressValues = $this->getGateway()->findOneById((int)$id);
+        $addressValues = $this->getGateway()->findOneById((int) $id);
         $this->getModel()->fromArray($addressValues);
         return $this->getModel()->geocode();
     }

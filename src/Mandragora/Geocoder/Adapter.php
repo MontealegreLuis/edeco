@@ -6,24 +6,16 @@
  */
 namespace Mandragora\Geocoder;
 
-use Zend_Http_Client;
-use Zend_Json_Decoder;
-use Zend_Json;
+use RuntimeException;
+use Zend_Http_Client as HttpClient;
+use Zend_Json_Decoder as JsonDecoder;
+use Zend_Json as Json;
 use stdClass;
-use Exception;
 
 class Adapter
 {
-    const SUCCESS = 200;
-    const BAD_REQUEST = 400;
-    const SERVER_ERROR = 500;
-    const MISSING_QUERY = 601;
-    const MISSING_ADDRESS = 601;
-    const UNKNOWN_ADDRESS = 602;
-    const UNAVAILABLE_ADDRESS = 603;
-    const UNKNOWN_DIRECTIONS = 604;
-    const BAD_KEY = 610;
-    const TOO_MANY_QUERIES = 620;
+    const OK = 'OK';
+    const REQUEST_DENIED = 'REQUEST_DENIED';
 
     /**
      * @var string
@@ -35,48 +27,47 @@ class Adapter
      */
     public function __construct($apiKey)
     {
-        $this->apiKey = (string)$apiKey;
+        $this->apiKey = (string) $apiKey;
     }
 
     /**
      * @param string $address
      * @return array
-     * @throws Exception
+     * @throws \Zend_Json_Exception Id the response is not valid JSON
+     * @throws \Zend_Http_Client_Exception If it cannot connect to Google
+     * @throws RuntimeException If no recognized status is returned
      */
     public function lookup($address)
     {
-        $client = new Zend_Http_Client();
+        $client = new HttpClient();
         $client
             ->setUri($this->getGeocodeUri())
-            ->setParameterGet('q', (string)$address)
+            ->setParameterGet('address', (string) $address)
             ->setParameterGet('output', 'json')
             ->setParameterGet('sensor', 'false')
             ->setParameterGet('key', $this->apiKey)
         ;
         $result = $client->request('GET');
+        $response = JsonDecoder::decode($result->getBody(), Json::TYPE_OBJECT);
 
-        $response = Zend_Json_Decoder::decode($result->getBody(), Zend_Json::TYPE_OBJECT);
-
+        $status = self::REQUEST_DENIED;
         if ($response instanceof stdClass) {
-            $status = $response->Status->code;
+            $status = $response->status;
         }
 
-        switch ($status) {
-
-            case self::SUCCESS:
-
-                $placemarks = array();
-                foreach ($response->Placemark as $placemark) {
-                    $placemarks[] = PlaceMark::fromJson($placemark);
-                }
-                return $placemarks;
-
-            case self::UNKNOWN_ADDRESS:
-            case self::UNAVAILABLE_ADDRESS:
-                return array();
-            default:
-                throw new Exception(sprintf('Google Geocode error %d occurred', $status));
+        if ($status === self::OK) {
+            $placeMarks = [];
+            foreach ($response->results as $placeMark) {
+                $placeMarks[] = PlaceMark::fromJson($placeMark);
+            }
+            return $placeMarks;
         }
+
+        throw new RuntimeException(sprintf(
+            'Google Geocode error %s occurred: %s',
+            $status,
+            $response->error_message
+        ));
     }
 
     /**
@@ -84,6 +75,6 @@ class Adapter
      */
     protected function getGeocodeUri()
     {
-        return 'http://maps.google.com/maps/geo';
+        return 'https://maps.google.com/maps/api/geocode/json';
     }
 }

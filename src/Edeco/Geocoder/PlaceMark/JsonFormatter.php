@@ -7,24 +7,24 @@
 namespace Edeco\Geocoder\PlaceMark;
 
 use Mandragora\Geocoder\PlaceMark\JsonFormatter as BaseFormatter;
-use Zend_Json;
+use Zend_Json as Json;
 
 class JsonFormatter implements BaseFormatter
 {
     /**
-     * @see Mandragora_Geocoder_PlaceMark_JsonFormater::format()
+     * @see \Mandragora\Geocoder\PlaceMark\JsonFormatter::format()
      */
 	public function format(array $placeMarkers)
 	{
-	    $jsonPlaceMarkers = array();
+	    $jsonPlaceMarkers = [];
 	    foreach ($placeMarkers as $placeMark) {
-	    	$json = array();
+	    	$json = [];
             $json['name'] = ' ';
             $json['Address'] = $placeMark->getAddress();
             $json['latitude'] = $placeMark->getPoint()->getLatitude();
             $json['longitude'] = $placeMark->getPoint()->getLongitude();
             $jsonPlaceMarkers[] = $json;
 	    }
-		return Zend_Json::encode($jsonPlaceMarkers);
+		return Json::encode($jsonPlaceMarkers);
 	}
 }

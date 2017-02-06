@@ -20,9 +20,7 @@ class PlaceMark
     const ACCURACY_INTERSECTION = 7;
     const ACCURACY_ADDRESS = 8;
 
-    /**
-     * @var Mandragora_Geocoder_Point
-     */
+    /** @var Point */
     protected $point;
 
     /**
@@ -36,7 +34,7 @@ class PlaceMark
     protected $accuracy;
 
     /**
-     * @param Mandragora_Geocoder_Point $point
+     * @param Point $point
      * @param string $address
      * @param int $accuracy
      */
@@ -50,7 +48,7 @@ class PlaceMark
     }
 
     /**
-     * @return Mandragora_Geocoder_Point
+     * @return Point
      */
     public function getPoint()
     {
@@ -75,19 +73,17 @@ class PlaceMark
 
     /**
      * @param string $json
-     * @return Mandragora_Geocoder_PlaceMark
+     * @return PlaceMark
      */
     public static function fromJson($json)
     {
-        $point = Point::fromCoordinate(
-            $json->Point->coordinates
+        $point = Point::fromCoordinate($json->geometry->location);
+
+        $placeMark = new self(
+            $point, $json->formatted_address, self::ACCURACY_STREET
         );
 
-        $placemark = new self(
-            $point, $json->address, $json->AddressDetails->Accuracy
-        );
-
-        return $placemark;
+        return $placeMark;
     }
 
     public function arrayToJson(array $placeMarkers, JsonFormatter $formater)

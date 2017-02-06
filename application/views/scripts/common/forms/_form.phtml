@@ -2,18 +2,14 @@
 /**
  * Helper for Zend forms.
  *
- * This helper is used with Mandragora_Form_Abstract class
- *
- * @author  LMV <luis.montealegre@mandragora-web-systems.com>
- * @copyright  Mandrágora Web-Based Systems 2010
- * @version    SVN: $Id$
+ * This helper is used with \Mandragora\Form\AbstractForm class
  */
 ?>
-<?php $attribs = '' ?>
+<?php $attributes = '' ?>
 <?php foreach ($this->element->getAttribs() as $attribute => $value) : ?>
-    <?php $attribs .= sprintf('%s="%s" ', $attribute, $value) ?>
+    <?php $attributes .= sprintf('%s="%s" ', $attribute, $value) ?>
 <?php endforeach ?>
-<form <?php echo $attribs ?>>
+<form <?php echo $attributes ?>>
 <?php if (count($this->element->getDisplayGroups()) < 1) :?>
     <dl>
         <?php

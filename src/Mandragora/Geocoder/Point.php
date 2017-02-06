@@ -6,6 +6,8 @@
  */
 namespace Mandragora\Geocoder;
 
+use stdClass;
+
 class Point
 {
     /**
@@ -45,11 +47,11 @@ class Point
     }
 
     /**
-     * @param string $json
-     * @return Mandragora_Geocoder_Point
+     * @param stdClass $location
+     * @return Point
      */
-    public static function fromCoordinate(array $coordinate)
+    public static function fromCoordinate(stdClass $location)
     {
-        return new self($coordinate[1], $coordinate[0]);
+        return new self($location->lat, $location->lng);
     }
 }

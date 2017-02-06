@@ -8,7 +8,7 @@ namespace App\Model;
 
 use Mandragora\Model\AbstractModel;
 use Mandragora\Model;
-use Zend_Registry;
+use Zend_Registry as Registry;
 use Mandragora\Geocoder\Adapter;
 use Edeco\Geocoder\PlaceMark\JsonFormatter;
 
@@ -32,17 +32,17 @@ class Address extends AbstractModel
     /**
      * @var array
      */
-    protected $properties = array(
+    protected $properties = [
         'streetAndNumber' => '', 'neighborhood' => null, 'zipCode' => null,
         'City' => null, 'addressReference' => null, 'latitude' => null,
         'longitude' => null, 'cityId' => null,
-    );
+    ];
 
     /**
      * @var array
      * @return string
      */
-    protected $identifier = array('id');
+    protected $identifier = ['id'];
 
     /**
      * @param array $values
@@ -58,15 +58,13 @@ class Address extends AbstractModel
     }
 
     /**
-     * @return array  Mandragora_Geocoder_Placemark
+     * @return \Mandragora\Geocoder\Placemark[]
      */
     public function geocode()
     {
-        $googleMapskey = Zend_Registry::get('googleMapsKey');
-        $adapter = new Adapter($googleMapskey);
-        $address = str_replace('|', ', ', (string)$this);
-        $results = $adapter->lookup($address);
-        return $results;
+        $adapter = new Adapter(Registry::get('googleMapsKey'));
+        $address = str_replace('|', ', ', (string) $this);
+        return $adapter->lookup($address);
     }
 
     /**
@@ -88,9 +86,7 @@ class Address extends AbstractModel
      */
     public function placeMarksToJson(array $placeMarks)
     {
-        $formater = new JsonFormatter();
-        $jsonPlaceMarkers = $formater->format($placeMarks);
-        return $jsonPlaceMarkers;
+        return (new JsonFormatter())->format($placeMarks);
     }
 
     /**
