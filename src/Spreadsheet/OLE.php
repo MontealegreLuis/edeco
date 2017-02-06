@@ -25,7 +25,7 @@ namespace Spreadsheet;
 
 use PEAR;
 use OLE_PPS;
-use OLE as OLE;
+use OLE as BaseOLE;
 use PEAR_Error;
 
 

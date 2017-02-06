@@ -40,7 +40,7 @@ class Detail extends AbstractForm
         $startDateElement = $this->getElement('startDate');
         $stopDateElement = $this->getElement('stopDate');
         $startDate = $startDateElement->getValue();
-        $validator = 'Mandragora_Validate_DateRange';
+        $validator = 'Mandragora\Validate\DateRange';
         $dateRangeValidator = $stopDateElement->getValidator($validator);
         $dateRangeValidator->setStartDate($startDate);
     }
