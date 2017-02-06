@@ -1,50 +1,23 @@
 <?php
 /**
- * Application's city controller
- *
  * PHP version 5
  *
- * LICENSE: Redistribution and use of this file in source and binary forms,
- * with or without modification, is not permitted under any circumstance
- *
- * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
- * "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
- * LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
- * A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT
- * OWNER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL,
- * SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT
- * LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE,
- * DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY
- * THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
- * (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
- * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
- *
- * @category   Application
- * @package    Edeco
- * @subpackage Controller
- * @author     LMV <luis.montealegre@mandragora-web-systems.com>
- * @copyright  Mandrágora Web-Based Systems
- * @version    SVN $Id$
+ * This source file is subject to the license that is bundled with this package in the file LICENSE.
  */
+use Mandragora\Controller\Action\AbstractAction;
+use Mandragora\Service;
 
 /**
  * City controller
- *
- * @author     LMV <luis.montealegre@mandragora-web-systems.com>
- * @version    SVN $Id$
- * @copyright  Mandrágora Web-Based Systems
- * @category   Application
- * @package    Edeco
- * @subpackage Controller
  */
-class Admin_CityController extends Mandragora_Controller_Action_Abstract
+class Admin_CityController extends AbstractAction
 {
     /**
      * @var array
      */
-    protected $validMethods = array(
-        'find' => array('method' => 'xmlHttpRequest'),
-    );
+    protected $validMethods = [
+        'find' => ['method' => 'xmlHttpRequest'],
+    ];
 
     /**
      * Initialize the service object
@@ -53,7 +26,7 @@ class Admin_CityController extends Mandragora_Controller_Action_Abstract
      */
     public function init()
     {
-        $this->service = Mandragora_Service::factory('City');
+        $this->service = Service::factory('City');
         $this->service->setCacheManager($this->getCacheManager());
         $doctrine = $this->getInvokeArg('bootstrap')->getResource('doctrine');
         $this->service->setDoctrineManager($doctrine);
@@ -72,5 +45,4 @@ class Admin_CityController extends Mandragora_Controller_Action_Abstract
     	$cities = $this->service->retrieveAllByStateId($stateId);
         $this->_helper->json($cities);
     }
-
 }

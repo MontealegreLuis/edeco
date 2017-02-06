@@ -66,15 +66,15 @@ class AddressDao extends Doctrine_Record
              'notnull' => false,
              'autoincrement' => false,
              ));
-        $this->hasColumn('addressReference', 'string', 45, array(
+        $this->hasColumn('addressReference', 'string', 100, [
              'type' => 'string',
-             'length' => 45,
+             'length' => 100,
              'fixed' => false,
              'unsigned' => false,
              'primary' => false,
              'notnull' => false,
              'autoincrement' => false,
-             ));
+        ]);
         $this->hasColumn('latitude', 'float', null, array(
              'type' => 'float',
              'fixed' => false,
