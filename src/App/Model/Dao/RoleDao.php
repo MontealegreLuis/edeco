@@ -10,14 +10,14 @@ use Doctrine_Manager;
 use Doctrine_Record;
 
 // Connection Component Binding
-Doctrine_Manager::getInstance()->bindComponent(Role::class, 'doctrine');
+Doctrine_Manager::getInstance()->bindComponent(RoleDao::class, 'doctrine');
 
 /**
  * @property string $name
  * @property string $parentRole
  * @property Doctrine_Collection $User
  */
-class Role extends Doctrine_Record
+class RoleDao extends Doctrine_Record
 {
     public function setTableDefinition()
     {

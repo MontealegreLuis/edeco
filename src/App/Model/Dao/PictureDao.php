@@ -10,7 +10,7 @@ use Doctrine_Manager;
 use Doctrine_Record;
 
 // Connection Component Binding
-Doctrine_Manager::getInstance()->bindComponent(Picture::class, 'doctrine');
+Doctrine_Manager::getInstance()->bindComponent(PictureDao::class, 'doctrine');
 
 /**
  * @property integer $id
@@ -19,7 +19,7 @@ Doctrine_Manager::getInstance()->bindComponent(Picture::class, 'doctrine');
  * @property integer $propertyId
  * @property integer $version
  */
-class Picture extends Doctrine_Record
+class PictureDao extends Doctrine_Record
 {
     public function setTableDefinition()
     {

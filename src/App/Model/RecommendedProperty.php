@@ -7,22 +7,21 @@
 namespace App\Model;
 
 use Mandragora\Model\AbstractModel;
-use App\Model\Property;
 
 class RecommendedProperty extends AbstractModel
 {
     /**
      * @var array
      */
-    protected $properties = array(
+    protected $properties = [
     	'propertyId' => null, 'recommendedPropertyId' => null,
     	'RecommendedProperty' => null
-    );
+    ];
 
     /**
      * @var array
      */
-    protected $identifier = array('propertyId', 'recommendedPropertyId');
+    protected $identifier = ['propertyId', 'recommendedPropertyId'];
 
     /**
      * @param array | null $values
@@ -40,6 +39,6 @@ class RecommendedProperty extends AbstractModel
      */
     public function __toString()
     {
-        return (string)$this->properties['RecommendedProperty'];
+        return (string) $this->properties['RecommendedProperty'];
     }
 }

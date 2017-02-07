@@ -547,3 +547,4 @@ recommendedProperty.field.save;Guardar
 recommendedProperty.created;El inmueble recomendado se agregó correctamente
 recommendedProperty.deleted;El inmueble recomendado se eliminó correctamente
 recommendedProperty.emptyList;Aún no se agregan recomendaciones de inmuebles
+recommendedProperty.not.found;No se encontró la propiedad recomendada

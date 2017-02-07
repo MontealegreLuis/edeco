@@ -87,11 +87,10 @@ class Factory
 	public static function create ($filename = null, $options = array(), $isDataStream = false)
 	{
 		// map our implementation to their class names
-		$implementationMap = array
-		(
-			'imagick'	=> 'PhpThumb_ImagickThumb',
-			'gd' 		=> 'PhpThumb_GdThumb'
-		);
+		$implementationMap = [
+			'imagick'	=> 'PhpThumb\ImagickThumb',
+			'gd' 		=> 'PhpThumb\GdThumb'
+        ];
 
 		// grab an instance of PhpThumb
 		$pt = PhpThumb::getInstance();

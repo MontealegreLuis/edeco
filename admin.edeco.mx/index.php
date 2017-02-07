@@ -4,10 +4,14 @@
  *
  * This source file is subject to the license that is bundled with this package in the file LICENSE.
  */
+use Mandragora\ErrorToException;
+use Zend_Application as Application;
+use Zend_Controller_Front as FrontController;
+use Zend_Controller_Plugin_ErrorHandler as ErrorHandler;
 
 require_once __DIR__ . '/../vendor/autoload.php';
 
-Mandragora\ErrorToException::register();
+ErrorToException::register();
 define('ROUTES', 'admin');
 defined('PUBLIC_PATH') || define('PUBLIC_PATH', __DIR__);
 defined('ROOT_PATH') || define('ROOT_PATH', realpath(PUBLIC_PATH . '/../'));
@@ -17,10 +21,8 @@ $applicationEnvironment = getenv('APPLICATION_ENV') ?: 'development';
 defined('APPLICATION_ENV') || define('APPLICATION_ENV', $applicationEnvironment);
 
 $configFilePath = APPLICATION_PATH . '/configs/application.ini';
-$edeco = new Zend_Application(APPLICATION_ENV, $configFilePath);
-Zend_Controller_Front::getInstance()->registerPlugin(
-    new Zend_Controller_Plugin_ErrorHandler(
-        ['module' => 'admin', 'controller' => 'error', 'action' => 'error']
-    )
-);
+$edeco = new Application(APPLICATION_ENV, $configFilePath);
+FrontController::getInstance()->registerPlugin(new ErrorHandler(
+    ['module' => 'admin', 'controller' => 'error', 'action' => 'error']
+));
 $edeco->bootstrap()->run();

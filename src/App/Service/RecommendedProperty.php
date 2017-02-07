@@ -89,7 +89,6 @@ class RecommendedProperty extends DoctrineCrud
     }
 
     /**
-     * @param int $id
      * @return void
      */
     public function deleteRecommendedProperty()

@@ -167,8 +167,7 @@ class GdReflection
 
         return ($asString ? "{$rgb[0]} {$rgb[1]} {$rgb[2]}" : $rgb);
     }
-
 }
 
 $pt = PhpThumb::getInstance();
-$pt->registerPlugin('PhpThumb_Plugin_GdReflection', 'gd');
+$pt->registerPlugin('PhpThumb\Plugin\GdReflection', 'gd');

@@ -3,24 +3,22 @@
  * PHP version 5.6
  *
  * This source file is subject to the license that is bundled with this package in the file LICENSE.
- *
- * @copyright  Mandrágora Web-Based Systems 2010-2015 (http://www.mandragora-web-systems.com)
  */
+use Mandragora\Controller\Action\AbstractAction;
+use Mandragora\Service;
 
 /**
  * Picture Controller for Edeco's Panel
- *
- * @author     LMV <luis.montealegre@mandragora-web-systems.com>
  */
-class Admin_PictureController extends Mandragora_Controller_Action_Abstract
+class Admin_PictureController extends AbstractAction
 {
     /**
      * @var array
      */
-    protected $validMethods = array(
-        'save' => array('method' => 'post'),
-        'update' => array('method' => 'post'),
-    );
+    protected $validMethods = [
+        'save' => ['method' => 'post'],
+        'update' => ['method' => 'post'],
+    ];
 
     /**
      * Initialize the service object
@@ -29,9 +27,10 @@ class Admin_PictureController extends Mandragora_Controller_Action_Abstract
      */
     public function init()
     {
-        $this->service = Mandragora_Service::factory('Picture');
+        $this->service = Service::factory('Picture');
         $this->service->setCacheManager($this->getCacheManager());
         $doctrine = $this->getInvokeArg('bootstrap')->getResource('doctrine');
+        $doctrine->setup();
         $this->service->setDoctrineManager($doctrine);
         $actions = $this->_helper->actionsBuilder($this->getRequest());
         $this->view->actions = $actions;
@@ -137,17 +136,16 @@ class Admin_PictureController extends Mandragora_Controller_Action_Abstract
      */
     public function updateAction()
     {
-        $action = $this->view->url(array('action' => 'update'), 'controllers');
+        $action = $this->view->url(['action' => 'update'], 'controllers');
         $pictureForm = $this->service->getFormForEditing($action);
         $pictureValues = $this->post();
-        $propertyId = (int)$this->post('propertyId');
+        $propertyId = (int) $this->post('propertyId');
         if ($pictureForm->isValid($pictureValues)) {
-            $id = (int)$this->param('id');
-            $picture = $this->service
-                            ->retrievePictureByIdAndPropertyId($id, $propertyId);
+            $id = (int) $this->param('id');
+            $picture = $this->service->retrievePictureByIdAndPropertyId($id, $propertyId);
             if (!$picture) {
                 $this->flash('error')->addMessage('property.not.found');
-                $this->redirectToRoute('list', array('page' => 1));
+                $this->redirectToRoute('list', ['page' => 1]);
             } else {
                 if ($picture->version > $pictureValues['version']) {
                     $this->flash('error')->addMessage(
@@ -161,15 +159,14 @@ class Admin_PictureController extends Mandragora_Controller_Action_Abstract
                     $this->flash('success')->addMessage('picture.updated');
                     $this->redirectToRoute(
                         'show',
-                        array(
+                        [
                             $this->view->translate('propertyId') => $propertyId,
                             'id' => $picture->id,
-                        )
+                        ]
                     );
                 }
             }
         } else {
-            $values = $pictureForm->getValues();
             $this->view->propertyId = $propertyId;
             $this->view->pictureForm = $pictureForm;
             $this->renderScript('picture/edit.phtml');
@@ -224,5 +221,4 @@ class Admin_PictureController extends Mandragora_Controller_Action_Abstract
             );
         }
     }
-
 }

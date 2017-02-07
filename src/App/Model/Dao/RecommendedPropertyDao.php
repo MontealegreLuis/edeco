@@ -10,7 +10,7 @@ use Doctrine_Manager;
 use Doctrine_Record;
 
 // Connection Component Binding
-Doctrine_Manager::getInstance()->bindComponent(RecommendedProperty::class, 'doctrine');
+Doctrine_Manager::getInstance()->bindComponent(RecommendedPropertyDao::class, 'doctrine');
 
 /**
  * @property integer $propertyId
@@ -18,7 +18,7 @@ Doctrine_Manager::getInstance()->bindComponent(RecommendedProperty::class, 'doct
  * @property App_Model_Property $Property
  * @property App_Model_Property $Property_2
  */
-class RecommendedProperty extends Doctrine_Record
+class RecommendedPropertyDao extends Doctrine_Record
 {
     public function setTableDefinition()
     {

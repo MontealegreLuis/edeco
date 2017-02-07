@@ -10,12 +10,12 @@ use Doctrine_Manager;
 use Doctrine_Record;
 
 // Connection Component Binding
-Doctrine_Manager::getInstance()->bindComponent(Resource::class, 'doctrine');
+Doctrine_Manager::getInstance()->bindComponent(ResourceDao::class, 'doctrine');
 
 /**
  * @property string $name
  */
-class Resource extends Doctrine_Record
+class ResourceDao extends Doctrine_Record
 {
     public function setTableDefinition()
     {

@@ -36,24 +36,22 @@ extends CacheAbstract
     }
 
     /**
-     * @param Mandragora_Model_Abstract $recommendedProperty
+     * @param AbstractModel $recommendedProperty
      * @return void
      */
     public function delete(AbstractModel $recommendedProperty)
     {
         $cacheId = 'recommendedProperty'
-            . (int)$recommendedProperty->propertyId . '_'
-            . (int)$recommendedProperty->recommendedPropertyId;
+            . (int) $recommendedProperty->propertyId . '_'
+            . (int) $recommendedProperty->recommendedPropertyId;
         $this->gateway->delete($recommendedProperty);
         $this->getCache()->remove($cacheId);
         $this->getCache()->clean(
-            Zend_Cache::CLEANING_MODE_MATCHING_ANY_TAG,
-            array(
-                'property' . $picture->propertyId,
-                // Also clean data in default module
-                Property::PROPERTIES_TAG,
-            )
-        );
+            Zend_Cache::CLEANING_MODE_MATCHING_ANY_TAG, [
+            'property' . $recommendedProperty->propertyId,
+            // Also clean data in default module
+            Property::PROPERTIES_TAG,
+        ]);
     }
 
     /**

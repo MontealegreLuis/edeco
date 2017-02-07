@@ -209,7 +209,7 @@ class Property extends DoctrineGateway
         $query = $this->dao->getTable()->createQuery();
         $query->select('p.id, p.name, p.description, a.*, s.*, c.*');
         $subquery = '(SELECT r.recommendedPropertyId '
-                  . 'FROM App_Model_Dao_RecommendedProperty r '
+                  . 'FROM App\Model\Dao\RecommendedPropertyDao r '
                   . 'WHERE r.propertyId = :propertyId)';
         $query->from($this->alias())
               ->innerJoin('p.Address a')
@@ -219,7 +219,7 @@ class Property extends DoctrineGateway
               ->andWhere('s.id = :stateId')
               ->andWhere('p.id <> :propertyId')
               ->andWhere('p.id NOT IN ' . $subquery);
-        $params = array(':stateId' => $stateId, ':propertyId' => $propertyId);
+        $params = [':stateId' => $stateId, ':propertyId' => $propertyId];
         return $query->fetchArray($params);
     }
 
@@ -264,7 +264,7 @@ class Property extends DoctrineGateway
               ->innerJoin('p.Address a')
               ->innerJoin('a.City c')
               ->innerJoin('c.State s');
-        $params = array(':startDate' => $startDate, ':stopDate' => $stopDate);
+        $params = [':startDate' => $startDate, ':stopDate' => $stopDate];
         return $query->fetchArray($params);
     }
 }

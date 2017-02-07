@@ -91,7 +91,7 @@ class UserDao extends Doctrine_Record
     public function setUp()
     {
         parent::setUp();
-        $this->hasOne('App\Model\Dao\Role as Role', [
+        $this->hasOne('App\Model\Dao\RoleDao as Role', [
              'local' => 'roleName',
              'foreign' => 'name'
         ]);

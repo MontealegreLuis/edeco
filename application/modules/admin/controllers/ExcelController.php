@@ -5,6 +5,7 @@
  * This source file is subject to the license that is bundled with this package in the file LICENSE.
  */
 use Mandragora\Controller\Action\AbstractAction;
+use Mandragora\File;
 use Mandragora\Service;
 
 /**
@@ -101,13 +102,13 @@ class Admin_ExcelController extends AbstractAction
     {
         $fileName = $this->param($this->view->translate('filename'));
         $path = APPLICATION_PATH . '/files/excel/' . $fileName;
-        if (Mandragora_File::exists($path)) {
+        if (File::exists($path)) {
             $excelFile = $this->service->getModel();
             $excelFile->fromFilename($fileName);
             $this->view->excelFile = $excelFile;
         } else {
             $this->flash('error')->addMessage('excel.fileNotFound');
-            $params = array($this->view->translate('page') => 1);
+            $params = [$this->view->translate('page') => 1];
             $this->redirectToRoute('list', $params);
         }
     }
