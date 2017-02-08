@@ -9,4 +9,7 @@
             <directory>tests/application/models</directory>
         </testsuite>
     </testsuites>
+    <listeners>
+        <listener class="\Mandragora\PHPUnit\Listener"/>
+    </listeners>
 </phpunit>

@@ -1,79 +1,27 @@
 <?php
 /**
- * Unit tests for Edeco_Model_Gateway_City class
+ * PHP version 7.1
  *
- * PHP version 5
- *
- * LICENSE: Redistribution and use of this file in source and binary forms,
- * with or without modification, is not permitted under any circumstance
- *
- * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
- * "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
- * LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
- * A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT
- * OWNER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL,
- * SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT
- * LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE,
- * DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY
- * THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
- * (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
- * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
- *
- * @category   Tests
- * @package    Edeco
- * @subpackage Test
- * @author     LNJ <lemuel.nonoal@mandragora-web-systems.com>
- * @author     LMV <luis.montealegre@mandragora-web-systems.com>
- * @copyright  Mandrágora Web-Based Systems 2010
- * @version    SVN: $Id$
+ * This source file is subject to the license that is bundled with this package in the file LICENSE.
  */
-
-if (!defined('PHPUnit_MAIN_METHOD')) {
-    define('PHPUnit_MAIN_METHOD', 'Edeco_Model_Gateway_CityTest::main');
-}
-
-require_once realpath(dirname(__FILE__) . '/../../bootstrap.php');
+use App\Model\Dao\CityDao;
+use App\Model\Dao\StateDao;
+use App\Model\Gateway\City;
+use App\Model\Gateway\State;
+use Mandragora\PHPUnit\DoctrineTest\DoctrineTestInterface;
 
 /**
  * Unit tests for Edeco_Model_Gateway_City class
- *
- * @category   Tests
- * @package    Edeco
- * @subpackage Test
- * @author     LNJ <lemuel.nonoal@mandragora-web-systems.com>
- * @author     LMV <luis.montealegre@mandragora-web-systems.com>
- * @copyright  Mandrágora Web-Based Systems 2010
- * @version    SVN: $Id$
  */
-class Edeco_Model_Gateway_CityTest
-    extends ControllerTestCase
-    implements Mandragora_PHPUnit_DoctrineTest_Interface
+class Edeco_Model_Gateway_CityTest extends ControllerTestCase implements DoctrineTestInterface
 {
     /**
      * @var Edeco_Model_State
      */
     protected $state;
 
-	/*
-	 * @var Edeco_Model_Gateway_State
-	 */
+	/** @var State */
 	protected $gatewayState;
-
-    /**
-     * Executes all the available tests cases
-     *
-     * @return void
-     */
-    public static function main()
-    {
-        $suite = new PHPUnit_Framework_TestSuite(
-            'Edeco_Model_Gateway_CityTest'
-        );
-        $listener = new Mandragora_PHPUnit_Listener();
-        $result = PHPUnit_TextUI_TestRunner::run(
-            $suite, array('listeners' => array($listener))
-        );
-    }
 
     /**
      * Setup application to run test cases
@@ -83,9 +31,7 @@ class Edeco_Model_Gateway_CityTest
     public function setUp()
     {
         parent::setUp();
-        $this->gatewayState = new Edeco_Model_Gateway_State(
-            new Edeco_Model_Dao_State()
-        );
+        $this->gatewayState = new State(new StateDao());
     }
 
     /**
@@ -98,11 +44,9 @@ class Edeco_Model_Gateway_CityTest
         for ($i = 0; $i < 5; $i++) {
             $insertedCities[$i] = $this->insertCity();
         }
-        $gatewayCity = new Edeco_Model_Gateway_City(
-            new Edeco_Model_Dao_City()
-        );
+        $gatewayCity = new City(new CityDao());
         $allCities = $gatewayCity->findAllByStateName('MÉXICO');
-        $this->assertEquals(5, count($allCities));
+        $this->assertCount(5, $allCities);
         for ($i = 0; $i < 5; $i++) {
             $this->assertEquals(
                 $insertedCities[$i]->name, $allCities[$i]['name']
@@ -115,14 +59,11 @@ class Edeco_Model_Gateway_CityTest
      *
      * @return void
      */
-    public function
-        testFindAllByStateNameShouldRetrieveZeroRecordsWithNonExistingState()
+    public function testFindAllByStateNameShouldRetrieveZeroRecordsWithNonExistingState()
     {
-        $gatewayCity = new Edeco_Model_Gateway_City(
-            new Edeco_Model_Dao_City()
-        );
+        $gatewayCity = new City(new CityDao());
         $allStates = $gatewayCity->findAllByStateName('Mexico');
-        $this->assertEquals(0, count($allStates));
+        $this->assertCount(0, $allStates);
     }
 
     /**
@@ -130,28 +71,22 @@ class Edeco_Model_Gateway_CityTest
      */
     protected function insertState()
     {
-        $this->state = new Edeco_Model_State();
+        $this->state = new \App\Model\State();
         $this->state->name = 'MÉXICO';
         $this->gatewayState->insert($this->state);
     }
 
     /**
-     * @return Edeco_Model_City
+     * @return \App\Model\City
      */
-    protected function  insertCity()
+    protected function insertCity()
     {
-        $gatewayCity = new Edeco_Model_Gateway_City(
-            new Edeco_Model_Dao_City()
-        );
-        $city = new Edeco_Model_City();
+        $gatewayCity = new City(new CityDao());
+        $city = new \App\Model\City();
         $city->name = 'cholula';
         $city->stateId = $this->state->id; //the value assigned on insertState
         $gatewayCity->insert($city);
         return $city;
     }
 
-}
-
-if (PHPUnit_MAIN_METHOD == 'Edeco_Model_Gateway_CityTest::main') {
-    Edeco_Model_Gateway_CityTest::main();
 }
