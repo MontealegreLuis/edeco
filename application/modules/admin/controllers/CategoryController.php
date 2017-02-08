@@ -1,20 +1,20 @@
 <?php
 /**
- * PHP version 5
+ * PHP version 5.6
  *
  * This source file is subject to the license that is bundled with this package in the file LICENSE.
  */
+use Doctrine_Connection_Exception as ConnectionException;
+use Doctrine_Core as DoctrineCore;
 use Mandragora\Controller\Action\AbstractAction;
 use Mandragora\Service;
 
 /**
- * Category controller
+ * CRUD for categories
  */
 class Admin_CategoryController extends AbstractAction
 {
-    /**
-     * @var array
-     */
+    /** @var array */
     protected $validMethods = [
         'save' => ['method' => 'post'],
         'update' => ['method' => 'post'],
@@ -40,7 +40,7 @@ class Admin_CategoryController extends AbstractAction
     public function listAction()
     {
         $this->service->setPaginatorOptions($this->getAppSetting('paginator'));
-        $page = (int)$this->param($this->view->translate('page'), 1);
+        $page = (int) $this->param($this->view->translate('page'), 1);
         $collection = $this->service->retrieveCategoryCollection($page);
         $this->view->collection = $collection;
         $this->view->paginator = $this->service->getPaginator($page);
@@ -51,8 +51,9 @@ class Admin_CategoryController extends AbstractAction
      */
     public function createAction()
     {
-        $action = $this->view->url(array('action' => 'save'), 'controllers');
-        $this->view->categoryForm = $this->service->getFormForCreating($action);
+        $this->view->categoryForm = $this->service->getFormForCreating(
+            $this->view->url(['action' => 'save'], 'controllers')
+        );
     }
 
     /**
@@ -60,14 +61,14 @@ class Admin_CategoryController extends AbstractAction
      */
     public function saveAction()
     {
-        $action = $this->view->url(array('action' => 'save'), 'controllers');
-        $categoryForm = $this->service->getFormForCreating($action);
+        $categoryForm = $this->service->getFormForCreating($this->view->url(
+            ['action' => 'save'], 'controllers'
+        ));
         $this->service->openConnection();
         if ($categoryForm->isValid($this->post())) {
             $this->service->createCategory();
             $this->flash('success')->addMessage('category.created');
-            $params = array('id' => $this->service->getModel()->id);
-            $this->redirectToRoute('show', $params);
+            $this->redirectToRoute('show', ['id' => $this->service->getModel()->id]);
         } else {
             $this->view->categoryForm = $categoryForm;
             $this->renderScript('category/create.phtml');
@@ -79,11 +80,10 @@ class Admin_CategoryController extends AbstractAction
      */
     public function showAction()
     {
-        $id = (int)$this->param('id');
-        $category = $this->service->retrieveCategoryById($id);
+        $category = $this->service->retrieveCategoryById((int) $this->param('id'));
         if (!$category) {
             $this->flash('error')->addMessage('category.not.found');
-            $this->redirectToRoute('list', array($this->view->translate('page') => 1));
+            $this->redirectToRoute('list', [$this->view->translate('page') => 1]);
         } else {
             $this->view->category = $category;
         }
@@ -94,14 +94,14 @@ class Admin_CategoryController extends AbstractAction
      */
     public function editAction()
     {
-        $id = (int)$this->param('id');
-        $category = $this->service->retrieveCategoryById($id);
+        $category = $this->service->retrieveCategoryById((int) $this->param('id'));
         if (!$category) {
             $this->flash('error')->addMessage('category.not.found');
-            $this->redirectToRoute('list', array('page' => 1));
+            $this->redirectToRoute('list', ['page' => 1]);
         } else {
-            $action = $this->view->url(array('action' => 'update'));
-            $categoryForm = $this->service->getFormForEditing($action);
+            $categoryForm = $this->service->getFormForEditing($this->view->url(
+                ['action' => 'update']
+            ));
             $categoryForm->populate($category->toArray());
             $this->view->category = $category;
             $this->view->categoryForm = $categoryForm;
@@ -113,8 +113,9 @@ class Admin_CategoryController extends AbstractAction
      */
     public function updateAction()
     {
-        $action = $this->view->url(['action' => 'update'], 'controllers');
-        $categoryForm = $this->service->getFormForEditing($action);
+        $categoryForm = $this->service->getFormForEditing($this->view->url(
+            ['action' => 'update'], 'controllers'
+        ));
         $values = $this->post();
         if ($categoryForm->isValid($values)) {
             $category = $this->service->retrieveCategoryById((int) $this->param('id'));
@@ -147,25 +148,23 @@ class Admin_CategoryController extends AbstractAction
      */
     public function deleteAction()
     {
-        $id = (int)$this->param('id');
+        $id = (int) $this->param('id');
         $category = $this->service->retrieveCategoryById($id);
         if (!$category) {
             $this->flash('error')->addMessage('category.not.found');
             $this->redirectToRoute(
-                'list', array($this->view->translate('page') => 1)
+                'list', [$this->view->translate('page') => 1]
             );
         } else {
             try {
                 $this->service->deleteCategory($id);
                 $this->flash('success')->addMessage('category.deleted');
-                $params = array($this->view->translate('page') => 1);
-                $this->redirectToRoute('list', $params);
-            } catch (Doctrine_Connection_Exception $ce) {
-                if ($ce->getPortableCode() == Doctrine_Core::ERR_CONSTRAINT) {
+                $this->redirectToRoute('list', [$this->view->translate('page') => 1]);
+            } catch (ConnectionException $ce) {
+                if ($ce->getPortableCode() == DoctrineCore::ERR_CONSTRAINT) {
                     $this->flash('error')
                          ->addMessage('category.constraintError');
-                    $params = array('id' => $category->id);
-                    $this->redirectToRoute('show', $params);
+                    $this->redirectToRoute('show', ['id' => $category->id]);
                 }
             }
         }
