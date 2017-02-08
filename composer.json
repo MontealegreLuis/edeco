@@ -8,11 +8,6 @@
             "email": "montealegreluis@gmail.com"
         }
     ],
-    "require": {
-        "zendframework/zendframework1": "^1.12",
-        "doctrine/doctrine1": "^1.2",
-        "zendframework/zf1-extras": "^1.12"
-    },
     "autoload": {
         "psr-0": {
             "": "src/"
@@ -20,6 +15,11 @@
     },
     "config": {
         "bin-dir": "bin"
+    },
+    "require": {
+        "zendframework/zendframework1": "^1.12",
+        "doctrine/doctrine1": "^1.2",
+        "zendframework/zf1-extras": "^1.12"
     },
     "require-dev": {
         "andres-montanez/magallanes": "^1.0",

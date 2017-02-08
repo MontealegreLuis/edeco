@@ -8,6 +8,7 @@ namespace Mandragora\Geocoder;
 
 use RuntimeException;
 use Zend_Http_Client as HttpClient;
+use Zend_Http_Client_Adapter_Curl as CurlAdapter;
 use Zend_Json_Decoder as JsonDecoder;
 use Zend_Json as Json;
 use stdClass;
@@ -17,9 +18,7 @@ class Adapter
     const OK = 'OK';
     const REQUEST_DENIED = 'REQUEST_DENIED';
 
-    /**
-     * @var string
-     */
+    /** @var string */
     protected $apiKey;
 
     /**
@@ -40,6 +39,7 @@ class Adapter
     public function lookup($address)
     {
         $client = new HttpClient();
+        $client->setAdapter((new CurlAdapter())->setConfig([CURLOPT_FOLLOWLOCATION => true]));
         $client
             ->setUri($this->getGeocodeUri())
             ->setParameterGet('address', (string) $address)

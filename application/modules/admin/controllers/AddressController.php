@@ -1,28 +1,26 @@
 <?php
 /**
- * PHP version 5
+ * PHP version 5.6
  *
  * This source file is subject to the license that is bundled with this package in the file LICENSE.
  */
+use Doctrine_Connection_Exception as ConnectionException;
+use Doctrine_Core as DoctrineCore;
 use Mandragora\Controller\Action\AbstractAction;
 use Mandragora\Service;
 
 /**
- * Application's Address controller
+ * CRUD for addresses.
  */
 class Admin_AddressController extends AbstractAction
 {
-    /**
-     * @var array
-     */
+    /** @var array */
     protected $validMethods = [
         'save' => ['method' => 'post'],
         'update' => ['method' => 'post'],
     ];
 
     /**
-     * Initialize the service object
-     *
      * @return void
      */
     public function init()
@@ -40,30 +38,31 @@ class Admin_AddressController extends AbstractAction
      */
     public function createAction()
     {
-        $params = array('action' => 'save', 'controller' => 'address');
-        $action = $this->view->url($params, 'controllers', true);
-        $addressForm = $this->service->getFormForCreating($action);
-        $addressId = (int)$this->param('id');
+        $addressForm = $this->service->getFormForCreating($this->view->url(
+            ['action' => 'save', 'controller' => 'address'],
+            'controllers',
+            true
+        ));
+        $addressId = (int) $this->param('id');
         $addressForm->setIdValue($addressId);
         $this->view->addressForm = $addressForm;
         $this->view->addressId = $addressId;
     }
 
     /**
-     * Save the address information in the data source
-     *
      * @return void
      */
     public function saveAction()
     {
-        $action = $this->view->url(array('action' => 'save'), 'controllers');
-        $addressForm = $this->service->getFormForCreating($action);
-        $this->service->setCities((string)$this->post('state'));
+        $addressForm = $this->service->getFormForCreating($this->view->url(
+            ['action' => 'save'],
+            'controllers'
+        ));
+        $this->service->setCities((string) $this->post('state'));
         if ($addressForm->isValid($this->post())) {
             $this->service->createAddress();
             $this->flash('success')->addMessage('address.created');
-            $params = array('id' => (int)$this->post('id'));
-            $this->redirectToRoute('show', $params);
+            $this->redirectToRoute('show', ['id' => (int) $this->post('id')]);
         } else {
             $this->view->addressForm = $addressForm;
             $this->renderScript('address/create.phtml');
@@ -71,16 +70,14 @@ class Admin_AddressController extends AbstractAction
     }
 
     /**
-     * Show the address information
-     *
      * @return void
      */
     public function showAction()
     {
-        $address = $this->service->retrieveAddressById((int)$this->param('id'));
+        $address = $this->service->retrieveAddressById((int) $this->param('id'));
         if (!$address) {
             $this->flash('error')->addMessage('address.not.found');
-            $this->redirectToRoute('list', array('page' => 1), 'property');
+            $this->redirectToRoute('list', ['page' => 1], 'property');
         } else {
             $this->view->address = $address;
             $this->setGoogleMapActions();
@@ -94,18 +91,15 @@ class Admin_AddressController extends AbstractAction
      */
     public function editAction()
     {
-        $address = $this->service->retrieveAddressById((int)$this->param('id'));
+        $address = $this->service->retrieveAddressById((int) $this->param('id'));
         if (!$address) {
             $this->flash('error')->addMessage('address.not.found');
-            $this->redirectToRoute('list', array('page' => 1), 'property');
+            $this->redirectToRoute('list', ['page' => 1], 'property');
         } else {
-            $action = $this->view->url(array('action' => 'update'));
+            $action = $this->view->url(['action' => 'update']);
             $addressForm = $this->service->getFormForEditing($action);
             $addressForm->populate($address->toArray());
-            $addressForm->getElement('state')
-                        ->setValue($address->City->State->id);
-            $stateId = $addressForm->getElement('state')->getValue();
-            $this->service->setCities($stateId);
+            $this->service->setCities($address->City->State->id);
             $this->view->address = $address;
             $this->view->addressForm = $addressForm;
             $this->setGoogleMapActions();
@@ -113,23 +107,22 @@ class Admin_AddressController extends AbstractAction
     }
 
     /**
-     * Update the address in the data source
-     *
      * @return void
      */
     public function updateAction()
     {
-        $action = $this->view->url(array('action' => 'update'), 'controllers');
-        $addressForm = $this->service->getFormForEditing($action);
+        $addressForm = $this->service->getFormForEditing($this->view->url(
+            ['action' => 'update'],
+            'controllers'
+        ));
         $addressValues = $this->post();
-        $this->service->setCities((string)$this->post('state'));
+        $this->service->setCities((string) $this->post('state'));
         if ($addressForm->isValid($addressValues)) {
-            $propertyId = (int)$this->param('id');
+            $propertyId = (int) $this->param('id');
             $address = $this->service->retrieveAddressById($propertyId);
             if (!$address) {
                 $this->flash('error')->addMessage('address.not.found');
-                $params = array('id' => $propertyId);
-                $this->redirectToRoute('show', $params, 'property');
+                $this->redirectToRoute('show', ['id' => $propertyId], 'property');
             } else {
                 if ($address->version > $addressValues['version']) {
                     $this->flash('error')->addMessage(
@@ -141,12 +134,11 @@ class Admin_AddressController extends AbstractAction
                 } else {
                     $this->service->updateAddress();
                     $this->flash('success')->addMessage('address.updated');
-                    $this->redirectToRoute('show', array('id' => $propertyId));
+                    $this->redirectToRoute('show', ['id' => $propertyId]);
                 }
             }
         } else {
-            $values = $addressForm->getValues();
-            $this->view->propertyId = (int)$this->param('id');
+            $this->view->propertyId = (int) $this->param('id');
             $this->view->addressForm = $addressForm;
             $this->setGoogleMapActions();
             $this->renderScript('address/edit.phtml');
@@ -158,22 +150,20 @@ class Admin_AddressController extends AbstractAction
      */
     public function deleteAction()
     {
-        $id = (int)$this->param('id');
+        $id = (int) $this->param('id');
         $address = $this->service->retrieveAddressById($id);
         if (!$address) {
             $this->flash('error')->addMessage('address.not.found');
-            $this->redirectToRoute('show', array('id' => $id), 'property');
+            $this->redirectToRoute('show', ['id' => $id], 'property');
         } else {
             try {
                 $this->service->deleteAddress($id);
                 $this->flash('success')->addMessage('address.deleted');
-                $this->redirectToRoute('show', array('id' => $id), 'property');
-            } catch (Doctrine_Connection_Exception $ce) {
-                if ($ce->getPortableCode() == Doctrine_Core::ERR_CONSTRAINT) {
-                    $this->flash('error')
-                    ->addMessage('address.constraintError');
-                    $params = array('id' => $address->id);
-                    $this->redirectToRoute('show', $params);
+                $this->redirectToRoute('show', ['id' => $id], 'property');
+            } catch (ConnectionException $ce) {
+                if ($ce->getPortableCode() === DoctrineCore::ERR_CONSTRAINT) {
+                    $this->flash('error')->addMessage('address.constraintError');
+                    $this->redirectToRoute('show', ['id' => $address->id]);
                 }
             }
         }
@@ -184,11 +174,10 @@ class Admin_AddressController extends AbstractAction
      */
     protected function setGoogleMapActions()
     {
-        $address = $this->view->address;
-        $param = array('id' => $address->id);
+        $param = ['id' => $this->view->address->id];
         $this->view->gMapActions =
-            !is_null($address->latitude)
-            ? array('gmap.action.edit' => $param, 'gmap.action.show' => $param)
-            : array('gmap.action.create' => $param);
+            !is_null($this->view->address->latitude)
+            ? ['gmap.action.edit' => $param, 'gmap.action.show' => $param]
+            : ['gmap.action.create' => $param];
     }
 }

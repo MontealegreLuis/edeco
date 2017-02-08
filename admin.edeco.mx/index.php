@@ -22,7 +22,7 @@ defined('APPLICATION_ENV') || define('APPLICATION_ENV', $applicationEnvironment)
 
 $configFilePath = APPLICATION_PATH . '/configs/application.ini';
 $edeco = new Application(APPLICATION_ENV, $configFilePath);
-FrontController::getInstance()->registerPlugin(new ErrorHandler(
-    ['module' => 'admin', 'controller' => 'error', 'action' => 'error']
-));
+FrontController::getInstance()->registerPlugin(new ErrorHandler([
+    'module' => 'admin', 'controller' => 'error', 'action' => 'error'
+]));
 $edeco->bootstrap()->run();

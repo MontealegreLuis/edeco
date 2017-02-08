@@ -10,7 +10,10 @@ use Zend_Locale as Locale;
 use Zend_Controller_Action_HelperBroker as HelperBroker;
 
 /**
- * Bootstrap class for Mandrágora's application
+ * Configures:
+ * - Cache for static pages
+ * - Locale (including its cache)
+ * - Custom plugin loader for plugins that use namespaces
  */
 class Bootstrap extends Zend_Application_Bootstrap_Bootstrap
 {
@@ -48,7 +51,7 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap
     }
 
     /**
-     * @return Zend_Locale
+     * @return Locale
      */
     protected function _initLocale()
     {

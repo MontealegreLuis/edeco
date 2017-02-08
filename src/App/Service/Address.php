@@ -1,6 +1,6 @@
 <?php
 /**
- * PHP version 5
+ * PHP version 5.6
  *
  * This source file is subject to the license that is bundled with this package in the file LICENSE.
  */
@@ -89,12 +89,13 @@ class Address extends DoctrineCrud
             $cityService = Service::factory('City');
             $cityService->setCacheManager($this->cacheManager);
             $cityService->setDoctrineManager($this->doctrineManager);
-            $cities = $cityService->retrieveAllByStateId((int)$stateId);
-            $options = array();
+            $cities = $cityService->retrieveAllByStateId((int) $stateId);
+            $options = [];
             foreach ($cities as $city) {
                 $options[$city['id']] = $city['name'];
             }
             $this->getForm()->setCities($options);
+            $this->getForm()->setStateId($stateId);
         } else {
             $this->getForm()->getElement('cityId')->removeValidator('InArray');
         }
