@@ -1,37 +1,10 @@
 <?php
 /**
- * Unit tests for Edeco_Model_Project class
+ * PHP version 7.1
  *
- * PHP version 5
- *
- * LICENSE: Redistribution and use of this file in source and binary forms,
- * with or without modification, is not permitted under any circumstance
- *
- * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
- * "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
- * LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
- * A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT
- * OWNER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL,
- * SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT
- * LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE,
- * DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY
- * THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
- * (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
- * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
- *
- * @category   Tests
- * @package    Edeco
- * @subpackage Test
- * @author     LMV <luis.montealegre@mandragora-web-systems.com>
- * @copyright  Mandrágora Web-Based Systems 2010
- * @version    SVN: $Id$
+ * This source file is subject to the license that is bundled with this package in the file LICENSE.
  */
-
-if (!defined('PHPUnit_MAIN_METHOD')) {
-    define('PHPUnit_MAIN_METHOD', 'Edeco_Model_ProjectTest::main');
-}
-
-require_once realpath(dirname(__FILE__) . '/../bootstrap.php');
+use App\Model\Project;
 
 /**
  * Unit tests for Edeco_Model_Address class
@@ -45,51 +18,25 @@ require_once realpath(dirname(__FILE__) . '/../bootstrap.php');
  */
 class Edeco_Model_ProjectTest extends ControllerTestCase
 {
-    /**
-     * Executes all the available tests cases
-     *
-     * @return void
-     */
-    public static function main()
-    {
-        $suite = new PHPUnit_Framework_TestSuite('Edeco_Model_ProjectTest');
-        $result = PHPUnit_TextUI_TestRunner::run($suite);
-    }
-
-    /**
-     * Setup application to run test cases
-     *
-     * @see tests/application/ControllerTestCase#setUp()
-     */
-    public function setUp()
-    {
-        parent::setUp();
-    }
-
     public function testCanConvertToString()
     {
-        $values = array(
+        $values = [
             'id' => 1, 'name' => 'Cool Test Project',
             'attachment' => 'cool-test-project.pps',
-        );
-        $project = new Edeco_Model_Project($values);
-        $this->assertEquals('Cool Test Project', (string)$project);
+        ];
+        $project = new Project($values);
+        $this->assertEquals('Cool Test Project', (string) $project);
     }
 
-    public function testCanAccesProperties()
+    public function testCanAccessProperties()
     {
-        $values = array(
+        $values = [
             'id' => 1, 'name' => 'Cool Test Project',
             'attachment' => 'cool-test-project.pps',
-        );
-        $project = new Edeco_Model_Project($values);
+        ];
+        $project = new Project($values);
         $this->assertEquals(1, $project->id);
         $this->assertEquals('Cool Test Project', $project->name);
         $this->assertEquals('cool-test-project.pps', $project->attachment);
     }
-
-}
-
-if (PHPUnit_MAIN_METHOD == 'Edeco_Model_ProjectTest::main') {
-    Edeco_Model_ProjectTest::main();
 }

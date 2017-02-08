@@ -13,19 +13,13 @@ class Edeco_Model_CityTest extends ControllerTestCase
 {
     public function testCanConvertToString()
     {
-        $values = [
-            'id' => 1, 'name' => 'Puebla', 'stateId' => 1
-        ];
-        $city = new City($values);
-        $this->assertEquals('Puebla', (string)$city);
+        $city = new City(['id' => 1, 'name' => 'Puebla', 'stateId' => 1]);
+        $this->assertEquals('Puebla, México', (string) $city);
     }
 
     public function testCanAccessProperties()
     {
-        $values = [
-            'id' => 1, 'name' => 'Puebla', 'stateId' => 1
-        ];
-        $city = new City($values);
+        $city = new City(['id' => 1, 'name' => 'Puebla', 'stateId' => 1]);
         $this->assertEquals(1, $city->id);
         $this->assertEquals('Puebla', $city->name);
         $this->assertEquals(1, $city->stateId);
