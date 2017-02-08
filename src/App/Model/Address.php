@@ -90,14 +90,24 @@ class Address extends AbstractModel
     }
 
     /**
-     * @return string
+     * Format for addresses is:
+     * - Street and number
+     * - neighborhood
+     * - city
+     * - state
+     * - country (Mexico is the default)
+     *
+     * Any null value will be removed from the output
      */
     public function __toString()
     {
-        return $this->properties['streetAndNumber'] . ', '
-             . $this->properties['neighborhood'] . ', '
-             . $this->properties['City']->name . ', '
-             . $this->properties['City']->State->name . ', México';
+        return implode(', ', array_filter([
+            $this->properties['streetAndNumber'],
+            $this->properties['neighborhood'],
+            $this->properties['City']->name,
+            $this->properties['City']->State->name,
+            'México'
+        ], function ($property) { return null !== $property; }));
     }
 
    /**
@@ -105,7 +115,7 @@ class Address extends AbstractModel
     */
     public function toHtml()
     {
-        $zipCode = $this->properties['zipCode'] != ''
+        $zipCode = $this->properties['zipCode'] !== ''
         ? '<br />C. P. ' . $this->properties['zipCode']
         : '';
         return $this->properties['streetAndNumber'] . '<br />'

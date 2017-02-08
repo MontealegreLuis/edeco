@@ -17,12 +17,14 @@
         "bin-dir": "bin"
     },
     "require": {
+        "php" : "^5.6 || ^7.0",
         "zendframework/zendframework1": "^1.12",
         "doctrine/doctrine1": "^1.2",
         "zendframework/zf1-extras": "^1.12"
     },
     "require-dev": {
         "andres-montanez/magallanes": "^1.0",
-        "phing/phing": "^2.13"
+        "phing/phing": "^2.13",
+        "phpunit/phpunit": "^5.7"
     }
 }

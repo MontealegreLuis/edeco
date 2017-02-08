@@ -17,6 +17,7 @@ class Adapter
 {
     const OK = 'OK';
     const REQUEST_DENIED = 'REQUEST_DENIED';
+    const ZERO_RESULTS = 'ZERO_RESULTS';
 
     /** @var string */
     protected $apiKey;
@@ -53,6 +54,10 @@ class Adapter
         $status = self::REQUEST_DENIED;
         if ($response instanceof stdClass) {
             $status = $response->status;
+        }
+
+        if ($status === self::ZERO_RESULTS) {
+            return [];
         }
 
         if ($status === self::OK) {
