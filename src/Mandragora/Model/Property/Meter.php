@@ -1,12 +1,11 @@
 <?php
 /**
- * PHP version 5.6
+ * PHP version 7.1
  *
  * This source file is subject to the license that is bundled with this package in the file LICENSE.
  */
 namespace Mandragora\Model\Property;
 
-use Mandragora\Model\Property\PropertyInterface;
 use Zend_Measure_Length;
 
 /**
@@ -37,11 +36,12 @@ class Meter implements PropertyInterface
      */
     public function render()
     {
-        return (string)$this->formatValue();
+        return (string) $this->formatValue();
     }
 
     /**
-     * @return void
+     * @return string
+     * @throws \Zend_Measure_Exception
      */
     public function formatValue()
     {
@@ -58,7 +58,6 @@ class Meter implements PropertyInterface
      */
     public function __toString()
     {
-        $this->formatValue();
-        return self::$length->getValue();
+        return $this->formatValue();
     }
 }

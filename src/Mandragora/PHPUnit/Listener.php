@@ -42,7 +42,9 @@ class Listener implements PHPUnit_Framework_TestListener
             $application = new Application(
                 APPLICATION_ENV, $configFilePath
             );
-            $application->getBootstrap()->bootstrap('doctrine');
+            $bootstrap = $application->getBootstrap()->bootstrap('doctrine');
+            $doctrine = $bootstrap->getResource('doctrine');
+            $doctrine->setup();
             Manager::connection();
             Core::dropDatabases();
             Core::createDatabases();
@@ -59,9 +61,9 @@ class Listener implements PHPUnit_Framework_TestListener
      */
     public function endTest(PHPUnit_Framework_Test $test, $time)
     {
-        if ($test instanceof DoctrineTestInterface) {
+        /*if ($test instanceof DoctrineTestInterface) {
             Manager::getInstance()->closeConnection(Manager::connection());
-        }
+        }*/
     }
 
     /**

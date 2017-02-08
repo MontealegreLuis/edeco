@@ -1,26 +1,24 @@
 <?php
 /**
- * PHP version 5
+ * PHP version 7.1
  *
  * This source file is subject to the license that is bundled with this package in the file LICENSE.
  */
 namespace Mandragora\Application\Resource;
 
-use Zend_Application_Resource_ResourceAbstract;
+use Zend_Application_Resource_ResourceAbstract as Resource;
 use Mandragora\Application\Doctrine\Manager;
 
 /**
  * Doctrine's settings resource
  */
-class Doctrine extends Zend_Application_Resource_ResourceAbstract
+class Doctrine extends Resource
 {
-    /**
-     * @var Mandragora_Application_Doctrine_Manager
-     */
+    /** @var Manager */
     protected $doctrineManager;
 
     /**
-     * @return void
+     * @return Manager
      */
     public function init()
     {
@@ -28,13 +26,12 @@ class Doctrine extends Zend_Application_Resource_ResourceAbstract
     }
 
     /**
-     * @return Mandragora_Application_Doctrine_Manager
+     * @return Manager
      */
     public function getDoctrineManager()
     {
         if (!$this->doctrineManager) {
-            $this->doctrineManager =
-               new Manager($this->getOptions());
+            $this->doctrineManager = new Manager($this->getOptions());
         }
         return $this->doctrineManager;
     }

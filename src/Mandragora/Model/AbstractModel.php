@@ -143,7 +143,7 @@ abstract class AbstractModel implements ArrayInterface, StringInterface
     {
         foreach ($this->properties as $name => $value) {
             if ($value instanceof PropertyInterface) {
-                $this->arrayValues[$name] = (string)$this->__get($name);
+                $this->arrayValues[$name] = (string) $this->__get($name);
             } else if ($value instanceof ArrayInterface) {
                 $object = $this->properties[$name];
                 //Recurse toArray in the object properties too.

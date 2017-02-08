@@ -1,8 +1,6 @@
 <?php
 /**
- * Gateway for city model objects
- *
- * PHP version 5
+ * PHP version 7.1
  *
  * This source file is subject to the license that is bundled with this package in the file LICENSE.
  */
@@ -17,7 +15,7 @@ use Doctrine_Core;
 class City extends DoctrineGateway
 {
     /**
-     * @param string $stateName
+     * @param int $stateId
      * @return array
      */
     public function findAllByStateId($stateId)
@@ -26,17 +24,13 @@ class City extends DoctrineGateway
         $query->select('c.name')
               ->from($this->alias())
               ->where('c.State.id = :stateId');
-        $cities = $query->execute(
-            array(':stateId' => (int)$stateId), Doctrine_Core::HYDRATE_ARRAY
-        );
-        return $cities;
+        return $query->execute([':stateId' => (int) $stateId], Doctrine_Core::HYDRATE_ARRAY);
     }
 
     public function findAll()
     {
         $query = $this->dao->getTable()->createQuery();
         $query->from($this->alias());
-        $cities = $query->fetchArray();
-        return $cities;
+        return $query->fetchArray();
     }
 }

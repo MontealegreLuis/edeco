@@ -29,6 +29,7 @@ class Edeco_Model_Gateway_StateTest extends ControllerTestCase implements Doctri
     {
         $state = new State();
         $state->name = 'Puebla';
+        $state->url = 'puebla';
 
         return $state;
     }

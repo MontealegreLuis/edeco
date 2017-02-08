@@ -1,6 +1,6 @@
 <?php
 /**
- * PHP version 5.6
+ * PHP version 7.1
  *
  * This source file is subject to the license that is bundled with this package in the file LICENSE.
  */
@@ -36,12 +36,13 @@ class SquareMeter implements PropertyInterface
      */
     public function render()
     {
-        return (string)$this->formatValue();
+        return (string) $this->formatValue();
     }
 
     /**
-    * @return void
-    */
+     * @return string
+     * @throws \Zend_Measure_Exception
+     */
     public function formatValue()
     {
         if (!self::$area) {
@@ -57,7 +58,6 @@ class SquareMeter implements PropertyInterface
      */
     public function __toString()
     {
-        $this->formatValue();
-        return self::$area->getValue();
+        return $this->formatValue();
     }
 }

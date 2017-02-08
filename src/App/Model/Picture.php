@@ -7,9 +7,7 @@
 namespace App\Model;
 
 use Mandragora\Model\AbstractModel;
-use App\Model\PictureFileHandler;
 use App\Enum\Directories;
-use Edeco_Enum_Directories;
 use Mandragora\Image;
 use Mandragora\Gateway\Decorator\CacheAbstract;
 
@@ -27,19 +25,17 @@ class Picture extends AbstractModel
     /**
      * @var array
      */
-    protected $properties = array(
+    protected $properties = [
         'id' => null, 'shortDescription' => null, 'filename' => null,
         'propertyId' => null
-    );
+    ];
 
     /**
      * @var array
      */
-    protected $identifier = array('id');
+    protected $identifier = ['id'];
 
-    /**
-     * @var Edeco_Model_PictureFile
-     */
+    /** @var PictureFileHandler */
     protected $pictureFileHandler = null;
 
     /**

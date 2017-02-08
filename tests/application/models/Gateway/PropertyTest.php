@@ -74,7 +74,7 @@ class Edeco_Model_Gateway_PropertyTest extends ControllerTestCase implements Doc
     public function testFindAllPropertiesRetrievesZeroElementsWhenTableIsEmpty()
     {
         $gatewayProperty = new PropertyGateway(new PropertyDao());
-        $allProperties = $gatewayProperty->findAll();
+        $allProperties = $gatewayProperty->findAllWebProperties();
         $this->assertCount(0, $allProperties);
     }
 
@@ -107,14 +107,13 @@ class Edeco_Model_Gateway_PropertyTest extends ControllerTestCase implements Doc
             'id' => null, 'name' => 'Local Plaza Dorada',
             'url' => 'local-plaza-dorada', 'description' => 'Local amplio',
             'price' => '5000 al mes',
-            'address' =>
-                'Priv tabacos,Ignacio Romero V,72120,Puebla,Tepexi,México',
+            'address' => 'Priv tabacos,Ignacio Romero V,72120,Puebla,Tepexi,México',
             'addressReference' => 'Junto a Suburbia',
             'latitude' => 100.1, 'longitude' => 120.2, 'category' => 'premises',
             'totalSurface' => 12.5, 'metersOffered' => 16.5,
             'metersFront' => 20.5, 'landUse' => 'commercial',
             'creationDate' => '2010-01-01', 'active' => 1,
-            'Picture' => null
+            'Picture' => []
         ];
         return new Property($propertyInformation);
     }

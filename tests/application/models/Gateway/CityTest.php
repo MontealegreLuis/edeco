@@ -39,13 +39,13 @@ class Edeco_Model_Gateway_CityTest extends ControllerTestCase implements Doctrin
      */
     public function testFindAllByStateNameRetrieveAllActiveCitiesOfAGivenState()
     {
-        $insertedCities = array();
+        $insertedCities = [];
         $this->insertState();
         for ($i = 0; $i < 5; $i++) {
             $insertedCities[$i] = $this->insertCity();
         }
         $gatewayCity = new City(new CityDao());
-        $allCities = $gatewayCity->findAllByStateName('MÉXICO');
+        $allCities = $gatewayCity->findAllByStateId($this->state->id);
         $this->assertCount(5, $allCities);
         for ($i = 0; $i < 5; $i++) {
             $this->assertEquals(
@@ -62,7 +62,8 @@ class Edeco_Model_Gateway_CityTest extends ControllerTestCase implements Doctrin
     public function testFindAllByStateNameShouldRetrieveZeroRecordsWithNonExistingState()
     {
         $gatewayCity = new City(new CityDao());
-        $allStates = $gatewayCity->findAllByStateName('Mexico');
+        $this->insertState();
+        $allStates = $gatewayCity->findAllByStateId($this->state->id);
         $this->assertCount(0, $allStates);
     }
 
@@ -73,6 +74,7 @@ class Edeco_Model_Gateway_CityTest extends ControllerTestCase implements Doctrin
     {
         $this->state = new \App\Model\State();
         $this->state->name = 'MÉXICO';
+        $this->state->url = 'mexico';
         $this->gatewayState->insert($this->state);
     }
 
@@ -83,10 +85,10 @@ class Edeco_Model_Gateway_CityTest extends ControllerTestCase implements Doctrin
     {
         $gatewayCity = new City(new CityDao());
         $city = new \App\Model\City();
-        $city->name = 'cholula';
+        $city->name = 'Cholula';
+        $city->url = 'cholula';
         $city->stateId = $this->state->id; //the value assigned on insertState
         $gatewayCity->insert($city);
         return $city;
     }
-
 }

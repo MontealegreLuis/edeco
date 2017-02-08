@@ -21,12 +21,12 @@ class State extends AbstractModel
     /**
      * @var array
      */
-    protected $properties = array('id' => null, 'name' => null, 'url' => null);
+    protected $properties = ['id' => null, 'name' => null, 'url' => null];
 
     /**
      * @var array
      */
-    protected $identifier = array('id');
+    protected $identifier = ['id'];
 
     /**
      * @param string $url

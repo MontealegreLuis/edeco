@@ -1,8 +1,6 @@
 <?php
 /**
- * Model for users
- *
- * PHP version 5
+ * PHP version 7.1
  *
  * This source file is subject to the license that is bundled with this package in the file LICENSE.
  */
@@ -32,18 +30,14 @@ use Zend_Layout;
  */
 class User extends AbstractModel
 {
-	/**
-     * @var array
-     */
-    protected $properties = array(
+	/** @var array */
+    protected $properties = [
         'username' => null, 'password' => null, 'state' => null,
         'roleName' => null, 'confirmationKey' => null, 'creationDate' => null,
-    );
+    ];
 
-    /**
-     * @var array
-     */
-    protected $identifier = array('username');
+    /** @var array */
+    protected $identifier = ['username'];
 
     /**
      * @param array $values = null
