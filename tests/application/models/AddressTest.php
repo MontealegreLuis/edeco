@@ -16,17 +16,6 @@ class Edeco_Model_AddressTest extends ControllerTestCase
     /** @var Address */
     private $address;
 
-    /**
-     * Executes all the available tests cases
-     *
-     * @return void
-     */
-    public static function main()
-    {
-        $suite = new PHPUnit_Framework_TestSuite('Edeco_Model_AddressTest');
-        PHPUnit_TextUI_TestRunner::run($suite);
-    }
-
     public function testCanConvertToString()
     {
         $values = [

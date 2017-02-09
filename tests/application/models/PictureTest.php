@@ -20,7 +20,7 @@ class Edeco_Model_PictureTest extends ControllerTestCase
             'propertyId' => 1
         ];
         $picture = new Picture($values);
-        $this->assertEquals(
+        $this->assertStringStartsWith(
             Directories::Properties . 'picture-test.jpg',
             (string) $picture
         );

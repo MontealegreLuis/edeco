@@ -140,8 +140,7 @@ class Property extends AbstractModel
      */
     public function setTotalSurface($totalSurface)
     {
-        $totalSurface = new SquareMeter($totalSurface);
-        $this->properties['totalSurface'] = $totalSurface;
+        $this->properties['totalSurface'] = new SquareMeter($totalSurface);
     }
 
     /**

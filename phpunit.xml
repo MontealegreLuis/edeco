@@ -5,8 +5,12 @@
     bootstrap="tests/application/bootstrap.php"
 >
     <testsuites>
-        <testsuite name="integration">
+        <testsuite name="models">
             <directory>tests/application/models</directory>
+            <exclude>tests/application/models/Gateway</exclude>
+        </testsuite>
+        <testsuite name="database">
+            <directory>tests/application/models/Gateway</directory>
         </testsuite>
     </testsuites>
     <listeners>

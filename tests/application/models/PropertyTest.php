@@ -4,6 +4,10 @@
  *
  * This source file is subject to the license that is bundled with this package in the file LICENSE.
  */
+use App\Model\Address;
+use App\Model\City;
+use App\Model\Property;
+use App\Model\State;
 
 /**
  * Unit tests for Edeco_Model_Address class
@@ -21,17 +25,6 @@ class Edeco_Model_PropertyTest extends ControllerTestCase
     protected $propertyInformation;
 
     /**
-     * Executes all the available tests cases
-     *
-     * @return void
-     */
-    public static function main()
-    {
-        $suite = new PHPUnit_Framework_TestSuite('Edeco_Model_PropertyTest');
-        $result = PHPUnit_TextUI_TestRunner::run($suite);
-    }
-
-    /**
      * Setup application to run test cases
      *
      * @see tests/application/ControllerTestCase#setUp()
@@ -39,41 +32,49 @@ class Edeco_Model_PropertyTest extends ControllerTestCase
     public function setUp()
     {
         parent::setUp();
-        $this->property = new Edeco_Model_Property();
+        $this->property = new Property();
     }
 
-    public function testCanCreateAddressModelFromString()
+    /**
+     *
+     */
+    public function testCanCreateAddressModelFromArray()
     {
-        $address = '13 sur 10932|Eclipse||Puebla|Puebla|México';
-        $this->property->address = $address;
-        $this->assertTrue(
-            $this->property->address instanceof Edeco_Model_Address,
-            '$this->address should be an instance of Edeco_Model_Address'
+        $address = [
+            'streetAndNumber' => '13 sur 10932',
+            'neighborhood' => 'Eclipse',
+            'zipCode' => '',
+            'City' => ['name' => 'Puebla', 'State' => ['name' => 'Puebla']]
+        ];
+        $this->property->Address = $address;
+        $this->assertInstanceOf(
+            Address::class,
+            $this->property->Address,
+            '$this->address should be an instance of Address'
         );
         $this->assertEquals(
-            '13 sur 10932', $this->property->address->streetAndNumber
+            '13 sur 10932', $this->property->Address->streetAndNumber
         );
-        $this->assertEquals('Eclipse', $this->property->address->neighborhood);
-        $this->assertEquals('', $this->property->address->zipCode);
-        $this->assertEquals('Puebla', $this->property->address->state);
-        $this->assertEquals('Puebla', $this->property->address->city);
-        $this->assertEquals('México', $this->property->address->country);
+        $this->assertEquals('Eclipse', $this->property->Address->neighborhood);
+        $this->assertNull($this->property->Address->zipCode);
+        $this->assertInstanceOf(City::class, $this->property->Address->City);
+        $this->assertInstanceOf(State::class, $this->property->Address->City->State);
     }
 
     public function testCanAccessNewProperties()
     {
         $this->property = $this->createProperty();
         $this->assertEquals(
-            $this->property->totalSurface,
-            $this->propertyInformation['totalSurface']
+            '12.5 m²',
+            (string) $this->property->totalSurface
         );
         $this->assertEquals(
-            $this->property->metersOffered,
-            $this->propertyInformation['metersOffered']
+            '16.5 m²',
+            (string) $this->property->metersOffered
         );
         $this->assertEquals(
-            $this->property->metersFront,
-            $this->propertyInformation['metersFront']
+            '20.5 m',
+            (string) $this->property->metersFront
         );
         $this->assertEquals(
             $this->property->landUse,
@@ -86,11 +87,11 @@ class Edeco_Model_PropertyTest extends ControllerTestCase
     }
 
     /**
-     * @return Edeco_Model_Property
+     * @return Property
      */
     protected function createProperty()
     {
-        $this->propertyInformation = array(
+        $this->propertyInformation = [
             'id' => null, 'name' => 'Local Plaza Dorada',
             'url' => 'local-plaza-dorada', 'description' => 'Local amplio',
             'price' => '5000 al mes',
@@ -100,9 +101,8 @@ class Edeco_Model_PropertyTest extends ControllerTestCase
             'totalSurface' => 12.5, 'metersOffered' => 16.5,
             'metersFront' => 20.5, 'landUse' => 'commercial',
             'creationDate' => '2010-07-07', 'active' => 1,
-            'Picture' => array()
-        );
-        return new Edeco_Model_Property($this->propertyInformation);
+            'Picture' => []
+        ];
+        return new Property($this->propertyInformation);
     }
-
 }

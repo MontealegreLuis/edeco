@@ -22,54 +22,53 @@ use PHPUnit_Framework_AssertionFailedError;
 class Listener implements PHPUnit_Framework_TestListener
 {
     /**
-     * This method runs before each test.
-     *
-     * It bootstraps Doctrine, recreates both the database and the tables. It
-     * first checks if the current test is Doctrine test, i. e. checks if the
-     * tests implements the marker interface
-     * \Mandragora\PHPUnit\DoctrineTest\DoctrineTestInterface
+     * It truncates the database tables before each test
      *
      * @return void
-     * @throws \Zend_Application_Bootstrap_Exception
      * @throws \Doctrine_Manager_Exception
-     * @throws \Zend_Application_Exception
      */
     public function startTest(PHPUnit_Framework_Test $test)
     {
         if ($test instanceof DoctrineTestInterface) {
+            $connection = Manager::connection();
+            $handler = $connection->getDbh();
+            $handler->query(sprintf('SET FOREIGN_KEY_CHECKS = 0;'));
+            /** @var string[] $tables */
+            $tables = $connection->import->listTables();
+            foreach ($tables as $table) {
+                $sql = sprintf('TRUNCATE TABLE %s', $table);
+                $handler->query($sql);
+            }
+            $handler->query(sprintf('SET FOREIGN_KEY_CHECKS = 1;'));
+        }
+    }
 
+    /**
+     * Do nothing here
+     */
+    public function endTest(PHPUnit_Framework_Test $test, $time) { }
+
+    /**
+     * It bootstraps Doctrine, recreates both the database and the tables. It
+     * will only run for the `database` suite.
+     *
+     * @throws \Zend_Application_Exception
+     * @throws \Doctrine_Manager_Exception
+     * @throws \Zend_Application_Bootstrap_Exception
+     */
+    public function startTestSuite(PHPUnit_Framework_TestSuite $suite)
+    {
+        if ('database' === $suite->getName()) {
             $configFilePath = APPLICATION_PATH . '/configs/application.ini';
-            $application = new Application(
-                APPLICATION_ENV, $configFilePath
-            );
+            $application = new Application(APPLICATION_ENV, $configFilePath);
             $bootstrap = $application->getBootstrap()->bootstrap('doctrine');
-            $doctrine = $bootstrap->getResource('doctrine');
-            $doctrine->setup();
+            $bootstrap->getResource('doctrine')->setup();
             Manager::connection();
             Core::dropDatabases();
             Core::createDatabases();
             Core::createTablesFromModels();
         }
     }
-
-    /**
-     * It checks if the test is a doctrine test, if true it closes the doctrine
-     * connection
-     *
-     * @return void
-     * @throws \Doctrine_Manager_Exception
-     */
-    public function endTest(PHPUnit_Framework_Test $test, $time)
-    {
-        /*if ($test instanceof DoctrineTestInterface) {
-            Manager::getInstance()->closeConnection(Manager::connection());
-        }*/
-    }
-
-    /**
-     * Do nothing here
-     */
-    public function startTestSuite(PHPUnit_Framework_TestSuite $suite) { }
 
     /**
      * Do nothing here

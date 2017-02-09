@@ -19,7 +19,7 @@ class Edeco_Model_UserTest extends ControllerTestCase
             'creationDate' => '2010-05-25',
         ];
         $user = new User($values);
-        $this->assertEquals('luis@test.com', (string) $user);
+        $this->assertEquals('luis@test.com (active)', (string) $user);
     }
 
     public function testCanAccessProperties()
