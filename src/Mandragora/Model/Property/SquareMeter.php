@@ -43,7 +43,7 @@ class SquareMeter implements PropertyInterface
      * @return string
      * @throws \Zend_Measure_Exception
      */
-    public function formatValue()
+    private function formatValue()
     {
         if (!self::$area) {
             self::$area = new Zend_Measure_Area($this->value);
@@ -58,6 +58,6 @@ class SquareMeter implements PropertyInterface
      */
     public function __toString()
     {
-        return $this->formatValue();
+        return (string) $this->value;
     }
 }

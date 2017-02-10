@@ -1,6 +1,6 @@
 <?php
 /**
- * PHP version 5
+ * PHP version 7.1
  *
  * This source file is subject to the license that is bundled with this package in the file LICENSE.
  */
@@ -39,15 +39,15 @@ class PropertyDao extends Doctrine_Record
     public function setTableDefinition()
     {
         $this->setTableName('property');
-        $this->hasColumn('id', 'integer', 4, array(
+        $this->hasColumn('id', 'integer', 4, [
              'type' => 'integer',
              'length' => 4,
              'fixed' => false,
              'unsigned' => false,
              'primary' => true,
              'autoincrement' => true,
-             ));
-        $this->hasColumn('name', 'string', 45, array(
+        ]);
+        $this->hasColumn('name', 'string', 45, [
              'type' => 'string',
              'length' => 45,
              'fixed' => false,
@@ -55,8 +55,8 @@ class PropertyDao extends Doctrine_Record
              'primary' => false,
              'notnull' => true,
              'autoincrement' => false,
-             ));
-        $this->hasColumn('url', 'string', 55, array(
+        ]);
+        $this->hasColumn('url', 'string', 55, [
              'type' => 'string',
              'length' => 55,
              'fixed' => false,
@@ -64,86 +64,86 @@ class PropertyDao extends Doctrine_Record
              'primary' => false,
              'notnull' => true,
              'autoincrement' => false,
-             ));
-        $this->hasColumn('description', 'string', null, array(
+        ]);
+        $this->hasColumn('description', 'string', null, [
              'type' => 'string',
              'fixed' => false,
              'unsigned' => false,
              'primary' => false,
              'notnull' => true,
              'autoincrement' => false,
-             ));
-        $this->hasColumn('price', 'string', null, array(
+        ]);
+        $this->hasColumn('price', 'string', null, [
              'type' => 'string',
              'fixed' => false,
              'unsigned' => false,
              'primary' => false,
              'notnull' => false,
              'autoincrement' => false,
-             ));
-        $this->hasColumn('totalSurface', 'float', null, array(
+        ]);
+        $this->hasColumn('totalSurface', 'float', null, [
              'type' => 'float',
              'fixed' => false,
              'unsigned' => true,
              'primary' => false,
              'notnull' => true,
              'autoincrement' => false,
-             ));
-        $this->hasColumn('metersOffered', 'float', null, array(
+        ]);
+        $this->hasColumn('metersOffered', 'float', null, [
              'type' => 'float',
              'fixed' => false,
              'unsigned' => true,
              'primary' => false,
              'notnull' => true,
              'autoincrement' => false,
-             ));
-        $this->hasColumn('metersFront', 'float', null, array(
+        ]);
+        $this->hasColumn('metersFront', 'float', null, [
              'type' => 'float',
              'fixed' => false,
              'unsigned' => true,
              'primary' => false,
              'notnull' => true,
              'autoincrement' => false,
-             ));
-        $this->hasColumn('landUse', 'enum', 10, array(
+        ]);
+        $this->hasColumn('landUse', 'enum', 10, [
              'type' => 'enum',
              'length' => 10,
              'fixed' => false,
              'unsigned' => false,
              'values' =>
-             array(
+             [
               0 => 'housing',
               1 => 'commercial',
               2 => 'industrial',
               3 => 'mixed',
-             ),
+             ],
              'primary' => false,
              'notnull' => true,
              'autoincrement' => false,
-             ));
-        $this->hasColumn('creationDate', 'date', null, array(
+        ]);
+        $this->hasColumn('creationDate', 'date', null, [
              'type' => 'date',
              'fixed' => false,
              'unsigned' => false,
              'primary' => false,
              'notnull' => true,
              'autoincrement' => false,
-             ));
-        $this->hasColumn('availabilityFor', 'enum', 4, array(
+        ]);
+        $this->hasColumn('availabilityFor', 'enum', 4, [
              'type' => 'enum',
              'length' => 4,
              'fixed' => false,
              'unsigned' => false,
              'values' =>
-             array(
+             [
               0 => 'rent',
               1 => 'sale',
-             ),
+             ],
              'primary' => false,
              'notnull' => true,
              'autoincrement' => false,
-             ));
-        $this->hasColumn('showOnWeb', 'integer', 1, array(
+        ]);
+        $this->hasColumn('showOnWeb', 'integer', 1, [
              'type' => 'integer',
              'length' => 1,
              'fixed' => false,
@@ -152,8 +152,8 @@ class PropertyDao extends Doctrine_Record
              'default' => 0,
              'notnull' => true,
              'autoincrement' => false,
-             ));
-        $this->hasColumn('contactName', 'string', 100, array(
+        ]);
+        $this->hasColumn('contactName', 'string', 100, [
              'type' => 'string',
              'length' => 100,
              'fixed' => false,
@@ -161,8 +161,8 @@ class PropertyDao extends Doctrine_Record
              'primary' => false,
              'notnull' => false,
              'autoincrement' => false,
-             ));
-        $this->hasColumn('contactPhone', 'string', 10, array(
+        ]);
+        $this->hasColumn('contactPhone', 'string', 10, [
              'type' => 'string',
              'length' => 10,
              'fixed' => false,
@@ -170,8 +170,8 @@ class PropertyDao extends Doctrine_Record
              'primary' => false,
              'notnull' => false,
              'autoincrement' => false,
-             ));
-        $this->hasColumn('contactCellphone', 'string', 13, array(
+        ]);
+        $this->hasColumn('contactCellphone', 'string', 13, [
              'type' => 'string',
              'length' => 13,
              'fixed' => false,
@@ -179,8 +179,8 @@ class PropertyDao extends Doctrine_Record
              'primary' => false,
              'notnull' => false,
              'autoincrement' => false,
-             ));
-        $this->hasColumn('categoryId', 'integer', 4, array(
+        ]);
+        $this->hasColumn('categoryId', 'integer', 4, [
              'type' => 'integer',
              'length' => 4,
              'fixed' => false,
@@ -188,8 +188,8 @@ class PropertyDao extends Doctrine_Record
              'primary' => false,
              'notnull' => true,
              'autoincrement' => false,
-             ));
-        $this->hasColumn('version', 'integer', 8, array(
+        ]);
+        $this->hasColumn('version', 'integer', 8, [
              'type' => 'integer',
              'length' => 8,
              'fixed' => false,
@@ -198,7 +198,7 @@ class PropertyDao extends Doctrine_Record
              'default' => '1',
              'notnull' => true,
              'autoincrement' => false,
-             ));
+        ]);
     }
 
     public function setUp()

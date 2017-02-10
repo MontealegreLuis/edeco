@@ -66,15 +66,15 @@ class Edeco_Model_PropertyTest extends ControllerTestCase
         $this->property = $this->createProperty();
         $this->assertEquals(
             '12.5 m²',
-            (string) $this->property->totalSurface
+            $this->property->totalSurface->render()
         );
         $this->assertEquals(
             '16.5 m²',
-            (string) $this->property->metersOffered
+            $this->property->metersOffered->render()
         );
         $this->assertEquals(
             '20.5 m',
-            (string) $this->property->metersFront
+            $this->property->metersFront->render()
         );
         $this->assertEquals(
             $this->property->landUse,

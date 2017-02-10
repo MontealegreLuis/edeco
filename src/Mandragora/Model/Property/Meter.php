@@ -6,21 +6,17 @@
  */
 namespace Mandragora\Model\Property;
 
-use Zend_Measure_Length;
+use Zend_Measure_Length as Length;
 
 /**
  * Utility class for handling model's meter properties
  */
 class Meter implements PropertyInterface
 {
-    /**
-     * @var float
-     */
+    /** @var float */
     protected $value;
 
-    /**
-     * @var Zend_Measure_Length
-     */
+    /** @var Length */
     protected static $length;
 
     /**
@@ -33,6 +29,7 @@ class Meter implements PropertyInterface
 
     /**
      * @return string
+     * @throws \Zend_Measure_Exception
      */
     public function render()
     {
@@ -43,10 +40,10 @@ class Meter implements PropertyInterface
      * @return string
      * @throws \Zend_Measure_Exception
      */
-    public function formatValue()
+    private function formatValue()
     {
         if (!self::$length) {
-            self::$length = new Zend_Measure_Length($this->value);
+            self::$length = new Length($this->value);
         } else {
             self::$length->setValue($this->value);
         }
@@ -58,6 +55,6 @@ class Meter implements PropertyInterface
      */
     public function __toString()
     {
-        return $this->formatValue();
+        return (string) $this->value;
     }
 }

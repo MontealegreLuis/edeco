@@ -30,7 +30,7 @@ class Property extends DoctrineGateway
               ->andWhere('p.id = :id');
         $query->getSqlQuery();
         $property = $query->fetchOne(
-            array(':id' => (int)$id), Doctrine_Core::HYDRATE_ARRAY
+            [':id' => (int)$id], Doctrine_Core::HYDRATE_ARRAY
         );
         if (!$property) {
             throw new NoResultsFoundException(
