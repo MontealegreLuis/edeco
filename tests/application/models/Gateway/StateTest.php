@@ -22,18 +22,6 @@ use Mandragora\PHPUnit\DoctrineTest\DoctrineTestInterface;
  */
 class Edeco_Model_Gateway_StateTest extends ControllerTestCase implements DoctrineTestInterface
 {
-    /**
-     * @return State
-     */
-    protected function createState()
-    {
-        $state = new State();
-        $state->name = 'Puebla';
-        $state->url = 'puebla';
-
-        return $state;
-    }
-
     public function testCanFindAllStates()
     {
         // Insert some states
@@ -41,7 +29,7 @@ class Edeco_Model_Gateway_StateTest extends ControllerTestCase implements Doctri
         $stateGateway = new StateGateway(new StateDao());
         for ($i = 0; $i < 5; $i++) {
             $createdStates[$i] = $this->createState();
-            $stateGateway->insert($createdStates[$i]);
+            $this->saveState($createdStates[$i]);
         }
 
         // Find the states recently inserted
@@ -50,9 +38,8 @@ class Edeco_Model_Gateway_StateTest extends ControllerTestCase implements Doctri
 
         // Check that the states found were the same that were inserted
         for ($i = 0; $i < 5; $i++) {
-            $this->assertEquals(
-                $createdStates[$i]->toArray(), $allStates[$i]
-            );
+            $this->assertEquals($createdStates[$i]->name, $allStates[$i]['name']);
+            $this->assertEquals($createdStates[$i]->url, $allStates[$i]['url']);
         }
     }
 
@@ -61,5 +48,21 @@ class Edeco_Model_Gateway_StateTest extends ControllerTestCase implements Doctri
         $stateGateway = new StateGateway(new StateDao());
         $allStates = $stateGateway->findAll();
         $this->assertCount(0, $allStates);
+    }
+
+    private function createState(): State
+    {
+        $state = new State();
+        $state->name = 'Puebla';
+        $state->url = 'puebla';
+
+        return $state;
+    }
+
+    private function saveState(State $state): void {
+        $record = new StateDao();
+        $record->fromArray($state->toArray());
+        $record->save();
+        $state->fromArray($record->toArray());
     }
 }
