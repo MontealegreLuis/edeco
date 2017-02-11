@@ -1,6 +1,6 @@
 <?php
 /**
- * PHP version 5
+ * PHP version 7.1
  *
  * This source file is subject to the license that is bundled with this package in the file LICENSE.
  */
@@ -9,7 +9,7 @@ namespace App\Model;
 use Mandragora\Model\AbstractModel;
 use Mandragora\Model\Property\Url;
 use Mandragora\Model;
-use App\Model\Collection\Picture as AppModelCollectionPicture;
+use App\Model\Collection\Picture as Pictures;
 use InvalidArgumentException;
 use Mandragora\Model\Property\Date;
 use Mandragora\Model\Property\Boolean;
@@ -19,8 +19,7 @@ use Mandragora\Model\Property\Telephone;
 use App\Model\Collection\RecommendedProperty;
 use Zend_Controller_Router_Route;
 use App\Enum\PropertyAvailability;
-use App\Model\Picture as AppModelPicture;
-use App\Model\PictureFileHandler;
+use App\Model\Picture as Picture;
 use Mandragora\Image;
 use Zend_Json;
 use Edeco\Paginator\Property as EdecoPaginatorProperty;
@@ -82,8 +81,7 @@ class Property extends AbstractModel
      */
     public function setUrl($propertyName)
     {
-        $url = new Url($this->properties['name']);
-        $this->properties['url'] = $url;
+        $this->properties['url'] = new Url($this->properties['name']);
     }
 
     /**
@@ -106,10 +104,10 @@ class Property extends AbstractModel
     public function setPicture($pictures)
     {
         if (is_array($pictures)) {
-            $pictures = new AppModelCollectionPicture($pictures);
-        } elseif (!($pictures instanceof AppModelCollectionPicture)) {
+            $pictures = new Pictures($pictures);
+        } elseif (!($pictures instanceof Pictures)) {
             throw new InvalidArgumentException(
-                'Expected array or App_Model_Collection_Picture'
+                'Expected array or ' . Pictures::class
             );
         }
         $this->properties['Picture'] = $pictures;
@@ -120,8 +118,7 @@ class Property extends AbstractModel
      */
     public function setCreationDate($creationDate)
     {
-        $creationDate = new Date($creationDate);
-        $this->properties['creationDate'] = $creationDate;
+        $this->properties['creationDate'] = new Date($creationDate);
     }
 
     /**
@@ -129,9 +126,7 @@ class Property extends AbstractModel
      */
     public function setShowOnWeb($showOnWeb)
     {
-        $values = array('no', 'yes');
-        $showOnWeb = new Boolean($showOnWeb, $values);
-        $this->properties['showOnWeb'] = $showOnWeb;
+        $this->properties['showOnWeb'] = new Boolean($showOnWeb, ['no', 'yes']);
     }
 
     /**
@@ -149,8 +144,7 @@ class Property extends AbstractModel
      */
     public function setMetersOffered($metersOffered)
     {
-        $metersOffered = new SquareMeter($metersOffered);
-        $this->properties['metersOffered'] = $metersOffered;
+        $this->properties['metersOffered'] = new SquareMeter($metersOffered);
     }
 
     /**
@@ -159,8 +153,7 @@ class Property extends AbstractModel
      */
     public function setMetersFront($metersFront)
     {
-        $metersFront = new Meter($metersFront);
-        $this->properties['metersFront'] = $metersFront;
+        $this->properties['metersFront'] = new Meter($metersFront);
     }
 
     /**
@@ -170,8 +163,7 @@ class Property extends AbstractModel
     public function setContactPhone($phone)
     {
         if (!is_null($phone) && trim($phone) !== '') {
-            $phone = new Telephone($phone);
-            $this->properties['contactPhone'] = $phone;
+            $this->properties['contactPhone'] = new Telephone($phone);
         }
     }
 
@@ -181,10 +173,9 @@ class Property extends AbstractModel
      */
     public function setContactCellphone($phone)
     {
-        if (!is_null($phone) && trim($phone) !== '') {
+        if (null !== $phone && trim($phone) !== '') {
             $mobile = '/(\d{5})(\d{2})(\d{2})(\d{2})(\d{2})/i';
-            $phone = new Telephone($phone, $mobile);
-            $this->properties['contactCellphone'] = $phone;
+            $this->properties['contactCellphone'] = new Telephone($phone, $mobile);
         }
     }
 
@@ -200,8 +191,7 @@ class Property extends AbstractModel
 
     public function setRecommendedProperty(array $collection)
     {
-        $collection = new RecommendedProperty($collection);
-        $this->properties['RecommendedProperty'] = $collection;
+        $this->properties['RecommendedProperty'] = new RecommendedProperty($collection);
     }
 
     /**
@@ -220,21 +210,21 @@ class Property extends AbstractModel
     {
         $jsonProperties = $this->getCache()->load('jsonProperties');
         if (!$jsonProperties) {
-            $dtoProperties = array();
-            $translator = Zend_Controller_Router_Route::getDefaultTranslator();
+            $dtoProperties = [];
+            Zend_Controller_Router_Route::getDefaultTranslator();
             $availability = PropertyAvailability::values();
             foreach ($properties as $property) {
                 unset($property['price']);
-                $property['availabilityFor'] =
-                    $availability[$property['availabilityFor']];
+                $property['availabilityFor'] = $availability[$property['availabilityFor']];
                 if (count($property['Picture']) > 0) {
                     $property['Picture'] = $property['Picture'][0];
-                    $picture = new AppModelPicture($property['Picture']);
-                    unset($property['Picture']['id']);
-                    unset($property['Picture']['propertyId']);
-                    unset($property['Picture']['version']);
-                    $pathToImage =
-                        PictureFileHandler::getPicturesDirectory()
+                    $picture = new Picture($property['Picture']);
+                    unset(
+                        $property['Picture']['id'],
+                        $property['Picture']['propertyId'],
+                        $property['Picture']['version']
+                    );
+                    $pathToImage = PictureFileHandler::getPicturesDirectory()
                         . '/' . $property['Picture']['filename'];
                     $imageHandler = new Image($pathToImage);
                     $property['Picture']['height'] = $imageHandler->getHeight();
@@ -250,7 +240,7 @@ class Property extends AbstractModel
             $jsonProperties = Zend_Json::encode($dtoProperties);
             $this->getCache()->save(
                 $jsonProperties, 'jsonProperties',
-                array(EdecoPaginatorProperty::PROPERTIES_TAG,)
+                [EdecoPaginatorProperty::PROPERTIES_TAG,]
             );
         }
         return $jsonProperties;
@@ -292,8 +282,7 @@ class Property extends AbstractModel
                 //Transform to array to encode the picture as a JSON object
                 $picture = $picture->toArray();
                 unset($picture['propertyId']);
-                $pathToImage =
-                    PictureFileHandler::getPicturesDirectory()
+                $pathToImage = PictureFileHandler::getPicturesDirectory()
                     . '/' . $picture['filename'];
                 $imageHandler = new Image($pathToImage);
                 $picture['height'] = $imageHandler->getHeight();
@@ -308,10 +297,10 @@ class Property extends AbstractModel
             $jsonProperty = Zend_Json::encode($property);
             $this->getCache()->save(
                 $jsonProperty, $cacheId,
-                array(
+                [
                     'property' . $propertyId,
                     EdecoPaginatorProperty::PROPERTIES_TAG,
-                )
+                ]
             );
         }
         return $jsonProperty;
@@ -337,8 +326,7 @@ class Property extends AbstractModel
      */
     public function audit()
     {
-        $now = new Zend_Date();
-        $this->properties['creationDate'] = $now->toString('yyyy-MM-dd');
+        $this->properties['creationDate'] = (new Zend_Date())->toString('yyyy-MM-dd');
     }
 
     /**

@@ -9,6 +9,7 @@ use App\Model\Dao\UserDao;
 use App\Model\User;
 use App\Model\Gateway\User as UserGateway;
 use Doctrine_Core as Doctrine;
+use Mandragora\Model\Property\PropertyInterface;
 use Mandragora\PHPUnit\DoctrineTest\DoctrineTestInterface;
 
 /**
@@ -19,24 +20,29 @@ class Edeco_Model_Gateway_UserTest extends ControllerTestCase implements Doctrin
 	public function testCanCreateUser()
 	{
 	    $this->insertRole();
-        $user = new User();
-		$user->password = 'changeme';
-		$user->username = 'lemuel';
-		$user->state = 'active';
-		$user->roleName = 'admin';
+        $user = new User([
+            'password' => 'changeme',
+		    'username' => 'lemuel',
+		    'state' => 'active',
+		    'roleName' => 'admin',
+        ]);
+
 		$userGateway = new UserGateway(new UserDao());
         $userGateway->insert($user);
+
         $userTable = Doctrine::getTable(UserDao::class);
-		$this->assertEquals(
-            $user->toArray(),
-            $userTable->findOneByUsername($user->username)->toArray()
-        );
+        $savedUser = $userTable->findOneByUsername($user->username);
+
+        $this->assertEquals($user->username, $savedUser->username);
+        $this->assertEquals($user->password, $savedUser->password);
+        $this->assertEquals($user->state, $savedUser->state);
+        $this->assertEquals($user->roleName, $savedUser->roleName);
 	}
 
 	/**
 	 * @return void
 	 */
-	protected function insertRole()
+	private function insertRole(): void
     {
         $daoRole = new RoleDao();
         $daoRole->name = 'admin';

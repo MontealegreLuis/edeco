@@ -26,15 +26,15 @@ class UserDao extends Doctrine_Record
     public function setTableDefinition()
     {
         $this->setTableName('user');
-        $this->hasColumn('username', 'string', 120, array(
+        $this->hasColumn('username', 'string', 120, [
              'type' => 'string',
              'length' => 120,
              'fixed' => false,
              'unsigned' => false,
              'primary' => true,
              'autoincrement' => false,
-             ));
-        $this->hasColumn('password', 'string', 64, array(
+        ]);
+        $this->hasColumn('password', 'string', 64, [
              'type' => 'string',
              'length' => 64,
              'fixed' => false,
@@ -42,25 +42,25 @@ class UserDao extends Doctrine_Record
              'primary' => false,
              'notnull' => false,
              'autoincrement' => false,
-             ));
-        $this->hasColumn('state', 'enum', 11, array(
+        ]);
+        $this->hasColumn('state', 'enum', 11, [
              'type' => 'enum',
              'length' => 11,
              'fixed' => false,
              'unsigned' => false,
              'values' =>
-             array(
+             [
               0 => 'active',
               1 => 'unconfirmed',
               2 => 'inactive',
               3 => 'banned',
-             ),
+             ],
              'primary' => false,
              'default' => 'active',
              'notnull' => true,
              'autoincrement' => false,
-             ));
-        $this->hasColumn('roleName', 'string', 15, array(
+        ]);
+        $this->hasColumn('roleName', 'string', 15, [
              'type' => 'string',
              'length' => 15,
              'fixed' => false,
@@ -68,8 +68,8 @@ class UserDao extends Doctrine_Record
              'primary' => false,
              'notnull' => true,
              'autoincrement' => false,
-             ));
-        $this->hasColumn('confirmationKey', 'string', 64, array(
+        ]);
+        $this->hasColumn('confirmationKey', 'string', 64, [
              'type' => 'string',
              'length' => 64,
              'fixed' => false,
@@ -77,15 +77,15 @@ class UserDao extends Doctrine_Record
              'primary' => false,
              'notnull' => false,
              'autoincrement' => false,
-             ));
-        $this->hasColumn('creationDate', 'date', null, array(
+        ]);
+        $this->hasColumn('creationDate', 'date', null, [
              'type' => 'date',
              'fixed' => false,
              'unsigned' => false,
              'primary' => false,
              'notnull' => false,
              'autoincrement' => false,
-             ));
+        ]);
     }
 
     public function setUp()

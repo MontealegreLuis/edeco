@@ -8,7 +8,7 @@
 namespace App\Model;
 
 use Mandragora\Model\AbstractModel;
-use Mandragora\Model\Property\Password as MandragoraModelPropertyPassword;
+use Mandragora\Model\Property\Password;
 use Mandragora\Model\Property\Date;
 use App\Enum\UserState;
 use Zend_Date;
@@ -54,7 +54,7 @@ class User extends AbstractModel
     public function setPassword($password)
     {
         if (!is_null($password)) {
-            $password = new MandragoraModelPropertyPassword($password);
+            $password = new Password($password);
         }
         $this->properties['password'] = $password;
     }
@@ -65,19 +65,17 @@ class User extends AbstractModel
     public function setConfirmationKey($key)
     {
         if (!is_null($key)) {
-            $key = new MandragoraModelPropertyPassword($key);
+            $key = new Password($key);
         }
         $this->properties['confirmationKey'] = $key;
     }
 
     /**
      * @param string $creationDate
-     * @return void
      */
     public function setCreationDate($creationDate)
     {
-        $creationDate = new Date($creationDate);
-        $this->properties['creationDate'] = $creationDate;
+        $this->properties['creationDate'] = new Date($creationDate);
     }
 
     /**
@@ -86,11 +84,10 @@ class User extends AbstractModel
      */
     public function createClientAccount($username)
     {
-    	$this->properties['username'] = (string)$username;
+    	$this->properties['username'] = (string) $username;
     	$this->properties['state'] = UserState::Unconfirmed;
         $this->properties['roleName'] = 'client';
-        $creationDate = new Zend_Date();
-        $this->properties['creationDate'] = $creationDate->toString('YYYY-MM-dd');
+        $this->properties['creationDate'] = (new Zend_Date())->toString('YYYY-MM-dd');
         $this->generateConfirmationKey();
     }
 
@@ -112,7 +109,7 @@ class User extends AbstractModel
              ->setFrom($recipient['email'], $recipient['name'])
              ->setSubject('Proyectos de Inversion EDECO');
         $mailer = new HtmlEmailSender($mail);
-        $mailer->setViewParam('confirmationKey', (string)$confirmationKey);
+        $mailer->setViewParam('confirmationKey', (string) $confirmationKey);
         $dateHelper = new DateFormat();
         $date = $dateHelper->dateFormat()->full();
         $mailer->setViewParam('date', $date);
@@ -146,7 +143,7 @@ class User extends AbstractModel
      */
     protected function generateConfirmationKey()
     {
-        $salt = srand((double)microtime() * 1000000);
+        $salt = mt_srand((double) microtime() * 1000000);
         $siteSalt = 'm3s1_MvsgH-%';
         $confirmationKey = urlencode(
             sha1($salt . $this->properties['username'] . $siteSalt)
