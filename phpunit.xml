@@ -12,6 +12,7 @@
         <testsuite name="database">
             <directory>tests/application/models/Gateway</directory>
             <directory>tests/application/modules</directory>
+            <directory>tests/application/services</directory>
         </testsuite>
     </testsuites>
     <listeners>

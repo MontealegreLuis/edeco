@@ -1,203 +1,188 @@
 <?php
 /**
- * Unit tests for Edeco_Service_Address class
+ * PHP version 7.1
  *
- * PHP version 5
- *
- * LICENSE: Redistribution and use of this file in source and binary forms,
- * with or without modification, is not permitted under any circumstance
- *
- * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
- * "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
- * LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
- * A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT
- * OWNER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL,
- * SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT
- * LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE,
- * DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY
- * THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
- * (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
- * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
- *
- * @category   Tests
- * @package    Edeco
- * @subpackage Test
- * @author     LNJ <lemuel.nonoal@mandragora-web-systems.com>
- * @copyright  Mandrágora Web-Based Systems 2010
- * @version    SVN: $Id$
+ * This source file is subject to the license that is bundled with this package in the file LICENSE.
  */
-
-if (!defined('PHPUnit_MAIN_METHOD')) {
-    define('PHPUnit_MAIN_METHOD', 'Edeco_Service_AddressTest::main');
-}
-
-require_once realpath(dirname(__FILE__) . '/../bootstrap.php');
+use App\Enum\PropertyLandUse;
+use App\Model\Address;
+use App\Model\Category;
+use App\Model\City;
+use App\Model\Dao\AddressDao;
+use App\Model\Dao\CategoryDao;
+use App\Model\Dao\CityDao;
+use App\Model\Dao\PropertyDao;
+use App\Model\Dao\StateDao;
+use App\Model\Gateway\Address as AddressGateway;
+use App\Model\Gateway\Category as CategoryGateway;
+use App\Model\Gateway\City as CityGateway;
+use App\Model\Gateway\Property as PropertyGateway;
+use App\Model\Gateway\State as StateGateway;
+use App\Model\Property;
+use App\Model\State;
+use App\Service\Address as AddressService;
+use Mandragora\PHPUnit\DoctrineTest\DoctrineTestInterface;
 
 /**
  * Unit tests for Edeco_Service_Address class
- *
- * @author     LNJ <lemuel.nonoal@mandragora-web-systems.com>
- * @version    SVN: $Id$
- * @copyright  Mandrágora Web-Based Systems 2010
- * @category   Tests
- * @package    Edeco
- * @subpackage Test
  */
-
-class Edeco_Service_AddressTest
-    extends ControllerTestCase
-    implements Mandragora_PHPUnit_DoctrineTest_Interface
+class Edeco_Service_AddressTest extends ControllerTestCase implements DoctrineTestInterface
 {
-    /**
-     * @var Edeco_Service_Address
-     */
-    private $address;
 
-    /**
-     * @var Dica_Model_Gateway_City
-     */
+    /** @var \Mandragora\Application\Doctrine\Manager */
+    private $doctrineManager;
+
+    /** @var \Zend_Application_Resource_Cachemanager */
+    private $cacheManager;
+
+    /** @var CityGateway */
     protected $cityGateway;
 
-    /**
-     * @var Dica_Model_Dao_City
-     */
+    /** @var CityDao */
     protected $cityDao;
 
-    /**
-     * @var Dica_Model_Gateway_State
-     */
+    /** @var StateGateway */
     protected $stateGateway;
 
-    /**
-     * @var Dica_Model_Dao_State
-     */
+    /** @var StateDao */
     protected $stateDao;
 
     /**
-     * Executes all the available tests cases
-     *
-     * @return void
-     */
-    public static function main()
-    {
-        $suite = new PHPUnit_Framework_TestSuite('Edeco_Service_AddressTest');
-        $listener = new Mandragora_PHPUnit_Listener();
-        $result = PHPUnit_TextUI_TestRunner::run(
-            $suite, array('listeners' => array($listener))
-        );
-    }
-
-    /**
-     * Setup application to run test cases
-     *
      * @see tests/application/ControllerTestCase#setUp()
      */
     public function setUp()
     {
         parent::setUp();
+        $this->cacheManager = $this->_frontController->getParam('bootstrap')->getResource('cachemanager');
+        $this->doctrineManager = $this->_frontController->getParam('bootstrap')->getResource('doctrine');
 
-        $this->cityDao = new Edeco_Model_Dao_City();
-        $this->cityGateway = new Edeco_Model_Gateway_City($this->cityDao);
+        $this->cityDao = new CityDao();
+        $this->cityGateway = new CityGateway($this->cityDao);
 
-        $this->stateDao = new Edeco_Model_Dao_State();
-        $this->stateGateway = new Edeco_Model_Gateway_State($this->stateDao);
+        $this->stateDao = new StateDao();
+        $this->stateGateway = new StateGateway($this->stateDao);
     }
 
     public function testGetAddressForm()
     {
-        $data = array(
-            'streetAndNumber' => 'priv tabacos',
-            'neighborhood' => 'Ignacio Romero V', 'state' => 1,
-            'city' => 1, 'zipCode' => 72120, 'country' => 'México'
-        );
-        $address = new Edeco_Service_Address(
-            new Edeco_Model_Address(),
-            new Edeco_Model_Gateway_Property(new Edeco_Model_Dao_Property())
-        );
-        $dataForm = $address->getAddressFormForAdding('')->getErrors();
-        $this->assertTrue(is_array($dataForm));
+        $address = new AddressService('Address');
+        $address->setDoctrineManager($this->doctrineManager);
+        $address->setCacheManager($this->cacheManager);
+        $dataForm = $address->getFormForCreating('')->getErrors();
+        $this->assertInternalType('array', $dataForm);
     }
 
     public function testIsAddressFormValidMustReturnTrue()
     {
-        $state = new Edeco_Model_State(array('id' => 1, 'name' => 'Puebla'));
+        $state = new State(['name' => 'Puebla', 'url' => 'puebla']);
         $this->stateGateway->insert($state);
-        $city = new Edeco_Model_City(
-            array('id' => 1, 'name' => 'tepexi', 'stateId' => 1)
-        );
+        $city = new City([
+            'name' => 'Tepexi',
+            'url' => 'tepexi',
+            'stateId' => $state->id
+        ]);
         $this->cityGateway->insert($city);
-        $data = array(
-            'propertyId' => 1, 'streetAndNumber' => 'priv tabacos',
-            'neighborhood' => 'Ignacio Romero V ', 'state' => 'Puebla',
-            'city' => 'tepexi', 'zipCode' => 72120, 'country' => 'México'
-        );
-        $address = new Edeco_Service_Address(
-            new Edeco_Model_Address(),
-            new Edeco_Model_Gateway_Property(new Edeco_Model_Dao_Property())
-        );
-        $address->getAddressFormForAdding('');
-        $this->assertTrue($address->isAddressFormValid($data));
+        $data = [
+            'id' => 1, 'streetAndNumber' => 'priv tabacos',
+            'neighborhood' => 'Ignacio Romero V ', 'state' => $state->id,
+            'addressReference' => 'Antes de llegar a la salida a la autopista',
+            'cityId' => $city->id, 'zipCode' => 72120, 'version' => 1,
+        ];
+        $service = new AddressService('Address');
+        $service->setDoctrineManager($this->doctrineManager);
+        $service->setCacheManager($this->cacheManager);
+        $service->setCities($state->id);
+        $form = $service->getFormForCreating('');
+        $isValid = $form->isValid($data);
+        $this->assertTrue($isValid);
     }
 
     public function testFindAddressByPropertyId()
     {
-    	$property = $this->createProperty();
-    	$address = new Edeco_Service_Address(
-            new Edeco_Model_Address(),
-            new Edeco_Model_Gateway_Property(new Edeco_Model_Dao_Property())
-        );
-        $propertyGateway = new Edeco_Model_Gateway_Property(
-            new Edeco_Model_Dao_Property()
-        );
-        $propertyGateway->insert($property);
-        $address->findAddressByPropertyId(1);
-        $addressDB = $propertyGateway->findAddressByPropertyId(1);
-        $this->assertEquals(
-            'Priv tabacos,Ignacio Romero V,72120,Puebla,Tepexi,México',
-            $addressDB
-        );
+        $state = new State(['name' => 'Puebla', 'url' => 'puebla']);
+        $this->stateGateway->insert($state);
+        $city = new City([
+            'name' => 'Tepexi',
+            'url' => 'tepexi',
+            'stateId' => $state->id
+        ]);
+        $this->cityGateway->insert($city);
+        $data = [
+            'id' => 1, 'streetAndNumber' => 'priv tabacos',
+            'neighborhood' => 'Ignacio Romero V ', 'state' => $state->id,
+            'addressReference' => 'Antes de llegar a la salida a la autopista',
+            'cityId' => $city->id, 'zipCode' => 72120, 'version' => 1,
+        ];
+        $address = new Address($data);
+        $gateway = new AddressGateway(new AddressDao());
+        $gateway->insert($address);
+
+        $service = new AddressService('Address');
+        $service->setDoctrineManager($this->doctrineManager);
+        $service->setCacheManager($this->cacheManager);
+
+
+        $addressDB = $service->retrieveAddressById($address->id);
+        $this->assertEquals($address->id, $addressDB->id);
+        $this->assertEquals($address->streetAndNumber, $addressDB->streetAndNumber);
+        $this->assertEquals($address->neighborhood, $addressDB->neighborhood);
+        $this->assertEquals($address->cityId, $addressDB->cityId);
+        $this->assertEquals($address->zipCode, $addressDB->zipCode);
     }
 
     public function testDeletePropertyAddress()
     {
-    	$property = $this->createProperty();
-    	$address = new Edeco_Model_Address();
-        $serviceAddress = new Edeco_Service_Address(
-            $address,
-            new Edeco_Model_Gateway_Property(new Edeco_Model_Dao_Property())
-        );
-        $propertyGateway = new Edeco_Model_Gateway_Property(
-            new Edeco_Model_Dao_Property()
-        );
-        $propertyGateway->insert($property);
-        $addressChange = "109 b poniente 1542,pluss, 1,1,72000,in";
-        $address->fromString($addressChange);
-        $serviceAddress->updatePropertyAddress($address->toArray(), 1);
-        $addressDB = $propertyGateway->findAddressByPropertyId(1);
-        $this->assertEquals($addressChange,$addressDB);
+        $state = new State(['name' => 'Puebla', 'url' => 'puebla']);
+        $this->stateGateway->insert($state);
+        $city = new City([
+            'name' => 'Tepexi',
+            'url' => 'tepexi',
+            'stateId' => $state->id
+        ]);
+        $this->cityGateway->insert($city);
+        $values = [
+            'streetAndNumber' => 'Priv. Tabacos',
+            'neighborhood' => 'Col. Centro',
+            'zipCode' => 72120,
+            'cityId' => $city->id
+        ];
+        $address = new Address($values);
+        $gateway = new AddressGateway(new AddressDao());
+        $gateway->insert($address);
+
+        $service = new AddressService('Address');
+        $service->setDoctrineManager($this->doctrineManager);
+        $service->setCacheManager($this->cacheManager);
+
+        $values['zipCode'] = 78209;
+        $values['id'] = $address->id;
+
+        $form = $service->getFormForEditing('');
+        $form->populate($values);
+        $service->updateAddress();
+
+        $modifiedAddress = $gateway->findOneById($address->id);
+        $this->assertEquals(78209, $modifiedAddress['zipCode']);
     }
 
-    /**
-     * @return Edeco_Model_Property
-     */
-    protected function createProperty()
+    protected function createProperty(): Property
     {
-        $propertyInformation = array(
+        $category = new Category([
+            'name' => 'Premises',
+            'url' => 'premises',
+        ]);
+        (new CategoryGateway(new CategoryDao()))->insert($category);
+        $property = new Property([
             'name' => 'Local Comercial X', 'url' => 'www.ejemplo.com',
             'description' => 'Buena ubicación', 'price' => 'Casi regalado',
-            'address' =>
-                'Priv tabacos,Ignacio Romero V,72120,Puebla,Tepexi,México',
+            'address' => 'Priv tabacos,Ignacio Romero V,72120,Puebla,Tepexi,México',
             'addressReference' => 'ejemplo de referencias de direccon',
             'latitude' => 120.5, 'longitude' => 457.8, 'category' => 'lands',
             'totalSurface' => 120, 'metersOffered' => 13, 'metersFront' => 10,
-            'landUse' => Edeco_Enum_PropertyLandUse::Commercial,
+            'landUse' => PropertyLandUse::Commercial,
             'creationDate' => '2010-01-01', 'showOnWeb' => 1,
-        );
-        $property = new Edeco_Model_Property($propertyInformation);
+            'categoryId' => $category->id,
+        ]);
         return $property;
     }
-
-}
-if (PHPUnit_MAIN_METHOD == 'Edeco_Service_AddressTest::main') {
-    Edeco_Service_AddressTest::main();
 }

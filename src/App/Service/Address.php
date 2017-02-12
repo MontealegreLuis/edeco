@@ -41,7 +41,7 @@ class Address extends DoctrineCrud
 
     /**
      * @param string $action
-     * @return Edeco_Form_Address_Detail
+     * @return \App\Form\Address\Detail
      */
     public function getFormForCreating($action)
     {
@@ -53,7 +53,7 @@ class Address extends DoctrineCrud
 
     /**
      * @param string $action
-     * @return Edeco_Form_Address_Detail
+     * @return \App\Form\Address\Detail
      */
     public function getFormForEditing($action)
     {

@@ -26,14 +26,6 @@ abstract class AbstractCrud extends AbstractService
     protected $paginator;
 
     /**
-     * @param string $modelName
-     */
-    public function __construct($modelName)
-    {
-        parent::__construct($modelName);
-    }
-
-    /**
      * @return \Mandragora\Gateway\GatewayInterface
      */
     public function getGateway()

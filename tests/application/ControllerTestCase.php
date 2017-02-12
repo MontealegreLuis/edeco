@@ -12,9 +12,7 @@ use Zend_Application as Application;
  */
 abstract class ControllerTestCase extends Zend_Test_PHPUnit_ControllerTestCase
 {
-    /**
-     * @var Application The application to be tested
-     */
+    /** @var Application */
     protected $application;
 
     /**
