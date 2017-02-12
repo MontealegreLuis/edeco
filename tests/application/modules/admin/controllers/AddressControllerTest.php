@@ -1,65 +1,36 @@
 <?php
 /**
- * Unit tests for Admin_AddressController class
+ * PHP version 7.1
  *
- * PHP version 5
- *
- * LICENSE: Redistribution and use of this file in source and binary forms,
- * with or without modification, is not permitted under any circumstance
- *
- * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
- * "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
- * LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
- * A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT
- * OWNER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL,
- * SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT
- * LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE,
- * DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY
- * THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
- * (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
- * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
- *
- * @category   Tests
- * @package    Edeco
- * @subpackage Test
- * @author     LNJ <lemuel.nonoal@mandragora-web-systems.com>
- * @copyright  Mandrágora Web-Based Systems 2010
- * @version    SVN: $Id$
+ * This source file is subject to the license that is bundled with this package in the file LICENSE.
  */
-
-if (!defined('PHPUnit_MAIN_METHOD')) {
-    define('PHPUnit_MAIN_METHOD', 'AddressControllerTest::main');
-}
-
-require_once realpath(dirname(__FILE__) . '/../../../bootstrap.php');
+use App\Model\Address;
+use App\Model\City;
+use App\Model\Dao\AddressDao;
+use App\Model\Dao\CityDao;
+use App\Model\Dao\StateDao;
+use App\Model\Gateway\Address as AddressGateway;
+use App\Model\Gateway\City as CityGateway;
+use App\Model\Gateway\State as StateGateway;
+use App\Model\State;
+use App\Model\User;
+use Doctrine_Manager as Manager;
+use Mandragora\PHPUnit\DoctrineTest\DoctrineTestInterface;
+use Zend_Controller_Plugin_ErrorHandler as ErrorHandler;
+use Zend_View_Helper_Url as UrlHelper;
 
 /**
  * Unit tests for AddressController class
- *
- * @author     LNJ <lemue.nonoal@mandragora-web-systems.com>
- * @version    SVN: $Id$
- * @copyright  Mandrágora Web-Based Systems 2010
- * @category   Tests
- * @package    Dica
- * @subpackage Test
  */
-class AddressControllerTest extends ControllerTestCase
+class AddressControllerTest extends ControllerTestCase implements DoctrineTestInterface
 {
+    /** @var City */
+    private $city;
+
     /**
      * @var Zend_View_Helper_Url
      */
     protected $urlHelper;
-
-    /**
-     * Executes all the available tests cases
-     *
-     * @return void
-     */
-    public static function main()
-    {
-        $suite = new PHPUnit_Framework_TestSuite('AddressControllerTest');
-        $result = PHPUnit_TextUI_TestRunner::run($suite);
-    }
 
     /**
      * Setup application to run test cases
@@ -69,15 +40,67 @@ class AddressControllerTest extends ControllerTestCase
     public function setUp()
     {
         parent::setUp();
-        $this->urlHelper = new Zend_View_Helper_Url();
-        
-        $this->cityDao = new Edeco_Model_Dao_City();
-        $this->cityGateway = new Edeco_Model_Gateway_City($this->cityDao);
-
-        $this->stateDao = new Edeco_Model_Dao_State();
-        $this->stateGateway = new Edeco_Model_Gateway_State($this->stateDao);
+        defined('PUBLIC_PATH') || define('PUBLIC_PATH', __DIR__ . '/../../../../../admin.edeco.mx');
+        $this->_frontController->registerPlugin(new ErrorHandler([
+            'module' => 'admin', 'controller' => 'error', 'action' => 'error'
+        ]));
+        $this->_frontController->setParam('noErrorHandler', true);
+        $this->urlHelper = new UrlHelper();
+        $this->saveCity();
+        $connection = Manager::connection();
+        $handler = $connection->getDbh();
+        $handler->query(<<<QUERY
+    INSERT INTO `resource` (`name`) VALUES
+        ('*'),
+        ('admin_address'),
+        ('admin_category'),
+        ('admin_city'),
+        ('admin_error'),
+        ('admin_excel'),
+        ('admin_google-map'),
+        ('admin_help'),
+        ('admin_image'),
+        ('admin_index'),
+        ('admin_picture'),
+        ('admin_project'),
+        ('admin_property'),
+        ('admin_user'),
+        ('default_error'),
+        ('default_index'),
+        ('default_javascript'),
+        ('default_property'),
+        ('help_index'),
+        ('help_property'),
+        ('help_user')
+QUERY
+        );
+        $handler->query(<<<QUERY
+INSERT INTO `role` (`name`, `parentRole`) VALUES
+    ('admin', NULL),
+    ('client', 'guest'),
+    ('guest', NULL)
+QUERY
+        );
+        $handler->query(<<<QUERY
+INSERT INTO `permission` (`name`, `roleName`, `resourceName`) VALUES
+    ('*', 'admin', '*'),
+    ('download', 'client', 'admin_project'),
+    ('list', 'client', 'admin_project'),
+    ('logout', 'client', 'admin_index'),
+    ('show', 'client', 'admin_project'),
+    ('*', 'guest', 'admin_error'),
+    ('*', 'guest', 'default_error'),
+    ('*', 'guest', 'default_index'),
+    ('*', 'guest', 'default_javascript'),
+    ('*', 'guest', 'default_property'),
+    ('authenticate', 'guest', 'admin_index'),
+    ('confirm', 'guest', 'admin_user'),
+    ('index', 'guest', 'admin_index'),
+    ('login', 'guest', 'admin_index')
+QUERY
+);
     }
-    
+
     /**
      * Reset request
      */
@@ -86,102 +109,104 @@ class AddressControllerTest extends ControllerTestCase
         $this->resetResponse();
         parent::tearDown();
     }
-    
+
     public function testUpdateActionChangeAddress()
     {
-    	$property = $this->createProperty();
-        $propertyGateway = new Edeco_Model_Gateway_Property(
-            new Edeco_Model_Dao_Property());
-        $propertyGateway->insert($property);
+    	$address = $this->createAddress($this->city);
+        $gateway = new AddressGateway(new AddressDao());
+        $gateway->insert($address);
 
         $this->getRequest()->setMethod('GET');
-    	$this->getRequest()->setParams( array('propertyId' => $property->id));
+    	$this->getRequest()->setParams(['id' => $address->id]);
     	$this->doLogin();
-        $this->dispatch($this->urlHelper->url(array(
-            'propertyId' => $property->id), 'updateAddress')
+        $this->dispatch($this->urlHelper->url([
+            'module' => 'admin',
+            'controller' => 'address',
+            'action' => 'edit',
+            'id' => $address->id
+        ], 'controllers'));
+        $this->assertController('address');
+        $this->assertAction('edit');
+        $this->assertModule('admin');
+        $this->assertNotRedirect();
+        $this->assertQuery('#address');
+    }
+
+    public function testAddActionInsertsANewAddressForProperty()
+    {
+        $address = $this->createAddress($this->city);
+        $gateway = new AddressGateway(new AddressDao());
+        $gateway->insert($address);
+
+        $newValues = [
+            'id' => $address->id,
+            'streetAndNumber' => 'juan de palafox',
+            'neighborhood' => 'centro',
+            'zipCode' => 72000,
+            'cityId' => $this->city->id,
+            'state' => $this->city->stateId,
+            'version' => $address->version,
+        ];
+        $this->getRequest()->setMethod('POST')->setPost($newValues);
+        $this->getRequest()->setParams(['id' => $address->id]);
+        $this->doLogin();
+        $this->dispatch(
+            $this->urlHelper->url([
+                'module' => 'admin',
+                'controller' => 'address',
+                'action' => 'update',
+                'id' => $address->id,
+            ], 'controllers')
         );
+        $savedAddress = new Address($gateway->findOneById($address->id));
+        $this->assertEquals($newValues['streetAndNumber'], $savedAddress->streetAndNumber);
+        $this->assertEquals($newValues['neighborhood'], $savedAddress->neighborhood);
+        $this->assertEquals($newValues['zipCode'], $savedAddress->zipCode);
+        $this->assertEquals($newValues['cityId'], $savedAddress->City->id);
         $this->assertController('address');
         $this->assertAction('update');
         $this->assertModule('admin');
-        $this->assertNotRedirect();
-        $this->assertQuery('#frmDetail');
-        
+        $this->assertRedirect();
     }
-        
-    public function testAddActionInsertsANewAddressForProperty()
-    {
-        $property = $this->createProperty();
-        $propertyGateway = new Edeco_Model_Gateway_Property(
-            new Edeco_Model_Dao_Property());
-        $propertyGateway->insert($property);
-        
-        $data = array(
-            'streetAndAddres' => 'juan de palafox',
-            'neighborhood' => 'centro', 'zipCode' => 72000,
-            'city' => 'puebla', 'state' => 'puebla', 'country' => 'México'
-        );
-        
-        $modelAddress = new Edeco_Model_Address($data);
-        $this->getRequest()->setMethod('POST')                           ->setPost($modelAddress->toArray());
-        $this->getRequest()->setParams( array('propertyId' => $property->id));
-        $this->doLogin();
-        $this->dispatch($this->urlHelper->url(array(
-            'propertyId' => $property->id), 'addAddress')
-        );
-        $address = $propertyGateway->findAddressById($property->id);
-        //die(var_dump($address));
-        $this->assertEquals($address, strlen($modelAddress));
-        $this->assertController('address');
-        $this->assertAction('add');
-        $this->assertModule('admin');
-        $this->assertRedirect('/admin/inmuebles.html');
-        $this->assertQuery('#frmDetail');
-        
-    }
-    
-    protected function  doLogin( $identity  = null )
+
+    protected function doLogin($identity  = null )
     {
         if ( $identity === null ) {
             $identity = $this->createUser();
         }
 
-        Zend_Auth::getInstance()->getStorage()->write($identity );
+        Zend_Auth::getInstance()->getStorage()->write($identity);
     }
-    
 
-    public function createUser()
+    public function createUser(): User
     {
-        $user = array(
-            'username' => 'x0_nonoal_x0@gmail.com', 
-            'password' => 'lemuel', 'state' => 'active'
-        );
-        
-        $user = new Edeco_Model_User($user);
-        
-        return $user;
+        return new User([
+            'username' => 'x0_nonoal_x0@gmail.com',
+            'password' => 'lemuel', 'state' => 'active',
+            'roleName' => 'admin',
+        ]);
     }
-    
-    /**
-     * @return Edeco_Model_Property
-     */
-    protected function createProperty()
-    {
-        $data = array(
-	        'name' => 'Bodega', 'url' => 'www.bodega.com', 
-	        'description' => 'aplia bodega', 'price' => 'regular', 
-	        'addressReference' => 'megacable', 'latitude' => 133.5, 
-	        'longitude' => 543.3, 'category' => 'warehouses', 
-	        'totalSurface' => 200, 'metersOffered' => 100, 'metersFront' => 15,
-	        'landUse' => 'housing', 'creationDate' => '2010-01-01', 'active' => 1
-        );
-        
-        $property = new Edeco_Model_Property($data);
-        
-        return $property;
-    }
-    
-}
 
-if (PHPUnit_MAIN_METHOD == 'AddressControllerTest::main') {
-    AddressControllerTest::main();
+    protected function createAddress(City $city): Address
+    {
+        return new Address([
+            'id' => 1,
+            'streetAndNumber' => 'Priv. Tabacos',
+            'neighborhood' => 'La Noria', 'zipCode' => 72120,
+            'cityId' => $city->id,
+        ]);
+    }
+
+    private function saveCity(): void
+    {
+        $state = new State([
+            'name' => 'Puebla',
+            'url' => 'puebla',
+        ]);
+        (new StateGateway(new StateDao()))->insert($state);
+        $this->city = new City([
+            'name' => 'Puebla', 'url' => 'puebla', 'stateId' => $state->id,
+        ]);
+        (new CityGateway(new CityDao()))->insert($this->city);
+    }
 }

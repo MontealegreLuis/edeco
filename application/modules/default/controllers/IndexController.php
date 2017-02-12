@@ -220,10 +220,11 @@ class IndexController extends AbstractAction
      */
     protected function getCategoryService()
     {
-        $service = Mandragora_Service::factory('Category');
+        $service = Service::factory('Category');
         $service->setCacheManager($this->getCacheManager());
         $doctrine = $this->getInvokeArg('bootstrap')->getResource('doctrine');
         $service->setDoctrineManager($doctrine);
+
         return $service;
     }
 

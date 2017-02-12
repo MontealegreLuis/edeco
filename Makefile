@@ -1,6 +1,16 @@
 SHELL = /bin/bash
 
-.PHONY: setup
+.PHONY: setup, reset, run, run-admin, publish, clear-cache
+
+clear-cache:
+	@echo "Clearing translation cache..."
+	rm -rf var/cache/default/*
+	@echo "Clearing queries cache..."
+	rm -rf var/cache/gateway/*
+	@echo "Clearing forms cache..."
+	rm -rf var/cache/form/*
+	@echo "Clearing locale cache..."
+	rm -rf var/cache/locale/*
 
 reset:
 		@echo "Reset database..."

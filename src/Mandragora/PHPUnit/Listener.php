@@ -44,11 +44,6 @@ class Listener implements PHPUnit_Framework_TestListener
     }
 
     /**
-     * Do nothing here
-     */
-    public function endTest(PHPUnit_Framework_Test $test, $time) { }
-
-    /**
      * It bootstraps Doctrine, recreates both the database and the tables. It
      * will only run for the `database` suite.
      *
@@ -69,6 +64,11 @@ class Listener implements PHPUnit_Framework_TestListener
             Core::createTablesFromModels();
         }
     }
+
+    /**
+     * Do nothing here
+     */
+    public function endTest(PHPUnit_Framework_Test $test, $time) { }
 
     /**
      * Do nothing here
