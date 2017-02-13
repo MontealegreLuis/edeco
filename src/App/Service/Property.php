@@ -112,7 +112,7 @@ class Property extends DoctrineCrud
 
     /**
      * @param string $url
-     * @return Edeco_Model_Property
+     * @return \App\Model\Property
      */
     public function retrievePropertyByUrl($url)
     {

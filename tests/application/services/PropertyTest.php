@@ -4,8 +4,20 @@
  *
  * This source file is subject to the license that is bundled with this package in the file LICENSE.
  */
+use App\Model\Address;
+use App\Model\Category;
+use App\Model\City;
+use App\Model\State;
+use App\Model\Dao\AddressDao;
+use App\Model\Dao\CategoryDao;
+use App\Model\Dao\CityDao;
 use App\Model\Dao\PropertyDao;
+use App\Model\Dao\StateDao;
+use App\Model\Gateway\Address as AddressGateway;
+use App\Model\Gateway\Category as CategoryGateway;
+use App\Model\Gateway\City as CityGateway;
 use App\Model\Gateway\Property as PropertyGateway;
+use App\Model\Gateway\State as StateGateway;
 use App\Model\Property;
 use App\Service\Property as PropertyService;
 use Mandragora\PHPUnit\DoctrineTest\DoctrineTestInterface;
@@ -34,48 +46,50 @@ class Edeco_Service_PropertyTest extends ControllerTestCase implements DoctrineT
         parent::setUp();
         $this->propertyGateway = new PropertyGateway(new PropertyDao());
         $this->property = new PropertyService('Property');
+        $this->property->setCacheManager($this->_frontController->getParam('bootstrap')->getResource('cachemanager'));
+        $this->property->setDoctrineManager($this->_frontController->getParam('bootstrap')->getResource('doctrine'));
     }
 
     public function testCanRetrievePropertyByUrl()
     {
         $property = $this->createProperty();
+        $this->propertyGateway->clearRelated();
         $this->propertyGateway->insert($property);
-        // Setters are used in service, call'em to test equality
-        $property->address = $this->propertyInformation['address'];
-        $propertyFound = $this->property->retrievePropertyByUrl(
-            $property->url
-        );
-        $propertyFound->latitude =
-            (float) $this->propertyInformation['latitude'];
-        $propertyFound->longitude =
-            (float) $this->propertyInformation['longitude'];
-        //Remove fields that aren't in query's projection
-        $propertyInformation = $property->toArray();
-        $propertyInformation['url'] = null;
-        $propertyInformation['category'] = null;
-        $propertyInformation['totalSurface'] = null;
-        $propertyInformation['metersOffered'] = null;
-        $propertyInformation['metersFront'] = null;
-        $propertyInformation['landUse'] = null;
-        $propertyInformation['creationDate'] = null;
-        $propertyInformation['showOnWeb'] = null;
-        $propertyInformation['active'] = null;
-        $this->assertEquals($propertyInformation, $propertyFound->toArray());
+
+        $state = new State(['name' => 'Puebla', 'url' => 'puebla']);
+        (new StateGateway(new StateDao()))->insert($state);
+        $city = new City([
+            'name' => 'Tepexi',
+            'url' => 'tepexi',
+            'stateId' => $state->id
+        ]);
+        (new CityGateway(new CityDao()))->insert($city);
+        $address = new Address([
+            'id' => $property->id,
+            'streetAndNumber' => 'priv tabacos',
+            'neighborhood' => 'Ignacio Romero V ', 'state' => $state->id,
+            'addressReference' => 'Antes de llegar a la salida a la autopista',
+            'cityId' => $city->id, 'zipCode' => 72120,
+        ]);
+        (new AddressGateway(new AddressDao()))->insert($address);
+
+        $propertyFound = $this->property->retrievePropertyByUrl($property->url);
+
+        $this->assertEquals($property->id, $propertyFound->id);
+        $this->assertEquals($property->name, $propertyFound->name);
+        $this->assertEquals($property->url, $propertyFound->url);
+        $this->assertEquals($property->description, $propertyFound->description);
+        $this->assertEquals($property->price, $propertyFound->price);
     }
 
-    /**
-     * @return Edeco_Model_Property
-     */
     protected function createProperty(): Property
     {
+        $category = new Category(['name' => 'Premises', 'url' => 'premises']);
+        (new CategoryGateway(new CategoryDao()))->insert($category);
         $this->propertyInformation = [
             'id' => null, 'name' => 'Local Plaza Dorada',
             'url' => 'local-plaza-dorada', 'description' => 'Local amplio',
-            'price' => '5000 al mes',
-            'address' =>
-                'Priv tabacos,Ignacio Romero V,72120,Puebla,Tepexi,México',
-            'addressReference' => 'Junto a Suburbia',
-            'latitude' => 100.1, 'longitude' => 120.2, 'category' => 'premises',
+            'price' => '5000 al mes', 'categoryId' => $category->id,
             'totalSurface' => 12.5, 'metersOffered' => 16.5,
             'metersFront' => 20.5, 'landUse' => 'commercial',
             'creationDate' => '2010-01-01', 'active' => 1,
