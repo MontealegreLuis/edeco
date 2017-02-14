@@ -7,7 +7,7 @@
 
 /* Initialize the application for testing */
 define('ROUTES', 'admin');
-$rootDir = realpath(__DIR__ . '/../../');
+$rootDir = realpath(__DIR__ . '/../');
 defined('ROOT_PATH') || define('ROOT_PATH', $rootDir);
 $applicationDir = $rootDir . '/application';
 $libraryDir = $rootDir . '/library';
@@ -19,6 +19,6 @@ $paths = [$libraryDir, $applicationDir, get_include_path()];
 
 set_include_path(implode(PATH_SEPARATOR, $paths));
 
-require_once __DIR__ . '/../../vendor/autoload.php';
+require_once __DIR__ . '/../vendor/autoload.php';
 
 require_once __DIR__ . '/ControllerTestCase.php';

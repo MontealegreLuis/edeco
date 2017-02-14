@@ -2,11 +2,12 @@
 <phpunit
     colors="true"
     verbose="true"
-    bootstrap="tests/application/bootstrap.php"
+    bootstrap="tests/bootstrap.php"
 >
     <testsuites>
         <testsuite name="models">
             <directory>tests/application/models</directory>
+            <directory>tests/library</directory>
             <exclude>tests/application/models/Gateway</exclude>
         </testsuite>
         <testsuite name="database">

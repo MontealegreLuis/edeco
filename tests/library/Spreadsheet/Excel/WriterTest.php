@@ -1,66 +1,21 @@
 <?php
 /**
- * Unit tests for Spreadsheet_Excel_Writer class
+ * PHP version 7.1
  *
- * PHP version 5
- *
- * LICENSE: Redistribution and use of this file in source and binary forms,
- * with or without modification, is not permitted under any circumstance
- *
- * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
- * "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
- * LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
- * A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT
- * OWNER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL,
- * SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT
- * LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE,
- * DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY
- * THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
- * (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
- * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
- *
- * @category   Tests
- * @package    Spreadsheet
- * @subpackage Test
- * @author     LMV <luis.montealegre@mandragora-web-systems.com>
- * @copyright  Mandrágora Web-Based Systems 2010
- * @version    SVN: $Id$
+ * This source file is subject to the license that is bundled with this package in the file LICENSE.
  */
-
-if (!defined('PHPUnit_MAIN_METHOD')) {
-    define('PHPUnit_MAIN_METHOD', 'Spreadsheet_Excel_WriterTest::main');
-}
-
-require_once realpath(dirname(__FILE__) . '/../../bootstrap.php');
+use Mandragora\File;
+use PHPUnit_Framework_TestCase as TestCase;
+use Spreadsheet\Excel\Writer;
 
 /**
  * Unit tests for Spreadsheet_Excel_Writer class
- *
- * @author     LMV <luis.montealegre@mandragora-web-systems.com>
- * @version    SVN: $Id$
- * @copyright  Mandrágora Web-Based Systems 2010
- * @category   Tests
- * @package    Edeco
- * @subpackage Test
  */
-class Spreadsheet_Excel_WriterTest extends ControllerTestCase
+class Spreadsheet_Excel_WriterTest extends TestCase
 {
     const EXCEL_FILE_NAME = 'test.xls';
 
     protected $filename;
-
-    /**
-     * Executes all the available tests cases
-     *
-     * @return void
-     */
-    public static function main()
-    {
-        $suite = new PHPUnit_Framework_TestSuite(
-            'Spreadsheet_Excel_WriterTest'
-        );
-        $result = PHPUnit_TextUI_TestRunner::run($suite);
-    }
 
     /**
      * Setup application to run test cases
@@ -70,20 +25,17 @@ class Spreadsheet_Excel_WriterTest extends ControllerTestCase
     public function setUp()
     {
         parent::setUp();
-        $this->filename =
-            dirname(__FILE__) . DIRECTORY_SEPARATOR . self::EXCEL_FILE_NAME;
+        $this->filename = __DIR__ . DIRECTORY_SEPARATOR . self::EXCEL_FILE_NAME;
 
-        if (Mandragora_File::exists($this->filename)) {
-
-            $file = new Mandragora_File($this->filename);
-            $file->delete();
+        if (File::exists($this->filename)) {
+            (new File($this->filename))->delete();
         }
     }
 
     public function testCanSaveExcelFile()
     {
         // We give the path to our file here
-        $workbook = new Spreadsheet_Excel_Writer($this->filename);
+        $workbook = new Writer($this->filename);
         // This line is needed for encoding utf-8 strings
         $workbook->setVersion(8);
 
@@ -133,13 +85,8 @@ class Spreadsheet_Excel_WriterTest extends ControllerTestCase
         $workbook->close();
 
         $this->assertTrue(
-            Mandragora_File::exists($this->filename),
-            'Excel file cannot be found in ' . $this->filename
+            File::exists($this->filename),
+            "Excel file cannot be found in $this->filename"
         );
     }
-
-}
-
-if (PHPUnit_MAIN_METHOD == 'Spreadsheet_Excel_WriterTest::main') {
-    Spreadsheet_Excel_WriterTest::main();
 }
