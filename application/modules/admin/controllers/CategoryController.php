@@ -1,6 +1,6 @@
 <?php
 /**
- * PHP version 5.6
+ * PHP version 7.1
  *
  * This source file is subject to the license that is bundled with this package in the file LICENSE.
  */
@@ -161,7 +161,7 @@ class Admin_CategoryController extends AbstractAction
                 $this->flash('success')->addMessage('category.deleted');
                 $this->redirectToRoute('list', [$this->view->translate('page') => 1]);
             } catch (ConnectionException $ce) {
-                if ($ce->getPortableCode() == DoctrineCore::ERR_CONSTRAINT) {
+                if ($ce->getPortableCode() === DoctrineCore::ERR_CONSTRAINT) {
                     $this->flash('error')
                          ->addMessage('category.constraintError');
                     $this->redirectToRoute('show', ['id' => $category->id]);

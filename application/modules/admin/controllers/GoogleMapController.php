@@ -1,6 +1,6 @@
 <?php
 /**
- * PHP version 5
+ * PHP version 7.1
  *
  * This source file is subject to the license that is bundled with this package in the file LICENSE.
  */
@@ -8,13 +8,11 @@ use Mandragora\Controller\Action\AbstractAction;
 use Mandragora\Service;
 
 /**
- * Application's Address controller
+ * CRUD for google maps
  */
 class Admin_GoogleMapController extends AbstractAction
 {
-    /**
-     * @var array
-     */
+    /** @var array */
     protected $validMethods = [
         'save' => ['method' => 'post'],
         'update' => ['method' => 'post'],
@@ -46,7 +44,6 @@ class Admin_GoogleMapController extends AbstractAction
         $propertyId = $this->param('id');
         $this->view->gMapActions = ['gmap.action.create' => ['id' => $propertyId]];
         $this->view->title = $this->view->translate('gmap.action.create');
-
     }
 
     /**
@@ -56,11 +53,11 @@ class Admin_GoogleMapController extends AbstractAction
      */
     public function saveAction()
     {
-        $addressId = (int)$this->param('id');
-        $action = array(
+        $addressId = (int) $this->param('id');
+        $action = [
             'action' => 'save', 'controller' => 'google-map',
             $this->view->translate('propertyId') => $addressId
-        );
+        ];
         $action = $this->view->url($action, 'controllers', true);
         $googleForm = $this->service->getFormForCreating($action);
         $googleForm->setAddressId($addressId);
@@ -69,17 +66,16 @@ class Admin_GoogleMapController extends AbstractAction
             $addressId = (int)$this->post('addressId');
             $this->service->saveGeoPosition($addressId, $geoPosition);
             $this->flash('success')->addMessage('gmap.saved');
-            $this->redirectToRoute('show', array('id' => $addressId), 'google-map');
+            $this->redirectToRoute('show', ['id' => $addressId], 'google-map');
         } else {
             $googleMapsKey = $this->_helper->googleMaps($this->getRequest());
             $this->view->googleMapsKey = $googleMapsKey;
             $placeMarks = $this->service->geocodeAddress($addressId);
-            $this->view->jsonPlaceMarkers = $this->service
-                                                 ->placeMarksToJson($placeMarks);
+            $this->view->jsonPlaceMarkers = $this->service->placeMarksToJson($placeMarks);
             $this->view->placeMarks = $placeMarks;
             $this->view->googleForm = $googleForm;
             $this->view->addressId = $addressId;
-            $this->view->gMapActions = array();
+            $this->view->gMapActions = [];
             $this->view->title = $this->view->translate('gmap.action.save');
             $this->renderScript('google-map/create.phtml');
         }
@@ -116,15 +112,14 @@ class Admin_GoogleMapController extends AbstractAction
     {
         $this->geocodeAddressResults();
         $addressId = $this->view->addressId;
-        $formValues = $this->service
-                           ->retrievePropertyLatitudeAndLogitude($addressId);
+        $formValues = $this->service->retrievePropertyLatitudeAndLogitude($addressId);
         $this->view->title = $this->view->translate('gmap.action.edit');
         $this->view->googleForm->populate($formValues);
-        $params = array('id' => $addressId);
-        $this->view->gMapActions = array(
+        $params = ['id' => $addressId];
+        $this->view->gMapActions = [
             'gmap.action.show' => $params,
             'gmap.action.edit' => $params,
-        );
+        ];
         $this->renderScript('google-map/create.phtml');
     }
 

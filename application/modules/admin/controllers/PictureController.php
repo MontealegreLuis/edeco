@@ -1,6 +1,6 @@
 <?php
 /**
- * PHP version 5.6
+ * PHP version 7.1
  *
  * This source file is subject to the license that is bundled with this package in the file LICENSE.
  */
@@ -12,9 +12,7 @@ use Mandragora\Service;
  */
 class Admin_PictureController extends AbstractAction
 {
-    /**
-     * @var array
-     */
+    /** @var array */
     protected $validMethods = [
         'save' => ['method' => 'post'],
         'update' => ['method' => 'post'],
@@ -60,9 +58,9 @@ class Admin_PictureController extends AbstractAction
      */
     public function createAction()
     {
-        $action = $this->view->url(array('action' => 'save'), 'controllers');
+        $action = $this->view->url(['action' => 'save'], 'controllers');
         $pictureForm = $this->service->getFormForCreating($action);
-        $propertyId = (int)$this->param($this->view->translate('propertyId'));
+        $propertyId = (int) $this->param($this->view->translate('propertyId'));
         $pictureForm->setPropertyId($propertyId);
         $this->view->pictureForm = $pictureForm;
         $this->view->propertyId = $propertyId;
@@ -75,21 +73,21 @@ class Admin_PictureController extends AbstractAction
      */
     public function saveAction()
     {
-        $action = $this->view->url(array('action' => 'save'), 'controllers');
+        $action = $this->view->url(['action' => 'save'], 'controllers');
         $pictureForm = $this->service->getFormForCreating($action);
         $this->service->openConnection();
         if ($pictureForm->isValid($this->post())) {
             $this->service->createPicture();
             $this->flash('success')->addMessage('picture.created');
             $propertyId = (int)$this->service->getModel()->propertyId;
-            $params = array(
+            $params = [
                 $this->view->translate('propertyId') => $propertyId,
-                'id' => (int)$this->service->getModel()->id
-            );
+                'id' => (int) $this->service->getModel()->id
+            ];
             $this->redirectToRoute('show', $params);
         } else {
             $this->view->pictureForm = $pictureForm;
-            $this->view->propertyId = (int)$this->post('propertyId');
+            $this->view->propertyId = (int) $this->post('propertyId');
             $this->renderScript('picture/create.phtml');
         }
     }
@@ -101,25 +99,25 @@ class Admin_PictureController extends AbstractAction
      */
     public function editAction()
     {
-        $id = (int)$this->param('id');
-        $propertyId = (int)$this->param($this->view->translate('propertyId'));
+        $id = (int) $this->param('id');
+        $propertyId = (int) $this->param($this->view->translate('propertyId'));
         $picture = $this->service
                         ->retrievePictureByIdAndPropertyId($id, $propertyId);
         if (!$picture) {
             $this->flash('error')->addMessage('picture.not.found');
-            $params = array(
+            $params = [
                 $this->translate('page') => 1,
                 $this->translate('propertyId') => $propertyId
-            );
+            ];
             $this->redirectToRoute('list', $params);
         } else {
-            $action = $this->view->url(array('action' => 'update'));
+            $action = $this->view->url(['action' => 'update']);
             $pictureForm = $this->service->getFormForEditing($action);
             $pictureForm->populate($picture->toArray());
-            $params = array(
+            $params = [
                 'controller' => 'image', 'action' => 'show',
                 $this->view->translate('imageName') => $picture->filename
-            );
+            ];
             $filename = $this->view->url($params, 'controllers', true);
             $pictureForm->setSrcImage($filename);
             $this->view->picture = $picture;
@@ -178,14 +176,14 @@ class Admin_PictureController extends AbstractAction
      */
     public function showAction()
     {
-        $id = (int)$this->param('id');
-        $propertyId = (int)$this->param($this->view->translate('propertyId'));
+        $id = (int) $this->param('id');
+        $propertyId = (int) $this->param($this->view->translate('propertyId'));
         $picture = $this->service->retrievePictureByIdAndPropertyId($id, $propertyId);
         if (!$picture) {
             $this->flash('error')->addMessage('picture.not.found');
             $this->redirectToRoute(
                 'list',
-                array($this->view->translate('page') => 1)
+                [$this->view->translate('page') => 1]
             );
         } else {
             $this->view->picture = $picture;
@@ -200,24 +198,24 @@ class Admin_PictureController extends AbstractAction
      */
     public function deleteAction()
     {
-        $id = (int)$this->param('id');
+        $id = (int) $this->param('id');
         $propertyId = (int)$this->param($this->view->translate('propertyId'));
         $picture = $this->service
                         ->retrievePictureByIdAndPropertyId($id, $propertyId);
         if (!$picture) {
             $this->flash('error')->addMessage('picture.not.found');
             $this->redirectToRoute(
-                'list', array($this->view->translate('page') => 1)
+                'list', [$this->view->translate('page') => 1]
             );
         } else {
             $this->service->deletePicture($id, $propertyId);
             $this->flash('success')->addMessage('picture.deleted');
             $this->redirectToRoute(
                 'list',
-                array(
+                [
                     $this->view->translate('propertyId') => $propertyId,
                     $this->view->translate('page') => 1
-                )
+                ]
             );
         }
     }

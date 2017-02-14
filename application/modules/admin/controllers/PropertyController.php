@@ -1,9 +1,10 @@
 <?php
 /**
- * PHP version 5.6
+ * PHP version 7.1
  *
  * This source file is subject to the license that is bundled with this package in the file LICENSE.
  */
+use App\Model\Property;
 use Mandragora\Controller\Action\AbstractAction;
 use Mandragora\Service;
 
@@ -45,12 +46,12 @@ class Admin_PropertyController extends AbstractAction
     {
         //Setup search properties form
         $searchForm = $this->service->getForm('Search');
-        $action = $this->view->url(array('action'=>'search'), 'controllers');
+        $action = $this->view->url(['action'=>'search'], 'controllers');
         $searchForm->setAction($action);
         $this->view->searchForm = $searchForm;
         //Setup properties list
         $this->service->setPaginatorOptions($this->getAppSetting('paginator'));
-        $page = (int)$this->param($this->view->translate('page'), 1);
+        $page = (int) $this->param($this->view->translate('page'), 1);
         $collection = $this->service->retrievePropertyCollection($page);
         $this->view->collection = $collection;
         $this->view->paginator = $this->service->getPaginator($page);
@@ -63,7 +64,7 @@ class Admin_PropertyController extends AbstractAction
      */
     public function createAction()
     {
-        $action = $this->view->url(array('action' => 'save'), 'controllers');
+        $action = $this->view->url(['action' => 'save'], 'controllers');
         $this->view->propertyForm = $this->service->getFormForCreating($action);
     }
 
@@ -75,7 +76,7 @@ class Admin_PropertyController extends AbstractAction
      */
     public function saveAction()
     {
-        $action = $this->view->url(array('action' => 'save'), 'controllers');
+        $action = $this->view->url(['action' => 'save'], 'controllers');
         $propertyForm = $this->service->getFormForCreating($action);
         $this->service->openConnection();
         if ($propertyForm->isValid($this->post())) {
@@ -96,11 +97,11 @@ class Admin_PropertyController extends AbstractAction
      */
     public function showAction()
     {
-        $id = (int)$this->param('id');
+        $id = (int) $this->param('id');
         $property = $this->service->retrievePropertyById($id);
         if (!$property) {
             $this->flash('error')->addMessage('property.not.found');
-            $this->redirectToRoute('list', array($this->view->translate('page') => 1));
+            $this->redirectToRoute('list', [$this->view->translate('page') => 1]);
         } else {
             if (!$property->Address) {
                 $page = $this->view->actions->findOneByLabel('address.action.show');
@@ -126,13 +127,13 @@ class Admin_PropertyController extends AbstractAction
      */
     public function editAction()
     {
-        $id = (int)$this->param('id');
+        $id = (int) $this->param('id');
         $property = $this->service->retrievePropertyById($id);
         if (!$property) {
             $this->flash('error')->addMessage('property.not.found');
-            $this->redirectToRoute('list', array('page' => 1));
+            $this->redirectToRoute('list', ['page' => 1]);
         } else {
-            $action = $this->view->url(array('action' => 'update'));
+            $action = $this->view->url(['action' => 'update']);
             $propertyForm = $this->service->getFormForEditing($action);
             $propertyForm->populate($property->toArray());
             $this->view->property = $property;
@@ -147,15 +148,15 @@ class Admin_PropertyController extends AbstractAction
      */
     public function updateAction()
     {
-        $action = $this->view->url(array('action' => 'update'), 'controllers');
+        $action = $this->view->url(['action' => 'update'], 'controllers');
         $propertyForm = $this->service->getFormForEditing($action);
         $propertyValues = $this->post();
         if ($propertyForm->isValid($propertyValues)) {
-            $id = (int)$this->param('id');
+            $id = (int) $this->param('id');
             $property = $this->service->retrievePropertyById($id);
             if (!$property) {
                 $this->flash('error')->addMessage('property.not.found');
-                $this->redirectToRoute('list', array('page' => 1));
+                $this->redirectToRoute('list', ['page' => 1]);
             } else {
                 if ($property->version > $propertyValues['version']) {
                     $this->flash('error')->addMessage(
@@ -167,12 +168,12 @@ class Admin_PropertyController extends AbstractAction
                 } else {
                     $this->service->updateProperty();
                     $this->flash('success')->addMessage('property.updated');
-                    $this->redirectToRoute('show', array('id' => $property->id));
+                    $this->redirectToRoute('show', ['id' => $property->id]);
                 }
             }
         } else {
             $values = $propertyForm->getValues();
-            $this->view->property = new Edeco_Model_Property($values);
+            $this->view->property = new Property($values);
             $this->view->propertyForm = $propertyForm;
             $this->renderScript('property/edit.phtml');
         }
@@ -185,25 +186,24 @@ class Admin_PropertyController extends AbstractAction
      */
     public function deleteAction()
     {
-        $id = (int)$this->param('id');
+        $id = (int) $this->param('id');
         $property = $this->service->retrievePropertyById($id);
         if (!$property) {
             $this->flash('error')->addMessage('property.not.found');
             $this->redirectToRoute(
-                'list', array($this->view->translate('page') => 1)
+                'list', [$this->view->translate('page') => 1]
             );
         } else {
             try {
-                $params = array($this->view->translate('page') => 1);
+                $params = [$this->view->translate('page') => 1];
                 $this->service->deleteProperty($id);
                 $this->flash('success')->addMessage('property.deleted');
                 $this->redirectToRoute('list', $params);
             } catch (Doctrine_Connection_Exception $ce) {
-                if ($ce->getPortableCode() == Doctrine_Core::ERR_CONSTRAINT) {
+                if ($ce->getPortableCode() === Doctrine_Core::ERR_CONSTRAINT) {
                     $this->flash('error')
                          ->addMessage('property.constraintError');
-                    $params = array('id' => $property->id);
-                    $this->redirectToRoute('show', $params);
+                    $this->redirectToRoute('show', ['id' => $property->id]);
                 }
             }
         }
@@ -224,7 +224,7 @@ class Admin_PropertyController extends AbstractAction
                 $this->post('name')
             );
     	} else {
-    	    $params = array($this->view->translate('page') => 1);
+    	    $params = [$this->view->translate('page') => 1];
     	    $this->redirectToRoute('list', $params);
     	}
     }

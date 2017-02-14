@@ -1,5 +1,14 @@
 <?php
-class Admin_HelpController extends Mandragora_Controller_Action_Abstract
+/**
+ * PHP version 7.1
+ *
+ * This source file is subject to the license that is bundled with this package in the file LICENSE.
+ */
+use Mandragora\Controller\Action\AbstractAction;
+use Zend_Config_Xml as XmlConfig;
+use Zend_Navigation as Navigation;
+
+class Admin_HelpController extends AbstractAction
 {
     public function init()
     {
@@ -15,13 +24,11 @@ class Admin_HelpController extends Mandragora_Controller_Action_Abstract
         $this->renderScript("help/$topic/$operation.phtml");
     }
 
-    public function loadNavigation($filename)
+    public function loadNavigation(string $filename)
     {
-        $config = new Zend_Config_Xml(
+        $config = new XmlConfig(
             APPLICATION_PATH . "/configs/navigation/help/$filename.xml", 'nav'
         );
-        $container = new Zend_Navigation($config);
-        $this->view->helpMenu = $container;
+        $this->view->helpMenu = new Navigation($config);
     }
-
 }

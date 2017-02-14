@@ -1,16 +1,17 @@
 <?php
 /**
- * PHP version 5.6
+ * PHP version 7.1
  *
  * This source file is subject to the license that is bundled with this package in the file LICENSE.
  */
+use App\Model\Collection\Property as PropertyCollection;
 use Mandragora\Controller\Action\AbstractAction;
 use Mandragora\Service;
 
 /**
  * RecommendedProperty controller
  */
-class   Admin_RecommendedPropertyController extends AbstractAction
+class Admin_RecommendedPropertyController extends AbstractAction
 {
     /**
      * @var array
@@ -38,10 +39,10 @@ class   Admin_RecommendedPropertyController extends AbstractAction
      */
     public function listAction()
     {
-        $propertyId = (int)$this->param($this->view->translate('propertyId'));
-        $stateId = (int)$this->param($this->view->translate('stateId'));
+        $propertyId = (int) $this->param($this->view->translate('propertyId'));
+        $stateId = (int) $this->param($this->view->translate('stateId'));
         $this->service->setPaginatorOptions($this->getAppSetting('paginator'));
-        $page = (int)$this->param($this->view->translate('page'), 1);
+        $page = (int) $this->param($this->view->translate('page'), 1);
         $collection = $this->service->retrieveRecommendedPropertyCollection(
             $page, $propertyId
         );
@@ -56,7 +57,7 @@ class   Admin_RecommendedPropertyController extends AbstractAction
      */
     public function createAction()
     {
-        $action = $this->view->url(array('action' => 'save'), 'controllers');
+        $action = $this->view->url(['action' => 'save'], 'controllers');
         $propertyId = $this->param($this->view->translate('propertyId'));
         $stateId = $this->param($this->view->translate('stateId'));
         $form = $this->service->getFormForCreating($action);
@@ -74,17 +75,17 @@ class   Admin_RecommendedPropertyController extends AbstractAction
      */
     public function saveAction()
     {
-        $action = $this->view->url(array('action' => 'save'), 'controllers');
+        $action = $this->view->url(['action' => 'save'], 'controllers');
         $recommendedPropertyForm = $this->service->getFormForCreating($action);
         if ($recommendedPropertyForm->isValid($this->post())) {
             $this->service->createRecommendedProperty();
             $this->flash('success')->addMessage('recommendedProperty.created');
-            $stateId = (int)$this->param($this->view->translate('stateId'));
-            $params = array(
+            $stateId = (int) $this->param($this->view->translate('stateId'));
+            $params = [
             	$this->view->translate('page') => 1,
             	$this->view->translate('propertyId') => $this->post('id'),
             	$this->view->translate('stateId') => $stateId,
-            );
+            ];
             $this->redirectToRoute('list', $params);
         } else {
             $this->view->recommendedPropertyForm = $recommendedPropertyForm;
@@ -97,17 +98,17 @@ class   Admin_RecommendedPropertyController extends AbstractAction
      */
     public function deleteAction()
     {
-        $id = (int)$this->param('id');
-        $propertyId = (int)$this->param($this->view->translate('propertyId'));
-        $stateId = (int)$this->param($this->view->translate('stateId'));
+        $id = (int) $this->param('id');
+        $propertyId = (int) $this->param($this->view->translate('propertyId'));
+        $stateId = (int) $this->param($this->view->translate('stateId'));
         $recommendedProperty = $this->service->retrieveRecommendedPropertyBy(
             $id, $propertyId
         );
-        $params = array(
+        $params = [
             $this->view->translate('page') => 1,
             $this->view->translate('propertyId') => $id,
             $this->view->translate('stateId') => $stateId,
-        );
+        ];
         if (!$recommendedProperty) {
             $this->flash('error')->addMessage('recommendedProperty.not.found');
             $this->redirectToRoute('list', $params);
@@ -118,10 +119,10 @@ class   Admin_RecommendedPropertyController extends AbstractAction
                      ->addMessage('recommendedProperty.deleted');
                 $this->redirectToRoute('list', $params);
             } catch (Doctrine_Connection_Exception $ce) {
-                if ($ce->getPortableCode() == Doctrine_Core::ERR_CONSTRAINT) {
+                if ($ce->getPortableCode() === Doctrine_Core::ERR_CONSTRAINT) {
                     $this->flash('error')
                          ->addMessage('recommendedProperty.constraintError');
-                    $params = array('id' => $recommendedProperty->id);
+                    $params = ['id' => $recommendedProperty->id];
                     $this->redirectToRoute('show', $params);
                 }
             }
@@ -130,12 +131,11 @@ class   Admin_RecommendedPropertyController extends AbstractAction
 
     /**
      * Search a property located near by the current property
-     *
-     * @param int $stateId
-     * @param int $propertyId
-     * @return App_Model_Collection_Property
      */
-    protected function getRecommendedProperties($stateId, $propertyId)
+    protected function getRecommendedProperties(
+        int $stateId,
+        int $propertyId
+    ): PropertyCollection
     {
         $service = Service::factory('Property');
         $service->setCacheManager($this->getCacheManager());

@@ -1,15 +1,14 @@
 <?php
 /**
- * PHP version 5
+ * PHP version 7.1
  *
  * This source file is subject to the license that is bundled with this package in the file LICENSE.
  */
 use Mandragora\Log;
+use Zend_Controller_Action as Action;
+use Zend_Controller_Plugin_ErrorHandler as ErrorHandler;
 
-/**
- * Error controller
- */
-class Admin_ErrorController extends Zend_Controller_Action
+class Admin_ErrorController extends Action
 {
     /**
      * Default action performed whenever an error occurs
@@ -20,8 +19,8 @@ class Admin_ErrorController extends Zend_Controller_Action
     {
         $errors = $this->_getParam('error_handler');
         switch ($errors->type) {
-            case Zend_Controller_Plugin_ErrorHandler::EXCEPTION_NO_CONTROLLER:
-            case Zend_Controller_Plugin_ErrorHandler::EXCEPTION_NO_ACTION:
+            case ErrorHandler::EXCEPTION_NO_CONTROLLER:
+            case ErrorHandler::EXCEPTION_NO_ACTION:
                 // 404 error -- controller or action not found
                 $this->getResponse()->setHttpResponseCode(404);
                 $this->view->message = 'No se encontró la página';
@@ -36,11 +35,4 @@ class Admin_ErrorController extends Zend_Controller_Action
         $this->view->exception = $errors->exception;
         $this->view->request = $errors->request;
     }
-
-    /**
-     * Action performed when a user has no access to a given action
-     *
-     * @return void
-     */
-    public function unauthorizedAction() { }
 }

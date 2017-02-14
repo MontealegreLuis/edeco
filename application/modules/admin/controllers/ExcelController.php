@@ -1,6 +1,6 @@
 <?php
 /**
- * PHP version 5
+ * PHP version 7.1
  *
  * This source file is subject to the license that is bundled with this package in the file LICENSE.
  */
@@ -9,13 +9,11 @@ use Mandragora\File;
 use Mandragora\Service;
 
 /**
- * Excel controller
+ * CRUD for excel files
  */
 class Admin_ExcelController extends AbstractAction
 {
-    /**
-     * @var array
-     */
+    /** @var array */
     protected $validMethods = [
         'save' => ['method' => 'post'],
     ];
@@ -53,8 +51,9 @@ class Admin_ExcelController extends AbstractAction
      */
     public function createAction()
     {
-        $action = $this->view->url(array('action' => 'save'), 'controllers');
-        $excelForm = $this->service->getFormForCreating($action);
+        $excelForm = $this->service->getFormForCreating($this->view->url(
+            ['action' => 'save'], 'controllers'
+        ));
         $this->view->excelForm = $excelForm;
     }
 
@@ -67,14 +66,13 @@ class Admin_ExcelController extends AbstractAction
     {
     	$this->service->openConnection();
         $dateRange = $this->service->formatDateRange($this->post());
-        $action = $this->view->url(array('action' => 'save'), 'controllers');
+        $action = $this->view->url(['action' => 'save'], 'controllers');
         $excelForm = $this->service->getFormForCreating($action);
         $excelForm->setDateRangeValidator();
         if ($this->service->isExcelFormValid($dateRange)) {
             $startDate = $dateRange['startDate'];
             $stopDate = $dateRange['stopDate'];
-            $isfileCreated = $this->service
-                                  ->createExcelFile($startDate, $stopDate);
+            $isfileCreated = $this->service->createExcelFile($startDate, $stopDate);
             if (!$isfileCreated) {
                 $this->flash('error')->addMessage('excel.noPropertiesFound');
                 $params = array($this->view->translate('page') => 1);
@@ -125,9 +123,7 @@ class Admin_ExcelController extends AbstractAction
              ->setHeader('Content-type', 'application/octet-stream')
              ->setHeader('Cache-Control', 'public', true)
              ->setHeader('Pragma', '', true)
-             ->setHeader('Content-Disposition',
-                "attachment; filename=\"$name\"\n"
-             )
+             ->setHeader('Content-Disposition', "attachment; filename=\"$name\"\n")
              ->setBody($file->read())
              ->sendResponse();
         die();
@@ -144,7 +140,6 @@ class Admin_ExcelController extends AbstractAction
         $file = $this->service->getExcelFileInformation($fileName);
         $file->delete();
         $this->flash('error')->addMessage('excel.deleted');
-        $this->redirectToRoute('list', array());
+        $this->redirectToRoute('list', []);
     }
-
 }

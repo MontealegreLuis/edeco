@@ -1,21 +1,21 @@
 <?php
 /**
- * PHP version 5.6
+ * PHP version 7.1
  *
  * This source file is subject to the license that is bundled with this package in the file LICENSE.
  */
 use Mandragora\Controller\Action\Auth;
 use Mandragora\Service;
 use Mandragora\Service\Router;
+use Zend_Auth as Authentication;
+use Zend_Session_Namespace as SessionNamespace;
 
 /**
  * Perform authentication process
  */
 class Admin_IndexController extends Auth
 {
-    /**
-     * @var array
-     */
+    /** @var array */
     protected $validMethods = ['authenticate' => ['method' => 'post']];
 
     /**
@@ -50,7 +50,7 @@ class Admin_IndexController extends Auth
             $this->redirectToInitialPage();
         }
         $loginForm = $this->service->getForm('Login');
-        $action = $this->view->url(array('action' => 'authenticate'));
+        $action = $this->view->url(['action' => 'authenticate']);
         $loginForm->setAction($action);
         $loginForm->addHash($this->getAppSetting('csrf'));
         $this->view->loginForm = $loginForm;
@@ -58,6 +58,7 @@ class Admin_IndexController extends Auth
 
     /**
      * @return void
+     * @throws \Zend_Session_Exception
      */
     public function authenticateAction()
     {
@@ -66,9 +67,9 @@ class Admin_IndexController extends Auth
         if ($loginForm->isValid($this->post())) {
             $result = $this->service->login();
             if ($result->isValid()) {
-                $auth = Zend_Auth::getInstance();
+                $auth = Authentication::getInstance();
                 $namespace = $auth->getStorage()->getNamespace();
-                $session = new Zend_Session_Namespace($namespace);
+                $session = new SessionNamespace($namespace);
                 $session->setExpirationSeconds(3600);
                 $this->redirectToInitialPage();
             } else  {
@@ -81,19 +82,21 @@ class Admin_IndexController extends Auth
 
     /**
      * Redirect the user to her initial page depending on her role
+     * @throws \Zend_Controller_Action_Exception
+     * @throws \Zend_Session_Exception
      */
     protected function redirectToInitialPage()
     {
-        $namespace = Zend_Auth::getInstance()->getStorage()->getNamespace();
-        $session = new Zend_Session_Namespace($namespace);
+        $namespace = Authentication::getInstance()->getStorage()->getNamespace();
+        $session = new SessionNamespace($namespace);
         $expirationSeconds = $this->getSessionOption('gc_maxlifetime');
         $session->setExpirationSeconds($expirationSeconds);
         if (isset($session->requestUrl)) {
             $url = $session->requestUrl;
             unset($session->requestUrl);
-            $this->_redirect($url, array('prependBase' => false));
+            $this->redirect($url, ['prependBase' => false]);
         } else {
-            $identity = Zend_Auth::getInstance()->getIdentity();
+            $identity = Authentication::getInstance()->getIdentity();
             $router = Router::factory('Helper');
             $url = $router->getDefaultRoute($identity->roleName);
             $this->redirectToRoute(
@@ -110,9 +113,9 @@ class Admin_IndexController extends Auth
     public function logoutAction()
     {
         $this->service->logout();
-        $this->_redirect(
-            $this->view->url(array('action' => 'login'), 'index'),
-            array('prependBase' => false)
+        $this->redirect(
+            $this->view->url(['action' => 'login'], 'index'),
+            ['prependBase' => false]
         );
     }
 }
