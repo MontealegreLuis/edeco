@@ -1,11 +1,14 @@
 <?php
 /**
- * PHP version 5
+ * PHP version 7.1
  *
  * This source file is subject to the license that is bundled with this package in the file LICENSE.
  */
+use App\Service\Category;
 use Mandragora\Controller\Action\AbstractAction;
 use Mandragora\Service;
+use Zend_Config_Xml as XmlConfig;
+use Zend_Navigation as Navigation;
 
 /**
  * Application's default controller
@@ -67,10 +70,10 @@ class IndexController extends AbstractAction
     public function formAction()
     {
         $this->setContactService();
-        $url = $this->view->url(array('action' => 'mail-confirmation'), 'index');
+        $url = $this->view->url(['action' => 'mail-confirmation'], 'index');
         $contactForm = $this->service->getContactForm($url);
         if ($this->param('id')) {
-            $propertyId = (int)$this->param('id');
+            $propertyId = (int) $this->param('id');
             $contactForm->getElement('propertyId')->setValue($propertyId);
         }
         $this->view->contactForm = $contactForm;
@@ -83,7 +86,7 @@ class IndexController extends AbstractAction
     {
         $this->setContactService();
         $contactInformation = $this->post();
-        $url = $this->view->url(array('action' => 'mail-confirmation'), 'index');
+        $url = $this->view->url(['action' => 'mail-confirmation'], 'index');
         $contactForm = $this->service->getContactForm($url);
         if ($contactForm->isValid($contactInformation)) {
             $baseUrl = $this->_helper->emailTransport($this->getRequest());
@@ -112,9 +115,7 @@ class IndexController extends AbstractAction
     public function premiseAction()
     {
         $this->setPremiseInformationService();
-        $action = $this->view->url(
-            array('action' => 'premise-confirmation'), 'index'
-        );
+        $action = $this->view->url(['action' => 'premise-confirmation'], 'index');
         $this->view->premiseForm = $this->service->getPremiseForm($action);
     }
 
@@ -127,9 +128,7 @@ class IndexController extends AbstractAction
     {
         $this->setPremiseInformationService();
         $premiseInformation = $this->post();
-        $action = $this->view->url(
-            array('action' => 'premise-confirmation'), 'index'
-        );
+        $action = $this->view->url(['action' => 'premise-confirmation'], 'index');
         $premiseForm = $this->service->getPremiseForm($action);
         if ($premiseForm->isValid($premiseInformation)) {
             $baseUrl = $this->_helper->emailTransport($this->getRequest());
@@ -201,13 +200,14 @@ class IndexController extends AbstractAction
     }
 
     /**
-     * @return Zend_Navigation
+     * @throws \Zend_Navigation_Exception
+     * @throws \Zend_Config_Exception
      */
-    protected function getSitemap()
+    protected function getSitemap(): Navigation
     {
         $path = APPLICATION_PATH . '/configs/navigation/default.xml';
-        $config = new Zend_Config_Xml($path, 'nav');
-        $container = new Zend_Navigation($config);
+        $config = new XmlConfig($path, 'nav');
+        $container = new Navigation($config);
         $categoryService = $this->getCategoryService();
         $categoryService->addCategoriesToSitemap($container);
         $this->setPropertyService();
@@ -215,10 +215,7 @@ class IndexController extends AbstractAction
         return $container;
     }
 
-    /**
-     * @return App_Service_Category
-     */
-    protected function getCategoryService()
+    protected function getCategoryService(): Category
     {
         $service = Service::factory('Category');
         $service->setCacheManager($this->getCacheManager());
@@ -232,5 +229,4 @@ class IndexController extends AbstractAction
      * @return void
      */
     public function constructionAction() {}
-
 }

@@ -1,13 +1,15 @@
 <?php
 /**
- * PHP version 5
+ * PHP version 7.1
  *
  * This source file is subject to the license that is bundled with this package in the file LICENSE.
  */
 use App\Model\Collection\Category as Categories;
 use Mandragora\Controller\Action\AbstractAction;
 use Mandragora\Gateway;
+use Mandragora\Gateway\NoResultsFoundException;
 use Mandragora\Service;
+use Zend_Controller_Action_Exception as ActionException;
 
 /**
  * Application's default controller
@@ -31,7 +33,7 @@ class PropertyController extends AbstractAction
     /**
      * Show the list of available properties grouped by state
      *
-     * @return void
+     * @throws \Zend_Controller_Action_Exception If the category does not exist
      */
     public function listAction()
     {
@@ -42,9 +44,7 @@ class PropertyController extends AbstractAction
         $url = (string) $this->param('category');
         $category = $serviceCategory->retrieveCategoryByUrl($url);
         if (!$category) {
-            throw new Zend_Controller_Action_Exception(
-                "Category $category does not exist", 404
-            );
+            throw new ActionException("Category $category does not exist", 404);
         } else {
             $properties = $this->service->retrieveCountByCategory($category);
             $this->view->properties = $properties;
@@ -58,7 +58,7 @@ class PropertyController extends AbstractAction
      * Show the list of properties filtered by state and availability
      * (rent or sale)
      *
-     * @return void
+     * @throws \Zend_Controller_Action_Exception If the state does not exist
      */
     public function listByStateAction()
     {
@@ -86,60 +86,60 @@ class PropertyController extends AbstractAction
             $stateUrl->setLabel($category['name']);
             $product = $this->view->breadcrumbs->findByAction('list-by-state');
             $product->setLabel(ucfirst($this->param('availability')).' en '.$state['name']);
-        } catch (Mandragora_Gateway_NoResultsFoundException $nrf) {
-            throw new Zend_Controller_Action_Exception($nrf->getMessage(), 404);
+        } catch (NoResultsFoundException $nrf) {
+            throw new ActionException($nrf->getMessage(), 404);
         }
     }
 
     /**
      * Perform 301 redirect to the new url
      *
-     * @throws Zend_Controller_Action_Exception
+     * @throws Zend_Controller_Action_Exception If the property does not exist
      */
     public function detailAction()
     {
         try {
-            $propertyUrl = (string)$this->param('propertyUrl');
+            $propertyUrl = (string) $this->param('propertyUrl');
             $property = $this->service->retrievePropertyByUrl($propertyUrl);
             $availability = $this->view->translate($property->availabilityFor);
             $newRoute = $this->view->url(
-                array(
+                [
                 	'propertyUrl' => $property->url->render(),
                 	'category' => $property->Category->url,
                 	'state' => $property->Address->City->State->url,
                 	'availability' => $availability,
-            	),
+                ],
             	'newdetail'
             );
-            return $this->_redirect($newRoute, array('code' => 301));
+            return $this->redirect($newRoute, ['code' => 301]);
         } catch (Exception $e) {
-            throw new Zend_Controller_Action_Exception('Page not found', 404);
+            throw new ActionException('Page not found', 404);
         }
     }
 
     /**
      * Show the details of a property
      *
-     * @return void
-    */
+     * @throws Zend_Controller_Action_Exception If there's no property with the
+     * given characteristics
+     */
     public function newDetailAction()
     {
         try {
             $this->view->googleMapsKey = $this->_helper->googleMaps($this->getRequest());
             $property = $this->service->retrievePropertyByUrl((string) $this->param('propertyUrl'));
-            $category = (string)$this->param('category');
-            $state = (string)$this->param('state');
-            $availability = (string)$this->param('availability');
+            $category = (string) $this->param('category');
+            $state = (string) $this->param('state');
+            $availability = (string) $this->param('availability');
             $availability = $availability === 'renta'
                 ? 'rent' : ($availability === 'venta' ? 'sale' : null);
-            if ($category !== (string)$property->Category->url
-                || $state !== (string)$property->Address->City->State->url
+            if ($category !== (string) $property->Category->url
+                || $state !== (string) $property->Address->City->State->url
                 || $availability !== $property->availabilityFor) {
-                throw new Exception('Parameters do not match property values');
+                throw new ActionException('Parameters do not match property values');
             }
             $template = 'widgets/social-share.phtml';
-            $this->view->socialWidget = $this->_helper
-                                             ->socialShareWidget($template);
+            $this->view->socialWidget = $this->_helper->socialShareWidget($template);
             $this->view->category = $category;
             $this->view->propertyDetail = $property;
             $this->view->propertyJson = $property->toJson();
@@ -149,10 +149,10 @@ class PropertyController extends AbstractAction
             $product->setLabel(ucfirst($this->param('availability')).' en '.ucfirst($this->param('state')));
             $detail = $this->view->breadcrumbs->findByAction('new-detail');
             $detail->setLabel($property->name);
-        } catch (Mandragora_Gateway_NoResultsFoundException $e) {
-            throw new Zend_Controller_Action_Exception($e->getMessage(), 404);
+        } catch (NoResultsFoundException $e) {
+            throw new ActionException($e->getMessage(), 404);
         } catch (Exception $e) {
-            throw new Zend_Controller_Action_Exception($e->getMessage(), 404);
+            throw new ActionException($e->getMessage(), 404);
         }
     }
 
