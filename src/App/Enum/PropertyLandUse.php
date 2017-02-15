@@ -1,6 +1,6 @@
 <?php
 /**
- * PHP version 5
+ * PHP version 7.1
  *
  * This source file is subject to the license that is bundled with this package in the file LICENSE.
  */
@@ -14,38 +14,24 @@ use Mandragora\Enum\EnumInterface;
  */
 class PropertyLandUse implements EnumInterface
 {
-    /**
-     * @var string
-     */
     const Housing = 'housing';
 
-    /**
-     * @var string
-     */
     const Commercial = 'commercial';
 
-    /**
-     * @var string
-     */
     const Industrial = 'industrial';
 
-    /**
-     * @var string
-     */
     const Mixed = 'mixed';
 
     /**
-     * Return all the available types as an associative array
-     *
-     * @return array
+     * @return string[]
      */
-    public static function values()
+    public static function values(): array
     {
-        return array(
+        return [
             self::Housing => 'Habitacional',
             self::Commercial => 'Comercial',
             self::Industrial => 'Industrial',
             self::Mixed => 'Mixto',
-        );
+        ];
     }
 }
