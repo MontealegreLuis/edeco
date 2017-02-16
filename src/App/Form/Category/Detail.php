@@ -6,13 +6,13 @@
  */
 namespace App\Form\Category;
 
-use Mandragora\Form\Crud\AbstractCrud;
+use Mandragora\Form\Crud\CrudForm;
 use Zend\Validator\Db\NoRecordExists;
 
 /**
  * Category form
  */
-class Detail extends AbstractCrud
+class Detail extends CrudForm
 {
     /**
      * @return void

@@ -6,12 +6,12 @@
  */
 namespace App\Form\GoogleMap;
 
-use Mandragora\Form\Crud\AbstractCrud;
+use Mandragora\Form\Crud\CrudForm;
 
 /**
  * Google map form
  */
-class Detail extends AbstractCrud
+class Detail extends CrudForm
 {
     public function setAddressId(int $addressId)
     {
@@ -25,9 +25,4 @@ class Detail extends AbstractCrud
     {
         $this->removeElement('version');
     }
-
-    /**
-     * @return void
-     */
-    public function prepareForEditing() {}
 }

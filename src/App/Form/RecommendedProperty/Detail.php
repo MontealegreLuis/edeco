@@ -6,20 +6,10 @@
  */
 namespace App\Form\RecommendedProperty;
 
-use Mandragora\Form\Crud\AbstractCrud;
+use Mandragora\Form\Crud\CrudForm;
 
-class Detail extends AbstractCrud
+class Detail extends CrudForm
 {
-    /**
-     * @return void
-     */
-    public function prepareForCreating() {}
-
-    /**
-     * @return void
-     */
-    public function prepareForEditing() {}
-
     public function setPropertyId(int $propertyId)
     {
         $this->getElement('id')->setValue($propertyId);

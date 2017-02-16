@@ -6,13 +6,13 @@
  */
 namespace App\Form\Property;
 
-use Mandragora\Form\Crud\AbstractCrud;
+use Mandragora\Form\Crud\CrudForm;
 use Mandragora\Validate\Db\Doctrine\NoRecordExists;
 
 /**
  * Property's form
  */
-class Detail extends AbstractCrud
+class Detail extends CrudForm
 {
     /**
      * @return void

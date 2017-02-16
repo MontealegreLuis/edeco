@@ -6,13 +6,13 @@
  */
 namespace App\Form\Picture;
 
-use Mandragora\Form\Crud\AbstractCrud;
+use Mandragora\Form\Crud\CrudForm;
 use Mandragora\Validate\Db\Doctrine\NoRecordExists;
 
 /**
  * Pictures' form
  */
-class Detail extends AbstractCrud
+class Detail extends CrudForm
 {
     /**
      * Remove both the control for the picture's id, and the one for showing the

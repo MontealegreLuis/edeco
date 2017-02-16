@@ -6,13 +6,13 @@
  */
 namespace App\Form\User;
 
-use Mandragora\Form\Crud\AbstractCrud;
+use Mandragora\Form\Crud\CrudForm;
 use Mandragora\Validate\Db\Doctrine\NoRecordExists;
 
 /**
  * Form for adding/updating users
  */
-class Detail extends AbstractCrud
+class Detail extends CrudForm
 {
     /**
      * @return void

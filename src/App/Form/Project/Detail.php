@@ -6,13 +6,13 @@
  */
 namespace App\Form\Project;
 
-use Mandragora\Form\Crud\AbstractCrud;
+use Mandragora\Form\Crud\CrudForm;
 use Zend_Validate_File_Upload as FileUpload;
 
 /**
  * Form for adding/updating projects
  */
-class Detail extends AbstractCrud
+class Detail extends CrudForm
 {
     public function init()
     {
@@ -51,9 +51,4 @@ class Detail extends AbstractCrud
         $this->removeElement('id');
         $this->removeElement('version');
     }
-
-    /**
-     * @return void
-     */
-    public function prepareForEditing() {}
 }

@@ -6,12 +6,12 @@
  */
 namespace App\Form\Address;
 
-use Mandragora\Form\Crud\AbstractCrud;
+use Mandragora\Form\Crud\CrudForm;
 
 /**
  * Address form
  */
-class Detail extends AbstractCrud
+class Detail extends CrudForm
 {
     public function setIdValue(int $propertyId)
     {
@@ -51,12 +51,5 @@ class Detail extends AbstractCrud
     public function prepareForCreating()
     {
         $this->removeElement('version');
-    }
-
-    /**
-     * @return void
-     */
-    public function prepareForEditing()
-    {
     }
 }
