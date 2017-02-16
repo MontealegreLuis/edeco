@@ -8,7 +8,7 @@ namespace Mandragora\Service;
 
 use Mandragora\Model;
 use Mandragora\Model\AbstractModel;
-use Mandragora\Form;
+use Mandragora\FormFactory;
 use Zend_Cache_Manager;
 
 /**
@@ -79,7 +79,7 @@ abstract class AbstractService
     )
     {
         if (!$this->form) {
-            $form = new Form($disableCache, $fromConfig);
+            $form = new FormFactory($disableCache, $fromConfig);
             if (!$disableCache) {
                  $form->setCache($this->getCache('form'));
             }

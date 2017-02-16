@@ -14,7 +14,7 @@ use Zend_Config_Ini as IniConfig;
 /**
  * Factory for forms
  */
-class Form
+class FormFactory
 {
     /**
      * Flag to determine if cache should be disabled
