@@ -1,12 +1,13 @@
 <?php
 /**
- * PHP version 5.6
+ * PHP version 7.1
  *
  * This source file is subject to the license that is bundled with this package in the file LICENSE.
  */
 namespace App\Form\Picture;
 
 use Mandragora\Form\Crud\AbstractCrud;
+use Mandragora\Validate\Db\Doctrine\NoRecordExists;
 
 /**
  * Pictures' form
@@ -37,60 +38,49 @@ class Detail extends AbstractCrud
              ->clearValidators()
              ->setRequired(false);
         $this->getElement('shortDescription')
-             ->removeValidator('Db_Doctrine_NoRecordExists');
+             ->removeValidator(NoRecordExists::class);
     }
 
-    /**
-     * @param int $propertyId
-     */
-    public function setPropertyId($propertyId)
+    public function setPropertyId(int $propertyId)
     {
-        $this->getElement('propertyId')->setValue((int)$propertyId);
+        $this->getElement('propertyId')->setValue($propertyId);
     }
 
     /**
      * @param int $pictureId
      */
-    public function setPictureIdValue($pictureId)
+    public function setPictureIdValue(int $pictureId)
     {
-        $this->getElement($this->pictureId)->setValue((int)$pictureId);
+        $this->getElement('id')->setValue($pictureId);
     }
 
     /**
      * Set the src parameter of the image control
-     *
-     * @param string $filename
      */
-    public function setSrcImage($filename)
+    public function setSrcImage(string $filename)
     {
-        $this->getElement('image')->setImage((string)$filename);
+        $this->getElement('image')->setImage($filename);
     }
 
     /**
      * Return the name of the file that is being uploaded
-     *
-     * @return string
      */
-    public function getPictureFileValue()
+    public function getPictureFileValue(): string
     {
         return $this->getElement('filename')->getValue();
     }
 
     /**
      * Save the image file and rename it
-     *
-     * @param string $filename The new name for the image file
      */
-    public function savePictureFile($filename)
+    public function savePictureFile(string $filename)
     {
         $imageFile = $this->getElement('filename');
-        $imageFile->addFilter('Rename',
-            array(
-                'source' => '*',
-                'target' => $filename,
-                'overwrite' => true
-            )
-        );
+        $imageFile->addFilter('Rename', [
+            'source' => '*',
+            'target' => $filename,
+            'overwrite' => true
+        ]);
         $imageFile->receive();
     }
 }

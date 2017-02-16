@@ -1,12 +1,13 @@
 <?php
 /**
- * PHP version 5
+ * PHP version 7.1
  *
  * This source file is subject to the license that is bundled with this package in the file LICENSE.
  */
 namespace App\Form\Property;
 
 use Mandragora\Form\Crud\AbstractCrud;
+use Mandragora\Validate\Db\Doctrine\NoRecordExists;
 
 /**
  * Property's form
@@ -28,49 +29,42 @@ class Detail extends AbstractCrud
     public function prepareForEditing()
     {
         $this->getElement('name')
-             ->removeValidator('Db_Doctrine_NoRecordExists');
+             ->removeValidator(NoRecordExists::class);
     }
 
     /**
-     * @param array $categories
      * @return void
      */
     public function setCategories(array $categories)
     {
-        $haystack = array();
-        $categoryCollection = array();
+        $haystack = [];
+        $categoryCollection = [];
         foreach ($categories as $category) {
             $haystack[] = $category['id'];
             $categoryCollection[$category['id']] = $category['name'];
         }
         $category = $this->getElement('categoryId');
         $category->getValidator('InArray')->setHaystack($haystack);
-        $options = array('' => 'form.emptyOption') + $categoryCollection;
-        $category->setMultioptions($options);
+        $category->setMultioptions(['' => 'form.emptyOption'] + $categoryCollection);
     }
 
     /**
-     * @param array $availabilities
      * @return void
      */
     public function setAvailabilities(array $availabilities)
     {
-        $haystack = array_keys($availabilities);
         $availabilityFor = $this->getElement('availabilityFor');
-        $availabilityFor->getValidator('InArray')->setHaystack($haystack);
+        $availabilityFor->getValidator('InArray')->setHaystack(array_keys($availabilities));
         $availabilityFor->setMultioptions($availabilities);
     }
 
     /**
-     * @param array $landUses
      * @return void
      */
     public function setLandUses(array $landUses)
     {
-        $haystack = array_keys($landUses);
         $landUse = $this->getElement('landUse');
-        $landUse->getValidator('InArray')->setHaystack($haystack);
-        $options = array('' => 'form.emptyOption') + $landUses;
-        $landUse->setMultioptions($options);
+        $landUse->getValidator('InArray')->setHaystack(array_keys($landUses));
+        $landUse->setMultioptions(['' => 'form.emptyOption'] + $landUses);
     }
 }

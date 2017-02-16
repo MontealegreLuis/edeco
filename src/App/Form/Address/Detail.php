@@ -1,6 +1,6 @@
 <?php
 /**
- * PHP version 5.6
+ * PHP version 7.1
  *
  * This source file is subject to the license that is bundled with this package in the file LICENSE.
  */
@@ -13,12 +13,9 @@ use Mandragora\Form\Crud\AbstractCrud;
  */
 class Detail extends AbstractCrud
 {
-    /**
-     * @param int $propertyId
-     */
-    public function setIdValue($propertyId)
+    public function setIdValue(int $propertyId)
     {
-        $this->getElement('id')->setValue((int) $propertyId);
+        $this->getElement('id')->setValue($propertyId);
     }
 
     /**
@@ -43,10 +40,7 @@ class Detail extends AbstractCrud
         $city->setMultioptions($options);
     }
 
-    /**
-     * @param int $stateId
-     */
-    public function setStateId($stateId)
+    public function setStateId(int $stateId)
     {
         $this->getElement('state')->setValue($stateId);
     }

@@ -1,13 +1,13 @@
 <?php
 /**
- * PHP version 5
+ * PHP version 7.1
  *
  * This source file is subject to the license that is bundled with this package in the file LICENSE.
  */
 namespace App\Form\Project;
 
 use Mandragora\Form\Crud\AbstractCrud;
-use Zend_Validate_File_Upload;
+use Zend_Validate_File_Upload as FileUpload;
 
 /**
  * Form for adding/updating projects
@@ -17,42 +17,28 @@ class Detail extends AbstractCrud
     public function init()
     {
         $validator = $this->getElement('attachment')->getValidator('Upload');
-        $validator->setMessages(
-            array(
-                Zend_Validate_File_Upload::FILE_NOT_FOUND =>
-                    'project.attachment.fileUploadErrorFileNotFound'
-            )
-        );
+        $validator->setMessages([
+            FileUpload::FILE_NOT_FOUND => 'project.attachment.fileUploadErrorFileNotFound'
+        ]);
     }
 
-    /**
-     * @param string $newName
-     */
-    public function saveAttachmentFile($newName)
+    public function saveAttachmentFile(string $newName)
     {
         $powerPointFile = $this->getElement('attachment');
-        $powerPointFile->addFilter('Rename',
-            array(
-                'source' => '*',
-                'target' => $newName,
-                'overwrite' => true
-            )
-        );
+        $powerPointFile->addFilter('Rename', [
+            'source' => '*',
+            'target' => $newName,
+            'overwrite' => true
+        ]);
         $powerPointFile->receive();
     }
 
-    /**
-     * @return boolean
-     */
-    public function hasNewPowerPoint()
+    public function hasNewPowerPoint(): bool
     {
-        return $this->getElement('attachment')->getValue() != null;
+        return $this->getElement('attachment')->getValue() !== null;
     }
 
-    /**
-     * @return string
-     */
-    public function getAttachmentOriginalFileName()
+    public function getAttachmentOriginalFileName(): string
     {
         return $this->getElement('attachment')->getValue();
     }

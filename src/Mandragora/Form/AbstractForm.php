@@ -1,6 +1,6 @@
 <?php
 /**
- * PHP version 5
+ * PHP version 7.1
  *
  * This source file is subject to the license that is bundled with this package in the file LICENSE.
  */
@@ -14,15 +14,15 @@ use Zend_Form;
 abstract class AbstractForm extends Zend_Form
 {
     /**
-     * @param array $options
      * @return void
+     * @throws \Zend_Form_Exception
      */
     public function addHash(array $options)
     {
         $hash = $this->createElement('hash', 'csrf');
-        $decorators = array(
-            array('ViewScript', array('viewScript' => $options['viewScript']))
-        );
+        $decorators = [
+            ['ViewScript', ['viewScript' => $options['viewScript']]]
+        ];
         $hash->setSalt($options['saltValue'])
              ->setDecorators($decorators);
         $this->addElement($hash);
