@@ -6,12 +6,12 @@
  */
 namespace App\Form\User;
 
-use Mandragora\Form\AbstractForm;
+use Mandragora\Form\SecureForm;
 
 /**
  * User's login form
  */
-class Login extends AbstractForm
+class Login extends SecureForm
 {
     /**
      * @return void

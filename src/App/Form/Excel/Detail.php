@@ -6,14 +6,14 @@
  */
 namespace App\Form\Excel;
 
-use Mandragora\Form\AbstractForm;
+use Mandragora\Form\SecureForm;
 use Mandragora\Validate\DateRange;
 use Zend_Date as Date;
 
 /**
  * Form for creating excel files of properties information
  */
-class Detail extends AbstractForm
+class Detail extends SecureForm
 {
     /**
      * @return void

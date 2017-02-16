@@ -6,11 +6,11 @@
  */
 namespace App\Form\Property;
 
-use Mandragora\Form\AbstractForm;
+use Mandragora\Form\SecureForm;
 
 /**
  * Search form for properties
  */
-class Search extends AbstractForm
+class Search extends SecureForm
 {
 }

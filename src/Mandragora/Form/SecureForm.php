@@ -6,12 +6,12 @@
  */
 namespace Mandragora\Form;
 
-use Zend_Form;
+use Zend_Form as Form;
 
 /**
  * Base class for forms
  */
-abstract class AbstractForm extends Zend_Form
+abstract class SecureForm extends Form
 {
     /**
      * @return void

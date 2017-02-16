@@ -6,11 +6,11 @@
  */
 namespace App\Form\PremiseInformation;
 
-use Mandragora\Form\AbstractForm;
+use Mandragora\Form\SecureForm;
 
 /**
  * Premise form
  */
-class Detail extends AbstractForm
+class Detail extends SecureForm
 {
 }

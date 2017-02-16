@@ -6,11 +6,11 @@
  */
 namespace App\Form\Contact;
 
-use Mandragora\Form\AbstractForm;
+use Mandragora\Form\SecureForm;
 
 /**
  * Contact form
  */
-class Detail extends AbstractForm
+class Detail extends SecureForm
 {
 }

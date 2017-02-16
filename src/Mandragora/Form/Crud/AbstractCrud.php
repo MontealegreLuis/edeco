@@ -6,12 +6,12 @@
  */
 namespace Mandragora\Form\Crud;
 
-use Mandragora\Form\AbstractForm;
+use Mandragora\Form\SecureForm;
 
 /**
  * Base class for forms which will be used in CRUD operations
  */
- abstract class AbstractCrud extends AbstractForm
+ abstract class AbstractCrud extends SecureForm
 {
      /**
       * Method to be overrided by developer for preparing the form of the
