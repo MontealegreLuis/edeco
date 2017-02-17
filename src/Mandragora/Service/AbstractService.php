@@ -79,11 +79,11 @@ abstract class AbstractService
     )
     {
         if (!$this->form) {
-            $form = new FormFactory($disableCache, $fromConfig);
+            $formFactory = new FormFactory($disableCache, $fromConfig);
             if (!$disableCache) {
-                 $form->setCache($this->getCache('form'));
+                 $formFactory->setCache($this->getCache('form'));
             }
-            $this->form = $form->factory($formName, $this->modelName);
+            $this->form = $formFactory->create($formName, $this->modelName);
         }
         return $this->form;
     }

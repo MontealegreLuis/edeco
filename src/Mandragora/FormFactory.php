@@ -47,7 +47,7 @@ class FormFactory
         self::$cache = $cache;
     }
 
-    public function factory(string $className, string $model): SecureForm
+    public function create(string $className, string $model): SecureForm
     {
         if ($this->fromConfig) {
             return $this->fromConfig($className, $model);
