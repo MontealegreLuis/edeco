@@ -4,12 +4,11 @@
  *
  * This source file is subject to the license that is bundled with this package in the file LICENSE.
  */
-use App\Model\City;
+namespace App\Model;
 
-/**
- * Unit tests for Edeco_Model_Address class
- */
-class Edeco_Model_CityTest extends ControllerTestCase
+use PHPUnit_Framework_TestCase as TestCase;
+
+class CityTest extends TestCase
 {
     public function testCanConvertToString()
     {

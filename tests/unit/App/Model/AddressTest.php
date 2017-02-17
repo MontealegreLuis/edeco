@@ -4,14 +4,13 @@
  *
  * This source file is subject to the license that is bundled with this package in the file LICENSE.
  */
-use App\Model\Address;
+namespace App\Model;
+
+use ControllerTestCase;
 use Edeco\Controller\Action\Helper\GoogleMaps;
 use Mandragora\Geocoder\PlaceMark;
 
-/**
- * Unit tests for Address class
- */
-class Edeco_Model_AddressTest extends ControllerTestCase
+class AddressTest extends ControllerTestCase
 {
     public function testCanConvertToString()
     {

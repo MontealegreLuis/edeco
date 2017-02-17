@@ -4,19 +4,11 @@
  *
  * This source file is subject to the license that is bundled with this package in the file LICENSE.
  */
-use App\Model\Project;
+namespace App\Model;
 
-/**
- * Unit tests for Edeco_Model_Address class
- *
- * @category   Tests
- * @package    Edeco
- * @subpackage Test
- * @author     LMV <luis.montealegre@mandragora-web-systems.com>
- * @copyright  Mandrágora Web-Based Systems 2010
- * @version    SVN: $Id$
- */
-class Edeco_Model_ProjectTest extends ControllerTestCase
+use PHPUnit_Framework_TestCase as TestCase;
+
+class ProjectTest extends TestCase
 {
     public function testCanConvertToString()
     {

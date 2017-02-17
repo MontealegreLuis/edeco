@@ -4,19 +4,13 @@
  *
  * This source file is subject to the license that is bundled with this package in the file LICENSE.
  */
-use App\Model\Address;
-use App\Model\City;
-use App\Model\Property;
-use App\Model\State;
+namespace App\Model;
 
-/**
- * Unit tests for Edeco_Model_Address class
- */
-class Edeco_Model_PropertyTest extends ControllerTestCase
+use PHPUnit_Framework_TestCase as TestCase;
+
+class PropertyTest extends TestCase
 {
-    /**
-     * @var Edeco_Model_Property
-     */
+    /** @var Property */
     protected $property;
 
     /**
@@ -35,9 +29,6 @@ class Edeco_Model_PropertyTest extends ControllerTestCase
         $this->property = new Property();
     }
 
-    /**
-     *
-     */
     public function testCanCreateAddressModelFromArray()
     {
         $address = [
@@ -86,10 +77,7 @@ class Edeco_Model_PropertyTest extends ControllerTestCase
         );
     }
 
-    /**
-     * @return Property
-     */
-    protected function createProperty()
+    protected function createProperty(): Property
     {
         $this->propertyInformation = [
             'id' => null, 'name' => 'Local Plaza Dorada',

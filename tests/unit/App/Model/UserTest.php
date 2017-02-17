@@ -4,12 +4,11 @@
  *
  * This source file is subject to the license that is bundled with this package in the file LICENSE.
  */
-use App\Model\User;
+namespace App\Model;
 
-/**
- * Unit tests for Edeco_Model_User class
- */
-class Edeco_Model_UserTest extends ControllerTestCase
+use PHPUnit_Framework_TestCase as TestCase;
+
+class UserTest extends TestCase
 {
     public function testCanConvertToString()
     {

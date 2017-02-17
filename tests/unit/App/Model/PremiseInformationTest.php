@@ -4,12 +4,11 @@
  *
  * This source file is subject to the license that is bundled with this package in the file LICENSE.
  */
-use App\Model\PremiseInformation;
+namespace App\Model;
 
-/**
- * Unit tests for Edeco_Model_PremiseInformation class
- */
-class Edeco_Model_PremiseInformationTest extends ControllerTestCase
+use PHPUnit_Framework_TestCase as TestCase;
+
+class PremiseInformationTest extends TestCase
 {
     public function testCanConvertToString()
     {

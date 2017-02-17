@@ -4,13 +4,12 @@
  *
  * This source file is subject to the license that is bundled with this package in the file LICENSE.
  */
-use App\Enum\Directories;
-use App\Model\Picture;
+namespace App\Model;
 
-/**
- * Unit tests for Edeco_Model_Address class
- */
-class Edeco_Model_PictureTest extends ControllerTestCase
+use App\Enum\Directories;
+use PHPUnit_Framework_TestCase as TestCase;
+
+class PictureTest extends TestCase
 {
     public function testCanConvertToString()
     {
