@@ -33,7 +33,7 @@ class FormFactory
     /** @var Cache */
     protected static $cache;
 
-    public function __construct(bool $disableCache, bool $fromConfig)
+    public function __construct(bool $disableCache, bool $fromConfig = true)
     {
         $this->disableCache = $disableCache;
         $this->fromConfig = $fromConfig;
