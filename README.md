@@ -15,7 +15,7 @@ for the following keys.
 Once you have your configuration values, run the following command
 
 ```bash
-$ make setup RUSER="root" RPSWD="root"
+$ make setup RUSER='root' RPSWD='root'
 ```
 
 The values of `RUSER` and `RPSWD` are those of a MySQL user with permissions to
