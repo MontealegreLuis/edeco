@@ -16,20 +16,20 @@ use Zend_Date as Date;
 class Detail extends SecureForm
 {
     /**
+     * @param Date $maxStopDate Defaults to today
      * @return void
      * @throws \Zend_Form_Exception
      * @throws \Zend_Date_Exception
      */
-    public function setDateRangeValidator()
+    public function setDateRangeValidator(Date $maxStopDate = null)
     {
-        $maxStopDate = new Date();
+        $maxStopDate = $this->resolveStopDate($maxStopDate);
         $rangeValidator = new DateRange($maxStopDate);
-        $rangeValidator->setMessages([
-            DateRange::STOP_DATE_OUT_OF_BOUNDS => sprintf(
-                '\'%%stopDate%\' debe ser una fecha anterior a \'%s\'',
-                $maxStopDate->toString('YYYY-MM-dd')
-            )
-        ]);
+        $rangeValidator->setMessages([DateRange::STOP_DATE_OUT_OF_BOUNDS => sprintf(
+            '\'%s\' debe ser una fecha anterior a \'%s\'',
+            '%stopDate%',
+            $maxStopDate->toString('YYYY-MM-dd')
+        )]);
         $this->getElement('stopDate')->addValidator($rangeValidator);
     }
 
@@ -43,5 +43,16 @@ class Detail extends SecureForm
         $startDate = $startDateElement->getValue();
         $dateRangeValidator = $stopDateElement->getValidator(DateRange::class);
         $dateRangeValidator->setStartDate($startDate);
+    }
+
+    /**
+     * If no stop date is given, default to today
+     */
+    private function resolveStopDate(Date $maxStopDate = null): Date
+    {
+        if ($maxStopDate === null) {
+            return new Date();
+        }
+        return $maxStopDate;
     }
 }
