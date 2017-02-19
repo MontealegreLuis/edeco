@@ -38,4 +38,4 @@ setup:
 		cp application/configs/data/images/gallery/* edeco.mx/images/gallery/
 		cp application/configs/data/images/properties/* edeco.mx/images/properties/
 		cp application/configs/data/images/thumbs/* edeco.mx/images/thumbs/
-		@echo "Done!";
+		@echo "Done!"
