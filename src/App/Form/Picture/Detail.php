@@ -15,10 +15,7 @@ use Mandragora\Validate\Db\Doctrine\NoRecordExists;
 class Detail extends CrudForm
 {
     /**
-     * Remove both the control for the picture's id, and the one for showing the
-     * image
-     *
-     *  @return void
+     * Remove following elements: id, version, image
      */
     public function prepareForCreating()
     {
@@ -28,9 +25,8 @@ class Detail extends CrudForm
     }
 
     /**
-     * Make the file optional as it may not be changed
-     *
-     * @return void
+     * Make the file optional, and remove validators. It may not be changed
+     * Remove the unique validator for the image's short description
      */
     public function prepareForEditing()
     {
@@ -46,9 +42,6 @@ class Detail extends CrudForm
         $this->getElement('propertyId')->setValue($propertyId);
     }
 
-    /**
-     * @param int $pictureId
-     */
     public function setPictureIdValue(int $pictureId)
     {
         $this->getElement('id')->setValue($pictureId);
@@ -59,13 +52,12 @@ class Detail extends CrudForm
      */
     public function setSrcImage(string $filename)
     {
-        $this->getElement('image')->setImage($filename);
+        /** @var \Zend_Form_Element_Image $image */
+        $image = $this->getElement('image');
+        $image->setImage($filename);
     }
 
-    /**
-     * Return the name of the file that is being uploaded
-     */
-    public function getPictureFileValue(): string
+    public function getPictureFileValue(): ?string
     {
         return $this->getElement('filename')->getValue();
     }
@@ -75,6 +67,7 @@ class Detail extends CrudForm
      */
     public function savePictureFile(string $filename)
     {
+        /** @var \Zend_Form_Element_File $imageFile */
         $imageFile = $this->getElement('filename');
         $imageFile->addFilter('Rename', [
             'source' => '*',
