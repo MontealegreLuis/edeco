@@ -8,6 +8,7 @@ namespace App\Form\Picture;
 
 use Mandragora\FormFactory;
 use Mandragora\Validate\Db\Doctrine\NoRecordExists;
+use PHPUnit_Framework_Assert as Assert;
 use PHPUnit_Framework_TestCase as TestCase;
 use Zend_File_Transfer_Adapter_Abstract as TransferAdapter;
 
@@ -83,32 +84,46 @@ class DetailTest extends TestCase
     {
         /** @var \Zend_Form_Element_File $file */
         $file = $this->pictureForm->getElement('filename');
+        $file->setTransferAdapter($this->adapter);
 
-        $adapter = new class() extends TransferAdapter {
-            public function send($options = null) {}
-            public function receive($options = null) {}
-            public function isSent($files = null) {}
-            public function isReceived($files = null) {}
-            public function isUploaded($files = null) {}
-            public function isFiltered($files = null) {}
-            public function getFileName($file = null, $path = true) {
-                return 'image.png';
-            }
-            public function isValid($files = null) {
-                return true;
-            }
-        };
-        $file->setTransferAdapter($adapter);
+        $this->assertEquals($this->imagePath, $this->pictureForm->getPictureFileValue());
+    }
 
-        $this->assertEquals('image.png', $this->pictureForm->getPictureFileValue());
+    /** @test */
+    function it_saves_the_image_file()
+    {
+        /** @var \Zend_Form_Element_File $file */
+        $file = $this->pictureForm->getElement('filename');
+
+        $file->setTransferAdapter($this->adapter);
+
+        $this->pictureForm->savePictureFile($this->imagePath);
     }
 
     /** @before */
     function createForm()
     {
         $this->pictureForm = (new FormFactory(true))->create('Detail', 'Picture');
+        $this->adapter = new class($this->imagePath) extends TransferAdapter {
+            private $path;
+            public function __construct($path) { $this->path = $path; }
+            public function send($options = null) {}
+            public function receive($options = null) { Assert::assertEquals('filename', $options); }
+            public function isSent($files = null) {}
+            public function isReceived($files = null) { return true; }
+            public function isUploaded($files = null) {}
+            public function isFiltered($files = null) {}
+            public function getFileName($file = null, $path = true) { return $this->path; }
+            public function isValid($files = null) { return true; }
+        };
     }
 
     /** @var Detail */
     private $pictureForm;
+
+    /** @var TransferAdapter */
+    private $adapter;
+
+    /** @var string */
+    private $imagePath = 'image.png';
 }
