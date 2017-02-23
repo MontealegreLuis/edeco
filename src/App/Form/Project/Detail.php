@@ -16,6 +16,7 @@ class Detail extends CrudForm
 {
     public function init()
     {
+        /** @var \Zend_Validate_File_Upload $validator */
         $validator = $this->getElement('attachment')->getValidator('Upload');
         $validator->setMessages([
             FileUpload::FILE_NOT_FOUND => 'project.attachment.fileUploadErrorFileNotFound'
@@ -24,6 +25,7 @@ class Detail extends CrudForm
 
     public function saveAttachmentFile(string $newName)
     {
+        /** @var \Zend_Form_Element_File $powerPointFile */
         $powerPointFile = $this->getElement('attachment');
         $powerPointFile->addFilter('Rename', [
             'source' => '*',
