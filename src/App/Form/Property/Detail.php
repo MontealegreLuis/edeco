@@ -28,8 +28,7 @@ class Detail extends CrudForm
      */
     public function prepareForEditing()
     {
-        $this->getElement('name')
-             ->removeValidator(NoRecordExists::class);
+        $this->getElement('name')->removeValidator(NoRecordExists::class);
     }
 
     /**
@@ -38,14 +37,18 @@ class Detail extends CrudForm
     public function setCategories(array $categories)
     {
         $haystack = [];
-        $categoryCollection = [];
+        $options = ['' => 'form.emptyOption'];
         foreach ($categories as $category) {
             $haystack[] = $category['id'];
-            $categoryCollection[$category['id']] = $category['name'];
+            $options[$category['id']] = $category['name'];
         }
+        /** @var \Zend_Form_Element_Select $category */
         $category = $this->getElement('categoryId');
-        $category->getValidator('InArray')->setHaystack($haystack);
-        $category->setMultioptions(['' => 'form.emptyOption'] + $categoryCollection);
+        $category->setMultiOptions($options);
+
+        /** @var \Zend_Validate_InArray $validator */
+        $validator = $category->getValidator('InArray');
+        $validator->setHaystack($haystack);
     }
 
     /**
@@ -53,9 +56,13 @@ class Detail extends CrudForm
      */
     public function setAvailabilities(array $availabilities)
     {
+        /** @var \Zend_Form_Element_Select $availabilityFor */
         $availabilityFor = $this->getElement('availabilityFor');
-        $availabilityFor->getValidator('InArray')->setHaystack(array_keys($availabilities));
-        $availabilityFor->setMultioptions($availabilities);
+        $availabilityFor->setMultiOptions($availabilities);
+
+        /** @var \Zend_Validate_InArray $validator */
+        $validator = $availabilityFor->getValidator('InArray');
+        $validator->setHaystack(array_keys($availabilities));
     }
 
     /**
@@ -63,8 +70,12 @@ class Detail extends CrudForm
      */
     public function setLandUses(array $landUses)
     {
+        /** @var \Zend_Form_Element_Select $landUse */
         $landUse = $this->getElement('landUse');
-        $landUse->getValidator('InArray')->setHaystack(array_keys($landUses));
-        $landUse->setMultioptions(['' => 'form.emptyOption'] + $landUses);
+        $landUse->setMultiOptions(['' => 'form.emptyOption'] + $landUses);
+
+        /** @var \Zend_Validate_InArray $validator */
+        $validator = $landUse->getValidator('InArray');
+        $validator->setHaystack(array_keys($landUses));
     }
 }
