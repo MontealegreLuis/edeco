@@ -1,15 +1,15 @@
 <?php
 /**
- * PHP version 5
+ * PHP version 7.1
  *
  * This source file is subject to the license that is bundled with this package in the file LICENSE.
  */
 namespace App\Service;
 
 use Mandragora\Service\Crud\Doctrine\DoctrineCrud;
-use App\Model\Collection\Project as AppModelCollectionProject;
+use App\Model\Collection\Project as ProjectCollection;
 use Mandragora\Gateway\NoResultsFoundException;
-use App\Model\Project as AppModelProject;
+use App\Model\Project as ProjectModel;
 
 /**
  * Service class for Project model
@@ -27,15 +27,14 @@ class Project extends DoctrineCrud
 
     /**
      * @param int $pageNumber
-     * @return Edeco_Model_Collection_Project
+     * @return \App\Model\Collection\Project
      */
-    public function retrieveAllInvestmentProjects($pageNumber)
+    public function retrieveAllInvestmentProjects(int $pageNumber)
     {
     	$this->init();
-        $query = $this->getGateway()->getQueryFindAll();
-        $this->setPaginatorQuery($query);
-        $items = (array)$this->getPaginator($pageNumber)->getCurrentItems();
-        return new AppModelCollectionProject($items);
+        $this->setPaginatorQuery($this->getGateway()->getQueryFindAll());
+        $items = (array) $this->getPaginator($pageNumber)->getCurrentItems();
+        return new ProjectCollection($items);
     }
 
     /**
@@ -50,9 +49,9 @@ class Project extends DoctrineCrud
 
     /**
      * @param string $fileName
-     * @return Mandragora_File
+     * @return \Mandragora\File
      */
-    public function getAttachmentFileHandler($fileName)
+    public function getAttachmentFileHandler(string $fileName)
     {
         $this->getModel()->attachment = $fileName;
         $this->getModel()->initAttachmentFileHandler();
@@ -60,10 +59,10 @@ class Project extends DoctrineCrud
     }
 
     /**
-     * @return Edeco_Model_Project
-     * @throws Mandragora_Doctrine_Gateway_NoResultsFoundException
+     * @return \App\Model\Project|false
+     * @throws NoResultsFoundException
      */
-    public function retrieveProjectById($id)
+    public function retrieveProjectById(int $id)
     {
     	$this->init();
         try {
@@ -83,7 +82,7 @@ class Project extends DoctrineCrud
         $projectInformation = $this->getGateway()->findOneById(
             (int)$this->getForm()->getValue('id')
         );
-        $project = new AppModelProject($projectInformation);
+        $project = new ProjectModel($projectInformation);
         $this->getModel()->id = (int)$project->id;
         if ($project->name != $this->getForm()->getValue('name')) {
             if ($this->getForm()->getValue('attachment') != null) {
@@ -129,13 +128,10 @@ class Project extends DoctrineCrud
         $this->getForm()->saveAttachmentFile($fileName);
     }
 
-    /**
-     * @param int $id
-     */
-    public function deleteProject($id)
+    public function deleteProject(int $id)
     {
     	$this->init();
-        $projectInformation = $this->getGateway()->findOneById((int)$id);
+        $projectInformation = $this->getGateway()->findOneById($id);
         $this->getModel()->fromArray($projectInformation);
         $this->getModel()->initAttachmentFileHandler();
         $this->getModel()->deleteAttachmentFile();
@@ -144,11 +140,11 @@ class Project extends DoctrineCrud
 
     /**
      * @param string $action
-     * @return Mandragora_Zend_Form_Abstract
+     * @return \App\Form\Project\Detail
      */
     public function getFormForCreating($action)
     {
-        $this->createForm('Detail');
+        $this->createForm();
         $this->getForm()->setAction($action);
         $this->getForm()->prepareForCreating();
         return $this->getForm();
@@ -158,22 +154,21 @@ class Project extends DoctrineCrud
      * Get the form customized for updating a project
      *
      * @param string $action
-     * @return Mandragora_Form_Abstract
+     * @return \App\Form\Project\Detail
      */
     public function getFormForEditing($action)
     {
-        $this->createForm('Detail');
+        $this->createForm();
         $this->getForm()->setAction($action);
         $this->getForm()->prepareForEditing();
         return $this->getForm();
     }
 
     /**
-     * @param Zend_Navigation $container
-     * @return void
+     * @return \App\Form\Project\Detail
      */
-    protected function createForm($formName)
+    protected function createForm()
     {
-        $this->getForm($formName, true, true);
+        return $this->getForm('Detail', true);
     }
 }

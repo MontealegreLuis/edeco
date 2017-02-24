@@ -6,19 +6,19 @@
  */
 namespace App\Service;
 
-use App\Form\Picture\Detail;
+use App\Form\Project\Detail;
 use PHPUnit_Framework_TestCase as TestCase;
 use Prophecy\Argument;
 use Zend_Cache_Manager as CacheManager;
 
-class PictureTest extends TestCase
+class ProjectTest extends TestCase
 {
     /** @test */
     function it_can_get_the_form_prepared_for_adding_a_new_picture()
     {
         $action = '/save';
 
-        $form = $this->pictureService->getFormForCreating($action);
+        $form = $this->projectService->getFormForCreating($action);
 
         $this->cacheManager->getCache(Argument::any())->shouldNotHaveBeenCalled();
         $this->assertInstanceOf(Detail::class, $form);
@@ -30,7 +30,7 @@ class PictureTest extends TestCase
     {
         $action = '/update';
 
-        $form = $this->pictureService->getFormForEditing($action);
+        $form = $this->projectService->getFormForEditing($action);
 
         $this->cacheManager->getCache(Argument::any())->shouldNotHaveBeenCalled();
         $this->assertInstanceOf(Detail::class, $form);
@@ -40,13 +40,13 @@ class PictureTest extends TestCase
     /** @before */
     function createService()
     {
-        $this->pictureService = new Picture('Picture');
+        $this->projectService = new Project('Project');
         $this->cacheManager = $this->prophesize(CacheManager::class);
-        $this->pictureService->setCacheManager($this->cacheManager->reveal());
+        $this->projectService->setCacheManager($this->cacheManager->reveal());
     }
 
     /** @var Picture */
-    private $pictureService;
+    private $projectService;
 
     /** @var CacheManager */
     private $cacheManager;
