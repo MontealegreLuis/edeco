@@ -103,7 +103,7 @@ class DetailTest extends TestCase
     /** @before */
     function createForm()
     {
-        $this->pictureForm = (new FormFactory(true))->create('Detail', 'Picture');
+        $this->pictureForm = FormFactory::buildFromConfiguration()->create('Detail', 'Picture');
         $this->adapter = new class($this->imagePath) extends TransferAdapter {
             private $path;
             public function __construct($path) { $this->path = $path; }

@@ -84,7 +84,7 @@ class DetailTest extends TestCase
     /** @before */
     function createForm()
     {
-        $this->userForm = (new FormFactory(true))->create('Detail', 'User');
+        $this->userForm = FormFactory::buildFromConfiguration()->create('Detail', 'User');
     }
 
     /** @var Detail */

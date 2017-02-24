@@ -39,6 +39,12 @@ class FormFactory
         $this->fromConfig = $fromConfig;
     }
 
+    public static function buildFromConfiguration(Cache $cache = null)
+    {
+        self::$cache = $cache;
+        return new self($cache === null, true);
+    }
+
     /**
      * @return void
      */
