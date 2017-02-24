@@ -1,12 +1,9 @@
 <?php
 /**
- * Service class for Picture model
- *
- * PHP version 5
+ * PHP version 7.1
  *
  * This source file is subject to the license that is bundled with this package in the file LICENSE.
  */
-
 namespace App\Service;
 
 use Mandragora\Service\Crud\Doctrine\DoctrineCrud;
@@ -38,7 +35,7 @@ class Picture extends DoctrineCrud
         $this->init();
         $query = $this->getGateway()->getQueryFindAllByPropertyId($propertyId);
         $this->setPaginatorQuery($query);
-        $items = (array)$this->getPaginator($pageNumber)->getCurrentItems();
+        $items = (array) $this->getPaginator($pageNumber)->getCurrentItems();
         return new AppModelCollectionPicture($items);
     }
 
@@ -183,11 +180,11 @@ class Picture extends DoctrineCrud
 
     /**
      * @param string $action
-     * @return Edeco_Form_Picture_Detail
+     * @return \App\Form\Picture\Detail
      */
     public function getFormForCreating($action)
     {
-        $this->createForm('Detail');
+        $this->createForm();
         $this->getForm()->setAction($action);
         $this->getForm()->prepareForCreating();
         return $this->getForm();
@@ -195,11 +192,11 @@ class Picture extends DoctrineCrud
 
     /**
      * @param string $action
-     * @return Edeco_Form_Picture_Detail
+     * @return \App\Form\Picture\Detail
      */
     public function getFormForEditing($action)
     {
-        $this->createForm('Detail');
+        $this->createForm();
         $this->getForm()->setAction($action);
         $this->getForm()->prepareForEditing();
         return $this->getForm();
@@ -208,9 +205,9 @@ class Picture extends DoctrineCrud
     /**
      * @return void
      */
-    protected function createForm($formName)
+    protected function createForm()
     {
         //Do not use cache in forms with 'file' elements
-        $this->getForm($formName, true, true);
+        $this->getForm('Detail', true);
     }
 }

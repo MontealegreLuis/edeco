@@ -21,7 +21,7 @@ abstract class AbstractService
     protected $modelName;
 
     /** @var AbstractModel */
-    private $model;
+    protected $model;
 
     /** @var \Mandragora\Form\SecureForm */
     private $form;
@@ -62,16 +62,13 @@ abstract class AbstractService
         $this->model = $model;
     }
 
-    public function getForm(
-        string $formName = 'Detail',
-        bool $fromConfig = true,
-        bool $disableCache = false
-    ): SecureForm
+    public function getForm(string $formName = 'Detail', bool $disableCache = false): SecureForm
     {
         if (!$this->form) {
-            $formFactory = new FormFactory($disableCache, $fromConfig);
             if (!$disableCache) {
-                 $formFactory->setCache($this->getCache('form'));
+                $formFactory = FormFactory::buildFromConfiguration($this->getCache('form'));
+            } else {
+                $formFactory = new FormFactory(true, true);
             }
             $this->form = $formFactory->create($formName, $this->modelName);
         }
