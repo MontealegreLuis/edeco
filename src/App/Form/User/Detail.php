@@ -19,7 +19,6 @@ class Detail extends CrudForm
      */
     public function prepareForCreating()
     {
-        $this->removeElement('version');
         $this->removeElement('state');
     }
 
@@ -29,8 +28,7 @@ class Detail extends CrudForm
      */
     public function prepareForEditing()
     {
-        $this->getElement('username')
-             ->removeValidator(NoRecordExists::class);
+        $this->getElement('username')->removeValidator(NoRecordExists::class);
         $this->getElement('username')
              ->setAttrib('readonly', 'readonly')
              ->setAttrib('class', 'readonly');
@@ -41,9 +39,13 @@ class Detail extends CrudForm
      */
     public function setState(array $states)
     {
-        $category = $this->getElement('state');
-        $category->getValidator('InArray')->setHaystack(array_keys($states));
-        $category->setMultioptions(['' => 'form.emptyOption'] + $states);
+        /** @var \Zend_Form_Element_Select $state */
+        $state = $this->getElement('state');
+        $state->setMultiOptions(['' => 'form.emptyOption'] + $states);
+
+        /** @var \Zend_Validate_InArray $validator */
+        $validator = $state->getValidator('InArray');
+        $validator->setHaystack(array_keys($states));
     }
 
     /**
@@ -51,19 +53,31 @@ class Detail extends CrudForm
      */
     public function removeInvalidStates(string $currentState)
     {
+        /** @var \Zend_Form_Element_Select $state */
         $state = $this->getElement('state');
-        $options = $state->getMultioptions();
-        if ($currentState == 'unconfirmed') {
-            unset($options['active']);
-            $haystack = array_keys($options);
-            unset($haystack[0]);
-        } else {
-            unset($options['unconfirmed']);
-            $haystack = array_keys($options);
-            unset($haystack[0]);
+        $options = $state->getMultiOptions();
 
+        $haystack = $this->generateHaystackFromState($currentState, $options);
+
+        /** @var \Zend_Validate_InArray $validator */
+        $validator = $state->getValidator('InArray');
+        $validator->setHaystack($haystack);
+        $state->setMultiOptions($options);
+    }
+
+    private function generateHaystackFromState(string $currentState, array &$options): array
+    {
+        if ($currentState === 'unconfirmed') {
+            return $this->removeInvalid($options, 'active');
         }
-        $state->getValidator('InArray')->setHaystack($haystack);
-        $state->setMultioptions($options);
+        return $this->removeInvalid($options, 'unconfirmed');
+    }
+
+    private function removeInvalid(array &$options, string $state): array
+    {
+        unset($options[$state]);
+        $haystack = array_keys($options);
+        unset($haystack[0]);
+        return $haystack;
     }
 }
