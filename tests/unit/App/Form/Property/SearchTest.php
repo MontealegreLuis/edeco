@@ -21,7 +21,7 @@ class SearchTest extends TestCase
     /** @before */
     function createForm()
     {
-        $this->searchForm = FormFactory::buildFromConfiguration()->create('Search', 'Property');
+        $this->searchForm = FormFactory::useConfiguration()->create('Search', 'Property');
     }
 
     /** @var Search */

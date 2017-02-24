@@ -66,9 +66,9 @@ abstract class AbstractService
     {
         if (!$this->form) {
             if (!$disableCache) {
-                $formFactory = FormFactory::buildFromConfiguration($this->getCache('form'));
+                $formFactory = FormFactory::useConfiguration($this->getCache('form'));
             } else {
-                $formFactory = new FormFactory(true, true);
+                $formFactory = FormFactory::useConfiguration();
             }
             $this->form = $formFactory->create($formName, $this->modelName);
         }

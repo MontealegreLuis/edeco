@@ -41,7 +41,7 @@ class DetailTest extends TestCase
     /** @before */
     function createForm()
     {
-        $this->googleForm = FormFactory::buildFromConfiguration()->create("Detail", "GoogleMap");
+        $this->googleForm = FormFactory::useConfiguration()->create("Detail", "GoogleMap");
     }
 
     /** @var Detail */

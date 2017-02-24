@@ -16,33 +16,29 @@ use Zend_Config_Ini as IniConfig;
  */
 class FormFactory
 {
-    /**
-     * Flag to determine if cache should be disabled
-     *
-     * @var boolean
-     */
-    protected $disableCache = false;
-
-    /**
-     * Flag to determine if form should be created from a config file
-     *
-     * @var boolean
-     */
-    protected $fromConfig;
-
     /** @var Cache */
     protected static $cache;
 
-    public function __construct(bool $disableCache, bool $fromConfig = true)
-    {
-        $this->disableCache = $disableCache;
-        $this->fromConfig = $fromConfig;
-    }
+    private function __construct() {}
 
-    public static function buildFromConfiguration(Cache $cache = null)
+    public static function useConfiguration(Cache $cache = null)
     {
         self::$cache = $cache;
-        return new self($cache === null, true);
+        return new self();
+    }
+
+    public function create(string $name, string $model): SecureForm
+    {
+        $className = $this->getClassName($name, $model);
+        $filter = new CamelCaseToDash();
+        $folder = strtolower($filter->filter($model));
+        $file = strtolower($filter->filter($name));
+
+        if (self::$cache === null) {
+            return $this->fromIniFile($folder, $file, $className);
+        }
+
+        return $this->fromCache($className, $folder, $file);
     }
 
     /**
@@ -51,48 +47,6 @@ class FormFactory
     public function setCache(Cache $cache)
     {
         self::$cache = $cache;
-    }
-
-    public function create(string $className, string $model): SecureForm
-    {
-        if ($this->fromConfig) {
-            return $this->fromConfig($className, $model);
-        } else {
-            return $this->fromClass($className, $model);
-        }
-    }
-
-    protected function fromClass(string $name, string $model): SecureForm
-    {
-        $className = $this->getClassName($name, $model);
-        return new $className();
-    }
-
-    protected function fromConfig(string $name, string $model): SecureForm
-    {
-        return $this->createFormFromConfig($name, $model);
-    }
-
-    protected function createFormFromConfig(
-        string $name,
-        string $model
-    ): SecureForm
-    {
-        $className = $this->getClassName($name, $model);
-        $filter = new CamelCaseToDash();
-        $folder = strtolower($filter->filter($model));
-        $file = strtolower($filter->filter($name));
-        if ($this->disableCache) {
-            $form = $this->_loadFormFromIniFile($folder, $file, $className);
-        } else {
-            $cacheTag = str_replace('\\', '_', $className);
-            $form = $this->getCache()->load($cacheTag);
-            if (!$form) {
-                $form = $this->_loadFormFromIniFile($folder, $file, $className);
-                $this->getCache()->save($form, $cacheTag);
-            }
-        }
-        return $form;
     }
 
     protected function getCache(): Cache
@@ -105,10 +59,22 @@ class FormFactory
         return sprintf('App\Form\%s\%s', $model, $formName);
     }
 
+    private function fromCache(string $className, string $folder, string $file): SecureForm
+    {
+        $cacheTag = str_replace('\\', '_', $className);
+        $form = $this->getCache()->load($cacheTag);
+        if (!$form) {
+            $form = $this->fromIniFile($folder, $file, $className);
+            $this->getCache()->save($form, $cacheTag);
+            return $form;
+        }
+        return $form;
+    }
+
     /**
      * @throws \Zend_Config_Exception
      */
-    private function _loadFormFromIniFile(
+    private function fromIniFile(
         string $folder,
         string $fileName,
         string $className

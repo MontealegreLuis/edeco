@@ -39,7 +39,7 @@ class DetailTest extends TestCase
     /** @before */
     function createForm()
     {
-        $this->excelForm = FormFactory::buildFromConfiguration()->create("Detail", "Excel");
+        $this->excelForm = FormFactory::useConfiguration()->create("Detail", "Excel");
     }
 
     /** @var Detail */

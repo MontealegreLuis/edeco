@@ -36,7 +36,7 @@ class LoginTest extends TestCase
     /** @before */
     function createForm()
     {
-        $this->loginForm = FormFactory::buildFromConfiguration()->create('Login', 'User');
+        $this->loginForm = FormFactory::useConfiguration()->create('Login', 'User');
     }
 
     /** @var Login */

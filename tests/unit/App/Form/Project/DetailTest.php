@@ -84,7 +84,7 @@ class DetailTest extends TestCase
     /** @before */
     function createForm()
     {
-        $this->projectForm = FormFactory::buildFromConfiguration()->create('Detail', 'Project');
+        $this->projectForm = FormFactory::useConfiguration()->create('Detail', 'Project');
         $this->adapter = new class($this->filePath) extends TransferAdapter {
             private $path;
             public function __construct($path) { $this->path = $path; }
