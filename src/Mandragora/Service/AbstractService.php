@@ -6,10 +6,11 @@
  */
 namespace Mandragora\Service;
 
+use Mandragora\Form\SecureForm;
 use Mandragora\Model;
 use Mandragora\Model\AbstractModel;
 use Mandragora\FormFactory;
-use Zend_Cache_Manager;
+use Zend_Cache_Manager as CacheManager;
 
 /**
  * Abstract class for service objects
@@ -22,26 +23,19 @@ abstract class AbstractService
     /** @var AbstractModel */
     private $model;
 
-    /**
-     * @var Mandragora_Form_Abstract
-     */
+    /** @var \Mandragora\Form\SecureForm */
     private $form;
 
-    /**
-     * @var Zend_Cache_Manager
-     */
+    /** @var \Zend_Cache_Manager */
     protected $cacheManager;
 
-    /**
-     * @param string $modelName
-     */
-    public function __construct($modelName)
+    public function __construct(string $modelName)
     {
-        $this->modelName = (string) $modelName;
+        $this->modelName = $modelName;
     }
 
     /**
-     * Method to be overriden by developer to customize the service object
+     * Method to be overridden by developer to customize the service object
      *
      * @return void
      */
@@ -68,15 +62,11 @@ abstract class AbstractService
         $this->model = $model;
     }
 
-    /**
-     * @param string $formName = 'Detail'
-     * @param boolean $fromConfig = true
-     * @param boolean $disableCache = false
-     * @return Mandragora_Form_Abstract
-     */
     public function getForm(
-        $formName = 'Detail', $fromConfig = true, $disableCache = false
-    )
+        string $formName = 'Detail',
+        bool $fromConfig = true,
+        bool $disableCache = false
+    ): SecureForm
     {
         if (!$this->form) {
             $formFactory = new FormFactory($disableCache, $fromConfig);
@@ -89,19 +79,17 @@ abstract class AbstractService
     }
 
     /**
-     * @param Zend_Cache_Manager $cacheManager
      * @return void
      */
-    public function setCacheManager(Zend_Cache_Manager $cacheManager)
+    public function setCacheManager(CacheManager $cacheManager)
     {
         $this->cacheManager = $cacheManager;
     }
 
     /**
-     * @param string $cacheName
-     * @return Zend_Cache_Core
+     * @return \Zend_Cache_Core
      */
-    protected function getCache($cacheName)
+    protected function getCache(string $cacheName)
     {
         return $this->cacheManager->getCache($cacheName);
     }
