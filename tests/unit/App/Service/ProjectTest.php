@@ -7,6 +7,8 @@
 namespace App\Service;
 
 use App\Form\Project\Detail;
+use App\Model\Project;
+use App\Service\Project as ProjectService;
 use PHPUnit_Framework_TestCase as TestCase;
 use Prophecy\Argument;
 use Zend_Cache_Manager as CacheManager;
@@ -37,10 +39,16 @@ class ProjectTest extends TestCase
         $this->assertEquals($action, $form->getAction());
     }
 
+    /** @test */
+    function it_can_create_a_project_model()
+    {
+        $this->assertInstanceOf(Project::class, $this->projectService->getModel());
+    }
+
     /** @before */
     function createService()
     {
-        $this->projectService = new Project('Project');
+        $this->projectService = new ProjectService('Project');
         $this->cacheManager = $this->prophesize(CacheManager::class);
         $this->projectService->setCacheManager($this->cacheManager->reveal());
     }

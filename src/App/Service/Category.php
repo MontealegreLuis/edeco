@@ -1,16 +1,18 @@
 <?php
 /**
- * PHP version 5
+ * PHP version 7.1
  *
  * This source file is subject to the license that is bundled with this package in the file LICENSE.
  */
 namespace App\Service;
 
+use App\Model\Category as CategoryModel;
+use Mandragora\Model\AbstractModel;
 use Mandragora\Service\Crud\Doctrine\DoctrineCrud;
 use App\Model\Collection\Category as AppModelCollectionCategory;
 use Mandragora\Gateway\NoResultsFoundException;
-use Zend_Navigation;
-use Zend_Navigation_Page;
+use Zend_Navigation as Navigation;
+use Zend_Navigation_Page as Page;
 
 /**
  * Service class for Category model
@@ -27,14 +29,13 @@ class Category extends DoctrineCrud
     }
 
     /**
-     * @param int $pageNumber
-     * @return App_Model_Collection_Category
+     * @return \App\Model\Collection\Category
      */
-    public function retrieveCategoryCollection($pageNumber)
+    public function retrieveCategoryCollection(int $pageNumber)
     {
         $this->init();
         $this->query = $this->getGateway()->getQueryFindAll();
-        $items = (array)$this->getPaginator($pageNumber)->getCurrentItems();
+        $items = (array) $this->getPaginator($pageNumber)->getCurrentItems();
         return new AppModelCollectionCategory($items);
     }
 
@@ -49,13 +50,13 @@ class Category extends DoctrineCrud
     }
 
     /**
-    * @return App_Model_Property | boolean
+    * @return CategoryModel | boolean
     */
-    public function retrieveCategoryByUrl($url)
+    public function retrieveCategoryByUrl(string $url)
     {
         $this->init();
         try {
-            $categoryValues = $this->getGateway()->findOneByUrl((string)$url);
+            $categoryValues = $this->getGateway()->findOneByUrl($url);
             return $this->getModel($categoryValues);
         } catch (NoResultsFoundException $nrfe) {
             return false;
@@ -75,7 +76,7 @@ class Category extends DoctrineCrud
 
     /**
      * @param string $action
-     * @return Mandragora_Form_Abstract
+     * @return \Mandragora\Form\SecureForm
      */
     public function getFormForCreating($action)
     {
@@ -85,14 +86,14 @@ class Category extends DoctrineCrud
     }
 
     /**
-     * @return App_Model_Category
-     * @throws Mandragora_Gateway_NoResultsFoundException
+     * @return CategoryModel
+     * @throws NoResultsFoundException
      */
-    public function retrieveCategoryById($id)
+    public function retrieveCategoryById(int $id)
     {
         try {
             $this->init();
-            $values = $this->getGateway()->findOneById((int)$id);
+            $values = $this->getGateway()->findOneById($id);
             return $this->getModel($values);
         } catch (NoResultsFoundException $nrfe) {
             return false;
@@ -101,7 +102,7 @@ class Category extends DoctrineCrud
 
     /**
      * @param string $action
-     * @return Mandragora_Form_Abstract
+     * @return \Mandragora\Form\SecureForm
      */
     public function getFormForEditing($action)
     {
@@ -122,34 +123,33 @@ class Category extends DoctrineCrud
     }
 
     /**
-     * @param int $id
      * @return void
      */
-    public function deleteCategory($id)
+    public function deleteCategory()
     {
         $this->init();
         $this->getGateway()->delete($this->getModel());
     }
 
     /**
-    * @param Zend_Navigation $container
-    * @return void
-    */
-    public function addCategoriesToSitemap(Zend_Navigation $container)
+     * @return void
+     * @throws \Zend_Exception
+     */
+    public function addCategoriesToSitemap(Navigation $container)
     {
         $this->init();
-        $query = $this->getGateway()->getQueryFindAll();
-        $categories = $query->fetchArray();
+        /** @var array $categories */
+        $categories = $this->getGateway()->getQueryFindAll()->fetchArray();
+
         $i = 0;
+        $label = '';
         foreach ($categories as $category) {
-            $mvcPage = Zend_Navigation_Page::factory(
-                array(
-                    'controller' => 'property',
-                    'action' => 'list', 'module' => 'default',
-                    'route' => 'property', 'label' => $category['name'],
-                    'params' => array('category' => $category['url'],)
-                )
-            );
+            $mvcPage = Page::factory([
+                'controller' => 'property',
+                'action' => 'list', 'module' => 'default',
+                'route' => 'property', 'label' => $category['name'],
+                'params' => ['category' => $category['url'],]
+            ]);
             if ($i !== 0) {
                 $container->findBy('label', $label)->addPage($mvcPage);
             } else {
@@ -158,5 +158,14 @@ class Category extends DoctrineCrud
             }
             $i++;
         }
+    }
+
+    public function getModel(array $values = null): AbstractModel
+    {
+        if (!$this->model) {
+            $this->model = new CategoryModel($values);
+        }
+
+        return $this->model;
     }
 }

@@ -6,12 +6,13 @@
  */
 namespace App\Service;
 
-use Mandragora\Service\Crud\Doctrine\DoctrineCrud;
-use App\Model\Collection\Picture as AppModelCollectionPicture;
-use Mandragora\Model;
-use App\Model\PictureFileHandler;
-use Mandragora\Gateway;
+use App\Model\Collection\Picture as PictureCollection;
 use App\Model\Gateway\Cache\Property;
+use App\Model\Picture as PictureModel;
+use App\Model\PictureFileHandler;
+use Mandragora\Model\AbstractModel;
+use Mandragora\Service\Crud\Doctrine\DoctrineCrud;
+use Mandragora\Gateway;
 
 /**
  * Service class for Property model
@@ -28,28 +29,24 @@ class Picture extends DoctrineCrud
     }
 
     /**
-     * @return Edeco_Model_Collection_Picture
+     * @return PictureCollection
      */
-    public function retrieveAllPicturesByPropertyId($propertyId, $pageNumber)
+    public function retrieveAllPicturesByPropertyId(int $propertyId, int $pageNumber)
     {
         $this->init();
         $query = $this->getGateway()->getQueryFindAllByPropertyId($propertyId);
         $this->setPaginatorQuery($query);
         $items = (array) $this->getPaginator($pageNumber)->getCurrentItems();
-        return new AppModelCollectionPicture($items);
+        return new PictureCollection($items);
     }
 
     /**
-     * @param int $id Picture's id
-     * @param int $propertyId
      * @return void
      */
-    public function retrievePictureByIdAndPropertyId($id, $propertyId)
+    public function retrievePictureByIdAndPropertyId(int $id, int $propertyId)
     {
         $this->init();
-        $pictureInformation = $this->getGateway()->findOneByIdAndPropertyId(
-            (int)$id, (int)$propertyId
-        );
+        $pictureInformation = $this->getGateway()->findOneByIdAndPropertyId($id, $propertyId);
         return $this->getModel($pictureInformation);
     }
 
@@ -85,7 +82,7 @@ class Picture extends DoctrineCrud
         $propertyId = $this->getForm()->getValue('propertyId');
         $pictureValues = $this->getGateway()
                               ->findOneByIdAndPropertyId($id, $propertyId);
-        $this->setModel(Model::factory('Picture', $pictureValues));
+        $this->setModel(new PictureModel($pictureValues));
         if ($this->isTheImageNew()) {
             $this->saveImageFileInForm();
             if ($this->isNewDescription()) {
@@ -103,7 +100,7 @@ class Picture extends DoctrineCrud
             }
         }
         $pictureValues = $this->getForm()->getValues();
-        $this->setModel(Model::factory('Picture', $pictureValues));
+        $this->setModel(new PictureModel($pictureValues));
         $this->getModel()->filename = $this->buildFilename();
         $this->getGateway()->update($this->getModel());
     }
@@ -209,5 +206,14 @@ class Picture extends DoctrineCrud
     {
         //Do not use cache in forms with 'file' elements
         $this->getForm('Detail', true);
+    }
+
+    public function getModel(array $values = null): AbstractModel
+    {
+        if (!$this->model) {
+            $this->model = new PictureModel($values);
+        }
+
+        return $this->model;
     }
 }

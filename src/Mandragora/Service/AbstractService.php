@@ -1,13 +1,12 @@
 <?php
 /**
- * PHP version 5
+ * PHP version 7.1
  *
  * This source file is subject to the license that is bundled with this package in the file LICENSE.
  */
 namespace Mandragora\Service;
 
 use Mandragora\Form\SecureForm;
-use Mandragora\Model;
 use Mandragora\Model\AbstractModel;
 use Mandragora\FormFactory;
 use Zend_Cache_Manager as CacheManager;
@@ -41,17 +40,7 @@ abstract class AbstractService
      */
     protected function init() {}
 
-    /**
-     * @param array $values = null
-     * @return AbstractModel
-     */
-    public function getModel(array $values = null)
-    {
-        if (!$this->model) {
-            $this->model = Model::factory($this->modelName, $values);
-        }
-        return $this->model;
-    }
+    public abstract function getModel(array $values = null): AbstractModel;
 
     /**
      * @param AbstractModel $model

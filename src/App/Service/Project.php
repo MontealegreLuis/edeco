@@ -6,6 +6,7 @@
  */
 namespace App\Service;
 
+use Mandragora\Model\AbstractModel;
 use Mandragora\Service\Crud\Doctrine\DoctrineCrud;
 use App\Model\Collection\Project as ProjectCollection;
 use Mandragora\Gateway\NoResultsFoundException;
@@ -170,5 +171,14 @@ class Project extends DoctrineCrud
     protected function createForm()
     {
         return $this->getForm('Detail', true);
+    }
+
+    public function getModel(array $values = null): AbstractModel
+    {
+        if (!$this->model) {
+            $this->model = new ProjectModel($values);
+        }
+
+        return $this->model;
     }
 }
