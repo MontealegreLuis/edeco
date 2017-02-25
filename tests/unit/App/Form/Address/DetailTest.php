@@ -86,6 +86,16 @@ class DetailTest extends TestCase
         $this->assertEquals(3,$this->addressForm->getElement('id')->getValue());
     }
 
+    /** @test */
+    function it_adds_default_no_city_option()
+    {
+        $this->addressForm->setNoCitiesOption();
+
+        $options = $this->addressForm->getElement('cityId')->getMultiOptions();
+
+        $this->assertArrayHasKey('', $options);
+    }
+
     /** @before */
     function createForm()
     {

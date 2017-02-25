@@ -1,11 +1,13 @@
 <?php
 /**
- * PHP version 5.6
+ * PHP version 7.1
  *
  * This source file is subject to the license that is bundled with this package in the file LICENSE.
  */
 namespace App\Service;
 
+use App\Model\Address as AddressModel;
+use Mandragora\Model\AbstractModel;
 use Mandragora\Service\Crud\Doctrine\DoctrineCrud;
 use Mandragora\Service;
 use Mandragora\Gateway\NoResultsFoundException;
@@ -15,9 +17,7 @@ use Mandragora\Gateway\NoResultsFoundException;
  */
 class Address extends DoctrineCrud
 {
-    /**
-     * @var App_Form_Address_GoogleMap
-     */
+    /** @var \App\Form\GoogleMap\Detail */
     protected $googleForm;
 
 	/**
@@ -64,7 +64,6 @@ class Address extends DoctrineCrud
     }
 
     /**
-     * @param string $formName
      * @return void
      */
     protected function setStates()
@@ -74,9 +73,7 @@ class Address extends DoctrineCrud
         $stateService->setDoctrineManager($this->doctrineManager);
         $states = $stateService->retrieveAllStates();
         $this->getForm()->setStates($states);
-        //Add default option to cityId select element
-        $options = array('' => 'form.emptyOption');
-        $this->getForm()->getElement('cityId')->setMultioptions($options);
+        $this->getForm()->setNoCitiesOption();
     }
 
     /**
@@ -102,15 +99,14 @@ class Address extends DoctrineCrud
     }
 
     /**
-     * @param int $propertyId
-     * @return void
+     * @param int $id
+     * @return AddressModel|false
      */
-    public function retrieveAddressById($id)
+    public function retrieveAddressById(int $id)
     {
         try {
             $this->init();
-            $values = $this->getGateway()->findOneById((int)$id);
-            return $this->getModel($values);
+            return $this->getModel($this->getGateway()->findOneById($id));
         } catch (NoResultsFoundException $nrfe) {
             return false;
         }
@@ -127,12 +123,20 @@ class Address extends DoctrineCrud
     }
 
     /**
-    * @param int $id
-    * @return void
-    */
-    public function deleteAddress($id)
+     * @return void
+     */
+    public function deleteAddress()
     {
         $this->init();
         $this->getGateway()->delete($this->getModel());
+    }
+
+    public function getModel(array $values = null): AbstractModel
+    {
+        if ($this->model) {
+            $this->model = new AddressModel($values);
+        }
+
+        return $this->model;
     }
 }

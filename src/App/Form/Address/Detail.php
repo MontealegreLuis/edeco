@@ -23,10 +23,13 @@ class Detail extends CrudForm
      */
     public function setStates(array $states)
     {
+        /** @var \Zend_Form_Element_Select $state */
         $state = $this->getElement('state');
-        $state->getValidator('InArray')->setHaystack(array_keys($states));
-        $options = ['' => 'form.emptyOption'] + $states;
-        $state->setMultioptions($options);
+        $state->setMultiOptions(['' => 'form.emptyOption'] + $states);
+
+        /** @var \Zend_Validate_InArray $validator */
+        $validator = $state->getValidator('InArray');
+        $validator->setHaystack(array_keys($states));
     }
 
     /**
@@ -34,10 +37,20 @@ class Detail extends CrudForm
      */
     public function setCities(array $cities)
     {
+        /** @var \Zend_Form_Element_Select $city */
         $city = $this->getElement('cityId');
-        $city->getValidator('InArray')->setHaystack(array_keys($cities));
-        $options = ['' => 'form.emptyOption'] + $cities;
-        $city->setMultioptions($options);
+        $city->setMultiOptions(['' => 'form.emptyOption'] + $cities);
+
+        /** @var \Zend_Validate_InArray $validator */
+        $validator = $city->getValidator('InArray');
+        $validator->setHaystack(array_keys($cities));
+    }
+
+    public function setNoCitiesOption()
+    {
+        /** @var \Zend_Form_Element_Select $city */
+        $city = $this->getElement('cityId');
+        $city->setMultiOptions(['' => 'form.emptyOption']);
     }
 
     public function setStateId(int $stateId)
