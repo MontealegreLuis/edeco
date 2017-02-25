@@ -40,7 +40,7 @@ abstract class AbstractService
      */
     protected function init() {}
 
-    public abstract function getModel(array $values = null): AbstractModel;
+    public abstract function getModel(array $values = null): ?AbstractModel;
 
     /**
      * @param AbstractModel $model

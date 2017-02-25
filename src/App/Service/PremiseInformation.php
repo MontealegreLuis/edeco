@@ -6,6 +6,8 @@
  */
 namespace App\Service;
 
+use App\Model\PremiseInformation as PremiseInformationModel;
+use Mandragora\Model\AbstractModel;
 use Mandragora\Service\Crud\Doctrine\DoctrineCrud;
 
 /**
@@ -14,28 +16,33 @@ use Mandragora\Service\Crud\Doctrine\DoctrineCrud;
 class PremiseInformation extends DoctrineCrud
 {
     /**
-     * @param string $action
-     * @return Edeco_Form_PremiseInformation
+     * @return \App\Form\PremiseInformation\Detail
      */
-    public function getPremiseForm($action)
+    public function getPremiseForm(string $action)
     {
         $this->getForm('Detail')->setAction($action);
         return $this->getForm();
     }
 
     /**
-     * @param string $baseUrl
      * @return void
      */
-    public function sendEmailMessage($baseUrl)
+    public function sendEmailMessage(string $baseUrl)
     {
         $this->getModel()->fromArray($this->getForm()->getValues());
         $this->getModel()->sendEmailMessage($baseUrl);
     }
 
-    protected function createForm($formName) {}
-
     public function getFormForCreating($action) {}
 
     public function getFormForEditing($action) {}
+
+    public function getModel(array $values = null): AbstractModel
+    {
+        if (!$this->model) {
+            $this->model = new PremiseInformationModel($values);
+        }
+
+        return $this->model;
+    }
 }

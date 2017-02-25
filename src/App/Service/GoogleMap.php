@@ -1,11 +1,12 @@
 <?php
 /**
- * PHP version 5
+ * PHP version 7.1
  *
  * This source file is subject to the license that is bundled with this package in the file LICENSE.
  */
 namespace App\Service;
 
+use Mandragora\Model\AbstractModel;
 use Mandragora\Service\Crud\Doctrine\DoctrineCrud;
 use Mandragora\Model;
 use Mandragora\Gateway;
@@ -24,10 +25,9 @@ class GoogleMap extends DoctrineCrud
     }
 
     /**
-     * @param int $id
      * @param array
      */
-    public function geocodeAddress($id)
+    public function geocodeAddress(int $id)
     {
         $this->init();
         $addressValues = $this->getGateway()->findOneById((int) $id);
@@ -36,7 +36,6 @@ class GoogleMap extends DoctrineCrud
     }
 
     /**
-     * @param array $placeMarks
      * @return string
      */
     public function placeMarksToJson(array $placeMarks)
@@ -46,27 +45,24 @@ class GoogleMap extends DoctrineCrud
     }
 
     /**
-     * @param int $propertyId
-     * @param array $geoPostition
      * @return void
      */
-    public function saveGeoPosition($propertyId, array $geoPosition)
+    public function saveGeoPosition(int $propertyId, array $geoPosition)
     {
         $this->init();
         $this->getGateway()->saveGeoPosition((int)$propertyId, $geoPosition);
     }
 
     /**
-     * @param int $propertyId
      * @return array
      */
-    public function retrievePropertyLatitudeAndLogitude($propertyId)
+    public function retrievePropertyLatitudeAndLogitude(int $propertyId)
     {
         $property = $this->getGateway()->findOneById($propertyId);
-        return array(
+        return [
             'latitude' => $property['latitude'],
-            'longitude' => $property['longitude']
-        );
+            'longitude' => $property['longitude'],
+        ];
     }
 
     /**
@@ -82,12 +78,17 @@ class GoogleMap extends DoctrineCrud
 
     /**
      * @param string $action
-     * @return Mandrgora_Form_Crud_Abstract
+     * @return \Mandragora\Form\Crud\CrudForm
      */
     public function getFormForEditing($action)
     {
         $this->getForm()->prepareForEditing();
         $this->getForm()->setAction($action);
         return $this->getForm();
+    }
+
+    public function getModel(array $values = null): ?AbstractModel
+    {
+        return null;
     }
 }
