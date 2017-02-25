@@ -1,22 +1,24 @@
 <?php
 /**
- * PHP version 5
+ * PHP version 7.1
  *
  * This source file is subject to the license that is bundled with this package in the file LICENSE.
  */
 namespace App\Service;
 
+use App\Model\Property as PropertyModel;
+use Mandragora\Model\AbstractModel;
 use Mandragora\Service\Crud\Doctrine\DoctrineCrud;
-use App\Model\Collection\Property as AppModelCollectionProperty;
+use App\Model\Collection\Property as PropertyCollection;
 use Mandragora\Paginator\Adapter\DoctrineQuery;
-use Edeco\Paginator\Property as EdecoPaginatorProperty;
+use Edeco\Paginator\Property as PropertyPaginator;
 use App\Enum\PropertyAvailability;
 use App\Enum\PropertyLandUse;
 use Mandragora\Service;
 use Mandragora\Gateway\NoResultsFoundException;
-use Zend_Navigation;
-use Zend_Layout;
-use Zend_Navigation_Page;
+use Zend_Navigation as Navigation;
+use Zend_Layout as Layout;
+use Zend_Navigation_Page as Page;
 
 /**
  * Service class for Property model
@@ -33,10 +35,9 @@ class Property extends DoctrineCrud
     }
 
     /**
-     * @param int $pageNumber
-     * @return App_Model_Collection_Property
+     * @return PropertyCollection
      */
-    public function retrieveAllPropertiesWithPictures($pageNumber)
+    public function retrieveAllPropertiesWithPictures(int $pageNumber)
     {
         $this->init();
         $this->query = $this
@@ -46,48 +47,45 @@ class Property extends DoctrineCrud
         $this->setPropertiesPaginator();
         $items = (array) $this->getPaginator($pageNumber)->getCurrentItems();
 
-        return new AppModelCollectionProperty($items);
+        return new PropertyCollection($items);
     }
 
     /**
-     * @param int $pageNumber
-     * @return Edeco_Model_Collection_Property
+     * @return PropertyCollection
      */
-    public function retrievePropertyCollection($pageNumber)
+    public function retrievePropertyCollection(int $pageNumber)
     {
         $this->init();
         $query = $this->getGateway()->getQueryFindAll();
         $this->setPaginatorQuery($query);
-        $items = (array)$this->getPaginator($pageNumber)->getCurrentItems();
-        return new AppModelCollectionProperty($items);
-
+        $items = (array) $this->getPaginator($pageNumber)->getCurrentItems();
+        return new PropertyCollection($items);
     }
 
     /**
-     * @param string $state
-     * @param string $category
-     * @param string $availability
-     * @param int $page
-     * @return App_Model_Collection_Property
+     * @return PropertyCollection
      * @todo Deprecated?
      */
-    public function retrievePropertiesBy($state, $category, $availability, $page)
-    {
+    public function retrievePropertiesBy(
+        string $state,
+        string $category,
+        string $availability,
+        int $page
+    ) {
         $this->init();
         $this->query = $this
             ->getGateway()
             ->getQueryFindPropertiesBy($state, $category, $availability)
         ;
         $this->setPropertiesPaginator();
-        $items = (array) $this->getPaginator((int) $page)->getCurrentItems();
-    	return new AppModelCollectionProperty($items);
+        $items = (array) $this->getPaginator($page)->getCurrentItems();
+    	return new PropertyCollection($items);
     }
 
     /**
-     * @param string $category
      * @return array
      */
-    public function retrieveCountByCategory($category)
+    public function retrieveCountByCategory(string $category)
     {
         $this->init();
         return $this->getGateway()->getCountByCategory($category);
@@ -101,8 +99,7 @@ class Property extends DoctrineCrud
      */
     public function setPropertiesPaginator()
     {
-        $adapter = new DoctrineQuery($this->query);
-        $this->paginator = new EdecoPaginatorProperty($adapter);
+        $this->paginator = new PropertyPaginator(new DoctrineQuery($this->query));
         $itemsPerPage = (int) $this->paginatorOptions['itemCountPerPage'];
         $this->paginator->setItemCountPerPage($itemsPerPage);
         $pageRange = (int)$this->paginatorOptions['pageRange'];
@@ -111,10 +108,9 @@ class Property extends DoctrineCrud
     }
 
     /**
-     * @param string $url
-     * @return \App\Model\Property
+     * @return PropertyModel
      */
-    public function retrievePropertyByUrl($url)
+    public function retrievePropertyByUrl(string $url)
     {
         $this->init();
         $propertyValues = $this->getGateway()->findOneByUrl((string)$url);
@@ -123,7 +119,7 @@ class Property extends DoctrineCrud
 
     /**
      * @param string $action
-     * @return Mandragora_Zend_Form_Abstract
+     * @return \Mandragora\Form\SecureForm
      */
     public function getFormForCreating($action)
     {
@@ -150,7 +146,7 @@ class Property extends DoctrineCrud
      * Get the form customized for updating a property
      *
      * @param string $action
-     * @return Mandragora_Form_Abstract
+     * @return \Mandragora\Form\SecureForm
      */
     public function getFormForEditing($action)
     {
@@ -166,8 +162,7 @@ class Property extends DoctrineCrud
     protected function setSelectOptions()
     {
         $this->getForm()->setCategories($this->getCategories());
-        $this->getForm()
-             ->setAvailabilities(PropertyAvailability::values());
+        $this->getForm()->setAvailabilities(PropertyAvailability::values());
         $this->getForm()->setLandUses(PropertyLandUse::values());
     }
 
@@ -183,7 +178,7 @@ class Property extends DoctrineCrud
     }
 
     /**
-     * @return App_Model_Property | boolean
+     * @return PropertyModel | boolean
      */
     public function retrievePropertyById($id)
     {
@@ -209,18 +204,16 @@ class Property extends DoctrineCrud
     }
 
     /**
-     * @param int $id
      * @return void
      */
-    public function deleteProperty($id)
+    public function deleteProperty(int $id)
     {
-        $propertyValues = $this->getGateway()->findOneById((int)$id);
+        $propertyValues = $this->getGateway()->findOneById($id);
         $this->getModel()->fromArray($propertyValues);
         $this->getGateway()->delete($this->getModel());
     }
 
     /**
-     * @param array $properties
      * @return string
      */
     public function propertiesToJson(array $properties)
@@ -229,32 +222,28 @@ class Property extends DoctrineCrud
     }
 
     /**
-     * @param array $property
-     * @param string $address
      * @return string
      */
-    public function propertyToJson(array $property, $address)
+    public function propertyToJson(array $property, string $address)
     {
-        return $this->getModel()->propertyToJson($property, (string)$address);
+        return $this->getModel()->propertyToJson($property, $address);
     }
 
     /**
-     * @param string $propertyName
-     * @return App_Model_Collection_Property
+     * @return PropertyCollection
      */
-    public function findPropertiesByNameLike($propertyName)
+    public function findPropertiesByNameLike(string $propertyName)
     {
         $this->init();
-    	return new AppModelCollectionProperty(
+    	return new PropertyCollection(
     	   $this->getGateway()->findAllPropertiesWithNameLike($propertyName)
     	);
     }
 
     /**
-    * @param string $propertyName
     * @return array
     */
-    public function findWebPropertiesByNameLike($propertyName)
+    public function findWebPropertiesByNameLike(string $propertyName)
     {
         $this->init();
         return $this->getGateway()
@@ -262,45 +251,48 @@ class Property extends DoctrineCrud
     }
 
     /**
-     * @param int $stateId
-     * @param int $propertyId
-     * @return App_Model_Collection_Property
+     * @return PropertyCollection
      */
-    public function findRecommendedWebProperties($stateId, $propertyId)
+    public function findRecommendedWebProperties(int $stateId, int $propertyId)
     {
         $this->init();
-        $properties = $this->getGateway()->findRecommendedWebProperties(
-            (int)$stateId, (int)$propertyId
-        );
-        return new AppModelCollectionProperty($properties);
+        $properties = $this->getGateway()->findRecommendedWebProperties($stateId, $propertyId);
+        return new PropertyCollection($properties);
     }
 
     /**
-     * @param Zend_Navigation $container
+     * @param Navigation $container
      * @return void
+     * @throws \Zend_Exception
      */
-    public function addPropertiesToSitemap(Zend_Navigation $container)
+    public function addPropertiesToSitemap(Navigation $container)
     {
-
+        /** @var array $properties */
         $properties = $this->getGateway()->findAllWebProperties();
-        $view = Zend_Layout::getMvcInstance()->getView();
+        $view = Layout::getMvcInstance()->getView();
         foreach ($properties as $property) {
             $availability = $view->translate($property['availabilityFor']);
-            $mvcPage = Zend_Navigation_Page::factory(
-                array(
-                    'controller' => 'property',
-                    'action' => 'new-detail', 'module' => 'default',
-                    'route' => 'newdetail', 'label' => $property['name'],
-                    'params' => array(
-                        'propertyUrl' => $property['url'],
-                        'availability' => $availability,
-                        'state' => $property['Address']['City']['State']['url'],
-                        'category' => $property['Category']['url']
-                    )
-                )
-            );
+            $mvcPage = Page::factory([
+                'controller' => 'property',
+                'action' => 'new-detail', 'module' => 'default',
+                'route' => 'newdetail', 'label' => $property['name'],
+                'params' => [
+                    'propertyUrl' => $property['url'],
+                    'availability' => $availability,
+                    'state' => $property['Address']['City']['State']['url'],
+                    'category' => $property['Category']['url']
+                ]
+            ]);
             $container->addPage($mvcPage);
         }
+    }
 
+    public function getModel(array $values = null): ?AbstractModel
+    {
+        if (!$this->model) {
+            $this->model = new PropertyModel($values);
+        }
+
+        return $this->model;
     }
 }

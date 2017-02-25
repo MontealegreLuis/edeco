@@ -1,13 +1,15 @@
 <?php
 /**
- * PHP version 5
+ * PHP version 7.1
  *
  * This source file is subject to the license that is bundled with this package in the file LICENSE.
  */
 namespace App\Service;
 
+use App\Model\RecommendedProperty as RecommendedPropertyModel;
+use Mandragora\Model\AbstractModel;
 use Mandragora\Service\Crud\Doctrine\DoctrineCrud;
-use App\Model\Collection\RecommendedProperty as AppModelCollectionRecommendedProperty;
+use App\Model\Collection\RecommendedProperty as RecommendedPropertyCollection;
 use Mandragora\Gateway\NoResultsFoundException;
 
 /**
@@ -25,16 +27,14 @@ class RecommendedProperty extends DoctrineCrud
     }
 
     /**
-     * @param int $pageNumber
-     * @param int $id
-     * @return App_Model_Collection_RecommendedProperty
+     * @return RecommendedPropertyCollection
      */
-    public function retrieveRecommendedPropertyCollection($pageNumber, $id)
+    public function retrieveRecommendedPropertyCollection(int $pageNumber, int $id)
     {
         $this->init();
         $this->query = $this->getGateway()->getQueryFindAll($id);
-        $items = (array)$this->getPaginator($pageNumber)->getCurrentItems();
-        return new AppModelCollectionRecommendedProperty($items);
+        $items = (array) $this->getPaginator($pageNumber)->getCurrentItems();
+        return new RecommendedPropertyCollection($items);
     }
 
     /**
@@ -50,7 +50,7 @@ class RecommendedProperty extends DoctrineCrud
 
     /**
      * @param string $action
-     * @return Mandragora_Form_Abstract
+     * @return \Mandragora\Form\SecureForm
      */
     public function getFormForCreating($action)
     {
@@ -60,12 +60,10 @@ class RecommendedProperty extends DoctrineCrud
     }
 
     /**
-     * @param int $id
-     * @param int $propertyId
-     * @return App_Model_RecommendedProperty
-     * @throws Mandragora_Gateway_NoResultsFoundException
+     * @return RecommendedPropertyModel|false
+     * @throws NoResultsFoundException
      */
-    public function retrieveRecommendedPropertyBy($id, $propertyId)
+    public function retrieveRecommendedPropertyBy(int $id, int $propertyId)
     {
         try {
             $this->init();
@@ -79,7 +77,7 @@ class RecommendedProperty extends DoctrineCrud
 
     /**
      * @param string $action
-     * @return Mandragora_Form_Abstract
+     * @return \Mandragora\Form\SecureForm
      */
     public function getFormForEditing($action)
     {
@@ -95,5 +93,14 @@ class RecommendedProperty extends DoctrineCrud
     {
         $this->init();
         $this->getGateway()->delete($this->getModel());
+    }
+
+    public function getModel(array $values = null): ?AbstractModel
+    {
+        if (!$this->model) {
+            $this->model = new RecommendedPropertyModel($values);
+        }
+
+        return $this->model;
     }
 }

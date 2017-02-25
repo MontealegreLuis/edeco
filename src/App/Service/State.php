@@ -1,11 +1,13 @@
 <?php
 /**
- * PHP version 5
+ * PHP version 7.1
  *
  * This source file is subject to the license that is bundled with this package in the file LICENSE.
  */
 namespace App\Service;
 
+use App\Model\State as StateModel;
+use Mandragora\Model\AbstractModel;
 use Mandragora\Service\Crud\Doctrine\DoctrineCrud;
 
 class State extends DoctrineCrud
@@ -25,9 +27,8 @@ class State extends DoctrineCrud
     public function retrieveAllStates()
     {
         $this->init();
-        $states = $this->getGateway()->findAll();
-        $options = array();
-        foreach ($states as $state) {
+        $options = [];
+        foreach ($this->getGateway()->findAll() as $state) {
             $options[$state['id']] = $state['name'];
         }
         return $options;
@@ -42,4 +43,13 @@ class State extends DoctrineCrud
      * @see Mandragora_Service_Crud_Abstract::getFormForEditing()
      */
     public function getFormForEditing($action) {}
+
+    public function getModel(array $values = null): AbstractModel
+    {
+        if (!$this->model) {
+            $this->model = new StateModel($values);
+        }
+
+        return $this->model;
+    }
 }

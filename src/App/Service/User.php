@@ -1,18 +1,19 @@
 <?php
 /**
- * PHP version 5.6
+ * PHP version 7.1
  *
  * This source file is subject to the license that is bundled with this package in the file LICENSE.
  */
 namespace App\Service;
 
+use Mandragora\Model\AbstractModel;
 use Mandragora\Service\Crud\Doctrine\DoctrineCrud;
 use Edeco\Auth\Adapter;
-use Zend_Auth;
-use Zend_Session;
-use App\Model\Collection\User as AppModelCollectionUser;
+use Zend_Auth as Auth;
+use Zend_Session as Session;
+use App\Model\Collection\User as UserCollection;
 use App\Model\ConfirmationResult;
-use App\Model\User as AppModelUser;
+use App\Model\User as UserModel;
 use Mandragora\Gateway\NoResultsFoundException;
 use App\Enum\UserState;
 
@@ -33,7 +34,7 @@ class User extends DoctrineCrud
     }
 
     /**
-     * @return Zend_Auth_Result
+     * @return \Zend_Auth_Result
      */
     public function login()
     {
@@ -41,9 +42,8 @@ class User extends DoctrineCrud
         $user = $this->getModel();
         $user->username = $this->getForm()->getValue('username');
         $user->password = $this->getForm()->getValue('password');
-        $adapter = new Adapter($user, $this->getGateway());
-        $authenticator = Zend_Auth::getInstance();
-        return $authenticator->authenticate($adapter);
+        $authenticator = Auth::getInstance();
+        return $authenticator->authenticate(new Adapter($user, $this->getGateway()));
     }
 
     /**
@@ -53,9 +53,7 @@ class User extends DoctrineCrud
     public function setLoginFormAuthenticationErrors(array $errors)
     {
         foreach ($errors as $name => $message) {
-            $this->getLoginForm()
-                 ->getElement($name)
-                 ->setErrors(array($message));
+            $this->getLoginForm()->getElement($name)->setErrors([$message]);
         }
     }
 
@@ -66,8 +64,8 @@ class User extends DoctrineCrud
      */
     public function logout()
     {
-        Zend_Auth::getInstance()->clearIdentity();
-        Zend_Session::destroy();
+        Auth::getInstance()->clearIdentity();
+        Session::destroy();
     }
 
     /**
@@ -75,27 +73,27 @@ class User extends DoctrineCrud
      */
     public function isUserLogged()
     {
-        return Zend_Auth::getInstance()->hasIdentity();
+        return Auth::getInstance()->hasIdentity();
     }
 
     /**
-     * @return Edeco_Model_Collection_User
+     * @return UserCollection
      */
-    public function retrieveAllClientUsers($pageNumber)
+    public function retrieveAllClientUsers(int $pageNumber)
     {
     	$query = $this->getGateway()->getQueryFindAllClients();
         $this->setPaginatorQuery($query);
-        $items = (array)$this->getPaginator($pageNumber)->getCurrentItems();
-        return new AppModelCollectionUser($items);
+        $items = (array) $this->getPaginator($pageNumber)->getCurrentItems();
+        return new UserCollection($items);
     }
 
     /**
      * @return void
      */
-    public function createUser($baseUrl)
+    public function createUser(string $baseUrl)
     {
         $username = $this->getForm()->getValue('username');
-        $this->getModel()->createClientAccount((string)$username);
+        $this->getModel()->createClientAccount((string) $username);
         $this->getGateway()->insert($this->getModel());
         $this->getModel()->sendEmailConfirmationMessage(
             $this->getModel()->username,
@@ -105,43 +103,34 @@ class User extends DoctrineCrud
     }
 
     /**
-     * @param string $confirmationKey
-     * @return Edeco_Model_ConfirmationResult
+     * @return ConfirmationResult
      */
-    public function confirmClientAccountCreation($confirmationKey)
+    public function confirmClientAccountCreation(string $confirmationKey)
     {
     	$this->init();
-        return new ConfirmationResult(
-            $confirmationKey, $this->getGateway()
-        );
+        return new ConfirmationResult($confirmationKey, $this->getGateway());
     }
 
     /**
-     * @param string $confirmationKey
-     * @return string
-     *      An auto-generated strong password in raw form
-     * @throws Mandragora_Gateway_Doctrine_NoResultsFoundException
+     * @return string An auto-generated strong password in raw form
      */
-    public function getNewPassword($confirmationKey)
+    public function getNewPassword(string $confirmationKey)
     {
-        $userInformation = $this->getGateway()
-                                ->findOneByConfirmationKey($confirmationKey);
+        $userInformation = $this->getGateway()->findOneByConfirmationKey($confirmationKey);
         $this->getModel()->fromArray($userInformation);
         $password = $this->getModel()->confirmClientAccountCreation();
-        $this->getGateway()
-             ->updateClientAccountToConfirmed($this->getModel()->toArray());
+        $this->getGateway()->updateClientAccountToConfirmed($this->getModel()->toArray());
         return $password;
     }
 
     /**
-     * @param string $userName
-     * @throws Mandragora_Doctrine_Gateway_NoResultsFoundException
+     * @throws NoResultsFoundException
      */
-    public function retrieveUserByUsername($userName)
+    public function retrieveUserByUsername(string $userName)
     {
         try {
             $userValues = $this->getGateway()->findOneByUsername($userName);
-            return new AppModelUser($userValues);
+            return new UserModel($userValues);
         } catch (NoResultsFoundException $nrfe) {
             return false;
         }
@@ -152,8 +141,8 @@ class User extends DoctrineCrud
      */
     public function updateUser()
     {
-        $userName = (string)$this->getForm()->getValue('username');
-        $newState = (string)$this->getForm()->getValue('state');
+        $userName = (string) $this->getForm()->getValue('username');
+        $newState = (string) $this->getForm()->getValue('state');
         $this->getGateway()->updateUserState($userName, $newState);
     }
 
@@ -161,15 +150,15 @@ class User extends DoctrineCrud
      * @param string $userName
      * @return void
      */
-    public function deleteUser($userName)
+    public function deleteUser(string $userName)
     {
-        $this->getModel()->username = (string)$userName;
+        $this->getModel()->username = $userName;
         $this->getGateway()->delete($this->getModel());
     }
 
     /**
      * @param string $action
-     * @return Edeco_Form_User_Detail
+     * @return \App\Form\User\Detail
      */
     public function getFormForCreating($action)
     {
@@ -181,7 +170,7 @@ class User extends DoctrineCrud
 
     /**
      * @param string $action
-     * @return Edeco_Form_User_Detail
+     * @return \App\Form\User\Detail
      */
     public function getFormForEditing($action)
     {
@@ -199,5 +188,14 @@ class User extends DoctrineCrud
     protected function createForm($formName)
     {
         $this->getForm($formName);
+    }
+
+    public function getModel(array $values = null): ?AbstractModel
+    {
+        if (!$this->model) {
+            $this->model = new UserModel($values);
+        }
+
+        return $this->model;
     }
 }

@@ -1,11 +1,12 @@
 <?php
 /**
- * PHP version 5
+ * PHP version 7.1
  *
  * This source file is subject to the license that is bundled with this package in the file LICENSE.
  */
 namespace App\Service;
 
+use Mandragora\Model\AbstractModel;
 use Mandragora\Service\Crud\Doctrine\DoctrineCrud;
 
 class Resource extends DoctrineCrud
@@ -20,7 +21,7 @@ class Resource extends DoctrineCrud
     }
 
     /**
-     * @return arrray
+     * @return array
      */
     public function retrieveAllResources()
     {
@@ -37,4 +38,9 @@ class Resource extends DoctrineCrud
      * @see Mandragora_Service_Crud_Abstract::getFormForEditing()
      */
     public function getFormForEditing($action) {}
+
+    public function getModel(array $values = null): ?AbstractModel
+    {
+        return null;
+    }
 }
