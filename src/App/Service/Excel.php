@@ -1,15 +1,17 @@
 <?php
 /**
- * PHP version 5
+ * PHP version 7.1
  *
  * This source file is subject to the license that is bundled with this package in the file LICENSE.
  */
 namespace App\Service;
 
+use App\Model\Excel as ExcelModel;
+use Mandragora\Model\AbstractModel;
 use Mandragora\Service\Crud\Doctrine\DoctrineCrud;
 use Mandragora\Gateway;
-use App\Model\Gateway\Cache\Property as AppModelGatewayCacheProperty;
-use App\Model\Collection\Property as AppModelCollectionProperty;
+use App\Model\Gateway\Cache\Property as PropertyGateway;
+use App\Model\Collection\Property as PropertyCollection;
 use App\Model\PropertyExcelWriter;
 
 /**
@@ -23,8 +25,7 @@ class Excel extends DoctrineCrud
     public function init()
     {
     	$this->openConnection();
-        $gateway = Gateway::factory('Property');
-        $this->setGateway(new AppModelGatewayCacheProperty($gateway));
+        $this->setGateway(new PropertyGateway(Gateway::factory('Property')));
     }
 
     /**
@@ -49,23 +50,16 @@ class Excel extends DoctrineCrud
         return $dateRange;
     }
 
-    /**
-     * @param string $startDate
-     * @param string $stopDate
-     * @return boolean
-     */
-    public function createExcelFile($startDate, $stopDate)
+    public function createExcelFile(string $startDate, string $stopDate): bool
     {
         $gateway = Gateway::factory('Property');
         $properties = $gateway->findPropertiesInDateRange($startDate, $stopDate);
         if (count($properties) > 0) {
-            $properties = new AppModelCollectionProperty($properties);
-            $this->getModel()
-                 ->createExcelFile($startDate, $stopDate, $properties);
+            $properties = new PropertyCollection($properties);
+            $this->getModel()->createExcelFile($startDate, $stopDate, $properties);
             return true;
-        } else  {
-            return false;
         }
+        return false;
     }
 
     /**
@@ -78,8 +72,8 @@ class Excel extends DoctrineCrud
 
     /**
      * @param string $fileName
-     * @return Mandragora_File
-     * @throws Mandragora_File_Exception
+     * @return \Mandragora\File
+     * @throws \Mandragora\File\FileException
      */
     public function getExcelFileInformation($fileName)
     {
@@ -92,7 +86,7 @@ class Excel extends DoctrineCrud
 
     /**
      * @param string $action
-     * @return Mandragora_Form_Abstract
+     * @return \Mandragora\Form\SecureForm
      */
     public function getFormForCreating($action)
     {
@@ -109,11 +103,12 @@ class Excel extends DoctrineCrud
      */
     public function getFormForEditing($action) {}
 
-    /**
-     * Not implemented
-     *
-     * @param string $formName
-     * @return void
-     */
-    public function createForm($formName) {}
+    public function getModel(array $values = null): AbstractModel
+    {
+        if (!$this->model) {
+            $this->model = new ExcelModel($values);
+        }
+
+        return $this->model;
+    }
 }

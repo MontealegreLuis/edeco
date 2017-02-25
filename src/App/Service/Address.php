@@ -133,7 +133,7 @@ class Address extends DoctrineCrud
 
     public function getModel(array $values = null): AbstractModel
     {
-        if ($this->model) {
+        if (!$this->model) {
             $this->model = new AddressModel($values);
         }
 

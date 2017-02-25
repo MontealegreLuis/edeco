@@ -1,11 +1,13 @@
 <?php
 /**
- * PHP version 5
+ * PHP version 7.1
  *
  * This source file is subject to the license that is bundled with this package in the file LICENSE.
  */
 namespace App\Service;
 
+use App\Model\Contact as ContactModel;
+use Mandragora\Model\AbstractModel;
 use Mandragora\Service\Crud\Doctrine\DoctrineCrud;
 use Mandragora\Service;
 
@@ -16,7 +18,7 @@ class Contact extends DoctrineCrud
 {
     /**
      * @param string $action
-     * @return Edeco_Form_Contact
+     * @return \App\Form\Contact\Detail
      */
     public function getContactForm($action)
     {
@@ -25,18 +27,15 @@ class Contact extends DoctrineCrud
     }
 
     /**
-     * @return string $baseUrl
      * @return void
      */
-    public function sendEmailMessage($baseUrl)
+    public function sendEmailMessage(string $baseUrl)
     {
         $this->getModel($this->getForm()->getValues());
         $propertyId = $this->getForm()->getElement('propertyId')->getValue();
         $propertyName = null;
         if ($propertyId) {
-            $propertyService = Service::factory(
-                'Property'
-            );
+            $propertyService = Service::factory('Property');
             $propertyService->setCacheManager($this->cacheManager);
             $propertyService->init();
             $property = $propertyService->retrievePropertyById($propertyId);
@@ -45,9 +44,16 @@ class Contact extends DoctrineCrud
         $this->getModel()->sendEmailMessage($baseUrl, $propertyName);
     }
 
-    protected function createForm($formName) {}
-
     public function getFormForCreating($action) {}
 
     public function getFormForEditing($action) {}
+
+    public function getModel(array $values = null): AbstractModel
+    {
+        if (!$this->model) {
+            $this->model = new ContactModel($values);
+        }
+
+        return $this->model;
+    }
 }
