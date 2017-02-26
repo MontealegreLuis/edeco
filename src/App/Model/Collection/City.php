@@ -1,13 +1,13 @@
 <?php
 /**
- * PHP version 5
+ * PHP version 7.1
  *
  * This source file is subject to the license that is bundled with this package in the file LICENSE.
  */
 namespace App\Model\Collection;
 
+use App\Model\City as CityModel;
 use Mandragora\Collection\AbstractCollection;
-use Mandragora\Model;
 
 /**
  * Collection class for City model
@@ -15,10 +15,10 @@ use Mandragora\Model;
 class City extends AbstractCollection
 {
     /**
-     * @return App_Model_City
+     * @return CityModel
      */
     protected function createModel(array $values)
     {
-        return Model::factory('City', $values);
+        return new CityModel($values);
     }
 }

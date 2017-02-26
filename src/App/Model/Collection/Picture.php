@@ -1,13 +1,13 @@
 <?php
 /**
- * PHP version 5
+ * PHP version 7.1
  *
  * This source file is subject to the license that is bundled with this package in the file LICENSE.
  */
 namespace App\Model\Collection;
 
+use App\Model\Picture as PictureModel;
 use Mandragora\Collection\AbstractCollection;
-use Mandragora\Model;
 
 /**
  * Collection class for Picture model
@@ -15,11 +15,11 @@ use Mandragora\Model;
 class Picture extends AbstractCollection
 {
     /**
-     * @return Edeco_Model_Picture
+     * @return PictureModel
      */
     protected function createModel(array $data)
     {
-        return Model::factory('Picture', $data);
+        return new PictureModel($data);
     }
 
     /**
@@ -27,6 +27,6 @@ class Picture extends AbstractCollection
      */
     public function __toString()
     {
-        return (string)$this->count();
+        return (string) $this->count();
     }
 }

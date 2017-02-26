@@ -1,13 +1,13 @@
 <?php
 /**
- * PHP version 5
+ * PHP version 7.1
  *
  * This source file is subject to the license that is bundled with this package in the file LICENSE.
  */
 namespace App\Model\Collection;
 
+use App\Model\Category as CategoryModel;
 use Mandragora\Collection\AbstractCollection;
-use Mandragora\Model;
 
 /**
  * Collection class for Category model
@@ -16,10 +16,10 @@ class Category extends AbstractCollection
 {
     /**
      * @param array $values
-     * @return Edeco_Model_Property
+     * @return CategoryModel
      */
     protected function createModel(array $values)
     {
-        return Model::factory('Category', $values);
+        return new CategoryModel($values);
     }
 }

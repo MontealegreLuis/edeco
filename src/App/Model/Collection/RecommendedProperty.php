@@ -6,8 +6,8 @@
  */
 namespace App\Model\Collection;
 
+use App\Model\RecommendedProperty as RecommendedPropertyModel;
 use Mandragora\Collection\AbstractCollection;
-use Mandragora\Model;
 
 /**
  * Collection class for RecommendedProperty model
@@ -16,10 +16,10 @@ class RecommendedProperty extends AbstractCollection
 {
     /**
      * @param array $values
-     * @return Edeco_Model_Property
+     * @return RecommendedPropertyModel
      */
     protected function createModel(array $values)
     {
-        return Model::factory('RecommendedProperty', $values);
+        return new RecommendedPropertyModel($values);
     }
 }

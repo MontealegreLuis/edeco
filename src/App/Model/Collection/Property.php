@@ -1,14 +1,13 @@
 <?php
 /**
- * PHP version 5
+ * PHP version 7.1
  *
  * This source file is subject to the license that is bundled with this package in the file LICENSE.
  */
 namespace App\Model\Collection;
 
+use App\Model\Property as PropertyModel;
 use Mandragora\Collection\AbstractCollection;
-use Mandragora\Model;
-use App\Model\Collection\Picture;
 
 /**
  * Collection class for Property model
@@ -16,18 +15,16 @@ use App\Model\Collection\Picture;
 class Property extends AbstractCollection
 {
     /**
-     * @return Edeco_Model_Property
+     * @return PropertyModel
      */
     protected function createModel(array $data)
     {
-        $property = Model::factory('Property', $data);
+        $property = new PropertyModel($data);
         if (isset($data['address']) && $data['address'] != null) {
             $property->address = $data['address'];
         }
         if (isset($data['Picture'])) {
-            $property->Picture = new Picture(
-                $data['Picture']
-            );
+            $property->Picture = new Picture($data['Picture']);
         }
         return $property;
     }

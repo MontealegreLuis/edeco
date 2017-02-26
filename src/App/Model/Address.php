@@ -1,13 +1,12 @@
 <?php
 /**
- * PHP version 5.6
+ * PHP version 7.1
  *
  * This source file is subject to the license that is bundled with this package in the file LICENSE.
  */
 namespace App\Model;
 
 use Mandragora\Model\AbstractModel;
-use Mandragora\Model;
 use Zend_Registry as Registry;
 use Mandragora\Geocoder\Adapter;
 use Edeco\Geocoder\PlaceMark\JsonFormatter;
@@ -50,7 +49,7 @@ class Address extends AbstractModel
     public function setCity($values)
     {
         if (is_array($values)) {
-            $city = Model::factory('City', $values);
+            $city = new City($values);
             $this->properties['City'] = $city;
         } else {
             $this->properties['City'] = null;

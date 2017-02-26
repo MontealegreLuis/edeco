@@ -1,6 +1,6 @@
 <?php
 /**
- * PHP version 5
+ * PHP version 7.1
  *
  * This source file is subject to the license that is bundled with this package in the file LICENSE.
  */
@@ -10,23 +10,18 @@ use Zend_Auth_Adapter_Interface;
 use App\Model\User;
 use Mandragora\Gateway\NoResultsFoundException;
 use Exception;
-use Zend_Auth_Adapter_Exception;
-use Zend_Auth_Result;
-use Mandragora\Model;
+use Zend_Auth_Adapter_Exception as AdapterException;
+use Zend_Auth_Result as Result;
 
 /**
  * The authentication adapter for handling users login/logout process
  */
 class Adapter implements Zend_Auth_Adapter_Interface
 {
-    /**
-     * @var Edeco_Model_User
-     */
+    /** @var User */
     protected $user;
 
-    /**
-     * @var Edeco_Model_Gateway_User
-     */
+    /** @var \App\Model\Gateway\User */
     protected $userGateway;
 
     /**
@@ -41,8 +36,8 @@ class Adapter implements Zend_Auth_Adapter_Interface
     }
 
     /**
-     * @return Zend_Auth_Result
-     * @throws Zend_Auth_Adapter_Exception
+     * @return Result
+     * @throws AdapterException
      */
     public function authenticate()
     {
@@ -53,7 +48,7 @@ class Adapter implements Zend_Auth_Adapter_Interface
         } catch(NoResultsFoundException $e) {
             $userFound = null;
         } catch (Exception $e) {
-            throw new Zend_Auth_Adapter_Exception($e->getMessage());
+            throw new AdapterException($e->getMessage());
         }
         return $this->createAuthenticationResult($userFound);
     }
@@ -61,7 +56,7 @@ class Adapter implements Zend_Auth_Adapter_Interface
     /**
      * Create the appropriate result object according to query result
      *
-     * @return Zend_Auth_Result
+     * @return Result
      */
     protected function createAuthenticationResult($userFound)
     {
@@ -76,12 +71,12 @@ class Adapter implements Zend_Auth_Adapter_Interface
     /**
      * Create the result with identity not found details
      *
-     * @return Zend_Auth_Result
+     * @return Result
      */
     protected function createResultIdentityNotFound()
     {
-        return new Zend_Auth_Result(
-            Zend_Auth_Result::FAILURE_IDENTITY_NOT_FOUND,
+        return new Result(
+            Result::FAILURE_IDENTITY_NOT_FOUND,
             null,
             ['username' => 'Su nombre de usuario no existe']
         );
@@ -89,24 +84,24 @@ class Adapter implements Zend_Auth_Adapter_Interface
 
     /**
      * @params array $userInformation
-     * @return Zend_Auth_Result
+     * @return Result
      */
     protected function createResultAuthenticationSucceed($userInformation)
     {
-    	$identity = Model::factory('User', $userInformation);
+    	$identity = new User($userInformation);
         $identity->password = null;
-        return new Zend_Auth_Result(Zend_Auth_Result::SUCCESS, $identity);
+        return new Result(Result::SUCCESS, $identity);
     }
 
     /**
-     * Create a result with password invalida details
+     * Create a result with password invalid details
      *
-     * @return Zend_Auth_Result
+     * @return Result
      */
     protected function createResultCredentialInvalid()
     {
-        return new Zend_Auth_Result(
-            Zend_Auth_Result::FAILURE_CREDENTIAL_INVALID,
+        return new Result(
+            Result::FAILURE_CREDENTIAL_INVALID,
             null,
             ['password' => 'Su password es incorrecto']
         );

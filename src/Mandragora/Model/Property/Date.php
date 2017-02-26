@@ -28,15 +28,10 @@ class Date implements PropertyInterface
      */
     protected $stringFormat;
 
-    /**
-     * @param string $date
-     * @param string $renderFormat = Zend_Date::DATE_FULL
-     * @param string $stringFormat = 'YYYY-MM-dd'
-     */
     public function __construct(
-        $date,
-        $renderFormat = Zend_Date::DATE_FULL,
-        $stringFormat = 'YYYY-MM-dd'
+        string $date,
+        string $renderFormat = Zend_Date::DATE_FULL,
+        string $stringFormat = 'YYYY-MM-dd'
     )
     {
         $this->renderFormat = $renderFormat;

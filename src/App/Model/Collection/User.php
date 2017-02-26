@@ -1,13 +1,13 @@
 <?php
 /**
- * PHP version 5
+ * PHP version 7.1
  *
  * This source file is subject to the license that is bundled with this package in the file LICENSE.
  */
 namespace App\Model\Collection;
 
+use App\Model\User as UserModel;
 use Mandragora\Collection\AbstractCollection;
-use Mandragora\Model;
 
 /**
  * Collection class for User's model
@@ -15,10 +15,10 @@ use Mandragora\Model;
 class User extends AbstractCollection
 {
     /**
-     * @return Edeco_Model_User
+     * @return UserModel
      */
     protected function createModel(array $data)
     {
-        return Model::factory('User', $data);
+        return new UserModel($data);
     }
 }

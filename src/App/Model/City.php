@@ -8,7 +8,6 @@ namespace App\Model;
 
 use Mandragora\Model\AbstractModel;
 use Mandragora\Model\Property\Url;
-use Mandragora\Model;
 
 /**
  * Contains all the information related to the states
@@ -43,7 +42,7 @@ class City extends AbstractModel
      */
     public function setState(array $values)
     {
-        $state = Model::factory('State', $values);
+        $state = new State($values);
         $this->properties['State'] = $state;
     }
 

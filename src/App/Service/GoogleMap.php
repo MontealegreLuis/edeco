@@ -6,9 +6,9 @@
  */
 namespace App\Service;
 
+use App\Model\Address;
 use Mandragora\Model\AbstractModel;
 use Mandragora\Service\Crud\Doctrine\DoctrineCrud;
-use Mandragora\Model;
 use Mandragora\Gateway;
 
 /**
@@ -19,7 +19,7 @@ class GoogleMap extends DoctrineCrud
     public function init()
     {
         $this->openConnection();
-        $this->setModel(Model::factory('Address'));
+        $this->setModel(new Address());
         $this->setGateway(Gateway::factory('Address'));
         $this->decorateGateway('Address');
     }
