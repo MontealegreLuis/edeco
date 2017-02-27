@@ -34,16 +34,6 @@ class State extends DoctrineCrud
         return $options;
     }
 
-    /**
-     * @see Mandragora_Service_Crud_Abstract::getFormForCreating()
-     */
-    public function getFormForCreating($action) {}
-
-    /**
-     * @see Mandragora_Service_Crud_Abstract::getFormForEditing()
-     */
-    public function getFormForEditing($action) {}
-
     public function getModel(array $values = null): AbstractModel
     {
         if (!$this->model) {

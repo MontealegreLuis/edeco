@@ -1,6 +1,6 @@
 <?php
 /**
- * PHP version 5
+ * PHP version 7.1
  *
  * This source file is subject to the license that is bundled with this package in the file LICENSE.
  */
@@ -32,10 +32,6 @@ class PremiseInformation extends DoctrineCrud
         $this->getModel()->fromArray($this->getForm()->getValues());
         $this->getModel()->sendEmailMessage($baseUrl);
     }
-
-    public function getFormForCreating($action) {}
-
-    public function getFormForEditing($action) {}
 
     public function getModel(array $values = null): AbstractModel
     {

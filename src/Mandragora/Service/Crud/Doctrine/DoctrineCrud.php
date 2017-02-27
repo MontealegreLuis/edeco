@@ -6,7 +6,7 @@
  */
 namespace Mandragora\Service\Crud\Doctrine;
 
-use Mandragora\Service\Crud\AbstractCrud;
+use Mandragora\Service\Crud\CrudService;
 use Mandragora\Paginator\Adapter\DoctrineQuery;
 use Zend_Paginator;
 use Doctrine_Query;
@@ -15,7 +15,7 @@ use Mandragora\Application\Doctrine\Manager;
 /**
  * Base class for services which perform CRUD operations using Doctrine ORM
  */
-abstract class DoctrineCrud extends AbstractCrud
+abstract class DoctrineCrud extends CrudService
 {
     /**
      * @var array

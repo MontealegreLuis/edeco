@@ -44,10 +44,6 @@ class Contact extends DoctrineCrud
         $this->getModel()->sendEmailMessage($baseUrl, $propertyName);
     }
 
-    public function getFormForCreating($action) {}
-
-    public function getFormForEditing($action) {}
-
     public function getModel(array $values = null): AbstractModel
     {
         if (!$this->model) {

@@ -95,14 +95,6 @@ class Excel extends DoctrineCrud
         return $this->getForm();
     }
 
-    /**
-     * Not implemented
-     *
-     * @param string $action
-     * @return void
-     */
-    public function getFormForEditing($action) {}
-
     public function getModel(array $values = null): AbstractModel
     {
         if (!$this->model) {

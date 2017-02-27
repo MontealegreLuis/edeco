@@ -1,6 +1,6 @@
 <?php
 /**
- * PHP version 5
+ * PHP version 7.1
  *
  * This source file is subject to the license that is bundled with this package in the file LICENSE.
  */
@@ -13,7 +13,7 @@ use Mandragora\Gateway\Decorator\CacheAbstract;
 /**
  * Base class for services which perform CRUD operations
  */
-abstract class AbstractCrud extends AbstractService
+abstract class CrudService extends AbstractService
 {
     /**
      * @var \Mandragora\Gateway\GatewayInterface
@@ -84,20 +84,18 @@ abstract class AbstractCrud extends AbstractService
     abstract public function setPaginatorOptions(array $options);
 
     /**
-     * This method let the developer customize the form details before the
-     * action of creating a model
+     * Customize the form details before the action of creating a model
      *
      * @param string $action
      * @return Zend_Form
      */
-    abstract public function getFormForCreating($action);
+    public function getFormForCreating($action) {}
 
     /**
-     * This method let the developer customize the form details before the
-     * action of editing a model
+     * Customize the form details before the action of editing a model
      *
      * @param string $action
      * @return Zend_Form
      */
-    abstract public function getFormForEditing($action);
+    public function getFormForEditing($action) {}
 }
