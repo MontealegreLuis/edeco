@@ -17,11 +17,9 @@ use Mandragora\Gateway\NoResultsFoundException;
  */
 class Address extends DoctrineCrud
 {
-    /** @var \App\Form\GoogleMap\Detail */
-    protected $googleForm;
-
-	/**
+    /**
      * @return void
+     * @throws \Doctrine_Exception
      */
     protected function init()
     {
@@ -30,13 +28,23 @@ class Address extends DoctrineCrud
     }
 
     /**
-    * @return void
-    */
+     * @return void
+     * @throws \Doctrine_Exception
+     */
     public function createAddress()
     {
         $this->init();
-        $this->getModel($this->getForm()->getValues());
-        $this->getGateway()->insert($this->getModel());
+
+        /** @var \App\Form\Address\Detail $addressForm */
+        $addressForm = $this->getForm();
+
+        /** @var \App\Model\Address $address */
+        $address = $this->getModel($addressForm->getValues());
+
+        /** @var \App\Model\Gateway\Address $addressGateway */
+        $addressGateway = $this->getGateway();
+
+        $addressGateway->insert($address);
     }
 
     /**
@@ -45,10 +53,15 @@ class Address extends DoctrineCrud
      */
     public function getFormForCreating($action)
     {
-        $this->getForm()->prepareForCreating();
-        $this->setStates();
-        $this->getForm()->setAction($action);
-        return $this->getForm();
+        /** @var \App\Form\Address\Detail $addressForm */
+        $addressForm = $this->getForm();
+
+        $addressForm->prepareForCreating();
+        $addressForm->setAction($action);
+        $addressForm->setStates($this->getStates());
+        $addressForm->setNoCitiesOption();
+
+        return $addressForm;
     }
 
     /**
@@ -57,50 +70,56 @@ class Address extends DoctrineCrud
      */
     public function getFormForEditing($action)
     {
-        $this->getForm()->prepareForEditing();
-        $this->setStates();
-        $this->getForm()->setAction($action);
-        return $this->getForm();
+        /** @var \App\Form\Address\Detail $addressForm */
+        $addressForm = $this->getForm();
+        $addressForm->prepareForEditing();
+        $addressForm->setAction($action);
+        $addressForm->setStates($this->getStates());
+        $addressForm->setNoCitiesOption();
+
+        return $addressForm;
+    }
+
+    /**
+     * @return array
+     */
+    protected function getStates()
+    {
+        /** @var \App\Service\State $stateService */
+        $stateService = Service::factory('State');
+        $stateService->setCacheManager($this->cacheManager);
+        $stateService->setDoctrineManager($this->doctrineManager);
+
+        return $stateService->retrieveAllStates();
     }
 
     /**
      * @return void
      */
-    protected function setStates()
+    public function setCities(int $stateId)
     {
-        $stateService = Service::factory('State');
-        $stateService->setCacheManager($this->cacheManager);
-        $stateService->setDoctrineManager($this->doctrineManager);
-        $states = $stateService->retrieveAllStates();
-        $this->getForm()->setStates($states);
-        $this->getForm()->setNoCitiesOption();
-    }
-
-    /**
-     * @param int $stateId
-     * @return boolean
-     */
-    public function setCities($stateId)
-    {
+        /** @var \App\Form\Address\Detail $addressForm */
+        $addressForm = $this->getForm();
         if (is_numeric($stateId)) {
+            /** @var \App\Service\City $cityService */
             $cityService = Service::factory('City');
             $cityService->setCacheManager($this->cacheManager);
             $cityService->setDoctrineManager($this->doctrineManager);
-            $cities = $cityService->retrieveAllByStateId((int) $stateId);
+
             $options = [];
-            foreach ($cities as $city) {
+            foreach ($cityService->retrieveAllByStateId($stateId) as $city) {
                 $options[$city['id']] = $city['name'];
             }
-            $this->getForm()->setCities($options);
-            $this->getForm()->setStateId($stateId);
+            $addressForm->setCities($options);
+            $addressForm->setStateId($stateId);
         } else {
-            $this->getForm()->getElement('cityId')->removeValidator('InArray');
+            $addressForm->getElement('cityId')->removeValidator('InArray');
         }
     }
 
     /**
-     * @param int $id
      * @return AddressModel|false
+     * @throws \Doctrine_Exception
      */
     public function retrieveAddressById(int $id)
     {
@@ -114,21 +133,39 @@ class Address extends DoctrineCrud
 
     /**
      * @return void
+     * @throws \Doctrine_Exception
      */
     public function updateAddress()
     {
         $this->init();
-        $this->getModel()->fromArray($this->getForm()->getValues());
-        $this->getGateway()->update($this->getModel());
+
+        /** @var \App\Model\Address $address */
+        $address = $this->getModel();
+
+        /** @var \App\Form\Address\Detail $addressForm */
+        $addressForm = $this->getForm();
+        $address->fromArray($addressForm->getValues());
+
+        /** @var \App\Model\Gateway\Address $addressGateway */
+        $addressGateway = $this->getGateway();
+        $addressGateway->update($address);
     }
 
     /**
      * @return void
+     * @throws \Doctrine_Exception
      */
     public function deleteAddress()
     {
         $this->init();
-        $this->getGateway()->delete($this->getModel());
+
+        /** @var \App\Model\Gateway\Address $addressGateway */
+        $addressGateway = $this->getGateway();
+
+        /** @var \App\Model\Address $address */
+        $address = $this->getModel();
+
+        $addressGateway->delete($address);
     }
 
     public function getModel(array $values = null): AbstractModel
