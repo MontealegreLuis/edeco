@@ -1,40 +1,32 @@
 <?php
 /**
- * PHP version 5.6
+ * PHP version 7.1
  *
  * This source file is subject to the license that is bundled with this package in the file LICENSE.
  */
 namespace Mandragora\Service\Crud\Doctrine;
 
-use Mandragora\Service\Crud\CrudService;
-use Mandragora\Paginator\Adapter\DoctrineQuery;
-use Zend_Paginator;
-use Doctrine_Query;
+use Doctrine_Query as Query;
 use Mandragora\Application\Doctrine\Manager;
+use Mandragora\Paginator\Adapter\DoctrineQuery;
+use Mandragora\Service\Crud\CrudService;
+use Zend_Paginator as Paginator;
 
 /**
  * Base class for services which perform CRUD operations using Doctrine ORM
  */
 abstract class DoctrineCrud extends CrudService
 {
-    /**
-     * @var array
-     */
+    /** @var array */
     protected $defaults = ['query' => null, 'page' => 1];
 
-    /**
-     * @var Zend_Paginator
-     */
+    /** @var Paginator */
     protected $paginator;
 
-    /**
-     * @var array
-     */
+    /** @var array */
     protected $paginatorOptions;
 
-    /**
-     * @var Doctrine_Query
-     */
+    /** @var Doctrine_Query */
     protected $query;
 
     /** @var Manager */
@@ -42,6 +34,7 @@ abstract class DoctrineCrud extends CrudService
 
     /**
      * @return void
+     * @throws \Doctrine_Exception
      */
     public function openConnection()
     {
@@ -52,14 +45,14 @@ abstract class DoctrineCrud extends CrudService
 
     /**
      * @param int $page
-     * @return Zend_Paginator
+     * @return Paginator
      */
     public function getPaginator($page)
     {
         if (!$this->paginator) {
             $this->createPaginator();
         }
-        $this->paginator->setCurrentPageNumber((int)$page);
+        $this->paginator->setCurrentPageNumber((int) $page);
         return $this->paginator;
     }
 
@@ -70,25 +63,24 @@ abstract class DoctrineCrud extends CrudService
     protected function createPaginator()
     {
         $adapter = new DoctrineQuery($this->query);
-        $this->paginator = new Zend_Paginator($adapter);
-        $itemsPerPage = (int)$this->paginatorOptions['itemCountPerPage'];
+        $this->paginator = new Paginator($adapter);
+        $itemsPerPage = (int) $this->paginatorOptions['itemCountPerPage'];
         $this->paginator->setItemCountPerPage($itemsPerPage);
-        $pageRange = (int)$this->paginatorOptions['pageRange'];
+        $pageRange = (int) $this->paginatorOptions['pageRange'];
         $this->paginator->setPageRange($pageRange);
-        Zend_Paginator::setCache($this->getCache('paginator'));
+        Paginator::setCache($this->getCache('paginator'));
     }
 
     /**
-     * @param Doctrine_Query $query
+     * @param Query $query
      * @return void
      */
-    public function setPaginatorQuery(Doctrine_Query $query)
+    public function setPaginatorQuery(Query $query)
     {
         $this->query = $query;
     }
 
     /**
-     * @param array $options
      * @return void
      */
     public function setPaginatorOptions(array $options)

@@ -15,19 +15,10 @@ use Mandragora\Gateway\Decorator\CacheAbstract;
  */
 abstract class CrudService extends AbstractService
 {
-    /**
-     * @var \Mandragora\Gateway\GatewayInterface
-     */
+    /** @var \Mandragora\Gateway\GatewayInterface */
     private $gateway;
 
-    /**
-     * @var \Mandragora\Paginator
-     */
-    protected $paginator;
-
-    /**
-     * @return \Mandragora\Gateway\GatewayInterface
-     */
+    /** @return \Mandragora\Gateway\GatewayInterface */
     public function getGateway()
     {
         if (!$this->gateway) {
@@ -37,7 +28,7 @@ abstract class CrudService extends AbstractService
     }
 
     /**
-     * @param   Mandragora_Gateway_Interface
+     * @param   \Mandragora\Gateway\GatewayInterface
      *        | Mandragora_Gateway_Decorator_CacheAbstract $gateway
      * @return void
      */
