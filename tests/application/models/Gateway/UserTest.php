@@ -25,6 +25,7 @@ class Edeco_Model_Gateway_UserTest extends ControllerTestCase implements Doctrin
 		    'username' => 'lemuel',
 		    'state' => 'active',
 		    'roleName' => 'admin',
+            'creationDate' => '2017-02-28',
         ]);
 
 		$userGateway = new UserGateway(new UserDao());

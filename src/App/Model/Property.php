@@ -143,7 +143,7 @@ class Property extends AbstractModel
     /**
      * @return void
      */
-    public function setContactPhone(string $phone)
+    public function setContactPhone(?string $phone)
     {
         if (null !== $phone && trim($phone) !== '') {
             $this->properties['contactPhone'] = new Telephone($phone);
@@ -153,7 +153,7 @@ class Property extends AbstractModel
     /**
      * @return void
      */
-    public function setContactCellphone(string $phone)
+    public function setContactCellphone(?string $phone)
     {
         if (null !== $phone && trim($phone) !== '') {
             $mobile = '/(\d{5})(\d{2})(\d{2})(\d{2})(\d{2})/i';

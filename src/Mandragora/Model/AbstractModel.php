@@ -174,8 +174,8 @@ abstract class AbstractModel implements ArrayInterface, StringInterface
             if (array_key_exists($name, $values))  {
                 $value = $values[$name];
                 //Avoid setting empty strings
-                $value = (is_string($value) && trim($value) === '')
-                       ? null : $value;
+                $value = (is_string($value) && trim($value) === '') ? null : $value;
+                $value = $value instanceof PropertyInterface ? (string) $value : $value;
                 $this->__set($name, $value);
             }
         }
