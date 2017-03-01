@@ -1,24 +1,21 @@
 <?php
 /**
- * PHP version 5.6
+ * PHP version 7.1
  *
  * This source file is subject to the license that is bundled with this package in the file LICENSE.
  */
 namespace Mandragora\Controller\Action;
 
-use Zend_Controller_Action;
-use Zend_Controller_Action_Exception;
-use Mandragora\Controller\Action\UnknownValidationException;
-use Zend_Filter_Input;
+use Zend_Controller_Action as Action;
+use Zend_Controller_Action_Exception as ActionException;
+use Zend_Filter_Input as InputFilter;
 
 /**
  * Base class for Mandragora controllers
  */
-abstract class AbstractAction extends Zend_Controller_Action
+abstract class AbstractAction extends Action
 {
-    /**
-     * @var Mandragora_Service_Abstract
-     */
+    /** @var \Mandragora\Service\Crud\CrudService */
     protected $service;
 
     /**
@@ -27,21 +24,17 @@ abstract class AbstractAction extends Zend_Controller_Action
      *
      * @var array
      */
-    protected $validMethods = array();
+    protected $validMethods = [];
 
-    /**
-     * @param string key
-     * @return array
-     */
-    public function getAppSetting($key)
+    public function getAppSetting(string $key): array
     {
         return $this->getInvokeArg('bootstrap')
                     ->getResource('settings')
-                    ->getSetting((string)$key);
+                    ->getSetting($key);
     }
 
     /**
-     * @return Zend_Cache_Manager
+     * @return \Zend_Cache_Manager
      */
     public function getCacheManager()
     {
@@ -53,35 +46,34 @@ abstract class AbstractAction extends Zend_Controller_Action
      * filter/validate the input if needed
      *
      * @return void
+     * @throws UnknownValidationException
+     * @throws ActionException
      */
     public function preDispatch()
     {
         $action = $this->getRequest()->getActionName();
         if (!array_key_exists($action, $this->validMethods)) {
             $this->validateMethod('get');
-        } else {
-            $method = array_key_exists('method', $this->validMethods[$action])
-                ? $this->validMethods[$action]['method']
-                : 'get';
-            $this->validateMethod($method);
-            if (array_key_exists('validations', $this->validMethods[$action])
-                && is_array($this->validMethods[$action]['validations'])) {
-                $this->validateInput(
-                    $this->validMethods[$action]['validations']
-                );
-            }
+            return;
+        }
+        $method = array_key_exists('method', $this->validMethods[$action])
+            ? $this->validMethods[$action]['method']
+            : 'get';
+        $this->validateMethod($method);
+        if (array_key_exists('validations', $this->validMethods[$action])
+            && is_array($this->validMethods[$action]['validations'])) {
+            $this->validateInput($this->validMethods[$action]['validations']);
         }
     }
 
     /**
-     * @param string $method
-     * @throws Zend_Controller_Action_Exception
+     * @throws \Zend_Controller_Action_Exception
      */
-    protected function validateMethod($method)
+    protected function validateMethod(string $method)
     {
         $isMethod = 'is' . ucfirst(strtolower($method));
         if (!$this->getRequest()->$isMethod()) {
-            throw new Zend_Controller_Action_Exception(
+            throw new ActionException(
                 'Invalid method ' . $this->getRequest()->getMethod()
                 . ' found, ' . strtoupper($method) . ' was expected'
             );
@@ -92,43 +84,35 @@ abstract class AbstractAction extends Zend_Controller_Action
      * Validates parameters of get and ajax requests
      *
      * @param array $params
-     * @throws Mandragora_Controller_Action_UnknownValidationException
-     * @throws Zend_Controller_Action_Exception
+     * @throws UnknownValidationException
+     * @throws ActionException
      */
     public function validateInput(array $params)
     {
-        $filters = array();
-        $validators = array();
+        $filters = [];
+        $validators = [];
         foreach ($params as $key => $validationType) {
-            $filters[$key] = array(
-               'HtmlEntities', 'StripTags', 'StringTrim'
-            );
+            $filters[$key] = ['HtmlEntities', 'StripTags', 'StringTrim'];
             switch ($validationType) {
                 case 'int' :
-                    $validators[$key] = array('NotEmpty', 'Int');
+                    $validators[$key] = ['NotEmpty', 'Int'];
                     break;
                 case 'id' :
-                    $validators[$key] = array(
-                        'NotEmpty', 'Int', array('GreaterThan', 0)
-                    );
+                    $validators[$key] = ['NotEmpty', 'Int', ['GreaterThan', 0]];
                     break;
                 case 'key' :
-                    $validators[$key] = array(
-                        array('NotEmpty', array('string')), 'Alnum'
-                    );
+                    $validators[$key] = [['NotEmpty', ['string']], 'Alnum'];
                     break;
                 default:
-                    throw new
-                       UnknownValidationException(
-                           "Invalid validation type: $validationType"
-                       );
-                    break;
+                    throw new UnknownValidationException(
+                       "Invalid validation type: $validationType"
+                    );
             }
         }
-        $input = new Zend_Filter_Input($filters, $validators);
+        $input = new InputFilter($filters, $validators);
         $input->setData($this->getRequest()->getParams());
         if (!$input->isValid()) {
-            throw new Zend_Controller_Action_Exception(
+            throw new ActionException(
                 'Error occured when validating the following input parameters: '
                 . implode(', ', array_keys($input->getErrors()))
             );
@@ -136,39 +120,33 @@ abstract class AbstractAction extends Zend_Controller_Action
 
     }
 
-    /**
-     * @param string $action
-     * @param array $params = array()
-     * @param string $controller = ''
-     * @param string $module = ''
-     * @param string $route = null
-     */
     public function redirectToRoute(
-        $action, $params = array(), $controller = '', $module = '',
-        $route = null
-    )
-    {
-        $controller = $controller == ''
+        string $action,
+        array $params = [],
+        string $controller = '',
+        string $module = '',
+        string $route = null
+    ) {
+        $controller = $controller === ''
             ? $this->getRequest()->getControllerName()
             : $controller;
-        $module = $module == ''
+        $module = $module === ''
             ? $this->getRequest()->getModuleName()
             : $module;
-        $params += array(
+        $params += [
             'module' => $module, 'controller' => $controller,
             'action' => $action,
-        );
-        $this->_redirect(
+        ];
+        $this->redirect(
             $this->view->url($params, $route, true),
-            array('prependBase' => false)
+            ['prependBase' => false]
         );
     }
 
     /**
-     * @param $namespace = null
-     * @return Zend_Controller_Action_Helper_FlashMessenger
+     * @return \Zend_Controller_Action_Helper_FlashMessenger
      */
-    public function flash($namespace = null)
+    public function flash(string $namespace = null)
     {
         if ($namespace) {
             $this->_helper->flashMessenger->setNamespace($namespace);
@@ -176,32 +154,27 @@ abstract class AbstractAction extends Zend_Controller_Action
         return $this->_helper->flashMessenger;
     }
 
-    /**
-     * @return array
-     */
-    public function params()
+    public function params(): array
     {
         return $this->getRequest()->getParams();
     }
 
     /**
-     * @param string $key
-     * @param $default = null
+     * @param mixed $default = null
      * @return mixed
      */
-    public function param($key, $default = null)
+    public function param(string $key, $default = null)
     {
         return $this->getRequest()->getParam($key, $default);
     }
 
     /**
-     * @param string $key = null
      * @param mixed $default = null
      * @return array | string
      */
-    public function post($key = null, $default = null)
+    public function post(string $key = null, $default = null)
     {
-        if ($key == null) {
+        if ($key === null) {
             return $this->getRequest()->getPost();
         }
         return $this->getRequest()->getPost($key, $default);
