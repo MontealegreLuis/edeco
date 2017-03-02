@@ -8,15 +8,8 @@
         <testsuite name="unit">
             <directory>tests/unit</directory>
         </testsuite>
-        <testsuite name="models">
-            <directory>tests/application/models</directory>
-            <directory>tests/library</directory>
-            <exclude>tests/application/models/Gateway</exclude>
-        </testsuite>
-        <testsuite name="database">
-            <directory>tests/application/models/Gateway</directory>
-            <directory>tests/application/modules</directory>
-            <directory>tests/application/services</directory>
+        <testsuite name="integration">
+            <directory>tests/integration</directory>
         </testsuite>
     </testsuites>
     <listeners>

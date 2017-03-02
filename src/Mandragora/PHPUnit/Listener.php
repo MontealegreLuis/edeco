@@ -53,7 +53,7 @@ class Listener implements PHPUnit_Framework_TestListener
      */
     public function startTestSuite(PHPUnit_Framework_TestSuite $suite)
     {
-        if ('database' === $suite->getName()) {
+        if ('integration' === $suite->getName()) {
             $configFilePath = APPLICATION_PATH . '/configs/application.ini';
             $application = new Application(APPLICATION_ENV, $configFilePath);
             $bootstrap = $application->getBootstrap()->bootstrap('doctrine');
