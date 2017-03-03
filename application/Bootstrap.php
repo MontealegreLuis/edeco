@@ -52,6 +52,8 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap
 
     /**
      * @return Locale
+     * @throws \Zend_Cache_Exception
+     * @throws \Zend_Locale_Exception
      */
     protected function _initLocale()
     {
