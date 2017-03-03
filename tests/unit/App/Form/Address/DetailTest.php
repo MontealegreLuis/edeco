@@ -61,14 +61,20 @@ class DetailTest extends TestCase
     /** @test */
     function it_configures_the_states_select_element()
     {
-        $states = [1 => 'Puebla', 2 => 'Michoacan', 3 => 'Oaxaca'];
+        $states = [
+            ['id' => 1, 'name' => 'Puebla'],
+            ['id' => 2, 'name' => 'Michoacan'],
+            ['id' => 3, 'name' => 'Oaxaca']
+        ];
 
         $this->addressForm->setStates($states);
 
         $stateElement = $this->addressForm->getElement('state');
         $options = $stateElement->getMultioptions();
-
-        $this->assertArraySubset($states, $options);
+        $this->assertArraySubset(
+            [1 => 'Puebla', 2 => 'Michoacan', 3 => 'Oaxaca'],
+            $options
+        );
         $this->arrayHasKey('', $options);
         $this->assertEquals(
             [1, 2, 3],

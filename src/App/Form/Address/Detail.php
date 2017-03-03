@@ -23,13 +23,18 @@ class Detail extends CrudForm
      */
     public function setStates(array $states)
     {
+        $options = [];
+        foreach ($states as $state) {
+            $options[$state['id']] = $state['name'];
+        }
+
         /** @var \Zend_Form_Element_Select $state */
         $state = $this->getElement('state');
-        $state->setMultiOptions(['' => 'form.emptyOption'] + $states);
+        $state->setMultiOptions(['' => 'form.emptyOption'] + $options);
 
         /** @var \Zend_Validate_InArray $validator */
         $validator = $state->getValidator('InArray');
-        $validator->setHaystack(array_keys($states));
+        $validator->setHaystack(array_keys($options));
     }
 
     /**
