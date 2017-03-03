@@ -4,10 +4,10 @@
  *
  * This source file is subject to the license that is bundled with this package in the file LICENSE.
  */
+use App\Container\AddressContainer;
 use Doctrine_Connection_Exception as ConnectionException;
 use Doctrine_Core as DoctrineCore;
 use Mandragora\Controller\Action\AbstractAction;
-use Mandragora\Service;
 
 /**
  * CRUD for addresses.
@@ -25,10 +25,7 @@ class Admin_AddressController extends AbstractAction
      */
     public function init()
     {
-        $this->service = Service::factory('Address');
-        $this->service->setCacheManager($this->getCacheManager());
-        $doctrine = $this->getInvokeArg('bootstrap')->getResource('doctrine');
-        $this->service->setDoctrineManager($doctrine);
+        $this->service = (new AddressContainer())->getAddressService();
         $actions = $this->_helper->actionsBuilder($this->getRequest());
         $this->view->actions = $actions;
     }

@@ -6,114 +6,78 @@
  */
 namespace App\Service;
 
+use App\Form\Address\Detail;
 use App\Model\Address as AddressModel;
-use Mandragora\Model\AbstractModel;
-use Mandragora\Service\Crud\Doctrine\DoctrineCrud;
-use Mandragora\Service;
+use App\Model\Gateway\Cache\Address as AddressGateway;
+use App\Model\Gateway\Cache\City;
+use App\Model\Gateway\Cache\State;
 use Mandragora\Gateway\NoResultsFoundException;
 
-/**
- * Service class for Address model
- */
-class Address extends DoctrineCrud
+class Address
 {
+    /** @var AddressGateway */
+    private $gateway;
+
+    /** @var Detail */
+    private $form;
+
+    /** @var City */
+    private $cityGateway;
+
+    /** @var State */
+    private $stateGateway;
+
+    public function __construct(
+        AddressGateway $gateway,
+        Detail $form,
+        City $cityGateway,
+        State $stateGateway
+    ) {
+        $this->gateway = $gateway;
+        $this->form = $form;
+        $this->cityGateway = $cityGateway;
+        $this->stateGateway = $stateGateway;
+    }
+
     /**
-     * @return void
      * @throws \Doctrine_Exception
      */
-    protected function init()
+    public function createAddress(): void
     {
-        $this->openConnection();
-        $this->decorateGateway();
+        $this->gateway->insert(new AddressModel($this->form->getValues()));
     }
 
-    /**
-     * @return void
-     * @throws \Doctrine_Exception
-     */
-    public function createAddress()
+    public function getFormForCreating(string $action): Detail
     {
-        $this->init();
+        $this->form->prepareForCreating();
+        $this->form->setAction($action);
+        $this->form->setStates($this->stateGateway->findAll());
+        $this->form->setNoCitiesOption();
 
-        /** @var \App\Form\Address\Detail $addressForm */
-        $addressForm = $this->getForm();
-
-        /** @var \App\Model\Address $address */
-        $address = $this->getModel($addressForm->getValues());
-
-        /** @var \App\Model\Gateway\Address $addressGateway */
-        $addressGateway = $this->getGateway();
-
-        $addressGateway->insert($address);
+        return $this->form;
     }
 
-    /**
-     * @param string $action
-     * @return \App\Form\Address\Detail
-     */
-    public function getFormForCreating($action)
+    public function getFormForEditing(string $action): Detail
     {
-        /** @var \App\Form\Address\Detail $addressForm */
-        $addressForm = $this->getForm();
+        $this->form->prepareForEditing();
+        $this->form->setAction($action);
+        $this->form->setStates($this->stateGateway->findAll());
+        $this->form->setNoCitiesOption();
 
-        $addressForm->prepareForCreating();
-        $addressForm->setAction($action);
-        $addressForm->setStates($this->getStates());
-        $addressForm->setNoCitiesOption();
-
-        return $addressForm;
+        return $this->form;
     }
 
-    /**
-     * @param string $action
-     * @return \App\Form\Address\Detail
-     */
-    public function getFormForEditing($action)
+    public function setCities(int $stateId): void
     {
-        /** @var \App\Form\Address\Detail $addressForm */
-        $addressForm = $this->getForm();
-        $addressForm->prepareForEditing();
-        $addressForm->setAction($action);
-        $addressForm->setStates($this->getStates());
-        $addressForm->setNoCitiesOption();
-
-        return $addressForm;
-    }
-
-    /**
-     * @return array
-     */
-    protected function getStates()
-    {
-        /** @var \App\Service\State $stateService */
-        $stateService = Service::factory('State');
-        $stateService->setCacheManager($this->cacheManager);
-        $stateService->setDoctrineManager($this->doctrineManager);
-
-        return $stateService->retrieveAllStates();
-    }
-
-    /**
-     * @return void
-     */
-    public function setCities(int $stateId)
-    {
-        /** @var \App\Form\Address\Detail $addressForm */
-        $addressForm = $this->getForm();
         if (is_numeric($stateId)) {
-            /** @var \App\Service\City $cityService */
-            $cityService = Service::factory('City');
-            $cityService->setCacheManager($this->cacheManager);
-            $cityService->setDoctrineManager($this->doctrineManager);
-
             $options = [];
-            foreach ($cityService->retrieveAllByStateId($stateId) as $city) {
+            foreach ($this->cityGateway->findAllByStateId($stateId) as $city) {
                 $options[$city['id']] = $city['name'];
             }
-            $addressForm->setCities($options);
-            $addressForm->setStateId($stateId);
+            $this->form->setCities($options);
+            $this->form->setStateId($stateId);
         } else {
-            $addressForm->getElement('cityId')->removeValidator('InArray');
+            $this->form->getElement('cityId')->removeValidator('InArray');
         }
     }
 
@@ -124,56 +88,31 @@ class Address extends DoctrineCrud
     public function retrieveAddressById(int $id)
     {
         try {
-            $this->init();
-            return $this->getModel($this->getGateway()->findOneById($id));
+            return new AddressModel($this->gateway->findOneById($id));
         } catch (NoResultsFoundException $nrfe) {
             return false;
         }
     }
 
     /**
-     * @return void
      * @throws \Doctrine_Exception
      */
-    public function updateAddress()
+    public function updateAddress(): void
     {
-        $this->init();
+        $address = new AddressModel();
+        $address->fromArray($this->form->getValues());
 
-        /** @var \App\Model\Address $address */
-        $address = $this->getModel();
-
-        /** @var \App\Form\Address\Detail $addressForm */
-        $addressForm = $this->getForm();
-        $address->fromArray($addressForm->getValues());
-
-        /** @var \App\Model\Gateway\Address $addressGateway */
-        $addressGateway = $this->getGateway();
-        $addressGateway->update($address);
+        $this->gateway->update($address);
     }
 
     /**
-     * @return void
+     * @throws \Mandragora\Gateway\NoResultsFoundException
      * @throws \Doctrine_Exception
      */
-    public function deleteAddress()
+    public function deleteAddress(int $id): void
     {
-        $this->init();
+        $address = $this->gateway->findOneById($id);
 
-        /** @var \App\Model\Gateway\Address $addressGateway */
-        $addressGateway = $this->getGateway();
-
-        /** @var \App\Model\Address $address */
-        $address = $this->getModel();
-
-        $addressGateway->delete($address);
-    }
-
-    public function getModel(array $values = null): AbstractModel
-    {
-        if (!$this->model) {
-            $this->model = new AddressModel($values);
-        }
-
-        return $this->model;
+        $this->gateway->delete(new AddressModel($address));
     }
 }
