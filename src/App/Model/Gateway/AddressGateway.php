@@ -16,10 +16,9 @@ use Mandragora\Gateway\NoResultsFoundException;
 class AddressGateway extends DoctrineGateway
 {
     /**
-     * @return array
      * @throws NoResultsFoundException
      */
-    public function findOneById($id)
+    public function findOneById(int $id): array
     {
         $query = $this->dao->getTable()->createQuery();
         $query->from($this->alias())
@@ -38,12 +37,7 @@ class AddressGateway extends DoctrineGateway
         return $address;
     }
 
-    /**
-    * @param int $id
-    * @param array $geoPosition
-    * @return void
-    */
-    public function saveGeoPosition($id, array $geoPosition)
+    public function saveGeoPosition(int $id, array $geoPosition): void
     {
         $query = $this->dao->getTable()->createQuery();
         $query->update($this->alias())
