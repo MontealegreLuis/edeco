@@ -42,13 +42,23 @@ class Detail extends CrudForm
      */
     public function setCities(array $cities)
     {
+        $options = ['' => 'form.emptyOption'];
+        foreach ($cities as $city) {
+            $options[$city['id']] = $city['name'];
+        }
+
         /** @var \Zend_Form_Element_Select $city */
         $city = $this->getElement('cityId');
-        $city->setMultiOptions(['' => 'form.emptyOption'] + $cities);
+        $city->setMultiOptions($options);
 
         /** @var \Zend_Validate_InArray $validator */
         $validator = $city->getValidator('InArray');
-        $validator->setHaystack(array_keys($cities));
+        $validator->setHaystack(array_keys($options));
+    }
+
+    public function removeCityValidator(): void
+    {
+        $this->getElement('cityId')->removeValidator('InArray');
     }
 
     public function setNoCitiesOption()

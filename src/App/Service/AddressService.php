@@ -70,27 +70,22 @@ class AddressService
     public function setCities(int $stateId): void
     {
         if (is_numeric($stateId)) {
-            $options = [];
-            foreach ($this->cityGateway->findAllByStateId($stateId) as $city) {
-                $options[$city['id']] = $city['name'];
-            }
-            $this->form->setCities($options);
             $this->form->setStateId($stateId);
+            $this->form->setCities($this->cityGateway->findAllByStateId($stateId));
         } else {
-            $this->form->getElement('cityId')->removeValidator('InArray');
+            $this->form->removeCityValidator();
         }
     }
 
     /**
-     * @return Address|false
      * @throws \Doctrine_Exception
      */
-    public function retrieveAddressById(int $id)
+    public function retrieveAddressById(int $id): ?Address
     {
         try {
             return new Address($this->gateway->findOneById($id));
-        } catch (NoResultsFoundException $nrfe) {
-            return false;
+        } catch (NoResultsFoundException $notFound) {
+            return null;
         }
     }
 
@@ -103,13 +98,11 @@ class AddressService
     }
 
     /**
-     * @throws \Mandragora\Gateway\NoResultsFoundException
+     * @throws NoResultsFoundException
      * @throws \Doctrine_Exception
      */
     public function deleteAddress(int $id): void
     {
-        $address = $this->gateway->findOneById($id);
-
-        $this->gateway->delete(new Address($address));
+        $this->gateway->delete(new Address($this->gateway->findOneById($id)));
     }
 }

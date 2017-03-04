@@ -43,19 +43,37 @@ class DetailTest extends TestCase
     /** @test */
     function it_configures_the_cities_select_element()
     {
-        $cities = [1 => 'Puebla', 2 => 'Michoacan', 3 => 'Oaxaca'];
+        $cities = [
+            ['id' => 1, 'name' => 'Puebla'],
+            ['id' => 2, 'name' => 'Michoacan'],
+            ['id' => 3, 'name' => 'Oaxaca'],
+        ];
 
         $this->addressForm->setCities($cities);
 
+        /** @var \Zend_Form_Element_Select $cityElement */
         $cityElement = $this->addressForm->getElement('cityId');
-        $options = $cityElement->getMultioptions();
+        $options = $cityElement->getMultiOptions();
 
-        $this->assertArraySubset($cities, $options);
+        $this->assertArraySubset(
+            [1 => 'Puebla', 2 => 'Michoacan', 3 => 'Oaxaca'],
+            $options
+        );
         $this->arrayHasKey('', $options);
-        $this->assertEquals(
-            [1, 2, 3],
+        $this->assertArraySubset(
+            [1 => 1, 2 => 2, 3 => 3],
             $cityElement->getValidator('InArray')->getHaystack()
         );
+    }
+
+    /** @test */
+    function it_removes_the_city_validator()
+    {
+        $this->addressForm->removeCityValidator();
+
+        $cityElement = $this->addressForm->getElement('cityId');
+
+        $this->assertFalse($cityElement->getValidator('InArray'));
     }
 
     /** @test */
