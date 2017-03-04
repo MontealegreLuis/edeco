@@ -14,7 +14,7 @@ use App\Model\Gateway\AddressGateway;
 use App\Model\Gateway\Cache\CachingAddressGateway;
 use App\Model\Gateway\Cache\City;
 use App\Model\Gateway\Cache\State;
-use App\Service\Address;
+use App\Service\AddressService;
 use Mandragora\Application\Doctrine\Manager;
 use Mandragora\FormFactory;
 use Zend_Application_Bootstrap_BootstrapAbstract as Bootstrap;
@@ -24,11 +24,11 @@ use Zend_Controller_Front as FrontController;
 
 class AddressContainer
 {
-    public function getAddressService(): Address
+    public function getAddressService(): AddressService
     {
         $this->getDoctrineManager()->setup();
 
-        return new Address(
+        return new AddressService(
             $this->getGateway(),
             $this->getForm(),
             $this->getCityGateway(),

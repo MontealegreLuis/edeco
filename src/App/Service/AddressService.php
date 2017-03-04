@@ -13,7 +13,7 @@ use App\Model\Gateway\Cache\City;
 use App\Model\Gateway\Cache\State;
 use Mandragora\Gateway\NoResultsFoundException;
 
-class Address
+class AddressService
 {
     /** @var AddressGateway */
     private $gateway;

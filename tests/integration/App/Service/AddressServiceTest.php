@@ -149,7 +149,7 @@ class AddressServiceTest extends ControllerTestCase implements DoctrineTestInter
         $this->stateGateway = new StateGateway($this->stateDao);
     }
 
-    /** @var  \App\Service\Address */
+    /** @var  \App\Service\AddressService */
     private $addressService;
 
     /** @var \Mandragora\Application\Doctrine\Manager */
