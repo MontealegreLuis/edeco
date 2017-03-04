@@ -111,8 +111,7 @@ class StringObject
      */
     public function replace($search, $replace)
     {
-        $replaced = str_replace($search, $replace, $this->string);
-        return new StringObject($replaced);
+        return new StringObject(str_replace($search, $replace, $this->string));
     }
 
     /**
