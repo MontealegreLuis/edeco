@@ -6,7 +6,7 @@
  */
 namespace App\Container;
 
-use App\Form\Address\Detail;
+use App\Form\Address\AddressFormFactory;
 use App\Model\Dao\AddressDao;
 use App\Model\Dao\CityDao;
 use App\Model\Dao\StateDao;
@@ -30,18 +30,17 @@ class AddressContainer
 
         return new AddressService(
             $this->getGateway(),
-            $this->getForm(),
-            $this->getCityGateway(),
-            $this->stateGateway()
+            $this->getAddressFormFactory()
         );
     }
 
-    private function getForm(): Detail
+    private function getAddressFormFactory(): AddressFormFactory
     {
-        $formFactory = FormFactory::useConfiguration(
-            $this->getCacheManager()->getCache('form')
+        return new AddressFormFactory(
+            $this->stateGateway(),
+            $this->getCityGateway(),
+            FormFactory::useConfiguration($this->getCacheManager()->getCache('form'))
         );
-        return $formFactory->create('Detail', 'Address');
     }
 
     private function getDoctrineManager(): Manager

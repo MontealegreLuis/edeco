@@ -15,6 +15,7 @@ use Mandragora\Model\Property\Url;
  * @property integer $id
  * @property string $name
  * @property integer $stateId
+ * @property \App\Model\State $State
  */
 class City extends AbstractModel
 {

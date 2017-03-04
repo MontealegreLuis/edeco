@@ -35,15 +35,11 @@ class Admin_AddressController extends AbstractAction
      */
     public function createAction()
     {
-        $addressForm = $this->service->getFormForCreating($this->view->url(
-            ['action' => 'save', 'controller' => 'address'],
-            'controllers',
-            true
-        ));
-        $addressId = (int) $this->param('id');
-        $addressForm->setIdValue($addressId);
-        $this->view->addressForm = $addressForm;
-        $this->view->addressId = $addressId;
+        $action = $this->view->url(['action' => 'save', 'controller' => 'address'], 'controllers', true);
+        $this->view->addressForm = $this->service->getFormForCreating(
+            $action, $this->getAllParams()
+        );
+        $this->view->addressId = (int) $this->param('id');
     }
 
     /**
@@ -51,11 +47,8 @@ class Admin_AddressController extends AbstractAction
      */
     public function saveAction()
     {
-        $addressForm = $this->service->getFormForCreating($this->view->url(
-            ['action' => 'save'],
-            'controllers'
-        ));
-        $this->service->setCities((string) $this->post('state'));
+        $action = $this->view->url(['action' => 'save'], 'controllers');
+        $addressForm = $this->service->getFormForCreating($action, $this->getAllParams());
         if ($addressForm->isValid($this->post())) {
             $this->service->createAddress();
             $this->flash('success')->addMessage('address.created');
@@ -71,7 +64,7 @@ class Admin_AddressController extends AbstractAction
      */
     public function showAction()
     {
-        $address = $this->service->retrieveAddressById((int) $this->param('id'));
+        $address = $this->service->retrieveAddressById($this->param('id'));
         if (!$address) {
             $this->flash('error')->addMessage('address.not.found');
             $this->redirectToRoute('list', ['page' => 1], 'property');
@@ -88,19 +81,16 @@ class Admin_AddressController extends AbstractAction
      */
     public function editAction()
     {
-        $address = $this->service->retrieveAddressById((int) $this->param('id'));
+        $address = $this->service->retrieveAddressById($this->param('id'));
         if (!$address) {
             $this->flash('error')->addMessage('address.not.found');
             $this->redirectToRoute('list', ['page' => 1], 'property');
-        } else {
-            $action = $this->view->url(['action' => 'update']);
-            $addressForm = $this->service->getFormForEditing($action);
-            $addressForm->populate($address->toArray());
-            $this->service->setCities($address->City->State->id);
-            $this->view->address = $address;
-            $this->view->addressForm = $addressForm;
-            $this->setGoogleMapActions();
+            return;
         }
+        $action = $this->view->url(['action' => 'update']);
+        $this->view->address = $address;
+        $this->view->addressForm = $this->service->getFormForEditing($action, $address->toArray(true));
+        $this->setGoogleMapActions();
     }
 
     /**
@@ -108,31 +98,28 @@ class Admin_AddressController extends AbstractAction
      */
     public function updateAction()
     {
-        $addressForm = $this->service->getFormForEditing($this->view->url(
-            ['action' => 'update'],
-            'controllers'
-        ));
+        $propertyId = (int) $this->param('id');
+        $address = $this->service->retrieveAddressById($propertyId);
+        if (!$address) {
+            $this->flash('error')->addMessage('address.not.found');
+            $this->redirectToRoute('show', ['id' => $propertyId], 'property');
+            return;
+        }
+
         $addressValues = $this->post();
-        $this->service->setCities((string) $this->post('state'));
+        $action = $this->view->url(['action' => 'update'], 'controllers');
+        $addressForm = $this->service->getFormForEditing($action, $addressValues);
         if ($addressForm->isValid($addressValues)) {
-            $propertyId = (int) $this->param('id');
-            $address = $this->service->retrieveAddressById($propertyId);
-            if (!$address) {
-                $this->flash('error')->addMessage('address.not.found');
-                $this->redirectToRoute('show', ['id' => $propertyId], 'property');
+            if ($address->version > $addressValues['version']) {
+                $this->flash('error')->addMessage(
+                    'address.optimistic.locking.failure'
+                );
+                $this->view->addressForm = $addressForm;
+                $this->renderScript('address/edit.phtml');
             } else {
-                if ($address->version > $addressValues['version']) {
-                    $this->flash('error')->addMessage(
-                        'address.optimistic.locking.failure'
-                    );
-                    $addressForm->populate($address->toArray());
-                    $this->view->addressForm = $addressForm;
-                    $this->renderScript('address/edit.phtml');
-                } else {
-                    $this->service->updateAddress();
-                    $this->flash('success')->addMessage('address.updated');
-                    $this->redirectToRoute('show', ['id' => $propertyId]);
-                }
+                $this->service->updateAddress();
+                $this->flash('success')->addMessage('address.updated');
+                $this->redirectToRoute('show', ['id' => $propertyId]);
             }
         } else {
             $this->view->propertyId = (int) $this->param('id');

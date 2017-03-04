@@ -32,7 +32,7 @@ class FormFactory
     public function configure(Form $form): void
     {
         $form->setConfig(
-            $this->getConfiguration($this->getIniFileConfiguration(get_class($this)))
+            $this->getConfiguration($this->getIniFileConfiguration(get_class($form)))
         );
     }
 

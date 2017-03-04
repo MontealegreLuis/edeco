@@ -24,7 +24,7 @@ use Edeco\Geocoder\PlaceMark\JsonFormatter;
  * @property integer $cityId
  * @property integer $propertyId
  * @property integer $version
- * @property App_Model_City $City
+ * @property \App\Model\City $City
  */
 class Address extends AbstractModel
 {

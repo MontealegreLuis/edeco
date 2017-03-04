@@ -28,8 +28,8 @@ class AddressServiceTest extends ControllerTestCase implements DoctrineTestInter
 {
     public function testGetAddressForm()
     {
-        $dataForm = $this->addressService->getFormForCreating('')->getErrors();
-        $this->assertInternalType('array', $dataForm);
+        $errors = $this->addressService->getFormForCreating('', ['id' => 1])->getErrors();
+        $this->assertInternalType('array', $errors);
     }
 
     public function testIsAddressFormValidMustReturnTrue()
@@ -49,8 +49,7 @@ class AddressServiceTest extends ControllerTestCase implements DoctrineTestInter
             'cityId' => $city->id, 'zipCode' => 72120, 'version' => 1,
         ];
 
-        $this->addressService->setCities($state->id);
-        $form = $this->addressService->getFormForCreating('');
+        $form = $this->addressService->getFormForCreating('', $data);
 
         $this->assertTrue($form->isValid($data));
     }
@@ -97,14 +96,15 @@ class AddressServiceTest extends ControllerTestCase implements DoctrineTestInter
             'streetAndNumber' => 'Priv. Tabacos',
             'neighborhood' => 'Col. Centro',
             'zipCode' => 72120,
-            'cityId' => $city->id
+            'cityId' => $city->id,
+            'state' => $city->State->id
         ];
         $address = new Address($values);
         $gateway = new AddressGateway(new AddressDao());
         $gateway->insert($address);
         $values['zipCode'] = 78209;
         $values['id'] = $address->id;
-        $form = $this->addressService->getFormForEditing('');
+        $form = $this->addressService->getFormForEditing('', $values);
         $form->populate($values);
 
         $this->addressService->updateAddress();

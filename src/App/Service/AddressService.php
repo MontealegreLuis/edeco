@@ -6,11 +6,10 @@
  */
 namespace App\Service;
 
+use App\Form\Address\AddressFormFactory;
 use App\Form\Address\Detail;
 use App\Model\Address;
 use App\Model\Gateway\AddressGateway;
-use App\Model\Gateway\Cache\City;
-use App\Model\Gateway\Cache\State;
 use Mandragora\Gateway\NoResultsFoundException;
 
 class AddressService
@@ -21,22 +20,15 @@ class AddressService
     /** @var Detail */
     private $form;
 
-    /** @var City */
-    private $cityGateway;
-
-    /** @var State */
-    private $stateGateway;
+    /** @var AddressFormFactory */
+    private $formFactory;
 
     public function __construct(
         AddressGateway $gateway,
-        Detail $form,
-        City $cityGateway,
-        State $stateGateway
+        AddressFormFactory $form
     ) {
         $this->gateway = $gateway;
-        $this->form = $form;
-        $this->cityGateway = $cityGateway;
-        $this->stateGateway = $stateGateway;
+        $this->formFactory = $form;
     }
 
     /**
@@ -47,34 +39,18 @@ class AddressService
         $this->gateway->insert(new Address($this->form->getValues()));
     }
 
-    public function getFormForCreating(string $action): Detail
+    public function getFormForCreating(string $action, array $input): Detail
     {
-        $this->form->prepareForCreating();
-        $this->form->setAction($action);
-        $this->form->setStates($this->stateGateway->findAll());
-        $this->form->setNoCitiesOption();
+        $this->form = $this->formFactory->forCreating($action, $input);
 
         return $this->form;
     }
 
-    public function getFormForEditing(string $action): Detail
+    public function getFormForEditing(string $action, array $input): Detail
     {
-        $this->form->prepareForEditing();
-        $this->form->setAction($action);
-        $this->form->setStates($this->stateGateway->findAll());
-        $this->form->setNoCitiesOption();
+        $this->form = $this->formFactory->forEditing($action, $input);
 
         return $this->form;
-    }
-
-    public function setCities(int $stateId): void
-    {
-        if (is_numeric($stateId)) {
-            $this->form->setStateId($stateId);
-            $this->form->setCities($this->cityGateway->findAllByStateId($stateId));
-        } else {
-            $this->form->removeCityValidator();
-        }
     }
 
     /**
