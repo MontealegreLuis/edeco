@@ -16,7 +16,7 @@ use Mandragora\Model\AbstractModel;
 /**
  * Cache decorator for Address Gateway
  */
-class Address extends AddressGateway
+class CachingAddressGateway extends AddressGateway
 {
     use ProvidesCaching, ProvidesProxy;
 

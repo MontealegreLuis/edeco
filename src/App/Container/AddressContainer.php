@@ -11,6 +11,7 @@ use App\Model\Dao\AddressDao;
 use App\Model\Dao\CityDao;
 use App\Model\Dao\StateDao;
 use App\Model\Gateway\AddressGateway;
+use App\Model\Gateway\Cache\CachingAddressGateway;
 use App\Model\Gateway\Cache\City;
 use App\Model\Gateway\Cache\State;
 use App\Service\Address;
@@ -48,9 +49,9 @@ class AddressContainer
         return $this->getBootstrap()->getResource('doctrine');
     }
 
-    private function getGateway(): \App\Model\Gateway\Cache\Address
+    private function getGateway(): AddressGateway
     {
-        $addressGateway = new \App\Model\Gateway\Cache\Address(
+        $addressGateway = new CachingAddressGateway(
             new AddressGateway(new AddressDao())
         );
         $addressGateway->setCache($this->getCacheForGateway());

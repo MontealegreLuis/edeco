@@ -8,7 +8,7 @@ namespace App\Service;
 
 use App\Form\Address\Detail;
 use App\Model\Address as AddressModel;
-use App\Model\Gateway\Cache\Address as AddressGateway;
+use App\Model\Gateway\AddressGateway;
 use App\Model\Gateway\Cache\City;
 use App\Model\Gateway\Cache\State;
 use Mandragora\Gateway\NoResultsFoundException;
