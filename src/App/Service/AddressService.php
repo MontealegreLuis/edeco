@@ -7,7 +7,7 @@
 namespace App\Service;
 
 use App\Form\Address\Detail;
-use App\Model\Address as AddressModel;
+use App\Model\Address;
 use App\Model\Gateway\AddressGateway;
 use App\Model\Gateway\Cache\City;
 use App\Model\Gateway\Cache\State;
@@ -44,7 +44,7 @@ class AddressService
      */
     public function createAddress(): void
     {
-        $this->gateway->insert(new AddressModel($this->form->getValues()));
+        $this->gateway->insert(new Address($this->form->getValues()));
     }
 
     public function getFormForCreating(string $action): Detail
@@ -82,13 +82,13 @@ class AddressService
     }
 
     /**
-     * @return AddressModel|false
+     * @return Address|false
      * @throws \Doctrine_Exception
      */
     public function retrieveAddressById(int $id)
     {
         try {
-            return new AddressModel($this->gateway->findOneById($id));
+            return new Address($this->gateway->findOneById($id));
         } catch (NoResultsFoundException $nrfe) {
             return false;
         }
@@ -99,10 +99,7 @@ class AddressService
      */
     public function updateAddress(): void
     {
-        $address = new AddressModel();
-        $address->fromArray($this->form->getValues());
-
-        $this->gateway->update($address);
+        $this->gateway->update(new Address($this->form->getValues()));
     }
 
     /**
@@ -113,6 +110,6 @@ class AddressService
     {
         $address = $this->gateway->findOneById($id);
 
-        $this->gateway->delete(new AddressModel($address));
+        $this->gateway->delete(new Address($address));
     }
 }
