@@ -13,7 +13,7 @@ use Mandragora\Gateway\NoResultsFoundException;
 /**
  * Gateway for Address model objects
  */
-class Address extends DoctrineGateway
+class AddressGateway extends DoctrineGateway
 {
     /**
      * @return array

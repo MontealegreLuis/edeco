@@ -10,6 +10,7 @@ use App\Form\Address\Detail;
 use App\Model\Dao\AddressDao;
 use App\Model\Dao\CityDao;
 use App\Model\Dao\StateDao;
+use App\Model\Gateway\AddressGateway;
 use App\Model\Gateway\Cache\City;
 use App\Model\Gateway\Cache\State;
 use App\Service\Address;
@@ -50,7 +51,7 @@ class AddressContainer
     private function getGateway(): \App\Model\Gateway\Cache\Address
     {
         $addressGateway = new \App\Model\Gateway\Cache\Address(
-            new \App\Model\Gateway\Address(new AddressDao())
+            new AddressGateway(new AddressDao())
         );
         $addressGateway->setCache($this->getCacheForGateway());
         return $addressGateway;

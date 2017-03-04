@@ -6,6 +6,7 @@
  */
 namespace App\Service;
 
+use App\Container\AddressContainer;
 use App\Enum\PropertyLandUse;
 use App\Model\Address;
 use App\Model\Category;
@@ -14,59 +15,20 @@ use App\Model\Dao\AddressDao;
 use App\Model\Dao\CategoryDao;
 use App\Model\Dao\CityDao;
 use App\Model\Dao\StateDao;
-use App\Model\Gateway\Address as AddressGateway;
+use App\Model\Gateway\AddressGateway;
 use App\Model\Gateway\Category as CategoryGateway;
 use App\Model\Gateway\City as CityGateway;
 use App\Model\Gateway\State as StateGateway;
 use App\Model\Property;
 use App\Model\State;
-use App\Service\Address as AddressService;
 use ControllerTestCase;
 use Mandragora\PHPUnit\DoctrineTest\DoctrineTestInterface;
 
-class AddressTest extends ControllerTestCase implements DoctrineTestInterface
+class AddressServiceTest extends ControllerTestCase implements DoctrineTestInterface
 {
-
-    /** @var \Mandragora\Application\Doctrine\Manager */
-    private $doctrineManager;
-
-    /** @var \Zend_Application_Resource_Cachemanager */
-    private $cacheManager;
-
-    /** @var CityGateway */
-    protected $cityGateway;
-
-    /** @var CityDao */
-    protected $cityDao;
-
-    /** @var StateGateway */
-    protected $stateGateway;
-
-    /** @var StateDao */
-    protected $stateDao;
-
-    /**
-     * @see tests/application/ControllerTestCase#setUp()
-     */
-    public function setUp()
-    {
-        parent::setUp();
-        $this->cacheManager = $this->_frontController->getParam('bootstrap')->getResource('cachemanager');
-        $this->doctrineManager = $this->_frontController->getParam('bootstrap')->getResource('doctrine');
-
-        $this->cityDao = new CityDao();
-        $this->cityGateway = new CityGateway($this->cityDao);
-
-        $this->stateDao = new StateDao();
-        $this->stateGateway = new StateGateway($this->stateDao);
-    }
-
     public function testGetAddressForm()
     {
-        $address = new AddressService('Address');
-        $address->setDoctrineManager($this->doctrineManager);
-        $address->setCacheManager($this->cacheManager);
-        $dataForm = $address->getFormForCreating('')->getErrors();
+        $dataForm = $this->addressService->getFormForCreating('')->getErrors();
         $this->assertInternalType('array', $dataForm);
     }
 
@@ -86,13 +48,11 @@ class AddressTest extends ControllerTestCase implements DoctrineTestInterface
             'addressReference' => 'Antes de llegar a la salida a la autopista',
             'cityId' => $city->id, 'zipCode' => 72120, 'version' => 1,
         ];
-        $service = new AddressService('Address');
-        $service->setDoctrineManager($this->doctrineManager);
-        $service->setCacheManager($this->cacheManager);
-        $service->setCities($state->id);
-        $form = $service->getFormForCreating('');
-        $isValid = $form->isValid($data);
-        $this->assertTrue($isValid);
+
+        $this->addressService->setCities($state->id);
+        $form = $this->addressService->getFormForCreating('');
+
+        $this->assertTrue($form->isValid($data));
     }
 
     public function testFindAddressByPropertyId()
@@ -115,12 +75,7 @@ class AddressTest extends ControllerTestCase implements DoctrineTestInterface
         $gateway = new AddressGateway(new AddressDao());
         $gateway->insert($address);
 
-        $service = new AddressService('Address');
-        $service->setDoctrineManager($this->doctrineManager);
-        $service->setCacheManager($this->cacheManager);
-
-
-        $addressDB = $service->retrieveAddressById($address->id);
+        $addressDB = $this->addressService->retrieveAddressById($address->id);
         $this->assertEquals($address->id, $addressDB->id);
         $this->assertEquals($address->streetAndNumber, $addressDB->streetAndNumber);
         $this->assertEquals($address->neighborhood, $addressDB->neighborhood);
@@ -147,17 +102,12 @@ class AddressTest extends ControllerTestCase implements DoctrineTestInterface
         $address = new Address($values);
         $gateway = new AddressGateway(new AddressDao());
         $gateway->insert($address);
-
-        $service = new AddressService('Address');
-        $service->setDoctrineManager($this->doctrineManager);
-        $service->setCacheManager($this->cacheManager);
-
         $values['zipCode'] = 78209;
         $values['id'] = $address->id;
-
-        $form = $service->getFormForEditing('');
+        $form = $this->addressService->getFormForEditing('');
         $form->populate($values);
-        $service->updateAddress();
+
+        $this->addressService->updateAddress();
 
         $modifiedAddress = $gateway->findOneById($address->id);
         $this->assertEquals(78209, $modifiedAddress['zipCode']);
@@ -183,4 +133,40 @@ class AddressTest extends ControllerTestCase implements DoctrineTestInterface
         ]);
         return $property;
     }
+
+    /** @before */
+    public function configure()
+    {
+        $this->addressService = (new AddressContainer())->getAddressService();
+
+        $this->cacheManager = $this->_frontController->getParam('bootstrap')->getResource('cachemanager');
+        $this->doctrineManager = $this->_frontController->getParam('bootstrap')->getResource('doctrine');
+
+        $this->cityDao = new CityDao();
+        $this->cityGateway = new CityGateway($this->cityDao);
+
+        $this->stateDao = new StateDao();
+        $this->stateGateway = new StateGateway($this->stateDao);
+    }
+
+    /** @var  \App\Service\Address */
+    private $addressService;
+
+    /** @var \Mandragora\Application\Doctrine\Manager */
+    private $doctrineManager;
+
+    /** @var \Zend_Application_Resource_Cachemanager */
+    private $cacheManager;
+
+    /** @var CityGateway */
+    protected $cityGateway;
+
+    /** @var CityDao */
+    protected $cityDao;
+
+    /** @var StateGateway */
+    protected $stateGateway;
+
+    /** @var StateDao */
+    protected $stateDao;
 }
