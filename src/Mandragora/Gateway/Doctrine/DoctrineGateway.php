@@ -39,21 +39,22 @@ abstract class DoctrineGateway implements GatewayInterface
       $this->dao = $dao;
     }
 
-    /**
-     * @param string $alias = null
-     * @return string
-     */
-    protected function alias($alias = null)
+    protected function alias(string $alias = null): string
     {
         if (!$this->alias) {
             $name = new StringObject(get_class($this));
-            $daoName = $name->replace('Gateway', 'Dao') . 'Dao';
+            if ($name->endsWith('Gateway')) {
+                $daoName = $name->replace('Gateway', 'Dao');
+            } else {
+                $daoName = $name->replace('Gateway', 'Dao') . 'Dao';
+            }
             if ($alias === null) {
                 $name->setValue($daoName);
                 $alias = $name->subString($name->indexOf('Dao\\') + 4, 1)->toLower();
             }
             $this->alias = $daoName . ' ' . $alias;
         }
+
         return $this->alias;
     }
 
