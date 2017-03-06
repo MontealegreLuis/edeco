@@ -6,35 +6,26 @@
  */
 namespace App\Model\Gateway;
 
+use App\Model\City;
 use App\Model\Dao\CityDao;
 use App\Model\Dao\StateDao;
+use App\Model\Gateway\City as CityGateway;
+use App\Model\Gateway\State as StateGateway;
+use App\Model\State;
 use ControllerTestCase;
 use Mandragora\PHPUnit\DoctrineTest\DoctrineTestInterface;
 
 class CityTest extends ControllerTestCase implements DoctrineTestInterface
 {
-    /**
-     * Setup application to run test cases
-     *
-     * @see tests/application/ControllerTestCase#setUp()
-     */
-    public function setUp()
-    {
-        parent::setUp();
-        $this->gatewayState = new State(new StateDao());
-    }
-
-    /**
-     * @return void
-     */
-    public function testFindAllByStateNameRetrieveAllActiveCitiesOfAGivenState()
+    /** @test */
+    public function it_retrieves_all_cities_of_a_given_state()
     {
         $insertedCities = [];
         $this->insertState();
         for ($i = 0; $i < 5; $i++) {
             $insertedCities[$i] = $this->insertCity();
         }
-        $gatewayCity = new City(new CityDao());
+        $gatewayCity = new CityGateway(new CityDao());
         $allCities = $gatewayCity->findAllByStateId($this->state->id);
         $this->assertCount(5, $allCities);
         for ($i = 0; $i < 5; $i++) {
@@ -44,37 +35,33 @@ class CityTest extends ControllerTestCase implements DoctrineTestInterface
         }
     }
 
-    /**
-     * Verifies if findAllByStateName method retrieves 0
-     *
-     * @return void
-     */
-    public function testFindAllByStateNameShouldRetrieveZeroRecordsWithNonExistingState()
+    /** @test */
+    public function it_retrieves_zero_results_with_a_non_existing_state()
     {
-        $gatewayCity = new City(new CityDao());
+        $gatewayCity = new CityGateway(new CityDao());
         $this->insertState();
         $allStates = $gatewayCity->findAllByStateId($this->state->id);
         $this->assertCount(0, $allStates);
     }
 
-    /**
-     * @return void
-     */
-    protected function insertState()
+    /** @before */
+    public function createStateGateway(): void
     {
-        $this->state = new \App\Model\State();
-        $this->state->name = 'MÉXICO';
-        $this->state->url = 'mexico';
-        $this->gatewayState->insert($this->state);
+        $this->stateGateway = new StateGateway(new StateDao());
     }
 
-    /**
-     * @return \App\Model\City
-     */
-    protected function insertCity()
+    private function insertState(): void
     {
-        $gatewayCity = new City(new CityDao());
-        $city = new \App\Model\City();
+        $this->state = new State();
+        $this->state->name = 'MÉXICO';
+        $this->state->url = 'mexico';
+        $this->stateGateway->insert($this->state);
+    }
+
+    private function insertCity(): City
+    {
+        $gatewayCity = new CityGateway(new CityDao());
+        $city = new City();
         $city->name = 'Cholula';
         $city->url = 'cholula';
         $city->stateId = $this->state->id; //the value assigned on insertState
@@ -82,9 +69,9 @@ class CityTest extends ControllerTestCase implements DoctrineTestInterface
         return $city;
     }
 
-    /** @var \App\Model\State*/
+    /** @var State*/
     protected $state;
 
-    /** @var State */
-    protected $gatewayState;
+    /** @var StateGateway */
+    protected $stateGateway;
 }

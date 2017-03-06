@@ -14,6 +14,7 @@ use Mandragora\Model\Property\Url;
  *
  * @property integer $id
  * @property string $name
+ * @property string $url
  * @property integer $stateId
  * @property \App\Model\State $State
  */
