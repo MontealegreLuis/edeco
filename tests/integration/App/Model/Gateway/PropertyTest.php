@@ -15,12 +15,14 @@ use App\Model\Gateway\Property as PropertyGateway;
 use App\Model\Property;
 use ControllerTestCase;
 use Doctrine_Core as Doctrine;
+use Mandragora\Gateway\NoResultsFoundException;
 use Mandragora\Model\Property\PropertyInterface;
 use Mandragora\PHPUnit\DoctrineTest\DoctrineTestInterface;
 
 class PropertyTest extends ControllerTestCase implements DoctrineTestInterface
 {
-    function testCanCreateProperty()
+    /** @test */
+    function it_creates_a_property()
     {
         $this->gateway->clearRelated();
         $this->gateway->insert($this->property);
@@ -34,7 +36,8 @@ class PropertyTest extends ControllerTestCase implements DoctrineTestInterface
         );
     }
 
-    function testCanFindPropertyById()
+    /** @test */
+    function it_finds_a_property_by_id()
     {
         $this->addProperty($this->property);
 
@@ -46,15 +49,15 @@ class PropertyTest extends ControllerTestCase implements DoctrineTestInterface
         );
     }
 
-    /**
-     * @expectedException \Mandragora\Gateway\NoResultsFoundException
-     */
-    function testFindNonExistentPropertyByIdThrowsException()
+    /** @test */
+    function it_does_not_find_a_non_existing_property()
     {
+        $this->expectException(NoResultsFoundException::class);
         $this->gateway->findOneById(-1);
     }
 
-    function testCanFindAllProperties()
+    /** @test */
+    function it_finds_all_properties()
     {
         // Insert some properties
         $createdProperties = [];
@@ -76,15 +79,14 @@ class PropertyTest extends ControllerTestCase implements DoctrineTestInterface
         }
     }
 
-    function testFindAllPropertiesRetrievesZeroElementsWhenTableIsEmpty()
+    function it_retrieves_zero_elements_when_table_is_empty()
     {
-        $allProperties = $this->gateway->findAllWebProperties();
-        $this->assertCount(0, $allProperties);
+        $this->assertCount(0, $this->gateway->findAllWebProperties());
     }
 
-    function setUp()
+    /** @before */
+    function configureProperties()
     {
-        parent::setUp();
         $this->category = new Category(['name' => 'Premises', 'url' => 'premises']);
         (new CategoryGateway(new CategoryDao()))->insert($this->category);
         $this->gateway = new PropertyGateway($this->newRecord());
