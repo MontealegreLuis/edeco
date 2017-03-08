@@ -14,7 +14,8 @@ use Mandragora\PHPUnit\DoctrineTest\DoctrineTestInterface;
 
 class StateTest extends ControllerTestCase implements DoctrineTestInterface
 {
-    public function testCanFindAllStates()
+    /** @test */
+    public function it_finds_all_states()
     {
         // Insert some states
         $createdStates = [];
@@ -35,7 +36,8 @@ class StateTest extends ControllerTestCase implements DoctrineTestInterface
         }
     }
 
-    public function testFindAllStatesRetrievesZeroElementsWhenTableIsEmpty()
+    /** @test */
+    public function it_finds_zero_elements_when_table_is_empty()
     {
         $stateGateway = new StateGateway(new StateDao());
         $allStates = $stateGateway->findAll();
