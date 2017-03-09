@@ -16,7 +16,8 @@ use Mandragora\PHPUnit\DoctrineTest\DoctrineTestInterface;
 
 class UserTest extends ControllerTestCase implements DoctrineTestInterface
 {
-	public function testCanCreateUser()
+    /** @test */
+	public function it_can_save_a_user()
 	{
 	    $this->insertRole();
         $user = new User([
@@ -39,9 +40,6 @@ class UserTest extends ControllerTestCase implements DoctrineTestInterface
         $this->assertEquals($user->roleName, $savedUser->roleName);
 	}
 
-	/**
-	 * @return void
-	 */
 	private function insertRole(): void
     {
         $daoRole = new RoleDao();
