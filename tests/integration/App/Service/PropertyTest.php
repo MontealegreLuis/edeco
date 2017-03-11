@@ -4,6 +4,8 @@
  *
  * This source file is subject to the license that is bundled with this package in the file LICENSE.
  */
+namespace App\Service;
+
 use App\Model\Address;
 use App\Model\Category;
 use App\Model\City;
@@ -20,37 +22,13 @@ use App\Model\Gateway\Property as PropertyGateway;
 use App\Model\Gateway\State as StateGateway;
 use App\Model\Property;
 use App\Service\Property as PropertyService;
+use ControllerTestCase;
 use Mandragora\PHPUnit\DoctrineTest\DoctrineTestInterface;
 
-/**
- * Unit tests for Edeco_Service_Property class
- */
-class Edeco_Service_PropertyTest extends ControllerTestCase implements DoctrineTestInterface
+class PropertyTest extends ControllerTestCase implements DoctrineTestInterface
 {
-    /** @var PropertyService */
-    protected $property;
-
-    /** @var PropertyGateway */
-    protected $propertyGateway;
-
-    /** @var array */
-    protected $propertyInformation;
-
-    /**
-     * Setup application to run test cases
-     *
-     * @see tests/application/ControllerTestCase#setUp()
-     */
-    public function setUp()
-    {
-        parent::setUp();
-        $this->propertyGateway = new PropertyGateway(new PropertyDao());
-        $this->property = new PropertyService('Property');
-        $this->property->setCacheManager($this->_frontController->getParam('bootstrap')->getResource('cachemanager'));
-        $this->property->setDoctrineManager($this->_frontController->getParam('bootstrap')->getResource('doctrine'));
-    }
-
-    public function testCanRetrievePropertyByUrl()
+    /** @test */
+    public function it_retrieves_a_property_by_its_url()
     {
         $property = $this->createProperty();
         $this->propertyGateway->clearRelated();
@@ -82,7 +60,16 @@ class Edeco_Service_PropertyTest extends ControllerTestCase implements DoctrineT
         $this->assertEquals($property->price, $propertyFound->price);
     }
 
-    protected function createProperty(): Property
+    /** @before */
+    function configureService()
+    {
+        $this->propertyGateway = new PropertyGateway(new PropertyDao());
+        $this->property = new PropertyService('Property');
+        $this->property->setCacheManager($this->_frontController->getParam('bootstrap')->getResource('cachemanager'));
+        $this->property->setDoctrineManager($this->_frontController->getParam('bootstrap')->getResource('doctrine'));
+    }
+
+    private function createProperty(): Property
     {
         $category = new Category(['name' => 'Premises', 'url' => 'premises']);
         (new CategoryGateway(new CategoryDao()))->insert($category);
@@ -96,4 +83,13 @@ class Edeco_Service_PropertyTest extends ControllerTestCase implements DoctrineT
         ];
         return new Property($this->propertyInformation);
     }
+
+    /** @var PropertyService */
+    private $property;
+
+    /** @var PropertyGateway */
+    private $propertyGateway;
+
+    /** @var array */
+    private $propertyInformation;
 }
