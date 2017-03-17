@@ -12,6 +12,9 @@ use Doctrine\DBAL\DriverManager;
 
 class PropertiesFixture
 {
+    /** @var Fixture */
+    private $fixture;
+
     /** @var array */
     private $rows;
 
@@ -24,9 +27,20 @@ class PropertiesFixture
     {
         $connection = new DBALConnection(DriverManager::getConnection(['url' => $dsn]));
         $connection->registerPlatformType('enum', 'string');
-        $fixture = new Fixture($connection);
-        $fixture->load(__DIR__ . '/../../../fixtures/properties.yml');
-        $this->rows = $fixture->rows();
+        $this->fixture = new Fixture($connection);
+        $this->fixture->load(__DIR__ . '/../../../fixtures/properties.yml');
+        $this->rows = $this->fixture->rows();
+    }
+
+    public function includeSecurityRows()
+    {
+        $this->fixture->load(__DIR__ . '/../../../fixtures/security.yml');
+        $this->rows += $this->fixture->rows();
+    }
+
+    public function adminUser(): array
+    {
+        return $this->rows['user_1'];
     }
 
     public function stateId(): int

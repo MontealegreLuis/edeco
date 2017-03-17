@@ -204,12 +204,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/ComPHPPuebla/dbal-fixtures.git",
-                "reference": "f87f3cd512820553b7195ac81be1a11d66e33c5c"
+                "reference": "3a2057569042ef0b3e039664c178ab0c8d77c22a"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/ComPHPPuebla/dbal-fixtures/zipball/f87f3cd512820553b7195ac81be1a11d66e33c5c",
-                "reference": "f87f3cd512820553b7195ac81be1a11d66e33c5c",
+                "url": "https://api.github.com/repos/ComPHPPuebla/dbal-fixtures/zipball/3a2057569042ef0b3e039664c178ab0c8d77c22a",
+                "reference": "3a2057569042ef0b3e039664c178ab0c8d77c22a",
                 "shasum": ""
             },
             "require": {
@@ -245,7 +245,7 @@
                 }
             ],
             "description": "Fixtures managament with Doctrine DBAL",
-            "time": "2017-03-17 01:41:09"
+            "time": "2017-03-17 03:28:39"
         },
         {
             "name": "doctrine/annotations",

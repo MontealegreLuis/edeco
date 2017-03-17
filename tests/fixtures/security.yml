@@ -1,0 +1,116 @@
+resource:
+    resource_1:
+        name: "*"
+    resource_2:
+        name: "admin_address"
+    resource_3:
+        name: "admin_category"
+    resource_4:
+        name: "admin_city"
+    resource_5:
+        name: "admin_error"
+    resource_6:
+        name: "admin_excel"
+    resource_7:
+        name: "admin_google-map"
+    resource_8:
+        name: "admin_help"
+    resource_9:
+        name: "admin_image"
+    resource_10:
+        name: "admin_index"
+    resource_11:
+        name: "admin_picture"
+    resource_12:
+        name: "admin_project"
+    resource_13:
+        name: "admin_property"
+    resource_14:
+        name: "admin_user"
+    resource_15:
+        name: "default_error"
+    resource_16:
+        name: "default_index"
+    resource_17:
+        name: "default_javascript"
+    resource_18:
+        name: "default_property"
+    resource_19:
+        name: "help_index"
+    resource_20:
+        name: "help_property"
+    resource_21:
+        name: "help_user"
+role:
+    role_1:
+        name: "admin"
+        parentRole: null
+    role_2:
+        name: "client"
+        parentRole: "guest"
+    role_3:
+        name: "guest"
+        parentRole: null
+permission:
+    permission_1:
+        name: "*"
+        roleName: "admin"
+        resourceName: "*"
+    permission_2:
+        name: "download"
+        roleName: "client"
+        resourceName: "admin_project"
+    permission_3:
+        name: "list"
+        roleName: "client"
+        resourceName: "admin_project"
+    permission_4:
+        name: "logout"
+        roleName: "client"
+        resourceName: "admin_index"
+    permission_5:
+        name: "show"
+        roleName: "client"
+        resourceName: "admin_project"
+    permission_6:
+        name: "*"
+        roleName: "guest"
+        resourceName: "admin_error"
+    permission_7:
+        name: "*"
+        roleName: "guest"
+        resourceName: "default_error"
+    permission_8:
+        name: "*"
+        roleName: "guest"
+        resourceName: "default_index"
+    permission_9:
+        name: "*"
+        roleName: "guest"
+        resourceName: "default_javascript"
+    permission_10:
+        name: "*"
+        roleName: "guest"
+        resourceName: "default_property"
+    permission_11:
+        name: "authenticate"
+        roleName: "guest"
+        resourceName: "admin_index"
+    permission_12:
+        name: "confirm"
+        roleName: "guest"
+        resourceName: "admin_user"
+    permission_13:
+        name: "index"
+        roleName: "guest"
+        resourceName: "admin_index"
+    permission_14:
+        name: "login"
+        roleName: "guest"
+        resourceName: "admin_index"
+user:
+    user_1:
+        username: "montealegreluis@gmail.com"
+        password: "lemuel"
+        state: "active"
+        roleName: "admin"

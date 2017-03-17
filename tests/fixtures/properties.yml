@@ -34,3 +34,4 @@ address:
         addressReference: "Antes de llegar a la salida a la autopista"
         cityId: "@city_1"
         zipCode: 72120
+        version: 1
