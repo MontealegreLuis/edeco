@@ -1,13 +1,14 @@
 <?php
 /**
- * PHP version 5
+ * PHP version 7.1
  *
  * This source file is subject to the license that is bundled with this package in the file LICENSE.
  */
 namespace Mandragora\Gateway\Doctrine;
 
 use Mandragora\Gateway\GatewayInterface;
-use Doctrine_Record;
+use Doctrine_Query as Query;
+use Doctrine_Record as Record;
 use Mandragora\Model\AbstractModel;
 use Mandragora\StringObject;
 
@@ -16,41 +17,32 @@ use Mandragora\StringObject;
  */
 abstract class DoctrineGateway implements GatewayInterface
 {
-    /**
-     * @var Doctrine_Record
-     */
+    /** @var Record */
     protected $dao;
 
-    /**
-     * @var string
-     */
+    /** @var string */
     protected $alias;
 
-    /**
-     * @var boolean
-     */
+    /** @var boolean */
     protected $clearRelated = false;
 
-    /**
-     * @param Doctrine_Record $dao
-     */
-    public function __construct(Doctrine_Record $dao)
+    public function __construct(Record $dao)
     {
       $this->dao = $dao;
+    }
+
+    protected function createQuery(): Query
+    {
+        return $this->dao->getTable()->createQuery();
     }
 
     protected function alias(string $alias = null): string
     {
         if (!$this->alias) {
-            $name = new StringObject(get_class($this));
-            if ($name->endsWith('Gateway')) {
-                $daoName = $name->replace('Gateway', 'Dao');
-            } else {
-                $daoName = $name->replace('Gateway', 'Dao') . 'Dao';
-            }
+            $className = new StringObject(get_class($this));
+            $daoName = $this->buildDaoName($className);
             if ($alias === null) {
-                $name->setValue($daoName);
-                $alias = $name->subString($name->indexOf('Dao\\') + 4, 1)->toLower();
+                $alias = $this->buildAlias($className, $daoName);
             }
             $this->alias = $daoName . ' ' . $alias;
         }
@@ -92,5 +84,22 @@ abstract class DoctrineGateway implements GatewayInterface
     {
         $this->dao->assignIdentifier($model->getIdentifier());
         $this->dao->delete();
+    }
+
+    private function buildDaoName(StringObject $name): string
+    {
+        if ($name->endsWith('Gateway')) {
+            return (string) $name->replace('Gateway', 'Dao');
+        }
+        return $name->replace('Gateway', 'Dao') . 'Dao';
+    }
+
+    private function buildAlias(StringObject $name, $daoName): string
+    {
+        $name->setValue($daoName);
+        return (string) $name
+            ->subString($name->indexOf('Dao\\') + 4, 1)
+            ->toLower()
+        ;
     }
 }
