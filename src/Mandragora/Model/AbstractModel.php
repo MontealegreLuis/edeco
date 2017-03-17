@@ -1,6 +1,6 @@
 <?php
 /**
- * PHP version 5
+ * PHP version 7.1
  *
  * This source file is subject to the license that is bundled with this package in the file LICENSE.
  */
@@ -58,13 +58,13 @@ abstract class AbstractModel implements ArrayInterface, StringInterface
     /**
      * @param string $name
      * @param string $value
-     * @throws Mandragora_Model_Property_Exception
+     * @throws NonExistingProperty
      */
     public function __set($name, $value)
     {
         $this->isValidProperty($name);
         $setter = 'set'. ucfirst($name);
-        if (is_callable(array($this, $setter))) {
+        if (is_callable([$this, $setter])) {
             $this->$setter($value);
         } else {
             $this->properties[$name] = $value;
@@ -87,12 +87,12 @@ abstract class AbstractModel implements ArrayInterface, StringInterface
     }
 
     /**
-     * @param string $propertyName
-     * @throws Mandragora_Model_Property_Exception
+     * @throws NonExistingProperty
      */
-    protected function isValidProperty($propertyName)
+    protected function isValidProperty(string $propertyName)
     {
-        if (!array_key_exists($propertyName, $this->properties))  {
+        $properties = array_change_key_case($this->properties);
+        if (!array_key_exists(strtolower($propertyName), $properties))  {
             throw new NonExistingProperty(
                 "Property '$propertyName' does not belong to class "
                 . get_class($this)
@@ -171,7 +171,7 @@ abstract class AbstractModel implements ArrayInterface, StringInterface
     protected function import(array $values)
     {
         foreach ($this->properties as $name => $value) {
-            if (array_key_exists($name, $values))  {
+            if (isset($values[$name]))  {
                 $value = $values[$name];
                 //Avoid setting empty strings
                 $value = (is_string($value) && trim($value) === '') ? null : $value;
