@@ -1,0 +1,36 @@
+state:
+    state_1:
+        name: Puebla
+        url: puebla
+city:
+    city_1:
+        name: Tepexi
+        url: tepexi
+        stateid: "@state_1"
+category:
+    category_1:
+        name: "PLAZA COMERCIAL"
+        url: "plaza-comercial"
+        version: 1
+property:
+    property_1:
+        name: "PLAZA HUAMANTLA"
+        url: "plaza-huamantla"
+        description: "<p>Disponibilidad de Locales:</p><p><strong>8 Locales</strong> en Planta Alta&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Superficie: 60m2</p><p><strong>3 Locales</strong> en Planta Baja&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp; Superficie: 60m2</p><p>Se ubica sobre una de las avenidas principales de <strong>Huamantla Tlaxcala,</strong> es la Primera plaza comercial , tiene como ancla a Mi Bodega Aurrera, actualmente se ubican dentro de la misma como clientes&nbsp; Pizzas Angelotti y Banco Banorte. Gran afluencia peatonal.</p><p>&nbsp;</p>"
+        totalSurface: 60
+        metersOffered: 60
+        metersFront: 60
+        landUse: commercial
+        availabilityFor: "rent"
+        showOnWeb: 1
+        version: 1
+        creationDate: "${date('Y-m-d')}"
+        categoryId: "@category_1"
+address:
+    address_1:
+        id: "@property_1"
+        streetAndNumber: "Priv. Tabacos"
+        neighborhood: "Ignacio Romero V"
+        addressReference: "Antes de llegar a la salida a la autopista"
+        cityId: "@city_1"
+        zipCode: 72120

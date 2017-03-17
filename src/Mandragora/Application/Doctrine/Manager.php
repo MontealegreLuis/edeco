@@ -60,11 +60,9 @@ class Manager
             ->pushAutoloader([Core::class, 'modelsAutoload']);
         $manager = DoctrineManager::getInstance();
         $manager->setAttribute(Core::ATTR_AUTO_ACCESSOR_OVERRIDE, true);
-        $manager->setAttribute(Core::ATTR_MODEL_LOADING,
-            $this->options['model_autoloading']);
+        $manager->setAttribute(Core::ATTR_MODEL_LOADING, $this->options['model_autoloading']);
         Core::loadModels($this->options['models_path']);
-        self::$connection = DoctrineManager::connection($this->options['dsn'],
-            'doctrine');
+        self::$connection = DoctrineManager::connection($this->options['dsn'], 'doctrine');
         self::$connection->setAttribute(Core::ATTR_USE_NATIVE_ENUM, true);
         self::$connection->setCharset('UTF8');
     }
