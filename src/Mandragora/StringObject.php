@@ -1,6 +1,6 @@
 <?php
 /**
- * PHP version 5
+ * PHP version 7.1
  *
  * This source file is subject to the license that is bundled with this package in the file LICENSE.
  */
@@ -109,7 +109,7 @@ class StringObject
      * @param string $replace
      * @return StringObject
      */
-    public function replace($search, $replace)
+    public function replace($search, $replace): StringObject
     {
         return new StringObject(str_replace($search, $replace, $this->string));
     }
