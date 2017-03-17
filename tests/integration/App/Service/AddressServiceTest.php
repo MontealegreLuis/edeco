@@ -83,15 +83,13 @@ class AddressServiceTest extends ControllerTestCase implements DoctrineTestInter
     function configure()
     {
         $this->addressService = (new AddressContainer())->getAddressService();
-        $this->doctrineManager = $this->_frontController->getParam('bootstrap')->getResource('doctrine');
-        $this->fixture = PropertiesFixture::fromDSN($this->doctrineManager->getConfiguration()['dsn']);
+        /** @var \Mandragora\Application\Doctrine\Manager $manager */
+        $manager = $this->_frontController->getParam('bootstrap')->getResource('doctrine');
+        $this->fixture = PropertiesFixture::fromDSN($manager->getConfiguration()['dsn']);
     }
 
     /** @var  \App\Service\AddressService */
     private $addressService;
-
-    /** @var \Mandragora\Application\Doctrine\Manager */
-    private $doctrineManager;
 
     /** @var PropertiesFixture */
     private $fixture;
