@@ -6,7 +6,7 @@ city:
     city_1:
         name: Tepexi
         url: tepexi
-        stateid: "@state_1"
+        stateId: "@state_1"
 category:
     category_1:
         name: "PLAZA COMERCIAL"

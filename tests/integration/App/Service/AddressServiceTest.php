@@ -69,6 +69,7 @@ class AddressServiceTest extends ControllerTestCase implements DoctrineTestInter
         $gateway = new AddressGateway(new AddressDao());
         $existingAddress = $this->fixture->address();
         $newZipCode = 78209;
+        $existingAddress['state'] = $this->fixture->stateId();
         $existingAddress['zipCode'] = $newZipCode;
 
         $form = $this->addressService->getFormForEditing('', $existingAddress);
