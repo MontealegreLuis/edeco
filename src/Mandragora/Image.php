@@ -1,6 +1,6 @@
 <?php
 /**
- * PHP version 5
+ * PHP version 7.1
  *
  * This source file is subject to the license that is bundled with this package in the file LICENSE.
  */
@@ -11,36 +11,26 @@ namespace Mandragora;
  */
 class Image
 {
-    /**
-     * @var resource
-     */
+    /** @var resource */
     protected $image;
 
-    /**
-     * @param string $pathToImage
-     */
-    public function __construct($pathToImage)
+    public function __construct(string $pathToImage)
     {
-        $image = ImageCreateFromJpeg((string)$pathToImage);
-        $this->image = $image;
+        $this->image = imagecreatefromjpeg($pathToImage);
     }
 
      /**
-     * Get Image Width in Pixels
-     *
-     * @return int
-     */
-    public function getWidth()
+      * Image width in pixels
+      */
+    public function getWidth(): int
     {
         return imagesx($this->image);
     }
 
     /**
-     * Get Image Height in Pixels
-     *
-     * @return int
+     * Image height in pixels
      */
-    public function getHeight()
+    public function getHeight(): int
     {
         return imagesy($this->image);
     }
