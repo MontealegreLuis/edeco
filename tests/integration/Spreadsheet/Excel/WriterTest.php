@@ -11,26 +11,8 @@ use PHPUnit_Framework_TestCase as TestCase;
 
 class WriterTest extends TestCase
 {
-    private const EXCEL_FILE_NAME = 'test.xls';
-
-    protected $filename;
-
-    /**
-     * Setup application to run test cases
-     *
-     * @see tests/application/ControllerTestCase#setUp()
-     */
-    public function setUp()
-    {
-        parent::setUp();
-        $this->filename = __DIR__ . DIRECTORY_SEPARATOR . self::EXCEL_FILE_NAME;
-
-        if (File::exists($this->filename)) {
-            (new File($this->filename))->delete();
-        }
-    }
-
-    public function testCanSaveExcelFile()
+    /** @test */
+    function it_saves_an_excel_file()
     {
         // We give the path to our file here
         $workbook = new Writer($this->filename);
@@ -87,4 +69,19 @@ class WriterTest extends TestCase
             "Excel file cannot be found in $this->filename"
         );
     }
+
+    /** @before */
+    function cleanupTestFiles()
+    {
+        $this->filename = __DIR__ . DIRECTORY_SEPARATOR . self::EXCEL_FILE_NAME;
+
+        if (File::exists($this->filename)) {
+            (new File($this->filename))->delete();
+        }
+    }
+
+    /** @var string */
+    private $filename;
+
+    private const EXCEL_FILE_NAME = 'test.xls';
 }
