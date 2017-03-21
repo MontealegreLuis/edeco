@@ -20,7 +20,8 @@ property:
         totalSurface: 60
         metersOffered: 60
         metersFront: 60
-        landUse: commercial
+        price: "$5,000 al mes"
+        landUse: "commercial"
         availabilityFor: "rent"
         showOnWeb: 1
         version: 1

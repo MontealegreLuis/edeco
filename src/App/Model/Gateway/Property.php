@@ -1,13 +1,13 @@
 <?php
 /**
- * PHP version 5
+ * PHP version 7.1
  *
  * This source file is subject to the license that is bundled with this package in the file LICENSE.
  */
 namespace App\Model\Gateway;
 
 use Mandragora\Gateway\Doctrine\DoctrineGateway;
-use Doctrine_Core;
+use Doctrine_Core as HydrationType;
 use Mandragora\Gateway\NoResultsFoundException;
 
 /**
@@ -16,28 +16,24 @@ use Mandragora\Gateway\NoResultsFoundException;
 class Property extends DoctrineGateway
 {
     /**
-     * @return array
-     * @throws Mandragora_Doctrine_Gateway_NoResultsFoundException
+     * @throws NoResultsFoundException
      */
-    public function findOneById($id)
+    public function findOneById(int $id): array
     {
-        $query = $this->dao->getTable()->createQuery();
-        $query->from($this->alias())
-              ->innerJoin('p.Category c')
-              ->leftJoin('p.Address a')
-              ->leftJoin('a.City ci')
-              ->leftJoin('ci.State s')
-              ->andWhere('p.id = :id');
-        $query->getSqlQuery();
-        $property = $query->fetchOne(
-            [':id' => (int)$id], Doctrine_Core::HYDRATE_ARRAY
-        );
-        if (!$property) {
-            throw new NoResultsFoundException(
-                "Property with id '$id' cannot be found"
-            );
+        $query = $this->createQuery();
+        $query
+            ->from($this->alias())
+            ->innerJoin('p.Category c')
+            ->leftJoin('p.Address a')
+            ->leftJoin('a.City ci')
+            ->leftJoin('ci.State s')
+            ->andWhere('p.id = :id')
+        ;
+        $property = $query->fetchOne([':id' => $id], HydrationType::HYDRATE_ARRAY);
+        if ($property) {
+            return $property;
         }
-        return $property;
+        throw new NoResultsFoundException("Property with id '$id' cannot be found");
     }
 
     /**
@@ -147,7 +143,7 @@ class Property extends DoctrineGateway
               ->leftJoin('rc.State rs')
               ->where('p.url = :url');
         $query->getSqlQuery();
-        $property = $query->fetchOne([':url' => (string) $url], Doctrine_Core::HYDRATE_ARRAY);
+        $property = $query->fetchOne([':url' => (string) $url], HydrationType::HYDRATE_ARRAY);
         if (!$property) {
             throw new NoResultsFoundException("Property with URL $url cannot be found");
         }

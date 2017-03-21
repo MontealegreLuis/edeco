@@ -1,0 +1,15 @@
+property:
+    property_[2..5]:
+        name: "${company}"
+        url: "${slug}"
+        description: "${realText}"
+        totalSurface: "${randomNumber(100)}"
+        metersOffered: "${randomNumber(100)}"
+        metersFront: "${randomNumber(80)}"
+        price: "${sentence}"
+        landUse: commercial
+        availabilityFor: "rent"
+        showOnWeb: 1
+        version: 1
+        creationDate: "${date('Y-m-d')}"
+        categoryId: "@category_1"

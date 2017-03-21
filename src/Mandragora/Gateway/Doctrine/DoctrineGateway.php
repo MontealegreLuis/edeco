@@ -60,6 +60,7 @@ abstract class DoctrineGateway implements GatewayInterface
 
     public function insert(AbstractModel $model)
     {
+        $this->clearRelated();
         $this->save($model);
     }
 

@@ -32,7 +32,13 @@ class PropertiesFixture
         $this->rows = $this->fixture->rows();
     }
 
-    public function includeSecurityRows()
+    public function addMoreProperties(): void
+    {
+        $this->fixture->load(__DIR__ . '/../../../fixtures/more-properties.yml');
+        $this->rows += $this->fixture->rows();
+    }
+
+    public function includeSecurityRows(): void
     {
         $this->fixture->load(__DIR__ . '/../../../fixtures/security.yml');
         $this->rows += $this->fixture->rows();
@@ -61,5 +67,27 @@ class PropertiesFixture
     public function addressId(): int
     {
         return $this->address()['id'];
+    }
+
+    public function categoryId(): int
+    {
+        return $this->rows['category_1']['id'];
+    }
+
+    public function propertyId(): int
+    {
+        return $this->property()['id'];
+    }
+
+    public function property(): array
+    {
+        return $this->rows['property_1'];
+    }
+
+    public function properties(): array
+    {
+        return array_filter($this->rows, function (array $key) {
+            return strpos($key, 'property_') === 0;
+        }, ARRAY_FILTER_USE_KEY);
     }
 }
