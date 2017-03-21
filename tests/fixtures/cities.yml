@@ -1,0 +1,9 @@
+state:
+  state_1:
+    name: "${state}"
+    url: "${domainWord}"
+city:
+  city_[1..5]:
+    name: "${city}"
+    url: "${domainWord}"
+    stateId: "@state_1"

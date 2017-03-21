@@ -6,72 +6,47 @@
  */
 namespace App\Model\Gateway;
 
-use App\Model\City;
 use App\Model\Dao\CityDao;
-use App\Model\Dao\StateDao;
 use App\Model\Gateway\City as CityGateway;
-use App\Model\Gateway\State as StateGateway;
-use App\Model\State;
 use ControllerTestCase;
+use Edeco\Fixtures\CitiesFixture;
 use Mandragora\PHPUnit\DoctrineTest\DoctrineTestInterface;
 
 class CityTest extends ControllerTestCase implements DoctrineTestInterface
 {
     /** @test */
-    public function it_retrieves_all_cities_of_a_given_state()
+    function it_retrieves_all_cities_of_a_given_state()
     {
-        $insertedCities = [];
-        $this->insertState();
-        for ($i = 0; $i < 5; $i++) {
-            $insertedCities[$i] = $this->insertCity();
-        }
-        $gatewayCity = new CityGateway(new CityDao());
-        $allCities = $gatewayCity->findAllByStateId($this->state->id);
+        $existingCities = $this->fixture->cities();
+
+        $allCities = $this->cityGateway->findAllByStateId($this->fixture->stateId());
+
         $this->assertCount(5, $allCities);
-        for ($i = 0; $i < 5; $i++) {
-            $this->assertEquals(
-                $insertedCities[$i]->name, $allCities[$i]['name']
-            );
+        $i = 0;
+        foreach ($existingCities as $existingCity) {
+            $this->assertEquals($existingCity['name'], $allCities[$i]['name']);
+            $i++;
         }
     }
 
     /** @test */
-    public function it_retrieves_zero_results_with_a_non_existing_state()
+    function it_retrieves_zero_results_with_a_non_existing_state()
     {
-        $gatewayCity = new CityGateway(new CityDao());
-        $this->insertState();
-        $allStates = $gatewayCity->findAllByStateId($this->state->id);
-        $this->assertCount(0, $allStates);
+        $this->assertCount(0, $this->cityGateway->findAllByStateId(-1));
     }
 
     /** @before */
-    public function createStateGateway(): void
+    function createStateGateway(): void
     {
-        $this->stateGateway = new StateGateway(new StateDao());
+        /** @var \Mandragora\Application\Doctrine\Manager $manager */
+        $manager = $this->_frontController->getParam('bootstrap')->getResource('doctrine');
+        $this->fixture = CitiesFixture::fromDSN($manager->getConfiguration()['dsn']);
+        $this->cityGateway = new CityGateway(new CityDao());
     }
 
-    private function insertState(): void
-    {
-        $this->state = new State();
-        $this->state->name = 'MÉXICO';
-        $this->state->url = 'mexico';
-        $this->stateGateway->insert($this->state);
-    }
+    /** @var CityGateway */
+    private $cityGateway;
 
-    private function insertCity(): City
-    {
-        $gatewayCity = new CityGateway(new CityDao());
-        $city = new City();
-        $city->name = 'Cholula';
-        $city->url = 'cholula';
-        $city->stateId = $this->state->id; //the value assigned on insertState
-        $gatewayCity->insert($city);
-        return $city;
-    }
-
-    /** @var State*/
-    protected $state;
-
-    /** @var StateGateway */
-    protected $stateGateway;
+    /** @var CitiesFixture */
+    private $fixture;
 }
