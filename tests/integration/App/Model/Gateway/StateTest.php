@@ -8,55 +8,48 @@ namespace App\Model\Gateway;
 
 use App\Model\Dao\StateDao;
 use App\Model\Gateway\State as StateGateway;
-use App\Model\State;
 use ControllerTestCase;
+use Edeco\Fixtures\CitiesFixture;
 use Mandragora\PHPUnit\DoctrineTest\DoctrineTestInterface;
 
 class StateTest extends ControllerTestCase implements DoctrineTestInterface
 {
     /** @test */
-    public function it_finds_all_states()
+    function it_finds_all_states()
     {
-        // Insert some states
-        $createdStates = [];
-        $stateGateway = new StateGateway(new StateDao());
-        for ($i = 0; $i < 5; $i++) {
-            $createdStates[$i] = $this->createState();
-            $this->saveState($createdStates[$i]);
-        }
+        $this->fixture->addMoreStates();
+        $createdStates = array_values($this->fixture->states());
 
-        // Find the states recently inserted
-        $allStates = $stateGateway->findAll();
+        $allStates = $this->stateGateway->findAll();
+
         $this->assertCount(5, $allStates);
-
-        // Check that the states found were the same that were inserted
         for ($i = 0; $i < 5; $i++) {
-            $this->assertEquals($createdStates[$i]->name, $allStates[$i]['name']);
-            $this->assertEquals($createdStates[$i]->url, $allStates[$i]['url']);
+            $this->assertEquals($createdStates[$i]['id'], $allStates[$i]['id']);
+            $this->assertEquals($createdStates[$i]['name'], $allStates[$i]['name']);
+            $this->assertEquals($createdStates[$i]['url'], $allStates[$i]['url']);
         }
     }
 
     /** @test */
-    public function it_finds_zero_elements_when_table_is_empty()
+    function it_finds_an_state_by_its_url()
     {
-        $stateGateway = new StateGateway(new StateDao());
-        $allStates = $stateGateway->findAll();
-        $this->assertCount(0, $allStates);
+        $state = $this->stateGateway->findOneByUrl($this->fixture->stateUrl());
+
+        $this->assertEquals($this->fixture->state(), $state);
     }
 
-    private function createState(): State
+    /** @before */
+    function configureFixture()
     {
-        $state = new State();
-        $state->name = 'Puebla';
-        $state->url = 'puebla';
-
-        return $state;
+        $this->stateGateway = new StateGateway(new StateDao());
+        /** @var \Mandragora\Application\Doctrine\Manager $manager */
+        $manager = $this->_frontController->getParam('bootstrap')->getResource('doctrine');
+        $this->fixture = CitiesFixture::fromDSN($manager->getConfiguration()['dsn']);
     }
 
-    private function saveState(State $state): void {
-        $record = new StateDao();
-        $record->fromArray($state->toArray());
-        $record->save();
-        $state->fromArray($record->toArray());
-    }
+    /** @var CitiesFixture */
+    private $fixture;
+
+    /** @var StateGateway */
+    private $stateGateway;
 }

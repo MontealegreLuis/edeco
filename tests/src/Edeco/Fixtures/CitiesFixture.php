@@ -29,15 +29,40 @@ class CitiesFixture
         $this->rows = $this->fixture->rows();
     }
 
+    public function addMoreStates(): void
+    {
+        $this->fixture->load(__DIR__ . '/../../../fixtures/states.yml');
+        $this->rows += $this->fixture->rows();
+    }
+
     public function stateId(): int
     {
-        return $this->rows['state_1']['id'];
+        return $this->state()['id'];
+    }
+
+    public function state():array
+    {
+        return $this->rows['state_1'];
+    }
+
+    public function stateUrl(): string
+    {
+        return $this->state()['url'];
     }
 
     public function cities(): array
     {
         return array_filter($this->rows, function ($key) {
-            return 0 === strpos('city_', $key);
+            return 0 === strpos($key, 'city_');
         }, ARRAY_FILTER_USE_KEY);
+    }
+
+    public function states(): array
+    {
+        $states = array_filter($this->rows, function ($key) {
+            return 0 === strpos($key, 'state_');
+        }, ARRAY_FILTER_USE_KEY);
+
+        return $states;
     }
 }

@@ -1,0 +1,4 @@
+state:
+  state_[2..5]:
+    name: "${state}"
+    url: "${domainWord}"
