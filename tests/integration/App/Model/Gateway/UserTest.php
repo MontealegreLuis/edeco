@@ -6,12 +6,12 @@
  */
 namespace App\Model\Gateway;
 
-use App\Model\Dao\RoleDao;
 use App\Model\Dao\UserDao;
 use App\Model\Gateway\User as UserGateway;
 use App\Model\User;
 use ControllerTestCase;
 use Doctrine_Core as Doctrine;
+use Edeco\Fixtures\UsersFixture;
 use Mandragora\PHPUnit\DoctrineTest\DoctrineTestInterface;
 
 class UserTest extends ControllerTestCase implements DoctrineTestInterface
@@ -19,7 +19,6 @@ class UserTest extends ControllerTestCase implements DoctrineTestInterface
     /** @test */
 	public function it_can_save_a_user()
 	{
-	    $this->insertRole();
         $user = new User([
             'password' => 'changeme',
 		    'username' => 'lemuel',
@@ -28,22 +27,32 @@ class UserTest extends ControllerTestCase implements DoctrineTestInterface
             'creationDate' => '2017-02-28',
         ]);
 
-		$userGateway = new UserGateway(new UserDao());
-        $userGateway->insert($user);
+        $this->userGateway->insert($user);
 
-        $userTable = Doctrine::getTable(UserDao::class);
-        $savedUser = $userTable->findOneByUsername($user->username);
+        $savedUser = $this->userTable->findOneByUsername($user->username);
 
         $this->assertEquals($user->username, $savedUser->username);
         $this->assertEquals($user->password, $savedUser->password);
         $this->assertEquals($user->state, $savedUser->state);
         $this->assertEquals($user->roleName, $savedUser->roleName);
-	}
-
-	private function insertRole(): void
-    {
-        $daoRole = new RoleDao();
-        $daoRole->name = 'admin';
-        $daoRole->save();
     }
+
+    /** @before */
+	function loadFixture(): void
+    {
+        /** @var \Mandragora\Application\Doctrine\Manager $manager */
+        $manager = $this->_frontController->getParam('bootstrap')->getResource('doctrine');
+        $this->fixture = UsersFixture::fromDSN($manager->getConfiguration()['dsn']);
+        $this->userTable = Doctrine::getTable(UserDao::class);
+        $this->userGateway = new UserGateway(new UserDao());
+    }
+
+    /** @var \Doctrine_Table */
+    private $userTable;
+
+    /** @var UserGateway */
+    private $userGateway;
+
+    /** @var UsersFixture */
+    private $fixture;
 }
