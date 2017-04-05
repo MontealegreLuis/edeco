@@ -41,6 +41,24 @@ class AddressTest extends ControllerTestCase
         }
     }
 
+    /** @test */
+    function it_changes_the_city_value()
+    {
+        $city = ['name' => 'Cholula', 'State' => ['name' => 'Puebla',]];
+
+        $this->address->setCity($city);
+
+        $this->assertInstanceOf(City::class, $this->address->City);
+    }
+
+    /** @test */
+    function it_can_have_no_value_for_city()
+    {
+        $this->address->setCity(null);
+
+        $this->assertInstanceOf(City::class, $this->address->City);
+    }
+
     /** @before */
     function configureAddress(): void
     {

@@ -124,6 +124,7 @@ class Admin_AddressController extends AbstractAction
         } else {
             $this->view->propertyId = (int) $this->param('id');
             $this->view->addressForm = $addressForm;
+            $this->view->address = $address;
             $this->setGoogleMapActions();
             $this->renderScript('address/edit.phtml');
         }

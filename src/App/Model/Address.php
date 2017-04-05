@@ -43,16 +43,10 @@ class Address extends AbstractModel
      */
     protected $identifier = ['id'];
 
-    /**
-     * @param array $values
-     */
-    public function setCity($values)
+    public function setCity(?array $values)
     {
         if (is_array($values)) {
-            $city = new City($values);
-            $this->properties['City'] = $city;
-        } else {
-            $this->properties['City'] = null;
+            $this->properties['City'] = new City($values);
         }
     }
 

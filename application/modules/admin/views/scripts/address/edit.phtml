@@ -1,22 +1,17 @@
 <?php
 /**
  * Update form for address
- *
- * @author     LNJ <lemuel.nonoal@mandragora-web-systems.com>
- * @author     LMV <luis.montealegre@mandragora-web-systems.com>
- * @copyright  Mandrágora Web-Based Systems 2010
- * @version    SVN: $Id$
  */
 ?>
 <?php
 $title = $this->translate('address.action.edit');
 $this->headTitle($title);
 $this->bundleLink()
-     ->appendStylesheet($this->baseUrl('/styles/breadcrumbs.css'), 'screen, projection', false, array('charset' => 'utf-8'))
-     ->appendStylesheet($this->baseUrl('/styles/skins/breadcrumbs.css'), 'screen, projection', false, array('charset' => 'utf-8'))
+     ->appendStylesheet($this->baseUrl('/styles/breadcrumbs.css'), 'screen, projection', false, ['charset' => 'utf-8'])
+     ->appendStylesheet($this->baseUrl('/styles/skins/breadcrumbs.css'), 'screen, projection', false, ['charset' => 'utf-8'])
      ->appendStylesheet($this->baseUrl('/styles/forms.css'), 'screen, projection', false, array('charset' => 'utf-8'))
-     ->appendStylesheet($this->baseUrl('/styles/skins/forms.css'), 'screen, projection', false, array('charset' => 'utf-8'))
-     ->appendStylesheet($this->baseUrl('/styles/jquery/plugins/rte.css'), 'screen, projection', false, array('charset' => 'utf-8'));
+     ->appendStylesheet($this->baseUrl('/styles/skins/forms.css'), 'screen, projection', false, ['charset' => 'utf-8'])
+     ->appendStylesheet($this->baseUrl('/styles/jquery/plugins/rte.css'), 'screen, projection', false, ['charset' => 'utf-8']);
 $this->jQuery()
      ->addJavascriptFile($this->baseUrl('/scripts/jquery/plugins/jquery.validate.js'))
      ->addJavascriptFile($this->baseUrl('/scripts/jquery/plugins/jquery.rte.js'))
@@ -24,35 +19,32 @@ $this->jQuery()
      ->addJavascriptFile($this->baseUrl('/scripts/jquery/plugins/jquery.confirm.js'))
      ->addJavascriptFile($this->baseUrl('/scripts/jquery/plugins/validate/method.rte.js'))
      ->addJavascriptFile($this->baseUrl('/scripts/edeco/pages/address/class.detail.js'));
-$onload = sprintf(
+$onLoad = sprintf(
     'var page = new Edeco.Pages.Address.Detail();
     page.init("%s", "%s", "%s");',
-    $this->url(array('controller' => 'city', 'action' => 'search', $this->translate('stateId') => 'stateId'), 'controllers', true),
+    $this->url(['controller' => 'city', 'action' => 'search', $this->translate('stateId') => 'stateId'], 'controllers', true),
     $this->baseUrl('/styles/jquery/plugins/rte.css'),
     $this->baseurl('/images/jquery/plugins/rte/')
 );
-$this->jQuery()->addOnLoad($onload);
+$this->jQuery()->addOnLoad($onLoad);
 ?>
 <h1><?php echo $title ?></h1>
 <div class="span-6">
     <div class="actions" id="address-actions">
         <ul class="actions-container">
             <?php
-            $params = array('id' => $this->address->id);
-            $actions = array(
+            $params = ['id' => $this->address->id];
+            $actions = [
                 'address.action.show' => $params,
                 'address.action.edit' => $params,
             	'address.action.delete' => $params,
                 'property.action.show' => $params,
-                'property.action.create' => array(),
-                'property.action.list' => array($this->translate('page') => 1)
-            ) + $this->gMapActions;
-            echo $this->partial(
-                'navigation/_actions.phtml',
-                array(
-                    'pages' => $this->actions, 'actions' => $actions, 'decorator' => 'li'
-                )
-            );
+                'property.action.create' => [],
+                'property.action.list' => [$this->translate('page') => 1]
+                ] + $this->gMapActions;
+            echo $this->partial('navigation/_actions.phtml', [
+                'pages' => $this->actions, 'actions' => $actions, 'decorator' => 'li'
+            ]);
             ?>
         </ul>
     </div>
