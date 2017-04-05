@@ -12,47 +12,46 @@ use Mandragora\Geocoder\PlaceMark;
 
 class AddressTest extends ControllerTestCase
 {
-    public function testCanConvertToString()
+    /** @test */
+    function it_can_be_converted_to_string()
     {
-        $address = new Address([
-	        'streetAndNumber' => 'priv tabacos',
-	        'neighborhood' => null, 'zipCode' => 72120,
-	        'City' => ['name' => 'puebla', 'State' => ['name' => 'puebla']],
-            'country' => 'México'
-        ]);
-        $this->assertEquals('priv tabacos, puebla, puebla, México', (string) $address);
+        $this->assertEquals('priv tabacos, puebla, puebla, México', (string)$this->address);
     }
 
-    public function testCanConvertToHtml()
+    /** @test */
+    function it_can_be_converted_to_html()
     {
-        $address = new Address([
-	        'streetAndNumber' => 'priv tabacos',
-	        'neighborhood' => null, 'zipCode' => 72120,
-            'City' => ['name' => 'puebla', 'State' => ['name' => 'puebla']],
-            'country' => 'México'
-        ]);
         $this->assertEquals(
             'priv tabacos<br /><br />puebla, puebla, México<br />C. P. 72120',
-            $address->toHtml()
+            $this->address->toHtml()
         );
     }
 
-    public function testCanGeocode()
+    /** @test */
+    function it_can_be_geocoded()
     {
         //Inject action helper dependency
         $helper = new GoogleMaps();
         $helper->direct($this->getRequest());
-        $address = new Address([
-            'streetAndNumber' => 'priv tabacos',
-            'neighborhood' => null, 'zipCode' => 72120,
-            'City' => ['name' => 'puebla', 'State' => ['name' => 'puebla']],
-            'country' => 'México'
-        ]);
-        $dataAddress = $address->geocode();
+        $dataAddress = $this->address->geocode();
 
         $this->assertInternalType('array', $dataAddress);
         if (count($dataAddress) > 0) {
         	$this->assertInstanceOf(PlaceMark::class, $dataAddress[0]);
         }
     }
+
+    /** @before */
+    function configureAddress(): void
+    {
+        $this->address = new Address([
+            'streetAndNumber' => 'priv tabacos',
+            'neighborhood' => null, 'zipCode' => 72120,
+            'City' => ['name' => 'puebla', 'State' => ['name' => 'puebla']],
+            'country' => 'México'
+        ]);
+    }
+
+    /** @var Address */
+    private $address;
 }
