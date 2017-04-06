@@ -28,22 +28,17 @@ use Edeco\Geocoder\PlaceMark\JsonFormatter;
  */
 class Address extends AbstractModel
 {
-    /**
-     * @var array
-     */
+    /** @var array */
     protected $properties = [
         'streetAndNumber' => '', 'neighborhood' => null, 'zipCode' => null,
         'City' => null, 'addressReference' => null, 'latitude' => null,
         'longitude' => null, 'cityId' => null,
     ];
 
-    /**
-     * @var array
-     * @return string
-     */
+    /** @var array */
     protected $identifier = ['id'];
 
-    public function setCity(?array $values)
+    public function setCity(?array $values): void
     {
         if (is_array($values)) {
             $this->properties['City'] = new City($values);
@@ -62,15 +57,13 @@ class Address extends AbstractModel
 
     /**
      * Concatenates street and number and neighborhood
-     *
-     * @return string
      */
-    public function location()
+    public function location(): string
     {
-        return sprintf(
+        return trim(sprintf(
             '%s %s', $this->properties['streetAndNumber'],
             $this->properties['neighborhood']
-        );
+        ));
     }
 
     /**
@@ -103,18 +96,15 @@ class Address extends AbstractModel
         ], function ($property) { return null !== $property; }));
     }
 
-   /**
-    * @return string
-    */
-    public function toHtml()
+    public function toHtml(): string
     {
         $zipCode = $this->properties['zipCode'] !== ''
-        ? '<br />C. P. ' . $this->properties['zipCode']
-        : '';
+            ? '<br />C. P. ' . $this->properties['zipCode']
+            : '';
         return $this->properties['streetAndNumber'] . '<br />'
-        . $this->properties['neighborhood'] . '<br />'
-        . $this->properties['City']->name
-        . ', ' . $this->properties['City']->State->name
-        . ', México' . $zipCode;
+            . $this->properties['neighborhood'] . '<br />'
+            . $this->properties['City']->name
+            . ', ' . $this->properties['City']->State->name
+            . ', México' . $zipCode;
     }
 }

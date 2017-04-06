@@ -28,20 +28,6 @@ class AddressTest extends ControllerTestCase
     }
 
     /** @test */
-    function it_can_be_geocoded()
-    {
-        //Inject action helper dependency
-        $helper = new GoogleMaps();
-        $helper->direct($this->getRequest());
-        $dataAddress = $this->address->geocode();
-
-        $this->assertInternalType('array', $dataAddress);
-        if (count($dataAddress) > 0) {
-        	$this->assertInstanceOf(PlaceMark::class, $dataAddress[0]);
-        }
-    }
-
-    /** @test */
     function it_changes_the_city_value()
     {
         $city = ['name' => 'Cholula', 'State' => ['name' => 'Puebla',]];
@@ -57,6 +43,34 @@ class AddressTest extends ControllerTestCase
         $this->address->setCity(null);
 
         $this->assertInstanceOf(City::class, $this->address->City);
+    }
+
+    /** @test */
+    function it_shows_its_location()
+    {
+        $this->address->neighborhood = 'Col. Centro';
+
+        $this->assertEquals('priv tabacos Col. Centro', $this->address->location());
+    }
+
+    /** @test */
+    function it_shows_its_location_without_a_neighborhood()
+    {
+        $this->assertEquals('priv tabacos', $this->address->location());
+    }
+
+    /** @test */
+    function it_can_be_geocoded()
+    {
+        //Inject action helper dependency
+        $helper = new GoogleMaps();
+        $helper->direct($this->getRequest());
+        $dataAddress = $this->address->geocode();
+
+        $this->assertInternalType('array', $dataAddress);
+        if (count($dataAddress) > 0) {
+            $this->assertInstanceOf(PlaceMark::class, $dataAddress[0]);
+        }
     }
 
     /** @before */
