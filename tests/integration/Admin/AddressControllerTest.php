@@ -8,24 +8,26 @@ use App\Model\Address;
 use App\Model\City;
 use App\Model\Dao\AddressDao;
 use App\Model\Gateway\AddressGateway;
-use App\Model\User;
 use Edeco\Fixtures\PropertiesFixture;
 use Mandragora\PHPUnit\DoctrineTest\DoctrineTestInterface;
+use PHPUnit\Zf\AuthenticatesUsers;
+use PHPUnit\Zf\CleansUpHttpState;
 use Zend_Controller_Plugin_ErrorHandler as ErrorHandler;
 use Zend_View_Helper_Url as UrlHelper;
-use Zend_Auth as Auth;
 
 /**
  * Integration tests for AddressController class
  */
 class AddressControllerTest extends ControllerTestCase implements DoctrineTestInterface
 {
+    use CleansUpHttpState, AuthenticatesUsers;
+
     /** @test */
     function it_shows_the_form_to_edit_an_address()
     {
         $this->getRequest()->setMethod('GET');
         $this->getRequest()->setParams(['id' => $this->fixture->addressId()]);
-        $this->doLogin();
+        $this->authenticateAs($this->fixture->adminUser());
 
         $this->dispatch($this->urlHelper->url([
             'module' => 'admin',
@@ -56,7 +58,7 @@ class AddressControllerTest extends ControllerTestCase implements DoctrineTestIn
         ];
         $this->getRequest()->setMethod('POST')->setPost($newValues);
         $this->getRequest()->setParams(['id' => $this->fixture->addressId()]);
-        $this->doLogin();
+        $this->authenticateAs($this->fixture->adminUser());
 
         $this->dispatch(
             $this->urlHelper->url([
@@ -91,18 +93,6 @@ class AddressControllerTest extends ControllerTestCase implements DoctrineTestIn
         $manager = $this->_frontController->getParam('bootstrap')->getResource('doctrine');
         $this->fixture = PropertiesFixture::fromDSN($manager->getConfiguration()['dsn']);
         $this->fixture->includeSecurityRows();
-    }
-
-    /** @after */
-    function resetHttpState(): void
-    {
-        $this->resetRequest();
-        $this->resetResponse();
-    }
-
-    private function doLogin(): void
-    {
-        Auth::getInstance()->getStorage()->write(new User($this->fixture->adminUser()));
     }
 
     /** @var PropertiesFixture */

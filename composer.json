@@ -15,7 +15,8 @@
     },
     "autoload-dev": {
         "psr-0": {
-            "Edeco\\": "tests/src"
+            "Edeco\\": "tests/src",
+            "PHPUnit\\": "tests/src"
         }
     },
     "config": {
