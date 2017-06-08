@@ -31,6 +31,7 @@ abstract class ControllerTestCase extends Zend_Test_PHPUnit_ControllerTestCase
      */
     public function applicationBootstrap()
     {
+        defined('PUBLIC_PATH') || define('PUBLIC_PATH', __DIR__ . '/../admin.edeco.mx');
         $this->application = new Application(
             APPLICATION_ENV, APPLICATION_PATH . '/configs/application.ini'
         );
