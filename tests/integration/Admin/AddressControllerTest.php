@@ -4,8 +4,6 @@
  *
  * This source file is subject to the license that is bundled with this package in the file LICENSE.
  */
-use App\Model\Address;
-use App\Model\City;
 use App\Model\Dao\AddressDao;
 use App\Model\Gateway\AddressGateway;
 use Edeco\Fixtures\PropertiesFixture;
@@ -40,7 +38,7 @@ class AddressControllerTest extends ControllerTestCase implements DoctrineTestIn
         $this->assertAction('edit');
         $this->assertModule('admin');
         $this->assertNotRedirect();
-        $this->assertQuery('#address');
+        $this->assertQuery('form#address');
     }
 
     /** @test */
@@ -69,11 +67,10 @@ class AddressControllerTest extends ControllerTestCase implements DoctrineTestIn
             ], 'controllers')
         );
 
-        $savedAddress = new Address($gateway->findOneById($this->fixture->addressId()));
-        $this->assertEquals($newValues['streetAndNumber'], $savedAddress->streetAndNumber);
-        $this->assertEquals($newValues['neighborhood'], $savedAddress->neighborhood);
-        $this->assertEquals($newValues['zipCode'], $savedAddress->zipCode);
-        $this->assertEquals($newValues['cityId'], $savedAddress->City->id);
+        $updatedAddress = $gateway->findOneById($this->fixture->addressId());
+        $this->assertEquals($newValues['streetAndNumber'], $updatedAddress['streetAndNumber']);
+        $this->assertEquals($newValues['neighborhood'], $updatedAddress['neighborhood']);
+        $this->assertEquals($newValues['zipCode'], $updatedAddress['zipCode']);
         $this->assertController('address');
         $this->assertAction('update');
         $this->assertModule('admin');
@@ -83,7 +80,6 @@ class AddressControllerTest extends ControllerTestCase implements DoctrineTestIn
     /** @before */
     function configureController(): void
     {
-        !defined('PUBLIC_PATH') && define('PUBLIC_PATH', __DIR__ . '/../../../../../admin.edeco.mx');
         $this->_frontController->registerPlugin(new ErrorHandler([
             'module' => 'admin', 'controller' => 'error', 'action' => 'error'
         ]));
@@ -97,9 +93,6 @@ class AddressControllerTest extends ControllerTestCase implements DoctrineTestIn
 
     /** @var PropertiesFixture */
     private $fixture;
-
-    /** @var City */
-    private $city;
 
     /** @var UrlHelper */
     protected $urlHelper;
