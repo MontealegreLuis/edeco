@@ -14,22 +14,18 @@
  */
 namespace BundlePhu\View\Helper;
 
-use Zend_View_Helper_HeadLink;
-use Zend_View_Interface;
-use Zend_Controller_Front;
+use Zend_View_Helper_HeadLink as HeadLink;
+use Zend_View_Interface as View;
+use Zend_Controller_Front as FrontController;
 use Mandragora\File;
 use BadMethodCallException;
 
 /**
  * Helper for bundling of all included stylesheets into a single file
  */
-class BundleLink extends Zend_View_Helper_HeadLink
+class BundleLink extends HeadLink
 {
-    /**
-     * Local Zend_View reference
-     *
-     * @var Zend_View_Interface
-     */
+    /** @var View */
     public $view;
 
     /**
@@ -78,44 +74,21 @@ class BundleLink extends Zend_View_Helper_HeadLink
      */
     protected $_minifyCommand;
 
-    /**
-     * @var array
-     */
-    protected $contents = array(
-        'screen, projection' => '', 'print' => '', 'IE' => ''
-    );
+    /** @var array */
+    protected $contents = ['screen, projection' => '', 'print' => '', 'IE' => ''];
 
-    /**
-     * Inject the local copy of the current Zend_View object
-     *
-     * @param Zend_View_Interface $view
-     * @return void
-     */
-    public function setView(Zend_View_Interface $view)
-    {
-        $this->view = $view;
-        $this->_baseUrl = $this->view->baseUrl();
-    }
-
-    /**
-     * Proxies to Zend_View_Helper_HeadLink::headLink()
-     *
-     * @return BundlePhu_View_Helper_BundleLink
-     */
     public function bundleLink()
     {
         return parent::headLink();
     }
 
-    /**
-     * Sets the cache dir
-     *
-     * This is where the bundled files are written.
-     *
-     * @param string $dir
-     * @return BundlePhu_View_Helper_BundleLink
-     */
-    public function setCacheDir($dir)
+    public function setView(View $view): void
+    {
+        $this->view = $view;
+        $this->_baseUrl = $this->view->baseUrl();
+    }
+
+    public function setCacheDir(string $dir): BundleLink
     {
         $this->_cacheDir = $dir;
         return $this;
@@ -127,11 +100,8 @@ class BundleLink extends Zend_View_Helper_HeadLink
      * e.g.
      *
      * if $docRoot == '/var/www/foo' then '/css/foo.css' will be found in '/var/www/foo/css/foo.css'
-     *
-     * @param string $docRoot
-     * @return BundlePhu_View_Helper_BundleLink
      */
-    public function setDocRoot($docRoot)
+    public function setDocRoot(string $docRoot): BundleLink
     {
         $this->_docRoot = $docRoot;
         return $this;
@@ -142,11 +112,8 @@ class BundleLink extends Zend_View_Helper_HeadLink
      *
      * e.g. if $urlPrefix == '/stylesheets' then '/stylesheets/bundle_123fdfc3fe8ba8.css'
      * will be the src for the link tag.
-     *
-     * @param string $prefix
-     * @return BundlePhu_View_Helper_BundleLink
      */
-    public function setUrlPrefix($prefix)
+    public function setUrlPrefix(string $prefix): BundleLink
     {
         $this->_urlPrefix = $prefix;
         return $this;
@@ -158,11 +125,8 @@ class BundleLink extends Zend_View_Helper_HeadLink
      * The output of this command is not returned, it must write the output to
      * the generated filename for the bundle. The ':filename' token will be
      * replaced with the generated filename.
-     *
-     * @param string $command Must contain :filename token
-     * @return BundlePhu_View_Helper_BundleLink
      */
-    public function setMinifyCommand($command)
+    public function setMinifyCommand(string $command): BundleLink
     {
         $this->_minifyCommand = $command;
         return $this;
@@ -170,33 +134,34 @@ class BundleLink extends Zend_View_Helper_HeadLink
 
     /**
      * Iterates over stylesheets, concatenating, optionally minifying,
-     * optionally compressiong, and caching them.
+     * optionally compressing, and caching them.
      *
-     * This detects updates to the source stylesheets using filemtime.
-     * A file with an mtime more recent than the mtime of the cached bundle will
+     * This detects updates to the source stylesheets using `filemtime`.
+     * A file with an `mtime` more recent than the `mtime` of the cached bundle will
      * invalidate the cached bundle.
      *
      * Modifications of captured css cannot be detected by this.
      *
      * @param string $indent
-     * @return void
-     * @throws UnexpectedValueException if item has no src attribute or contains no captured source
+     * @return string
+     * @throws \Mandragora\File\FileException
+     * @throws \BadMethodCallException
      */
     public function toString($indent = null)
     {
-        $fc = Zend_Controller_Front::getInstance();
+        $fc = FrontController::getInstance();
         $module = $fc->getRequest()->getModuleName();
         $controller = $fc->getRequest()->getControllerName();
         $action = $fc->getRequest()->getActionName();
-        $ret = '';
+        $link = '';
         $isCssBundled = false;
         foreach ($this->contents as $key => $headLink) {
-            $fileKey = $key == 'screen, projection' ? 'screen' : $key;
+            $fileKey = $key === 'screen, projection' ? 'screen' : $key;
         	$hash = sprintf('%s-%s-%s-%s', $module, $controller, $action, $fileKey);
             $cacheFile = "{$this->_docRoot}/{$this->_urlPrefix}/bundle-{$hash}.css";
             if (!File::exists($cacheFile)) {
                 if (!$isCssBundled) {
-                    $data = $this->_setCssData();
+                    $this->_setCssData();
                     $isCssBundled =  true;
                 }
                 $this->_writeUncompressed($cacheFile, $this->contents[$key]);
@@ -204,20 +169,15 @@ class BundleLink extends Zend_View_Helper_HeadLink
             $cacheTime = @filemtime($cacheFile);
             $urlPath = "{$this->_baseUrl}/{$this->_urlPrefix}/bundle-{$hash}.css?{$cacheTime}";
             if (strpos($key, 'IE') === false) {
-                $ret .= PHP_EOL . '<link href="' . $urlPath . '" media="' . $key . '" rel="stylesheet" type="text/css" />';
+                $link .= PHP_EOL . '<link href="' . $urlPath . '" media="' . $key . '" rel="stylesheet" type="text/css" />';
             } else {
-                $ret .= PHP_EOL . '<!--[if ' . $key .']><link rel="stylesheet" type="text/css" media="screen, projection" href="' . $urlPath . '" /><![endif]-->';
+                $link .= PHP_EOL . '<!--[if ' . $key .']><link rel="stylesheet" type="text/css" media="screen, projection" href="' . $urlPath . '" /><![endif]-->';
             }
         }
-        return $ret;
+        return $link;
     }
 
-    /**
-     * undocumented function
-     *
-     * @return void
-     */
-    protected function _setCssData()
+    protected function _setCssData(): void
     {
         foreach ($this as $item) {
             $href = $item->href;
@@ -237,28 +197,26 @@ class BundleLink extends Zend_View_Helper_HeadLink
     /**
      * Writes uncompressed bundle to disk
      *
-     * @param string $cacheFile name of bundle file to write
-     * @param string $data bundled data
      * @throws BadMethodCallException When neither _minifyCommand or _minifyCallback are defined
-     * @return void
+     * @throws \Mandragora\File\FileException If temporary file cannot be created
      */
-    protected function _writeUncompressed($cacheFile, $data)
+    protected function _writeUncompressed(string $cacheFile, string $bundledData): void
     {
         if (!empty($this->_minifyCommand)) {
             $parts = explode('/', $cacheFile);
             $filename = $parts[count($parts) - 1];
             $temp = File::create("{$this->_cacheDir}/$filename");
-            $temp->write($data);
+            $temp->write($bundledData);
             $command = str_replace(
                 ':filename', escapeshellarg($cacheFile), $this->_minifyCommand
             );
             $command = str_replace(
                 ':sourceFile', escapeshellarg($temp->getFullName()), $command
             );
-            $output = trim(`$command`);
+            trim(`$command`);
             $temp->delete();
         } else {
-            throw new BadMethodCallException("Neither _minifyCommand or _minifyCallback are defined.");
+            throw new BadMethodCallException('Neither _minifyCommand or _minifyCallback are defined.');
         }
     }
 }
