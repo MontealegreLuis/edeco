@@ -24,7 +24,9 @@ class BundleLinkTest extends TestCase
         $this->assertRegExp('/<link href="\/min\/bundle\-admin\-address\-edit\-screen\.css\?\d{10}" media="screen, projection" rel="stylesheet" type="text\/css" \/>/', $link);
         $this->assertRegExp('/<link href="\/min\/bundle\-admin\-address\-edit\-print\.css\?\d{10}" media="print" rel="stylesheet" type="text\/css" \/>/', $link);
         $this->assertRegExp('/<!\-\-\[if IE\]><link rel="stylesheet" type="text\/css" media="screen, projection" href="\/min\/bundle\-admin\-address\-edit\-IE\.css\?\d{10}" \/><!\[endif\]\-\->/', $link);
-        $this->assertTrue(File::exists($this->bundleFile));
+        $this->assertTrue(File::exists(sprintf($this->bundleFile, 'screen')));
+        $this->assertTrue(File::exists(sprintf($this->bundleFile, 'print')));
+        $this->assertTrue(File::exists(sprintf($this->bundleFile, 'IE')));
     }
 
     /** @before */
@@ -38,7 +40,12 @@ class BundleLinkTest extends TestCase
 
         $publicPath = __DIR__ . '/../../../../../tests/fixtures';
         $bundlePath = 'min';
-        $this->bundleFile = "$publicPath/$bundlePath/bundle-admin-address-edit-screen.css";
+        $this->bundleFile = "$publicPath/$bundlePath/bundle-admin-address-edit-%s.css";
+
+        // Cleanup test files
+        unlink(sprintf($this->bundleFile, 'screen'));
+        unlink(sprintf($this->bundleFile, 'print'));
+        unlink(sprintf($this->bundleFile, 'IE'));
 
         $this->bundleLink = new BundleLink();
         $command = sprintf(
