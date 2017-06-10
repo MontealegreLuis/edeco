@@ -19,22 +19,50 @@ class BundleLinkTest extends TestCase
     {
         $this->bundleLink->appendStylesheet('/breadcrumbs.css', 'screen, projection');
 
-        $link = $this->bundleLink->toString();
+        $links = $this->bundleLink->toString();
 
-        $this->assertRegExp('/<link href="\/min\/bundle\-admin\-address\-edit\-screen\.css\?\d{10}" media="screen, projection" rel="stylesheet" type="text\/css" \/>/', $link);
-        $this->assertRegExp('/<link href="\/min\/bundle\-admin\-address\-edit\-print\.css\?\d{10}" media="print" rel="stylesheet" type="text\/css" \/>/', $link);
-        $this->assertRegExp('/<!\-\-\[if IE\]><link rel="stylesheet" type="text\/css" media="screen, projection" href="\/min\/bundle\-admin\-address\-edit\-IE\.css\?\d{10}" \/><!\[endif\]\-\->/', $link);
-        $this->assertTrue(File::exists(sprintf($this->bundleFile, 'screen')));
-        $this->assertTrue(File::exists(sprintf($this->bundleFile, 'print')));
-        $this->assertTrue(File::exists(sprintf($this->bundleFile, 'IE')));
-        $this->assertStringEqualsFile(
-            sprintf($this->bundleFile, 'screen'),
-            '.breadcrumb-message{width:150px;padding-top:2em;}'
+        $this->assertLinkElements($links);
+        $this->assertMinifiedFilesExist();
+        $this->assertBundleFileContents('.breadcrumb-message{width:150px;padding-top:2em;}');
+    }
+
+    /** @test */
+    function it_bundles_several_css_files()
+    {
+        $this->bundleLink->appendStylesheet('/global.css', 'screen, projection');
+        $this->bundleLink->appendStylesheet('/navbar.css', 'screen, projection');
+        $this->bundleLink->appendStylesheet('/breadcrumbs.css', 'screen, projection');
+
+        $links = $this->bundleLink->toString();
+
+        $this->assertLinkElements($links);
+        $this->assertMinifiedFilesExist();
+        $this->assertBundleFileContents(
+            'body{font-size:1.3em;}ul{list-style-type:none;}.breadcrumb-message{width:150px;padding-top:2em;}'
         );
     }
 
+    private function assertLinkElements(string $links): void
+    {
+        $this->assertRegExp('/<link href="\/min\/bundle\-admin\-address\-edit\-screen\.css\?\d{10}" media="screen, projection" rel="stylesheet" type="text\/css" \/>/', $links);
+        $this->assertRegExp('/<link href="\/min\/bundle\-admin\-address\-edit\-print\.css\?\d{10}" media="print" rel="stylesheet" type="text\/css" \/>/', $links);
+        $this->assertRegExp('/<!\-\-\[if IE\]><link rel="stylesheet" type="text\/css" media="screen, projection" href="\/min\/bundle\-admin\-address\-edit\-IE\.css\?\d{10}" \/><!\[endif\]\-\->/', $links);
+    }
+
+    private function assertMinifiedFilesExist(): void
+    {
+        $this->assertTrue(File::exists(sprintf($this->bundleFile, 'screen')));
+        $this->assertTrue(File::exists(sprintf($this->bundleFile, 'print')));
+        $this->assertTrue(File::exists(sprintf($this->bundleFile, 'IE')));
+    }
+
+    private function assertBundleFileContents(string $minifiedCss): void
+    {
+        $this->assertStringEqualsFile(sprintf($this->bundleFile, 'screen'), $minifiedCss);
+    }
+
     /** @before */
-    function configureViewHelper()
+    function configureViewHelper(): void
     {
         $this->frontController = FrontController::getInstance();
 
