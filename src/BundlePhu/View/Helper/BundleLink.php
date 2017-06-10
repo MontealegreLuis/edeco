@@ -208,10 +208,9 @@ class BundleLink extends HeadLink
             $temp = File::create("{$this->_cacheDir}/$filename");
             $temp->write($bundledData);
             $command = str_replace(
-                ':filename', escapeshellarg($cacheFile), $this->_minifyCommand
-            );
-            $command = str_replace(
-                ':sourceFile', escapeshellarg($temp->getFullName()), $command
+                [':filename', ':sourceFile'],
+                [escapeshellarg($cacheFile), escapeshellarg($temp->getFullName())],
+                $this->_minifyCommand
             );
             trim(`$command`);
             $temp->delete();
