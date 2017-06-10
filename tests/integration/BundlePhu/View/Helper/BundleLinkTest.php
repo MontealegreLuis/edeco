@@ -15,6 +15,16 @@ use Zend_View as View;
 class BundleLinkTest extends TestCase
 {
     /** @test */
+    function it_bundles_no_files()
+    {
+        $links = $this->bundleLink->toString();
+
+        $this->assertLinkElements($links);
+        $this->assertMinifiedFilesExist();
+        $this->assertBundleFileContents('');
+    }
+
+    /** @test */
     function it_bundles_a_single_css_file()
     {
         $this->bundleLink->appendStylesheet('/breadcrumbs.css', 'screen, projection');
