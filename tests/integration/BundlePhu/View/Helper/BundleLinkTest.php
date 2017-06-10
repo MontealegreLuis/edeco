@@ -27,6 +27,10 @@ class BundleLinkTest extends TestCase
         $this->assertTrue(File::exists(sprintf($this->bundleFile, 'screen')));
         $this->assertTrue(File::exists(sprintf($this->bundleFile, 'print')));
         $this->assertTrue(File::exists(sprintf($this->bundleFile, 'IE')));
+        $this->assertStringEqualsFile(
+            sprintf($this->bundleFile, 'screen'),
+            '.breadcrumb-message{width:150px;padding-top:2em;}'
+        );
     }
 
     /** @before */
