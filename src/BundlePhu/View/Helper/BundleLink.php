@@ -181,12 +181,11 @@ class BundleLink extends HeadLink
             if ($this->baseUrl && strpos($href, $this->baseUrl) !== false) {
                 $href =  substr($href, strlen($this->baseUrl));
             }
+            $css = file_get_contents($this->docRoot . $href) . PHP_EOL;
             if ($item->conditionalStylesheet) {
-                $this->contents[$item->conditionalStylesheet] .=
-                    file_get_contents($this->docRoot . $href) . PHP_EOL;
+                $this->contents[$item->conditionalStylesheet] .= $css;
             } else {
-                $this->contents[$item->media] .=
-                    file_get_contents($this->docRoot . $href) . PHP_EOL;
+                $this->contents[$item->media] .= $css;
             }
         }
     }
