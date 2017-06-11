@@ -199,20 +199,19 @@ class BundleLink extends HeadLink
      */
     protected function _writeUncompressed(string $cacheFile, string $bundledData): void
     {
-        if (!empty($this->minifyCommand)) {
-            $parts = explode('/', $cacheFile);
-            $filename = $parts[count($parts) - 1];
-            $temp = File::create("{$this->cacheDir}/$filename");
-            $temp->write($bundledData);
-            $command = str_replace(
-                [':filename', ':sourceFile'],
-                [escapeshellarg($cacheFile), escapeshellarg($temp->getFullName())],
-                $this->minifyCommand
-            );
-            trim(`$command`);
-            $temp->delete();
-        } else {
+        if (empty($this->minifyCommand)) {
             throw new BadMethodCallException('Neither _minifyCommand or _minifyCallback are defined.');
         }
+        $parts = explode('/', $cacheFile);
+        $filename = $parts[count($parts) - 1];
+        $temp = File::create("{$this->cacheDir}/$filename");
+        $temp->write($bundledData);
+        $command = str_replace(
+            [':filename', ':sourceFile'],
+            [escapeshellarg($cacheFile), escapeshellarg($temp->getFullName())],
+            $this->minifyCommand
+        );
+        trim(`$command`);
+        $temp->delete();
     }
 }
