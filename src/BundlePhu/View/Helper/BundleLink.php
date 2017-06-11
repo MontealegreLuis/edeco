@@ -25,9 +25,6 @@ use BadMethodCallException;
  */
 class BundleLink extends HeadLink
 {
-    /** @var View */
-    public $view;
-
     /**
      * Registry key for placeholder
      *
