@@ -158,10 +158,10 @@ class BundleLink extends HeadLink
             $cacheFile = "{$this->docRoot}/{$this->urlPrefix}/bundle-{$hash}.css";
             if (!File::exists($cacheFile)) {
                 if (!$isCssBundled) {
-                    $this->_setCssData();
+                    $this->setCssData();
                     $isCssBundled =  true;
                 }
-                $this->_writeUncompressed($cacheFile, $this->contents[$key]);
+                $this->writeUncompressed($cacheFile, $this->contents[$key]);
             }
             $cacheTime = @filemtime($cacheFile);
             $urlPath = "{$this->baseUrl}/{$this->urlPrefix}/bundle-{$hash}.css?{$cacheTime}";
@@ -174,7 +174,7 @@ class BundleLink extends HeadLink
         return $link;
     }
 
-    protected function _setCssData(): void
+    protected function setCssData(): void
     {
         foreach ($this as $item) {
             $href = $item->href;
@@ -196,7 +196,7 @@ class BundleLink extends HeadLink
      * @throws BadMethodCallException When neither _minifyCommand or _minifyCallback are defined
      * @throws \Mandragora\File\FileException If temporary file cannot be created
      */
-    protected function _writeUncompressed(string $cacheFile, string $bundledData): void
+    protected function writeUncompressed(string $cacheFile, string $bundledData): void
     {
         if (empty($this->minifyCommand)) {
             throw new BadMethodCallException('Neither _minifyCommand or _minifyCallback are defined.');
