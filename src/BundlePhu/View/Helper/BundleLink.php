@@ -37,28 +37,28 @@ class BundleLink extends HeadLink
      *
      * @var string
      */
-    protected $_baseUrl;
+    protected $baseUrl;
 
     /**
      * Directory in which to write bundled css
      *
      * @var string
      */
-    protected $_cacheDir;
+    protected $cacheDir;
 
     /**
      * Directory in which to look for css files
      *
      * @var string
      */
-    protected $_docRoot;
+    protected $docRoot;
 
     /**
      * Path the generated bundle is publicly accessible under
      *
      * @var string
      */
-    protected $_urlPrefix = "/stylesheets";
+    protected $urlPrefix = '/stylesheets';
 
     /**
      * External command used to minify css
@@ -69,12 +69,12 @@ class BundleLink extends HeadLink
      *
      * @var string
      */
-    protected $_minifyCommand;
+    protected $minifyCommand;
 
     /** @var array */
     protected $contents = ['screen, projection' => '', 'print' => '', 'IE' => ''];
 
-    public function bundleLink()
+    public function bundleLink(): HeadLink
     {
         return parent::headLink();
     }
@@ -82,12 +82,12 @@ class BundleLink extends HeadLink
     public function setView(View $view): void
     {
         $this->view = $view;
-        $this->_baseUrl = $this->view->baseUrl();
+        $this->baseUrl = $this->view->baseUrl();
     }
 
     public function setCacheDir(string $dir): BundleLink
     {
-        $this->_cacheDir = $dir;
+        $this->cacheDir = $dir;
         return $this;
     }
 
@@ -100,7 +100,7 @@ class BundleLink extends HeadLink
      */
     public function setDocRoot(string $docRoot): BundleLink
     {
-        $this->_docRoot = $docRoot;
+        $this->docRoot = $docRoot;
         return $this;
     }
 
@@ -112,7 +112,7 @@ class BundleLink extends HeadLink
      */
     public function setUrlPrefix(string $prefix): BundleLink
     {
-        $this->_urlPrefix = $prefix;
+        $this->urlPrefix = $prefix;
         return $this;
     }
 
@@ -125,7 +125,7 @@ class BundleLink extends HeadLink
      */
     public function setMinifyCommand(string $command): BundleLink
     {
-        $this->_minifyCommand = $command;
+        $this->minifyCommand = $command;
         return $this;
     }
 
@@ -155,7 +155,7 @@ class BundleLink extends HeadLink
         foreach ($this->contents as $key => $headLink) {
             $fileKey = $key === 'screen, projection' ? 'screen' : $key;
         	$hash = sprintf('%s-%s-%s-%s', $module, $controller, $action, $fileKey);
-            $cacheFile = "{$this->_docRoot}/{$this->_urlPrefix}/bundle-{$hash}.css";
+            $cacheFile = "{$this->docRoot}/{$this->urlPrefix}/bundle-{$hash}.css";
             if (!File::exists($cacheFile)) {
                 if (!$isCssBundled) {
                     $this->_setCssData();
@@ -164,7 +164,7 @@ class BundleLink extends HeadLink
                 $this->_writeUncompressed($cacheFile, $this->contents[$key]);
             }
             $cacheTime = @filemtime($cacheFile);
-            $urlPath = "{$this->_baseUrl}/{$this->_urlPrefix}/bundle-{$hash}.css?{$cacheTime}";
+            $urlPath = "{$this->baseUrl}/{$this->urlPrefix}/bundle-{$hash}.css?{$cacheTime}";
             if (strpos($key, 'IE') === false) {
                 $link .= PHP_EOL . '<link href="' . $urlPath . '" media="' . $key . '" rel="stylesheet" type="text/css" />';
             } else {
@@ -178,15 +178,15 @@ class BundleLink extends HeadLink
     {
         foreach ($this as $item) {
             $href = $item->href;
-            if ($this->_baseUrl && strpos($href, $this->_baseUrl) !== false) {
-                $href =  substr($href, strlen($this->_baseUrl));
+            if ($this->baseUrl && strpos($href, $this->baseUrl) !== false) {
+                $href =  substr($href, strlen($this->baseUrl));
             }
             if ($item->conditionalStylesheet) {
                 $this->contents[$item->conditionalStylesheet] .=
-                    file_get_contents($this->_docRoot . $href) . PHP_EOL;
+                    file_get_contents($this->docRoot . $href) . PHP_EOL;
             } else {
                 $this->contents[$item->media] .=
-                    file_get_contents($this->_docRoot . $href) . PHP_EOL;
+                    file_get_contents($this->docRoot . $href) . PHP_EOL;
             }
         }
     }
@@ -199,15 +199,15 @@ class BundleLink extends HeadLink
      */
     protected function _writeUncompressed(string $cacheFile, string $bundledData): void
     {
-        if (!empty($this->_minifyCommand)) {
+        if (!empty($this->minifyCommand)) {
             $parts = explode('/', $cacheFile);
             $filename = $parts[count($parts) - 1];
-            $temp = File::create("{$this->_cacheDir}/$filename");
+            $temp = File::create("{$this->cacheDir}/$filename");
             $temp->write($bundledData);
             $command = str_replace(
                 [':filename', ':sourceFile'],
                 [escapeshellarg($cacheFile), escapeshellarg($temp->getFullName())],
-                $this->_minifyCommand
+                $this->minifyCommand
             );
             trim(`$command`);
             $temp->delete();
