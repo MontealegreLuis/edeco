@@ -98,7 +98,7 @@ class BundleLinkTest extends TestCase
         $this
             ->bundleLink
             ->setMinifyCommand($command)
-            ->setCacheDir(__DIR__ . '/../../../../../var/cache/js')
+            ->setCacheDir(__DIR__ . '/../../../../../var/cache/css')
             ->setDocRoot($publicPath)
             ->setUrlPrefix($bundlePath)
             ->setView(new View(['basePath' => '/']))
