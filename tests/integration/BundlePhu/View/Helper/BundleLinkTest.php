@@ -86,9 +86,9 @@ class BundleLinkTest extends TestCase
         $this->bundleFile = "$publicPath/$bundlePath/bundle-admin-address-edit-%s.css";
 
         // Cleanup test files
-        unlink(sprintf($this->bundleFile, 'screen'));
-        unlink(sprintf($this->bundleFile, 'print'));
-        unlink(sprintf($this->bundleFile, 'IE'));
+        file_exists(sprintf($this->bundleFile, 'screen')) && unlink(sprintf($this->bundleFile, 'screen'));
+        file_exists(sprintf($this->bundleFile, 'print')) && unlink(sprintf($this->bundleFile, 'print'));
+        file_exists(sprintf($this->bundleFile, 'IE')) && unlink(sprintf($this->bundleFile, 'IE'));
 
         $this->bundleLink = new BundleLink();
         $command = sprintf(
