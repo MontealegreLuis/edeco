@@ -47,9 +47,10 @@ class BundleLinkTest extends TestCase
 
         $this->assertLinkElements($links);
         $this->assertMinifiedFilesExist();
-        $this->assertBundleFileContents(
-            'body{font-size:1.3em;}ul{list-style-type:none;}.breadcrumb-message{width:150px;padding-top:2em;}'
-        );
+        $css = file_get_contents(sprintf($this->bundleFile, 'screen'));
+        $this->assertRegExp('/body\{font\-size:1\.3em;\}/', $css);
+        $this->assertRegExp('/ul\{list\-style\-type:none;\}/', $css);
+        $this->assertRegExp('/breadcrumb\-message\{width:150px;padding\-top:2em;\}/', $css);
     }
 
     private function assertLinkElements(string $links): void
