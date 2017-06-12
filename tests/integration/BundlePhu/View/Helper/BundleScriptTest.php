@@ -20,14 +20,8 @@ class BundleScriptTest extends TestCase
     {
         $script = $this->bundleScript->bundleScript(true);
 
-        $this->assertRegExp(
-            '/<script type="text\/javascript" src="\/min\/bundle\-admin\-address\-edit\.js\?\d{10}"><\/script>/',
-            $script
-        );
-        $this->assertTrue(
-            File::exists($this->bundleFile),
-            "File $this->bundleFile was not generated"
-        );
+        $this->assertScriptTag($script);
+        $this->assertBundleFileExists();
         $this->assertStringEqualsFile($this->bundleFile, '');
     }
 
@@ -38,14 +32,8 @@ class BundleScriptTest extends TestCase
 
         $script = $this->bundleScript->bundleScript(true);
 
-        $this->assertRegExp(
-            '/<script type="text\/javascript" src="\/min\/bundle\-admin\-address\-edit\.js\?\d{10}"><\/script>/',
-            $script
-        );
-        $this->assertTrue(
-            File::exists($this->bundleFile),
-            "File $this->bundleFile was not generated"
-        );
+        $this->assertScriptTag($script);
+        $this->assertBundleFileExists();
         $this->assertStringEqualsFile(
             $this->bundleFile,
             'var message="it works";console.log(message);'
@@ -61,26 +49,41 @@ class BundleScriptTest extends TestCase
 
         $script = $this->bundleScript->bundleScript(true);
 
+        $js = file_get_contents($this->bundleFile);
+
+        $this->assertScriptTag($script);
+        $this->assertBundleFileExists();
+        $this->assertRegExp('/var message="it works";console\.log\(message\);/', $js);
+        $this->assertRegExp('/console\.log\("This is a dialog box"\);/', $js);
+        $this->assertRegExp('/console\.log\("This is a slider"\);/', $js);
+    }
+
+    /** @test */
+    function it_appends_code_to_be_executed_when_the_page_loads()
+    {
+        $onLoadCode = 'var page = new Address.Edit().init();';
+        $this->bundleScript->enable()->uiEnable()->addOnLoad($onLoadCode);
+
+        $script = $this->bundleScript->bundleScript(true);
+
+        $this->assertScriptTag($script);
+        $this->assertBundleFileExists();
+        $this->assertContains('var page = new Address.Edit().init();', $script);
+    }
+
+    private function assertScriptTag(string $script): void
+    {
         $this->assertRegExp(
             '/<script type="text\/javascript" src="\/min\/bundle\-admin\-address\-edit\.js\?\d{10}"><\/script>/',
             $script
         );
+    }
+
+    private function assertBundleFileExists(): void
+    {
         $this->assertTrue(
             File::exists($this->bundleFile),
             "File $this->bundleFile was not generated"
-        );
-        $js = file_get_contents($this->bundleFile);
-        $this->assertRegExp(
-            '/var message="it works";console\.log\(message\);/',
-            $js
-        );
-        $this->assertRegExp(
-            '/console\.log\("This is a dialog box"\);/',
-            $js
-        );
-        $this->assertRegExp(
-            '/console\.log\("This is a slider"\);/',
-            $js
         );
     }
 
