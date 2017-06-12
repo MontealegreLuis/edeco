@@ -36,6 +36,38 @@ class BundleScriptTest extends TestCase
         );
     }
 
+    /** @test */
+    function it_bundles_several_javascript_files()
+    {
+        $this->bundleScript->addJavascriptFile('/edit.js');
+        $this->bundleScript->addJavascriptFile('/dialog.js');
+        $this->bundleScript->addJavascriptFile('/slider.js');
+
+        $script = $this->bundleScript->bundleScript(true);
+
+        $this->assertRegExp(
+            '/<script type="text\/javascript" src="\/min\/bundle\-admin\-address\-edit\.js\?\d{10}"><\/script>/',
+            $script
+        );
+        $this->assertTrue(
+            File::exists($this->bundleFile),
+            "File $this->bundleFile was not generated"
+        );
+        $js = file_get_contents($this->bundleFile);
+        $this->assertRegExp(
+            '/var message="it works";console\.log\(message\);/',
+            $js
+        );
+        $this->assertRegExp(
+            '/console\.log\("This is a dialog box"\);/',
+            $js
+        );
+        $this->assertRegExp(
+            '/console\.log\("This is a slider"\);/',
+            $js
+        );
+    }
+
     /** @before */
     function configureViewHelper(): void
     {
