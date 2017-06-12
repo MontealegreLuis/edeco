@@ -30,45 +30,38 @@ use BadMethodCallException;
 class BundleScript extends JQuery
 {
     /**
-     * local Zend_View reference
-     *
-     * @var Zend_View_Interface
-     */
-    public $view;
-
-    /**
      * Registry key for placeholder
      * @var string
      */
-    protected $_regKey = 'BundlePhu_View_Helper_BundleScript';
+    protected $regKey = 'BundlePhu_View_Helper_BundleScript';
 
     /**
      * Local reference to $view->baseUrl()
      *
      * @var string
      */
-    protected $_baseUrl;
+    protected $baseUrl;
 
     /**
      * Directory in which to write bundled javascript
      *
      * @var string
      */
-    protected $_cacheDir;
+    protected $cacheDir;
 
     /**
      * Directory in which to look for js files
      *
      * @var string
      */
-    protected $_docRoot;
+    protected $docRoot;
 
     /**
      * Path the generated bundle is publicly accessible under
      *
      * @var string
      */
-    protected $_urlPrefix = "/javascripts";
+    protected $urlPrefix = "/javascripts";
 
     /**
      * External command used to minify javascript
@@ -79,7 +72,7 @@ class BundleScript extends JQuery
      *
      * @var string
      */
-    protected $_minifyCommand;
+    protected $minifyCommand;
 
     /**
      * @var string
@@ -89,12 +82,10 @@ class BundleScript extends JQuery
     public function setView(View $view)
     {
         $this->view = $view;
-        $this->_baseUrl = $this->view->baseUrl();
+        $this->baseUrl = $this->view->baseUrl();
     }
 
     /**
-     * Proxies to Zend_View_Helper_HeadScript::headScript()
-     *
      * @return string | \ZendX_JQuery_View_Helper_JQuery_Container
      */
     public function bundleScript($render = false)
@@ -107,7 +98,7 @@ class BundleScript extends JQuery
      */
     public function setCacheDir(string $dir): BundleScript
     {
-        $this->_cacheDir = $dir;
+        $this->cacheDir = $dir;
         return $this;
     }
 
@@ -120,7 +111,7 @@ class BundleScript extends JQuery
      */
     public function setDocRoot(string $docRoot): BundleScript
     {
-        $this->_docRoot = $docRoot;
+        $this->docRoot = $docRoot;
         return $this;
     }
 
@@ -132,7 +123,7 @@ class BundleScript extends JQuery
      */
     public function setUrlPrefix(string $prefix): BundleScript
     {
-        $this->_urlPrefix = $prefix;
+        $this->urlPrefix = $prefix;
         return $this;
     }
 
@@ -145,10 +136,9 @@ class BundleScript extends JQuery
      */
     public function setMinifyCommand(string $command): BundleScript
     {
-        $this->_minifyCommand = $command;
+        $this->minifyCommand = $command;
         return $this;
     }
-
 
     /**
      * Iterates over scripts, concatenating, optionally minifying,
@@ -162,7 +152,6 @@ class BundleScript extends JQuery
      * DONT USE DYNAMICALLY GENERATED CAPTURED SCRIPTS.
      *
      * @return string
-     * @throws UnexpectedValueException if item has no src attribute or contains no captured source
      */
     public function __toString()
     {
@@ -171,20 +160,20 @@ class BundleScript extends JQuery
         $controller = $fc->getRequest()->getControllerName();
         $action = $fc->getRequest()->getActionName();
         $hash = sprintf('%s-%s-%s', $module, $controller, $action);
-        $cacheFile = "{$this->_docRoot}/{$this->_urlPrefix}/bundle-{$hash}.js";
+        $cacheFile = "{$this->docRoot}/{$this->urlPrefix}/bundle-{$hash}.js";
         if (!File::exists($cacheFile)) {
-            $this->_getJsData();
-            $this->_writeUncompressed($cacheFile, $this->contents);
+            $this->getJsData();
+            $this->writeUncompressed($cacheFile, $this->contents);
         }
         $cacheTime = @filemtime($cacheFile);
-        $urlPath = "{$this->_baseUrl}/{$this->_urlPrefix}/bundle-{$hash}.js?{$cacheTime}";
-        $ret = PHP_EOL . '<script type="text/javascript" src="' . $urlPath . '"></script>';
+        $urlPath = "{$this->baseUrl}/{$this->urlPrefix}/bundle-{$hash}.js?{$cacheTime}";
+        $scriptTags = PHP_EOL . '<script type="text/javascript" src="' . $urlPath . '"></script>';
         $onLoad = $this->formatJqueryOnload();
         if (!empty($onLoad)) {
-            $ret .= PHP_EOL . "<script type=\"text/javascript\">\n//<![CDATA[\n";
-            $ret .= "{$this->formatJqueryOnload()}\n//]]>\n</script>" . PHP_EOL;
+            $scriptTags .= PHP_EOL . "<script type=\"text/javascript\">\n//<![CDATA[\n";
+            $scriptTags .= "{$this->formatJqueryOnload()}\n//]]>\n</script>" . PHP_EOL;
         }
-        return $ret;
+        return $scriptTags;
     }
 
     /**
@@ -192,20 +181,16 @@ class BundleScript extends JQuery
      *
      * Assumes the container is sorted prior to entry.
      */
-    private function _getJsData(): void
+    private function getJsData(): void
     {
         $jsFiles = [];
-        if ($this->_container->isEnabled()) {
-            $jsFiles[] = $this->_container->getLocalPath();
-            if ($this->_container->uiIsEnabled()) {
-                $jsFiles[] = $this->_container->getUiLocalPath();
-            }
-        }
+        $this->_container->isEnabled() && $jsFiles[] = $this->_container->getLocalPath();
+        $this->_container->uiIsEnabled() && $jsFiles[] = $this->_container->getUiLocalPath();
         $jsFiles = array_merge($jsFiles, $this->_container->getJavascriptFiles());
-        foreach ($jsFiles as $item) {
-            $this->contents .= file_get_contents($this->_docRoot . $item)
-                            .  PHP_EOL;
-        }
+
+        $this->contents = implode(PHP_EOL, array_map(function ($filename) {
+            return file_get_contents($this->docRoot . $filename);
+        }, $jsFiles));
     }
 
     /**
@@ -213,10 +198,8 @@ class BundleScript extends JQuery
      */
     private function formatJqueryOnload(): string
     {
-        $actions = $this->_container->getOnLoadActions();
-        $onLoad = '';
-        if (count($actions) > 0) {
-            $onLoad = implode(PHP_EOL, $this->_container->getOnLoadActions());
+        $onLoad = implode(PHP_EOL, $this->_container->getOnLoadActions());
+        if ($onLoad !== '') {
             $onLoad = sprintf("$(document).ready(function() {\n    %s\n});", $onLoad);
         }
         return $onLoad;
@@ -226,24 +209,24 @@ class BundleScript extends JQuery
      * Writes uncompressed bundle to disk
      *
      * @throws BadMethodCallException When _minifyCommand is not defined
+     * @throws \Mandragora\File\FileException If temporary file cannot be created
      */
-    protected function _writeUncompressed(string $cacheFile, ?string $data)
+    protected function writeUncompressed(string $cacheFile, ?string $data)
     {
-        if (!empty($this->_minifyCommand)) {
-            $parts = explode('/', $cacheFile);
-            $filename = $parts[count($parts) - 1];
-            $temp = File::create("{$this->_cacheDir}/$filename");
-            $temp->write($data);
-            $command = str_replace(
-                ':filename', escapeshellarg($cacheFile), $this->_minifyCommand
-            );
-            $command = str_replace(
-                ':sourceFile', escapeshellarg($temp->getFullName()), $command
-            );
-            trim(`$command`);
-            $temp->delete();
-        } else {
-            throw new BadMethodCallException("_minifyCommand is not defined.");
+        if (empty($this->minifyCommand)) {
+            throw new BadMethodCallException('_minifyCommand is not defined.');
         }
+
+        $parts = explode('/', $cacheFile);
+        $filename = $parts[count($parts) - 1];
+        $temp = File::create("{$this->cacheDir}/$filename");
+        $temp->write($data);
+        $command = str_replace(
+            [':filename', ':sourceFile'],
+            [escapeshellarg($cacheFile), escapeshellarg($temp->getFullName())],
+            $this->minifyCommand
+        );
+        trim(`$command`);
+        $temp->delete();
     }
 }
