@@ -16,6 +16,22 @@ use Zend_View as View;
 class BundleScriptTest extends TestCase
 {
     /** @test */
+    function it_bundles_no_files()
+    {
+        $script = $this->bundleScript->bundleScript(true);
+
+        $this->assertRegExp(
+            '/<script type="text\/javascript" src="\/min\/bundle\-admin\-address\-edit\.js\?\d{10}"><\/script>/',
+            $script
+        );
+        $this->assertTrue(
+            File::exists($this->bundleFile),
+            "File $this->bundleFile was not generated"
+        );
+        $this->assertStringEqualsFile($this->bundleFile, '');
+    }
+
+    /** @test */
     function it_bundles_a_single_javascript_file()
     {
         $this->bundleScript->addJavascriptFile('/edit.js');
