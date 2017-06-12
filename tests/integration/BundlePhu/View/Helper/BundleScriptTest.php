@@ -62,13 +62,33 @@ class BundleScriptTest extends TestCase
     function it_appends_code_to_be_executed_when_the_page_loads()
     {
         $onLoadCode = 'var page = new Address.Edit().init();';
-        $this->bundleScript->enable()->uiEnable()->addOnLoad($onLoadCode);
+        $this->bundleScript->addOnLoad($onLoadCode);
 
         $script = $this->bundleScript->bundleScript(true);
 
         $this->assertScriptTag($script);
         $this->assertBundleFileExists();
         $this->assertContains('var page = new Address.Edit().init();', $script);
+    }
+
+    /** @test */
+    function it_includes_a_local_copy_of_jquery_and_jquery_ui()
+    {
+        $this
+            ->bundleScript
+            ->setLocalPath('/jquery.js')
+            ->setUiLocalPath('/jquery-ui.js')
+            ->uiEnable()
+        ;
+
+        $script = $this->bundleScript->bundleScript(true);
+
+        $js = file_get_contents($this->bundleFile);
+
+        $this->assertScriptTag($script);
+        $this->assertBundleFileExists();
+        $this->assertContains('console.log("jQuery is included");', $js);
+        $this->assertContains('console.log("jQuery UI is included");', $js);
     }
 
     private function assertScriptTag(string $script): void
