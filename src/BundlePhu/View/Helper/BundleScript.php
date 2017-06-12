@@ -14,9 +14,9 @@
  */
 namespace BundlePhu\View\Helper;
 
-use ZendX_JQuery_View_Helper_JQuery;
-use Zend_View_Interface;
-use Zend_Controller_Front;
+use ZendX_JQuery_View_Helper_JQuery as jQuery;
+use Zend_View_Interface as View;
+use Zend_Controller_Front as FrontController;
 use Mandragora\File;
 use BadMethodCallException;
 
@@ -27,7 +27,7 @@ use BadMethodCallException;
  * @copyright   Copyright (c) 2010 David Abdemoulaie (http://hobodave.com/)
  * @license     http://hobodave.com/license.txt New BSD License
  */
-class BundleScript extends ZendX_JQuery_View_Helper_JQuery
+class BundleScript extends JQuery
 {
     /**
      * local Zend_View reference
@@ -86,7 +86,7 @@ class BundleScript extends ZendX_JQuery_View_Helper_JQuery
      */
     protected $contents;
 
-    public function setView(Zend_View_Interface $view)
+    public function setView(View $view)
     {
         $this->view = $view;
         $this->_baseUrl = $this->view->baseUrl();
@@ -95,26 +95,17 @@ class BundleScript extends ZendX_JQuery_View_Helper_JQuery
     /**
      * Proxies to Zend_View_Helper_HeadScript::headScript()
      *
-     * @return BundlePhu_View_Helper_BundleScript
+     * @return string | \ZendX_JQuery_View_Helper_JQuery_Container
      */
     public function bundleScript($render = false)
     {
-        if ($render) {
-            return (string)$this;
-        } else {
-            return parent::jQuery();
-        }
+        return $render ? (string) $this : parent::jQuery();
     }
 
     /**
-     * Sets the cache dir
-     *
      * This is where the bundled files are written.
-     *
-     * @param string $dir
-     * @return BundlePhu_View_Helper_BundleScript
      */
-    public function setCacheDir($dir)
+    public function setCacheDir(string $dir): BundleScript
     {
         $this->_cacheDir = $dir;
         return $this;
@@ -126,11 +117,8 @@ class BundleScript extends ZendX_JQuery_View_Helper_JQuery
      * e.g.
      *
      * if $docRoot == '/var/www/foo' then '/js/foo.js' will be found in '/var/www/foo/js/foo.js'
-     *
-     * @param string $docRoot
-     * @return BundlePhu_View_Helper_BundleScript
      */
-    public function setDocRoot($docRoot)
+    public function setDocRoot(string $docRoot): BundleScript
     {
         $this->_docRoot = $docRoot;
         return $this;
@@ -141,11 +129,8 @@ class BundleScript extends ZendX_JQuery_View_Helper_JQuery
      *
      * e.g. if $urlPrefix == '/javascripts' then '/javascripts/bundle_123fdfc3fe8ba8.js'
      * will be the src for the script tag.
-     *
-     * @param string $prefix
-     * @return BundlePhu_View_Helper_BundleScript
      */
-    public function setUrlPrefix($prefix)
+    public function setUrlPrefix(string $prefix): BundleScript
     {
         $this->_urlPrefix = $prefix;
         return $this;
@@ -157,11 +142,8 @@ class BundleScript extends ZendX_JQuery_View_Helper_JQuery
      * The output of this command is not returned, it must write the output to
      * the generated filename for the bundle. The ':filename' token will be
      * replaced with the generated filename.
-     *
-     * @param string $command Must contain :filename token
-     * @return BundlePhu_View_Helper_BundleScript
      */
-    public function setMinifyCommand($command)
+    public function setMinifyCommand(string $command): BundleScript
     {
         $this->_minifyCommand = $command;
         return $this;
@@ -184,14 +166,14 @@ class BundleScript extends ZendX_JQuery_View_Helper_JQuery
      */
     public function __toString()
     {
-        $fc = Zend_Controller_Front::getInstance();
+        $fc = FrontController::getInstance();
         $module = $fc->getRequest()->getModuleName();
         $controller = $fc->getRequest()->getControllerName();
         $action = $fc->getRequest()->getActionName();
         $hash = sprintf('%s-%s-%s', $module, $controller, $action);
         $cacheFile = "{$this->_docRoot}/{$this->_urlPrefix}/bundle-{$hash}.js";
         if (!File::exists($cacheFile)) {
-            $data = $this->_getJsData();
+            $this->_getJsData();
             $this->_writeUncompressed($cacheFile, $this->contents);
         }
         $cacheTime = @filemtime($cacheFile);
@@ -209,12 +191,10 @@ class BundleScript extends ZendX_JQuery_View_Helper_JQuery
      * Iterates through the scripts and returning a concatenated result.
      *
      * Assumes the container is sorted prior to entry.
-     *
-     * @return string Concatenated javascripts
      */
-    protected function _getJsData()
+    private function _getJsData(): void
     {
-        $jsFiles = array();
+        $jsFiles = [];
         if ($this->_container->isEnabled()) {
             $jsFiles[] = $this->_container->getLocalPath();
             if ($this->_container->uiIsEnabled()) {
@@ -230,10 +210,8 @@ class BundleScript extends ZendX_JQuery_View_Helper_JQuery
 
     /**
      * Add document ready statement to the current registered onLoad actions
-     *
-     * @return string
      */
-    protected function formatJqueryOnload()
+    private function formatJqueryOnload(): string
     {
         $actions = $this->_container->getOnLoadActions();
         $onLoad = '';
@@ -247,12 +225,9 @@ class BundleScript extends ZendX_JQuery_View_Helper_JQuery
     /**
      * Writes uncompressed bundle to disk
      *
-     * @param string $cacheFile name of bundle file to write
-     * @param string $data bundled JS data
-     * @throws BadMethodCallException When neither _minifyCommand or _minifyCallback are defined
-     * @return void
+     * @throws BadMethodCallException When _minifyCommand is not defined
      */
-    protected function _writeUncompressed($cacheFile, $data)
+    protected function _writeUncompressed(string $cacheFile, ?string $data)
     {
         if (!empty($this->_minifyCommand)) {
             $parts = explode('/', $cacheFile);
@@ -265,12 +240,10 @@ class BundleScript extends ZendX_JQuery_View_Helper_JQuery
             $command = str_replace(
                 ':sourceFile', escapeshellarg($temp->getFullName()), $command
             );
-            $output = trim(`$command`);
+            trim(`$command`);
             $temp->delete();
         } else {
-            throw new BadMethodCallException(
-                "_minifyCommand is not defined."
-            );
+            throw new BadMethodCallException("_minifyCommand is not defined.");
         }
     }
 }
